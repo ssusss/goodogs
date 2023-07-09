@@ -19,9 +19,6 @@ public class ReporterMyNewsListServlet extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
-
-		System.out.println("asdasd");
-		
 		request.getRequestDispatcher("/WEB-INF/views/reporter/myNewsList.jsp").forward(request, response);
 	}
 
