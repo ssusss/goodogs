@@ -8,8 +8,7 @@ String easyLoginMember = (String) session.getAttribute("EasyLoginMember");
 <head>
 <meta charset="UTF-8">
 <title>goodogs</title>
-<link rel="stylesheet"
-	href="<%=request.getContextPath()%>/css/style.css" />
+<link rel="stylesheet" href="<%=request.getContextPath()%>/css/style.css" />
 </head>
 <body>
 
@@ -21,11 +20,13 @@ String easyLoginMember = (String) session.getAttribute("EasyLoginMember");
 			value="NonMember"> <label for="option1">NonMember</label><br>
 
 		<input type="radio" id="Member" name="radio-group" value="Member">
-		<label for="option2">Member</label><br> <input type="radio"
-			id="Reporter" name="radio-group" value="Reporter"> <label
-			for="option3">Reporter</label><br> <input type="radio"
-			id="Admin" name="radio-group" value="Admin"> <label
-			for="option3">Admin</label><br>
+		<label for="option2">Member</label><br> 
+		
+		<input type="radio" id="Reporter" name="radio-group" value="Reporter"> 
+		<label for="option3">Reporter</label><br> 
+		
+		<input type="radio" id="Admin" name="radio-group" value="Admin"> 
+		<label for="option3">Admin</label><br>
 
 		<button type="submit">Go!</button>
 	</form>
@@ -36,7 +37,10 @@ String easyLoginMember = (String) session.getAttribute("EasyLoginMember");
 		<nav class="navBar">
 			<div class="navInner">
 				<h1>goodogs</h1>
-				<div class="searchBox">검색</div>
+				<div class="navBox">
+					<div class="searchBox">검색</div>
+					<div class="infoBox">정보</div>
+				</div>
 			</div>
 		</nav>
 
