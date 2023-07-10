@@ -39,7 +39,8 @@ nav.navBar h1 {
 	width: 100px;
 	height: 50px;
 	margin-left: auto;
-	margin-right: 70px;
+	margin-right: 20px;
+	display: flex;
 	transform: translateY(-60px);
 }
 
@@ -53,6 +54,7 @@ nav.navBar div.infoBox {
 	width: 50px;
 	height: 50px;
 	border: 1px solid black;
+	border-left: none;
 }
 
 header .bannerContainerUpper {
