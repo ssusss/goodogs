@@ -1,0 +1,10 @@
+@charset "UTF-8";
+.myScriptWrite {
+	background-color: red;
+	padding: 0px 5%;
+}
+
+.myScriptWrite textarea {
+	width: 100%;
+	resize: none;
+}
