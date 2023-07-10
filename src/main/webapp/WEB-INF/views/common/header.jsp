@@ -93,7 +93,8 @@ String easyLoginMember = (String) session.getAttribute("EasyLoginMember");
 				<nav>
 					<ul class="reporterNav">
 						<li class="myNewsList"><a href="<%= request.getContextPath() %>/reporter/myNewsList">기사 목록</a></li>
-						<li class="scriptWrite"><a href="<%= request.getContextPath() %>/board/scriptWrite">원고 작성</a></li>
+						<li class="script"><a href="<%= request.getContextPath() %>/reporter/myScript">원고 관리</a></li>
+						<li class="scriptWrite"><a href="<%= request.getContextPath() %>/reporter/scriptWrite">원고 작성</a></li>
 					</ul>
 				</nav>
 			</div>
@@ -109,6 +110,17 @@ String easyLoginMember = (String) session.getAttribute("EasyLoginMember");
 				<br>
 				<h1>관리자화면</h1>
 			</div>
+			<div>
+				<nav>
+					<ul class="adminNav">
+						<li class="memberManagement"><a href="<%= request.getContextPath() %>/admin/memberManagement">회원관리</a></li>
+						<li class="articleManagement"><a href="<%= request.getContextPath() %>/admin/articleManagement">기사관리</a></li>
+						<li class="reportManagement"><a href="<%= request.getContextPath() %>/admin/reportManagement">신고관리</a></li>
+					</ul>
+				</nav>
+			</div>
+			
+			
 			<%
 			}
 			%>
