@@ -109,6 +109,17 @@ String easyLoginMember = (String) session.getAttribute("EasyLoginMember");
 				<br>
 				<h1>관리자화면</h1>
 			</div>
+			<div>
+				<nav>
+					<ul class="adminNav">
+						<li class="memberManagement"><a href="<%= request.getContextPath() %>/admin/memberManagement">회원관리</a></li>
+						<li class="articleManagement"><a href="<%= request.getContextPath() %>/admin/articleManagement">기사관리</a></li>
+						<li class="reportManagement"><a href="<%= request.getContextPath() %>/admin/reportManagement">신고관리</a></li>
+					</ul>
+				</nav>
+			</div>
+			
+			
 			<%
 			}
 			%>
