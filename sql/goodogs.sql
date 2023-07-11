@@ -176,3 +176,10 @@ insert into member values('kny0910@naver.com', 'F', 'qwe123!', 'na0', '010333322
 insert into member values('kjh0425@naver.com', 'M', 'qwe123!', '준한', '01055552222', to_date('20180425','yyyymmdd'), 'R', default, default);
 insert into member values('kdc0526@naver.com', 'M', 'qwe123!', '동찬', '01044442222', to_date('20190526','yyyymmdd'), 'R', default, default);
 
+select * from member;
+
+
+select  *from news_comment n join member m  on n.news_comment_writer = m.member_id where news_comment_report_cnt >= 3; 
+
+update member set is_banned =1  where member_id = 'admin@naver.com';
+
