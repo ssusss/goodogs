@@ -13,7 +13,7 @@
 			<a class="category-link is-active" href="/">카테고리 6</a>
 		</div>
     </nav>
-	
+
 
 	<div class="posts">
 		<a class="card" href="">기사</a>
