@@ -45,7 +45,8 @@ CREATE TABLE member (
 	is_banned number DEFAULT 0,
     constraints pk_member_member_id primary key(member_id),
     constraints ck_member_role check(member_role in ('M', 'A', 'R')),
-    constraints ck_member_gender check(gender in ('M', 'F', 'N'))
+    constraints ck_member_gender check(gender in ('M', 'F', 'N')),
+    constraints uq_member_nickname unique(nickname)
 );
 
 CREATE TABLE withdraw_member (
@@ -107,7 +108,7 @@ CREATE TABLE news (
 	news_tag varchar2(100),
 	news_like_cnt number DEFAULT 0,
 	news_read_cnt number DEFAULT 0,
-	news_confrimed_date date DEFAULT sysdate,
+	news_confirmed_date date DEFAULT sysdate,
     constraints pk_news_no primary key(news_no)
 );
 
@@ -119,15 +120,14 @@ CREATE TABLE deleted_news (
 	news_content clob,
 	news_tag varchar2(20),
 	news_write_date date,
-	is_confirmed number,
 	news_like_cnt number,
 	news_read_cnt number	,
-	news_confrimed_date date,
+	news_confirmed_date date,
 	news_deleted_date date DEFAULT sysdate
 );
 
 CREATE TABLE news_comment (
-	comment_no number NOT NULL,
+	comment_no number,
 	news_no number	 NOT NULL,
 	news_comment_level number DEFAULT 1,
 	news_comment_writer varchar2(50) NOT NULL,
@@ -175,7 +175,4 @@ insert into member values('kny0910@naver.com', 'F', 'qwe123!', 'na0', '010333322
 -- 기자
 insert into member values('kjh0425@naver.com', 'M', 'qwe123!', '준한', '01055552222', to_date('20180425','yyyymmdd'), 'R', default, default);
 insert into member values('kdc0526@naver.com', 'M', 'qwe123!', '동찬', '01044442222', to_date('20190526','yyyymmdd'), 'R', default, default);
-
-
-
 
