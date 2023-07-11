@@ -52,7 +52,7 @@ String easyLoginMember = (String) session.getAttribute("EasyLoginMember");
 			<%
 			if (easyLoginMember == null || easyLoginMember.equals("NonMember")) {
 			%>
-			<div class="bannerContainerUpper" role="banner">슬로건</div>
+			<div class="bannerContainerUpper" role="banner"> 우리가 시간이 없지, 세상이 안궁금하냐 </div>
 			<div class="bannerContainerLower">
 				<div class="loginContainer">
 					<form id="loginFrm" name="loginFrm" action="" method="post">
@@ -121,7 +121,6 @@ String easyLoginMember = (String) session.getAttribute("EasyLoginMember");
 			<div>
 			
 			</div>
-			
 			
 			<%
 			}
