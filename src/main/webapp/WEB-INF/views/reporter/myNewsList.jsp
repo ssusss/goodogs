@@ -1,86 +1,53 @@
+<%@page import="com.sk.goodogs.news.model.vo.News"%>
+<%@page import="java.util.List"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ include file="/WEB-INF/views/common/header.jsp" %>
+<%
+	List<News> newsList = (List<News>)request.getAttribute("news");
+%>
 <script>
 bannerContainerLower = document.querySelector(".bannerContainerLower");
 bannerContainerLower.style.display = "none";
 </script>
 <div class="myPostList">
-	<h1>원고 기사 목록</h1>
-	<h3>반려된 원고</h3>
+	<h1>기사 목록</h1>
 	<table>
 		<thead>
 			<tr>
 				<th>기사번호</th>
 				<th>제목</th>
 				<th>카테고리</th>
-				<th>제출일</th>
-				<th>상태</th>
+				<th>좋아요</th>
+				<th>조회수</th>
+				<th>게시일</th>
 			</tr>
 		</thead>
 		<tbody>
-			
+		<%
+			if(newsList != null && !newsList.isEmpty()){
+				for(News news : newsList){
+		%>
 			<tr>
-				<td>1</td>
-				<td>2</td>
-				<td>3</td>
-				<td>일자</td>
-				<td>반려됨</td>
-				
+				<th><%= news.getNewsNo() %></th>
+				<th><%= news.getNewsTitle() %></th>
+				<th><%= news.getNewsCategory() %></th>
+				<th><%= news.getNewsLikeCnt() %></th>
+				<th><%= news.getNewsReadCnt() %></th>
+				<th><%= news.getNewsConfirmedDate() %></th>
 			</tr>
-		
+		<% 
+				}
+			}
+			else {
+		%>
+			<tr>
+				<td colspan="6">게시된 기사가 없습니다.</td>
+			</tr>
+		<% } %>
 		</tbody>
 	</table>
 	
-	<h3>임시저장 원고</h3>
-	<table>
-		<thead>
-			<tr>
-				<th>기사번호</th>
-				<th>제목</th>
-				<th>카테고리</th>
-				<th>최종수정일</th>
-				<th colspan="3">상태</th>
-			</tr>
-		</thead>
-		<tbody>
-			
-			<tr>
-				<td>1</td>
-				<td>2</td>
-				<td>3</td>
-				<td>일자</td>
-				<td>작성중</td>
-				<td><button id = "scriptUpdate">이어쓰기</button></td>
-				<td><button id = "scriptDelete">삭제</button></td>
-			</tr>
-		
-		</tbody>
-	</table>
-	<h3>제출한 원고</h3>
-	<table>
-		<thead>
-			<tr>
-				<th>기사번호</th>
-				<th>제목</th>
-				<th>카테고리</th>
-				<th>제출일자</th>
-				<th>상태</th>
-			</tr>
-		</thead>
-		<tbody>
-			
-			<tr>
-				<td>1</td>
-				<td>2</td>
-				<td>3</td>
-				<td>4</td>
-				<td>제출됨</td>
-				
-			</tr>
-		
-		</tbody>
-	</table>
 </div>
 
 <%@ include file="/WEB-INF/views/common/footer.jsp" %>

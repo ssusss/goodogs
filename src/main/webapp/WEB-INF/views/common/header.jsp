@@ -22,8 +22,8 @@ String easyLoginMember = (String) session.getAttribute("EasyLoginMember");
 		<input type="radio" id="Member" name="radio-group" value="Member">
 		<label for="option2">Member</label><br> 
 		
-		<input type="radio" id="Reporter" name="radio-group" value="Reporter"> 
-		<label for="option3">kjh0425@naver.com</label><br> 
+		<input type="radio" id="Reporter" name="radio-group" value="kjh0425@naver.com"> 
+		<label for="option3">Reporter</label><br> 
 		
 		<input type="radio" id="Admin" name="radio-group" value="Admin"> 
 		<label for="option3">Admin</label><br>
