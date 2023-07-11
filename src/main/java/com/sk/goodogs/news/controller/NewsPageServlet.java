@@ -7,7 +7,6 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-
 // 뉴스 페이지 조회
 /**
  * Servlet implementation class NewsInfoServlet
