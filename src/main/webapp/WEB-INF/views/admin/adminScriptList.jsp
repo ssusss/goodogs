@@ -22,7 +22,7 @@
                 <input type="hidden" name="searchType" value="member_id"/>
                 <input 
                 	type="text" name="searchKeyword"  size="25" placeholder="검색할 아이디를 입력하세요." 
-                	value="사용자 입력값"/>
+                	value="notalready"/>
                 <button type="submit">검색</button>			
             </form>	
         </div>
