@@ -105,12 +105,7 @@ String easyLoginMember = (String) session.getAttribute("EasyLoginMember");
 			<%
 			} else if (easyLoginMember.equals("Admin")) {
 			%>
-			<div class="bannerContainerUpper" role="banner">관리자메뉴</div>
-			<div class="bannerContainerLower">
-				<br>
-				<h1>관리자화면</h1>
-			</div>
-			<div>
+			<div class="bannerContainerUpper" role="banner">
 				<nav>
 					<ul class="adminNav">
 						<li class="memberManagement"><a href="<%= request.getContextPath() %>/admin/memberManagement">회원관리</a></li>
@@ -118,6 +113,13 @@ String easyLoginMember = (String) session.getAttribute("EasyLoginMember");
 						<li class="reportManagement"><a href="<%= request.getContextPath() %>/admin/reportManagement">신고관리</a></li>
 					</ul>
 				</nav>
+			</div>
+			<div class="bannerContainerLower">
+				<br>
+				<h1>관리자화면</h1>
+			</div>
+			<div>
+			
 			</div>
 			
 			<%
