@@ -10,8 +10,8 @@ import javax.servlet.http.HttpServletResponse;
 /**
  * Servlet implementation class MemberManagement
  */
-@WebServlet("/admin/memberManagement")
-public class MemberManagement extends HttpServlet {
+@WebServlet("/admin/memberList")
+public class MemberListServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
 	
