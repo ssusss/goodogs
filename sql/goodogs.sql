@@ -1,33 +1,33 @@
 --=============================
 -- goodogs계정 생성 @관리자
 --=============================
-alter session set "_oracle_script" = true;
-
-create user goodogs
-identified by goodogs
-default tablespace users;
-
-grant connect, resource to goodogs;
-
-alter user goodogs quota unlimited on users;
+--alter session set "_oracle_script" = true;
+--
+--create user goodogs
+--identified by goodogs
+--default tablespace users;
+--
+--grant connect, resource to goodogs;
+--
+--alter user goodogs quota unlimited on users;
 
 --==============================
 -- 초기화 블럭
 --==============================
---drop table bookmark;
---drop table like_list;
---drop table news;
---drop table news_image;
---drop table news_script_rejected;
---drop table deleted_news;
---drop table news_script;
---drop table news_comment;
---drop table withdraw_member;
---drop table member;
---drop sequence seq_withdraw_member_no;
---drop sequence seq_news_script_rejected_no;
---drop sequence seq_news_comment_no;
---drop sequence seq_news_script_no;
+drop table bookmark;
+drop table like_list;
+drop table news;
+drop table news_image;
+drop table news_script_rejected;
+drop table deleted_news;
+drop table news_script;
+drop table news_comment;
+drop table withdraw_member;
+drop table member;
+drop sequence seq_withdraw_member_no;
+drop sequence seq_news_script_rejected_no;
+drop sequence seq_news_comment_no;
+drop sequence seq_news_script_no;
 
 
 --==============================
@@ -119,7 +119,6 @@ CREATE TABLE deleted_news (
 	news_content clob,
 	news_tag varchar2(20),
 	news_write_date date,
-	is_confirmed number,
 	news_like_cnt number,
 	news_read_cnt number	,
 	news_confrimed_date date,
@@ -176,6 +175,20 @@ insert into member values('kny0910@naver.com', 'F', 'qwe123!', 'na0', '010333322
 insert into member values('kjh0425@naver.com', 'M', 'qwe123!', '준한', '01055552222', to_date('20180425','yyyymmdd'), 'R', default, default);
 insert into member values('kdc0526@naver.com', 'M', 'qwe123!', '동찬', '01044442222', to_date('20190526','yyyymmdd'), 'R', default, default);
 
+-- 원고
+insert into news_script values(seq_news_script_no.NEXTVAL,'김준돌','만 나이 통일법 시행','사회','오늘(28일)부터 1~2살 어려지는걸 알고계신가요? 나이세는 방식이 만 나이로 바뀌기 때문입니다. 아 집가고싶다',default,'#사회',1);
+insert into news_script values(seq_news_script_no.NEXTVAL,'김창섭','라면 회사 부도','테크','아납주ㅏ우ㅏ무나 ㅏㅈ부ㅏㅜㅇㅈ바ㅜㄴ매ㅓ애ㅡㅂ재ㅡㅇ ㅡ ㅁ냐 ㅐ으ㅐㅡㅂ재읜믜으',default,'#사회',1);
+insert into news_script values(seq_news_script_no.NEXTVAL,'조진세','집가고 싶어요','정치','ㅂ자ㅜㅏ암느읒븨긤느이ㅡ지집에 가고싶다니까요 집에가고싶다구요',default,'#사회',1);
+insert into news_script values(seq_news_script_no.NEXTVAL,'강감찬','세미하기싫다','스포츠','집가고싶다구요 집가고싶다구요집가고싶다구요집가고싶다구요집가고싶다구요집가고싶다구요집가고싶다구요집가고싶다구요집가고싶다구요집가고싶다구요 집가고싶다구요',default,'#사회',1);
 
 
+-- 기사
+insert into news values(1000,'김동찬갓','애국가1절','정치','동해물과 백두산이 마르고 닳도록 하느님이 보우하사 우리나라만세 무궁화 삼천리 화려강산 대한사람 대한으로 길이 보전하세',to_date('20230710','yyyymmdd'),'#정치',4,10,sysdate);
+insert into news values(1001,'전수갱','애국가2절','세계','남산위에 저 소나무 철갑을 두른듯 바람서리 불변함은 우리기상일세 무궁화 삼천리 화려강산 대한사람 대한으로 길이 보전하세',to_date('20220622','yyyymmdd'),'#세계',4,10,'22-06-23');
+insert into news values(1002,'정상운','애국가3절','스포츠','가을 하늘 공활한데 높고 구름없이 밝은달은 우리가슴 일편 단심일세 무궁화 삼천리 화려강산 대한사람 대한으로 길이 보전하세',to_date('20230210','yyyymmdd'),'#스포츠',8,40,'23-02-15');
+insert into news values(1003,'김나욘','애국가4절','경제','이 기상과 이 맘으로 충성을 다하여 괴로우나 즐거우나 나라 사랑하세 무궁화 삼천리 화려강산 대한사람 대한으로 길이 보전하세',to_date('20210903','yyyymmdd'),'#경제',3,25,'21-09-05');
 
+
+select * from news;
+select * from news_script;
+commit;
