@@ -23,7 +23,7 @@ String easyLoginMember = (String) session.getAttribute("EasyLoginMember");
 		<label for="option2">Member</label><br> 
 		
 		<input type="radio" id="Reporter" name="radio-group" value="Reporter"> 
-		<label for="option3">Reporter</label><br> 
+		<label for="option3">kjh0425@naver.com</label><br> 
 		
 		<input type="radio" id="Admin" name="radio-group" value="Admin"> 
 		<label for="option3">Admin</label><br>
@@ -43,7 +43,6 @@ String easyLoginMember = (String) session.getAttribute("EasyLoginMember");
 				</div>
 			</div>
 		</nav>
-
 
 
 		<!-- 로그인 객체마다 헤더가 다르게 보이게 -->
@@ -87,7 +86,7 @@ String easyLoginMember = (String) session.getAttribute("EasyLoginMember");
 				<h1>멤버화면</h1>
 			</div>
 			<%
-			} else if (easyLoginMember.equals("Reporter")) {
+			} else if (easyLoginMember.equals("kjh0425@naver.com")) {
 			%>
 			<div class="bannerContainerUpper" role="banner">
 				<nav>
@@ -125,5 +124,6 @@ String easyLoginMember = (String) session.getAttribute("EasyLoginMember");
 			<%
 			}
 			%>
+			
 		</header>
 		<section class="sc-bcXHqe exBdsH home-recent">
