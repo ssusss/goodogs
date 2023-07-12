@@ -3,6 +3,7 @@ package com.sk.goodogs.member.model.dao;
 import java.io.FileReader;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Properties;
 
@@ -24,7 +25,7 @@ public class MemberDao {
 	
 	/**
 	 * @author 전수경
-	 *  회원가입 -> 회원테이블 
+	 *  회원가입 -> 회원테이블 삽입
 	 */
 	public int insertMember(Connection conn, Member newMember) {
 		int result =0;
@@ -38,15 +39,12 @@ public class MemberDao {
 			pstmt.setString(4, newMember.getNickname());
 			pstmt.setString(5, newMember.getPhone());
 			
+			result = pstmt.executeUpdate();
+			
 		} catch (SQLException e) {
 			throw new MemberException(e);
 		}
 		return result;
-	}
-
-	public Member findById(Connection conn, String memberId) {
-		// TODO Auto-generated method stub
-		return null;
 	}
 
 }

@@ -74,7 +74,7 @@ document.memberRegisterFrm.onsubmit = (e) => {
 	const nickname = e.target.nickname;
 	const phone = e.target.phone;
 	
-	// 아이디 검사 - 영문자/숫자 4글자 이상
+	// 아이디(이메일) 검사 - 영문자/숫자 4글자 이상
 	if(!/^[a-zA-Z0-9+-\_.]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$/.test(memberId.value)){
 		alert("유효한 이메일 형식이 아닙니다.");
 		return false;
