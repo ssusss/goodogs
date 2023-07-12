@@ -10,6 +10,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.sk.goodogs.admin.model.service.AdminService;
+import com.sk.goodogs.news.model.vo.NewsComment;
 
 /**
  * Servlet implementation class MemberBanListServlet
@@ -17,7 +18,7 @@ import com.sk.goodogs.admin.model.service.AdminService;
 @WebServlet("/admin/adminMemberBanList")
 public class AdminMemberBanListServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-//	private final AdminService adminService = new AdminService();
+	private final AdminService adminService = new AdminService();
 //	private final int LIMIT = 15; 
 
 	/**
@@ -42,6 +43,9 @@ public class AdminMemberBanListServlet extends HttpServlet {
 		
 		// 2, 업무로직
 	
+		List<NewsComment> newsComments  = adminService.findBanComment();
+		System.out.println("newsComments = " + newsComments);
+		request.setAttribute("newsComments", newsComments);
 		
 		
 		// 3. 응답처리

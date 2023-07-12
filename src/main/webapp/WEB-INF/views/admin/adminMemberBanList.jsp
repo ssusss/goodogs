@@ -1,23 +1,31 @@
+<%@page import="com.sk.goodogs.news.model.vo.NewsComment"%>
+<%@page import="com.sk.goodogs.member.model.vo.Member"%>
+<%@page import="java.util.List"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
-<%@ include file="/WEB-INF/views/common/header.jsp" %>
-<script src="<%= request.getContextPath() %>/js/jquery-3.7.0.js"></script>
-<script>
 	
-	// 클릭후 신고관리 창 보임
+<%@ include file="/WEB-INF/views/common/header.jsp" %>
+
+<script src="<%= request.getContextPath() %>/js/jquery-3.7.0.js"></script>
+
+<script>
+	// 클릭후 관리자 메인화면 창 가림
 	const bannerContainerLower = document.querySelector(".bannerContainerLower");
 	bannerContainerLower.style.display = "none";
 	
-
-	//검색 
-	String searchType = request.getParameter("searchType");
-	String searchKeyword = request.getParameter("searchKeyword");
-	
-	//멤버
-	List<Member> members = (List<Member>) request.getAttribute("members"); 
-	
-
 </script>
+<%
+
+//검색 
+String searchType = request.getParameter("searchType");
+String searchKeyword = request.getParameter("searchKeyword");
+
+//멤버
+
+List<NewsComment> newsComments  = (List<NewsComment>) request.getAttribute("newsComments");
+
+
+%>
 
 <style>
 
@@ -85,23 +93,33 @@ table#tbl-adminMemberBan td {border:1px solid black; padding:10px; background-co
 			
 		</thead>
 		<tbody>
+		<% if(newsComments == null) {%>
 			<tr>
 				<td colspan="6">신고 내용이 없습니다.</td>
 			</tr>
 			
+		<%
+		}else{
+			for(NewsComment newsComment : newsComments) {
+			%>
 			
 			<tr>
 			
-				<td>comment_no</td>
-				<td>news_comment_writer</td>
-				<td>news_comment_content()</td>
-				<td>news_comment_report_cnt()</td>
-				<td>news_no() </td>
+				<td><%= newsComment.getCommentNo()%></td>
+				<td><%= newsComment.getNewsCommentWriter()%></td>
+				<td><%= newsComment.getNewsCommentContent()%></td>
+				<td><%= newsComment.getNewsCommentReportCnt()%></td>
+				<td><%= newsComment.getNewsNo()%></td>
 				<td>
-					 <button id="IsBanned" > 벤 </button> 
+					<button id = "IsBanned">벤</button>
 				</td>
-			
 			</tr>
+			
+		<% }
+			
+		} %>
+
+			
 			
 			
 		</tbody>
@@ -119,17 +137,20 @@ table#tbl-adminMemberBan td {border:1px solid black; padding:10px; background-co
 </form>
 
 
+
 <script>
 
+button = document.getElementById("IsBanned");
 
-
-
-
-button = document.getElementById("myButton");
 
 button.addEventListener("click", function() {
 	
-	if(confirm("회원 벤 처리 하시겠습니까?")) {			
+	if(confirm("회원 벤 처리 하시겠습니까?")) {	
+		
+		
+		
+		alert( "회원아이디" +"님이 벤 처리 되었습니다.");
+		// 사용자가 확인을 누른 경우
 		const IsBannedVal = e.target.dataset.IsBanned.value;
 		const newsCommentWriterVal = e.target.dataset.memberId;
 		
@@ -137,9 +158,10 @@ button.addEventListener("click", function() {
 		frm.IsBanned.value = IsBannedVal;
 		frm.memberId.value = memberIdVal;
 		frm.submit();
+		
 	}
 	else {
-		
+		 // 사용자가 취소를 누른 경우
 	}
 	
 });
