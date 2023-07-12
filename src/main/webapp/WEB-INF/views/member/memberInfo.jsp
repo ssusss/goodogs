@@ -24,12 +24,12 @@ bannerContainerUpper.style.display = "none";
 <section id=enroll-container>
 	<br>
 	<div>
-		<p> ### 구독스,</p>
+		<p> <%= nickname %> 구독스,</p>
 		<p>어떤 사람인지 더 알고싶개!</p>
 	</div>
 	<br>
 	<h1>회원 정보</h1>
-	<form name="memberUpdateFrm" action="<%= request.getContextPath() %>/member/memberUpdate>"method="post">
+	<form name="memberUpdateFrm" action="<%= request.getContextPath() %>/member/memberUpdate"method="post">
 		<table>
 			<tr>
 				<th>아이디</th>
