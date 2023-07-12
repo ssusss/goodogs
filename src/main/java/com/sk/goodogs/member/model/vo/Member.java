@@ -1,5 +1,6 @@
 package com.sk.goodogs.member.model.vo;
 
+import java.sql.Date;
 import java.sql.Timestamp;
 
 /**
@@ -17,7 +18,7 @@ public class Member {
 	private Gender gender; // M, F, N
 	private MemberRole memberRole; // A, R, M
 	
-	private Timestamp enrollDate;
+	private Date enrollDate;
 	private String memberProfile;
 	private int isBanned;
 
@@ -26,7 +27,7 @@ public class Member {
 	}
 
 	public Member(String memberId, String password, String nickname, String phone, Gender gender, MemberRole memberRole,
-			Timestamp enrollDate, String memberProfile, int isBanned) {
+			Date enrollDate, String memberProfile, int isBanned) {
 		super();
 		this.memberId = memberId;
 		this.password = password;
@@ -87,11 +88,11 @@ public class Member {
 		this.memberRole = memberRole;
 	}
 
-	public Timestamp getEnrollDate() {
+	public Date getEnrollDate() {
 		return enrollDate;
 	}
 
-	public void setEnrollDate(Timestamp enrollDate) {
+	public void setEnrollDate(Date enrollDate) {
 		this.enrollDate = enrollDate;
 	}
 

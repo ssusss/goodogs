@@ -24,7 +24,7 @@ public class MemberDao {
 	
 	/**
 	 * @author 전수경
-	 * 
+	 *  회원가입 -> 회원테이블 
 	 */
 	public int insertMember(Connection conn, Member newMember) {
 		int result =0;
@@ -42,6 +42,11 @@ public class MemberDao {
 			throw new MemberException(e);
 		}
 		return result;
+	}
+
+	public Member findById(Connection conn, String memberId) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }

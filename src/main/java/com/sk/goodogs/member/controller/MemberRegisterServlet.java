@@ -55,6 +55,7 @@ public class MemberRegisterServlet extends HttpServlet {
 		
 		// Member 객체 변환
 		Member newMember = new Member(memberId, _password, nickname, phone, gender, null, null, null, 0);
+		System.out.println("newMember : " + newMember);
 		
 		// 2. 업무로직 - db 저장 요청
 		int result = memberService.insertMember(newMember);
