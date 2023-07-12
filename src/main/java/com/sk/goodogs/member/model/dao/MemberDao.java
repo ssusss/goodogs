@@ -14,7 +14,7 @@ public class MemberDao {
 	
 	public MemberDao() {
 		String filename = 
-				MemberDao.class.getResource("/sql/member/member-query.properties").getPath();
+				MemberDao.class.getResource("/member/member-query.properties").getPath();
 		try {
 			prop.load(new FileReader(filename));
 		} catch (Exception e) {
