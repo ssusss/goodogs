@@ -19,9 +19,19 @@ bannerContainerLower.style.display = "none";
 			<label for="titleArea">뉴스 제목 : </label>
 			<input type="text" name="titleArea" id="titleArea"/>
 		</div>
-	
-		<label for="newsImage">뉴스 이미지 첨부 : </label>
-		<input type="file" name="newsImage" id="newsImage"/>
+		<select name="category" id="category">
+			<option value="politic">정치</option>
+			<option value="economy">경제</option>
+			<option value="global">세계</option>
+			<option value="tech">테크</option>
+			<option value="environment">환경</option>
+			<option value="sports">스포츠</option>
+			<option value="society">사회</option>
+		</select>
+		<div class="fileUploadContainer">
+			<label for="newsImage">뉴스 이미지 첨부 : </label>
+			<input type="file" name="newsImage" id="newsImage"/>
+		</div>
 		<br>
 		
 		
@@ -55,26 +65,48 @@ bannerContainerLower.style.display = "none";
 		</textarea>
 		
 		<div class="ScriptWriteBtnContainer">
-			<button type="submit" class="scriptSubmit scriptBtn">제출</button>
-			<button class="scriptTempSave scriptBtn">임시저장</button>
+			<button id="submitBtn" type="submit" class="scriptSubmit scriptBtn">제출</button>
+			<button id="tempSaveBtn" class="scriptTempSave scriptBtn">임시저장</button>
 		</div>
 	</div>
 </form>
 
 <script>
+submitBtn.onclick = () => {
+	document.scriptWriteFrm.onsubmit = (e) => {
+	const frmData = new FormData(e.target);
+	console.log(frmData);
+	
+	$.ajax({
+		url : "<%= request.getContextPath() %>/reporter/scriptSubmit",
+		data : frmData,
+		processData : false, // 직렬화 처리방지
+		contentType : false, // 기본 Content-Type : application/x-www-form-urlencoded 사용안함. 
+		method : "POST",
+		dataType : "json",
+		success(responseData) {
+			console.log(responseData);
+			const {result, message} = responseData;
+			alert(message);
+		},
+		complete() {
+			e.target.reset(); // 폼 초기화
+		}
+		
+	});
+	
+	e.preventDefault();
+	};
+};
+
 document.scriptWriteFrm.onsubmit = (e) => {
 	e.preventDefault();
+	console.log("sdff");
 };
 
 $('#summernote').summernote({
 	toolbar: [
-		  ['style', ['style']],
-		  ['font', ['bold', 'underline', 'clear']],
-		  ['color', ['color']],
-		  ['para', ['ul', 'ol', 'paragraph']],
-		  ['table', ['table']],
-		  ['insert', ['link', 'picture', 'video']],
-		  ['view', ['fullscreen', 'codeview', 'help']],
+	
 		],
 });
 	
@@ -105,7 +137,14 @@ ulBtn.onclick = () => {
 }
 colorBtn.onclick = () => {
 	colorBtn.classList.toggle("colored");
-	$('#summernote').summernote('foreColor', 'green');
+	
+	console.log(colorBtn.classList[0]);
+	if (colorBtn.classList[0] == 'colored') {
+		$('#summernote').summernote('foreColor', 'green');
+	} else {
+		$('#summernote').summernote('foreColor', 'black');
+	}
+	
 }
 
 </script>

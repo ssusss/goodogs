@@ -22,6 +22,9 @@
 	display: flex;
 }
 
+.fileUploadContainer {
+	display: flex;
+}
 
 .scriptBtn {
 	width: 100px;
@@ -38,8 +41,7 @@
 	display: none;
 }
 
-#summernote {
-	height: 200px;
+.note-editable {
+	height: 360px;
 }
-
 
