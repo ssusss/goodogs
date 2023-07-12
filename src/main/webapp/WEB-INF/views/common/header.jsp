@@ -143,7 +143,7 @@
 					<ul class="adminNav">
 						<li class="memberManagement"><a href="<%= request.getContextPath() %>/admin/memberList">회원관리</a></li>
 						<li class="articleManagement"><a href="<%= request.getContextPath() %>/admin/adminScriptList">기사관리</a></li>
-						<li class="reportManagement"><a href="<%= request.getContextPath() %>/admin/adminMemberBan">신고관리</a></li>
+						<li class="reportManagement"><a href="<%= request.getContextPath() %>/admin/adminMemberBanList">신고관리</a></li>
 					</ul>
 				</nav>
 			</div>

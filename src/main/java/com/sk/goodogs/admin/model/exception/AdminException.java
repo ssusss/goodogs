@@ -2,6 +2,7 @@ package com.sk.goodogs.admin.model.exception;
 
 public class AdminException extends RuntimeException {
 
+
 	public AdminException() {
 		super();
 		// TODO Auto-generated constructor stub
