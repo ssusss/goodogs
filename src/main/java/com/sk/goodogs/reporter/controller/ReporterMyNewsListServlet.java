@@ -21,6 +21,7 @@ import com.sk.goodogs.news.model.vo.News;
 public class ReporterMyNewsListServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	private final NewsService newsService = new NewsService();
+	
 	/**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
@@ -36,7 +37,9 @@ public class ReporterMyNewsListServlet extends HttpServlet {
 		
 		new Gson().toJson(newsList, response.getWriter());
 		
-		request.getRequestDispatcher("/WEB-INF/views/reporter/myNewsList.jsp").forward(request, response);
+//		request.getRequestDispatcher("/WEB-INF/views/reporter/myNewsList.jsp").forward(request, response);
+	
 	}
-
-}
+	
+}	
+	

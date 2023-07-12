@@ -1,11 +1,11 @@
+<%@page import="javax.sound.midi.SysexMessage"%>
 <%@page import="com.sk.goodogs.news.model.vo.News"%>
 <%@page import="java.util.List"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ include file="/WEB-INF/views/common/header.jsp" %>
-<%
-	List<News> newsList = (List<News>)request.getAttribute("news");
-%>
+<script src="<%= request.getContextPath() %>/js/jquery-3.7.0.js"></script>
+
 <script>
 bannerContainerLower = document.querySelector(".bannerContainerLower");
 bannerContainerLower.style.display = "none";
@@ -23,31 +23,49 @@ bannerContainerLower.style.display = "none";
 				<th>게시일</th>
 			</tr>
 		</thead>
+		<button id = "btn1">전체조회</button>
 		<tbody>
-		<%
-			if(newsList != null && !newsList.isEmpty()){
-				for(News news : newsList){
-		%>
-			<tr>
-				<th><%= news.getNewsNo() %></th>
-				<th><%= news.getNewsTitle() %></th>
-				<th><%= news.getNewsCategory() %></th>
-				<th><%= news.getNewsLikeCnt() %></th>
-				<th><%= news.getNewsReadCnt() %></th>
-				<th><%= news.getNewsConfirmedDate() %></th>
-			</tr>
-		<% 
-				}
-			}
-			else {
-		%>
-			<tr>
-				<td colspan="6">게시된 기사가 없습니다.</td>
-			</tr>
-		<% } %>
+		
 		</tbody>
 	</table>
 	
-</div>
-
+	</div>
+	
+	<script>
+	btn1.onclick = () => {
+		findAll();
+	}
+	const findAll = () => {
+		$.ajax({
+			url : "<%= request.getContextPath() %>/reporter/myNewsList",
+			dataType : "json",
+			success(newsList){
+				console.log(newsList);
+				
+				const tbody = document.querySelector(".myPostList table tbody");
+				tbody.innerHTML = newsList.reduce((html, news)=> {
+					const{newsNo, newsTitle, newsCategory, newsLikeCnt, newsReadCnt, newsConfirmedDate} = news;
+					return html + `
+						<tr>
+							<td>\${newsNo}</td>
+							<td>\${newsTitle}</td>
+							<td>\${newsCategory}</td>
+							<td>\${newsLikeCnt}</td>
+							<td>\${newsReadCnt}</td>
+							<td>\${newsConfirmedDate}</td>
+						</tr>
+					`;
+				},"");
+			}
+		});
+	}
+	
+	</script>
+	
+	
+	
+	
+	
 <%@ include file="/WEB-INF/views/common/footer.jsp" %>
+
+

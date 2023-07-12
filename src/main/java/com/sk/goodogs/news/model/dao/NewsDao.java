@@ -11,6 +11,8 @@ import java.util.Date;
 import java.util.List;
 import java.util.Properties;
 
+
+import com.sk.goodogs.news.model.exception.NewsException;
 import com.sk.goodogs.news.model.vo.News;
 
 /**
@@ -33,29 +35,36 @@ public class NewsDao {
 	public List<News> findAll(Connection conn, String memberId) {
 		List<News> newsList = new ArrayList<>();
 		String sql = prop.getProperty("findAll");
-		System.out.println(memberId);
-		try(
-			PreparedStatement pstmt = conn.prepareStatement(sql)){
+		
+		try(PreparedStatement pstmt = conn.prepareStatement(sql)) {
 			pstmt.setString(1, memberId);
-			ResultSet rset = pstmt.executeQuery();
-			
-			while(rset.next()) {
-				int newsNo = rset.getInt("news_no");
-				String newsTitle = rset.getString("news_title");
-				String newsCategory = rset.getString("news_category");
-				int newsLikeCnt = rset.getInt("news_like_cnt");
-				int newsReadCnt = rset.getInt("news_read_cnt");
-				Date newsConfirmedDate = rset.getDate("news_confirmed_date");
-				News news = new News(newsNo, memberId, newsTitle, newsCategory, newsCategory, null, newsTitle, newsLikeCnt, newsReadCnt, null);
-				newsList.add(news);
+			try(ResultSet rset = pstmt.executeQuery()) {
+				while(rset.next()) {
+					News news = handleCelebResultSet(rset);
+					
+					newsList.add(news);
+					}
+				}
+			} catch (SQLException e) {
+				throw new NewsException(e);
 			}
 			
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-			
+			return newsList;
+			}
 		
-		return newsList;
-	}
+		private News handleCelebResultSet(ResultSet rset) throws SQLException {
+			int no = rset.getInt("news_no");
+			String newsWriter = rset.getString("news_writer");
+			String newsTitle = rset.getString("news_title");
+			String newsCategory = rset.getString("news_category");
+			String newsContent = rset.getString("news_content");
+			Date newsWriteDate = rset.getDate("news_write_date");
+			String newsTag = rset.getString("news_tag");
+			int newsLikeCnt = rset.getInt("news_like_cnt");
+			int newsReadCnt = rset.getInt("news_read_cnt");
+			Date newsConfirmedDate = rset.getDate("news_confirmed_date");
+			
+			return new News(newsReadCnt, newsWriter, newsTitle, newsCategory, newsContent, newsWriteDate, newsTag, newsLikeCnt, newsReadCnt, newsConfirmedDate);
+		}
 
 }
