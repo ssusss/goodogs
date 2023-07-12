@@ -11,14 +11,15 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
 
+
+import com.sk.goodogs.news.model.vo.NewsComment;
 import javax.naming.spi.DirStateFactory.Result;
-
 import static com.sk.goodogs.common.JdbcTemplate.*;
-
 import com.sk.goodogs.admin.model.exception.AdminException;
 import com.sk.goodogs.member.model.vo.Gender;
 import com.sk.goodogs.member.model.vo.Member;
 import com.sk.goodogs.member.model.vo.MemberRole;
+
 
 public class AdminDao {
 	private Properties prop = new Properties();
@@ -34,6 +35,53 @@ public class AdminDao {
 		
 	}
 
+
+	
+// 벤용 ----------------------------------------
+	
+
+	public List<NewsComment> findBenComment(Connection conn) {
+		List<NewsComment> newsComments = new ArrayList<>();
+		String sql = prop.getProperty("findBanComment");
+		
+		try (
+				PreparedStatement pstmt = conn.prepareStatement(sql);
+				ResultSet rset = pstmt.executeQuery();
+				){
+			
+			while(rset.next()) {
+				NewsComment newsComment  =  handleCommentrResultSet(rset);
+				newsComments.add(newsComment);
+				
+			}
+			
+		} catch (Exception e) {
+//			throw new AdminrException(e);
+		}
+
+		return newsComments;
+	}
+
+
+
+private NewsComment handleCommentrResultSet(ResultSet rset) throws SQLException {
+	 int commentNo = rset.getInt("comment_no");
+	 int newsCommentLevel  = rset.getInt("news_comment_level");
+	 int newsNo  = rset.getInt("news_no");
+	 String newsCommentWriter = rset.getString("news_comment_writer");
+	 int  commentNoRef  = rset.getInt("comment_no_ref");
+	 String newsCommentNickname  = rset.getString("news_comment_nickname");
+	String  newsCommentContent  = rset.getString("news_comment_content");
+	 Date commentRegDate  = rset.getDate("comment_reg_date");
+	 int newsCommentReportCnt  = rset.getInt("news_comment_report_cnt");
+	 int commentState  = rset.getInt("comment_state");
+
+	return new NewsComment( commentNo, newsCommentLevel,newsNo, newsCommentWriter, commentNoRef,
+			 newsCommentNickname,  newsCommentContent,commentRegDate, newsCommentReportCnt, commentState);
+	
+}
+// ---------------------------------------
+
 	public List<Member> memberFindAll(Connection conn) {
 		List<Member> members= new ArrayList<>();
 		String sql=prop.getProperty("memberFindAll");
@@ -47,13 +95,13 @@ public class AdminDao {
 					members.add(member);
 			}
 		}catch (SQLException e) {
-			throw new AdminException(e);
+			throw new  AdminException(e);
 		}
 		
 		return members;
 	}
 
-	private Member handleMemberResultSet(ResultSet rset) throws SQLException{
+private Member handleMemberResultSet(ResultSet rset) throws SQLException{
 		String memberId= rset.getString("member_id");
 		String password= rset.getString("password");
 		String nickname= rset.getString("nickname");
@@ -75,6 +123,5 @@ public class AdminDao {
 				
 		return member;
 	}
-
 	
 }
