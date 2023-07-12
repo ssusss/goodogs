@@ -1,7 +1,7 @@
 package com.sk.goodogs.member.model.vo;
 
-import java.sql.Date;
 import java.sql.Timestamp;
+import java.util.Date;
 
 /**
  * @author 전수경, 이혜령
