@@ -38,6 +38,9 @@ public class ReporterScriptSubmitServlet extends HttpServlet {
 		String scriptTitle = multiReq.getParameter("titleArea");
 		String scriptCategory = multiReq.getParameter("category");
 		String scriptContent = multiReq.getParameter("category");
+		
+		
+		
 		String newsImage = multiReq.getFilesystemName("newsImage"); // 저장된 파일명 
 		
 	}
