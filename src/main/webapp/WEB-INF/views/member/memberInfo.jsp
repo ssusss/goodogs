@@ -1,10 +1,18 @@
+<%@page import="com.sk.goodogs.member.model.vo.Gender"%>
 <%@page import="java.util.Arrays"%>
 <%@page import="java.util.List"%>
 <%@page import="java.sql.Date"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ include file="/WEB-INF/views/common/header.jsp" %>
-
+<%
+	String memberId = loginMember.getMemberId();
+	String password = loginMember.getPassword();
+	String nickname = loginMember.getNickname();
+	String phone = loginMember.getPhone();
+	Gender gender = loginMember.getGender();
+	
+%>
 <script>
 bannerContainerLower = document.querySelector(".bannerContainerLower");
 bannerContainerLower.style.display = "none";
@@ -21,40 +29,40 @@ bannerContainerUpper.style.display = "none";
 	</div>
 	<br>
 	<h1>회원 정보</h1>
-	<form name="memberUpdateFrm" method="post">
+	<form name="memberUpdateFrm" action="<%= request.getContextPath() %>/member/memberUpdate>"method="post">
 		<table>
 			<tr>
 				<th>아이디</th>
 				<td>
-					<input type="text" name="memberId" id="memberId" value="" readonly>
+					<input type="text" name="memberId" id="memberId" value="<%= memberId %>" readonly>
 				</td>
 			</tr>
 			<tr>
 				<th>비밀번호</th>
 				<td>
-				<input type="text" name="password" id="password" value="">
+				<input type="text" name="password" id="password" value="<%= password %>">
 				</td>
 			</tr>
 			<tr>
 				<th>닉네임</th>
 				<td>
-					<input type="text" name="nickName" id="nickName" value="">
+					<input type="text" name="nickName" id="nickName" value="<%= nickname %>">
 				</td>
 			</tr>
 			<tr>
 				<th>전화번호</th>
 				<td>
-				<input type="tel" placeholder="(-없이) 01012341234" name="phone" id="phone" maxlength="11" value=""> 
+				<input type="tel" placeholder="(-없이) 01012341234" name="phone" id="phone" maxlength="11" value="<%= phone %>"> 
 				</td>
 			</tr>
 			<tr>
 				<th>성별</th>
 				<td>
-					<input type="radio" name="gender" id="gender0" value="N" >
+					<input type="radio" name="gender" id="gender0" value="N" <%= gender == Gender.N ? "checked" : "" %>>
 					<label for="gender0">비공개</label>
-					<input type="radio" name="gender" id="gender1" value="F" >
+					<input type="radio" name="gender" id="gender1" value="F" <%= gender == Gender.F ? "checked" : "" %>>
 					<label for="gender1">여</label>
-					<input type="radio" name="gender" id="gender2" value="M" >
+					<input type="radio" name="gender" id="gender2" value="M" <%= gender == Gender.M ? "checked" : "" %>>
 					<label for="gender2">남</label>
 				</td>
 			</tr>
@@ -91,10 +99,21 @@ bannerContainerUpper.style.display = "none";
 <section id=member-delete>
 	
 	<h1>회원탈퇴</h1>
-	<input type="button" value="탈퇴" onclick="location.href='<%= request.getContextPath() %>/member/memberWidthdraw';">
+	<input type="button" value="탈퇴" onclick="location.href='<%= request.getContextPath() %>/member/memberWithdraw';">
 	
 </section>
 
+<script>
+// 폼 유효성 검사
+document.memberUpdateFrm.onsubmit = (e) => {
+	const frm = e.target;
+	const password = e.target.password;
+	const phone = e.target.phone;
+	
+	// 비밀번호 검사
+	
+}
+</script>
 
 
 
