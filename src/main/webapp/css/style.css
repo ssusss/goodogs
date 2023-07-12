@@ -143,3 +143,8 @@ footer {
 	background-color: khaki;
 	height: 200px;
 }
+
+/* 메인화면 메뉴 박스 */
+div.infoContainer {
+	background-color: gray;
+}

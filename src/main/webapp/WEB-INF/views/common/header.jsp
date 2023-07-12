@@ -1,7 +1,12 @@
+<%@page import="com.sk.goodogs.member.model.vo.Member"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%
-String easyLoginMember = (String) session.getAttribute("EasyLoginMember");
+	// 전수경 로그인멤버
+	Member loginMember = (Member) session.getAttribute("loginMember");
+	System.out.println("loginMember = " + loginMember);
+
+	String easyLoginMember = (String) session.getAttribute("EasyLoginMember");
 %>
 <!DOCTYPE html>
 <html>
@@ -11,7 +16,6 @@ String easyLoginMember = (String) session.getAttribute("EasyLoginMember");
 <link rel="stylesheet" href="<%=request.getContextPath()%>/css/style.css" />
 </head>
 <body>
-
 
 	<!-- 임시 로그인 기능 start -->
 	<form id="EasyloginFrm" name="EasyloginFrm"
@@ -52,16 +56,20 @@ String easyLoginMember = (String) session.getAttribute("EasyLoginMember");
 			if (easyLoginMember == null || easyLoginMember.equals("NonMember")) {
 			%>
 			<div class="bannerContainerUpper" role="banner"> 우리가 시간이 없지, 세상이 안궁금하냐 </div>
+			
 			<div class="bannerContainerLower">
+				
+				<!-- 
+					@author 전수경
+					로그인 컨테이너 시작
+				-->
 				<div class="loginContainer">
-					<form id="loginFrm" name="loginFrm" action="" method="post">
+					<form id="loginFrm" name="loginFrm" action="<%= request.getContextPath() %>/member/memberLogin" method="post">
 						<table>
 							<tr>
-								<td><input type="text" name="memberId" id="memberId"
+								<td><input type="email" name="memberId" id="memberId"
 									placeholder="아이디" tabindex="1" value=""></td>
 								<td rowspan="2"><input type="submit" value="로그인"></td>
-								<td rowspan="2"><input type="button" value="회원가입"
-									onclick=""></td>
 							</tr>
 							<tr>
 								<td><input type="password" name="password" id="password"
@@ -75,15 +83,36 @@ String easyLoginMember = (String) session.getAttribute("EasyLoginMember");
 							</tr>
 						</table>
 					</form>
-				</div>
+				</div> <!-- 로그인 컨테이너 종료 -->
+				
+				<!-- 
+					@author 전수경
+					회원가입 컨테이너 시작
+				 -->
+				<div class="registerContainer">
+					<form id="RegisterFrm" name="RegisterFrm" action="<%= request.getContextPath() %>/member/memberRegister" method="GET">
+						<table>
+							<td rowspan="2"><input type="button" value="회원가입"
+										onclick="location.href='<%= request.getContextPath() %>/member/memberRegister';"></td>
+						</table>					
+					</form>
+				</div> <!-- 회원가입 컨테이너 종료 -->
+				
 			</div>
 			<%
 			} else if (easyLoginMember.equals("Member")) {
 			%>
-			<div class="bannerContainerUpper" role="banner">슬로건</div>
+			<div class="bannerContainerUpper" role="banner">우리가 시간이 없지, 세상이 안궁금하냐</div>
 			<div class="bannerContainerLower">
 				<br>
-				<h1>멤버화면</h1>
+				<div class="infoContainer">
+					<h3>반가워 죽겠개,</h2>
+					<h2>### 구독스!</h2>
+					<input type="button" value="정보수정" onclick="location.href='<%= request.getContextPath() %>/member/memberInfo';">
+					<input type="button" value="좋아요" onclick="location.href='<%= request.getContextPath() %>/like/likePage';">
+					<input type="button" value="북마크" onclick="location.href='<%= request.getContextPath() %>/bookmark/bookmarkPage';">
+				</div>
+				
 			</div>
 			<%
 			} else if (easyLoginMember.equals("kjh0425@naver.com")) {
@@ -99,7 +128,12 @@ String easyLoginMember = (String) session.getAttribute("EasyLoginMember");
 			</div>
 			<div class="bannerContainerLower">
 				<br>
-				<h1>기자화면</h1>
+				<div class="infoContainer">
+					<h2>기자 @@@님, 환영합니다!</h2>
+					<input type="button" value="정보수정" onclick="location.href='<%= request.getContextPath() %>/member/memberInfo';">
+					<input type="button" value="좋아요" onclick="location.href='<%= request.getContextPath() %>/like/likePage';">
+					<input type="button" value="북마크" onclick="location.href='<%= request.getContextPath() %>/bookmark/bookmarkPage';">
+				</div>
 			</div>
 			<%
 			} else if (easyLoginMember.equals("Admin")) {
@@ -109,13 +143,18 @@ String easyLoginMember = (String) session.getAttribute("EasyLoginMember");
 					<ul class="adminNav">
 						<li class="memberManagement"><a href="<%= request.getContextPath() %>/admin/memberList">회원관리</a></li>
 						<li class="articleManagement"><a href="<%= request.getContextPath() %>/admin/adminScriptList">기사관리</a></li>
-						<li class="reportManagement"><a href="<%= request.getContextPath() %>/admin/AdminMemberBan">신고관리</a></li>
+						<li class="reportManagement"><a href="<%= request.getContextPath() %>/admin/adminMemberBanList">신고관리</a></li>
 					</ul>
 				</nav>
 			</div>
 			<div class="bannerContainerLower">
 				<br>
-				<h1>관리자화면</h1>
+				<div class="infoContainer">
+					<h2>관리자님, 환영합니다!</h2>
+					<input type="button" value="정보수정" onclick="location.href='<%= request.getContextPath() %>/member/memberInfo';">
+					<input type="button" value="좋아요" onclick="location.href='<%= request.getContextPath() %>/like/likePage';">
+					<input type="button" value="북마크" onclick="location.href='<%= request.getContextPath() %>/bookmark/bookmarkPage';">
+				</div>
 			</div>
 			<div>
 			

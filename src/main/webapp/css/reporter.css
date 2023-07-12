@@ -1,10 +1,33 @@
 @charset "UTF-8";
 .myScriptWrite {
-	background-color: red;
-	padding: 0px 5%;
+	background-color: orange;
+	padding: 0px 15%;
 }
 
-.myScriptWrite textarea {
+
+#contentArea {
+	background-color: white;
 	width: 100%;
-	resize: none;
+	height: 400px;
+}
+
+#titleArea {
+	margin-left: 10px;
+	width: 60%;
+}
+
+.titleAreaContanier {
+	display: flex;
+}
+
+
+.scriptBtn {
+	width: 100px;
+	height: 50px;
+}
+
+.ScriptWriteBtnContainer {
+	background-color : green;
+	display: flex;
+	flex-direction: row-reverse;
 }

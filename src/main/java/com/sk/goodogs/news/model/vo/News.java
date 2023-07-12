@@ -1,6 +1,6 @@
 package com.sk.goodogs.news.model.vo;
 
-import java.sql.Date;
+import java.util.Date;
 
 public class News {
 	private int newsNo;

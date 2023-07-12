@@ -33,6 +33,8 @@
 --==============================
 -- 테이블 생성
 --==============================
+
+-- 회원
 CREATE TABLE member (
 	member_id varchar2(50) NOT NULL,
 	gender char(1) NOT NULL,
@@ -49,6 +51,7 @@ CREATE TABLE member (
     constraints uq_member_nickname unique(nickname)
 );
 
+-- 탈퇴 회원 
 CREATE TABLE withdraw_member (
 	withdraw_member_no number NOT NULL,
 	member_id varchar2(50) NOT NULL,
@@ -62,7 +65,7 @@ CREATE TABLE withdraw_member (
 );
 create sequence seq_withdraw_member_no;
 
-
+-- 원고
 CREATE TABLE news_script (
 	script_no number,
 	script_writer varchar2(50) NOT NULL,
@@ -176,7 +179,6 @@ insert into member values('kny0910@naver.com', 'F', 'qwe123!', 'na0', '010333322
 insert into member values('kjh0425@naver.com', 'M', 'qwe123!', '준한', '01055552222', to_date('20180425','yyyymmdd'), 'R', default, default);
 insert into member values('kdc0526@naver.com', 'M', 'qwe123!', '동찬', '01044442222', to_date('20190526','yyyymmdd'), 'R', default, default);
 
-
 -- 원고
 insert into news_script values(seq_news_script_no.NEXTVAL,'kjh0425@naver.com','만 나이 통일법 시행','사회','오늘(28일)부터 1~2살 어려지는걸 알고계신가요? 나이세는 방식이 만 나이로 바뀌기 때문입니다. 아 집가고싶다',default,'#사회',1);
 insert into news_script values(seq_news_script_no.NEXTVAL,'kjh0425@naver.com','라면 회사 부도','테크','아납주ㅏ우ㅏ무나 ㅏㅈ부ㅏㅜㅇㅈ바ㅜㄴ매ㅓ애ㅡㅂ재ㅡㅇ ㅡ ㅁ냐 ㅐ으ㅐㅡㅂ재읜믜으',default,'#사회',1);
@@ -190,8 +192,16 @@ insert into news values(1001,'kjh0425@naver.com','애국가2절','세계','남�
 insert into news values(1002,'kdc0526@naver.com','애국가3절','스포츠','가을 하늘 공활한데 높고 구름없이 밝은달은 우리가슴 일편 단심일세 무궁화 삼천리 화려강산 대한사람 대한으로 길이 보전하세',to_date('20230210','yyyymmdd'),'#스포츠',8,40,'23-02-15');
 insert into news values(1003,'kdc0526@naver.com','애국가4절','경제','이 기상과 이 맘으로 충성을 다하여 괴로우나 즐거우나 나라 사랑하세 무궁화 삼천리 화려강산 대한사람 대한으로 길이 보전하세',to_date('20210903','yyyymmdd'),'#경제',3,25,'21-09-05');
 
+-- 기사 댓글 
+insert into news_comment values (2, 1000, 1,' honggd@naver.com', 2, '길동좌','바보양ㅋ', to_date('20180425','yyyymmdd'), 8, 0);
 
+
+
+-- 확인용
+select * from member;
+select * from news_comment;
 select * from news;
 select * from news_script;
 commit;
+
 
