@@ -33,6 +33,8 @@
 --==============================
 -- 테이블 생성
 --==============================
+
+-- 회원
 CREATE TABLE member (
 	member_id varchar2(50) NOT NULL,
 	gender char(1) NOT NULL,
@@ -49,6 +51,7 @@ CREATE TABLE member (
     constraints uq_member_nickname unique(nickname)
 );
 
+-- 탈퇴 회원 
 CREATE TABLE withdraw_member (
 	withdraw_member_no number NOT NULL,
 	member_id varchar2(50) NOT NULL,
@@ -62,7 +65,7 @@ CREATE TABLE withdraw_member (
 );
 create sequence seq_withdraw_member_no;
 
-
+-- 원고
 CREATE TABLE news_script (
 	script_no number,
 	script_writer varchar2(50) NOT NULL,
