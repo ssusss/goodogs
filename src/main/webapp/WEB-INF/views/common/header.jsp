@@ -1,7 +1,12 @@
+<%@page import="com.sk.goodogs.member.model.vo.Member"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%
-String easyLoginMember = (String) session.getAttribute("EasyLoginMember");
+	// 전수경 로그인멤버
+	Member loginMember = (Member) session.getAttribute("loginMember");
+	System.out.println("loginMember = " + loginMember);
+
+	String easyLoginMember = (String) session.getAttribute("EasyLoginMember");
 %>
 <!DOCTYPE html>
 <html>
@@ -51,16 +56,20 @@ String easyLoginMember = (String) session.getAttribute("EasyLoginMember");
 			if (easyLoginMember == null || easyLoginMember.equals("NonMember")) {
 			%>
 			<div class="bannerContainerUpper" role="banner"> 우리가 시간이 없지, 세상이 안궁금하냐 </div>
+			
 			<div class="bannerContainerLower">
+				
+				<!-- 
+					@author 전수경
+					로그인 컨테이너 시작
+				-->
 				<div class="loginContainer">
-					<form id="loginFrm" name="loginFrm" action="" method="post">
+					<form id="loginFrm" name="loginFrm" action="<%= request.getContextPath() %>/member/memberLogin" method="post">
 						<table>
 							<tr>
-								<td><input type="text" name="memberId" id="memberId"
+								<td><input type="email" name="memberId" id="memberId"
 									placeholder="아이디" tabindex="1" value=""></td>
 								<td rowspan="2"><input type="submit" value="로그인"></td>
-								<td rowspan="2"><input type="button" value="회원가입"
-									onclick=""></td>
 							</tr>
 							<tr>
 								<td><input type="password" name="password" id="password"
@@ -74,7 +83,21 @@ String easyLoginMember = (String) session.getAttribute("EasyLoginMember");
 							</tr>
 						</table>
 					</form>
-				</div>
+				</div> <!-- 로그인 컨테이너 종료 -->
+				
+				<!-- 
+					@author 전수경
+					회원가입 컨테이너 시작
+				 -->
+				<div class="registerContainer">
+					<form id="RegisterFrm" name="RegisterFrm" action="<%= request.getContextPath() %>/member/memberRegister" method="GET">
+						<table>
+							<td rowspan="2"><input type="button" value="회원가입"
+										onclick="location.href='<%= request.getContextPath() %>/member/memberRegister';"></td>
+						</table>					
+					</form>
+				</div> <!-- 회원가입 컨테이너 종료 -->
+				
 			</div>
 			<%
 			} else if (easyLoginMember.equals("Member")) {

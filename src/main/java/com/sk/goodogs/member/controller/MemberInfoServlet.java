@@ -8,9 +8,10 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 
-/***
- * @author 이혜령
- * 내정보 조회 페이지
+/**
+ * @author 이혜령, 전수경
+ *  내 정보 조회
+ *
  */
 @WebServlet("/member/memberInfo")
 public class MemberInfoServlet extends HttpServlet {
