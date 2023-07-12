@@ -64,7 +64,7 @@
 					로그인 컨테이너 시작
 				-->
 				<div class="loginContainer">
-					<form id="loginFrm" name="loginFrm" action="<%= request.getContextPath() %>/member/memberLogin" method="post">
+					<form id="loginFrm" name="loginFrm" action="<%= request.getContextPath() %>/member/memberLogin" method="GET">
 						<table>
 							<tr>
 								<td><input type="email" name="memberId" id="memberId"
