@@ -85,7 +85,7 @@ public class MemberDao {
 	
 	/**
 	 * @author 전수경
-	 *  회원가입 -> 회원테이블 
+	 *  회원가입 -> 회원테이블 삽입
 	 */
 	public int insertMember(Connection conn, Member newMember) {
 		int result =0;
@@ -99,11 +99,26 @@ public class MemberDao {
 			pstmt.setString(4, newMember.getNickname());
 			pstmt.setString(5, newMember.getPhone());
 			
+			result = pstmt.executeUpdate();
+			
 		} catch (SQLException e) {
 			throw new MemberException(e);
 		}
 		return result;
 
+	}
+
+	public int memberWithdraw(Connection conn, String memberId) {
+		int result = 0;
+		// delete from member where member_id = ?
+		String sql = prop.getProperty("memberWithdraw");
+		try (PreparedStatement pstmt = conn.prepareStatement(sql)) {
+			pstmt.setString(1, memberId);
+			result = pstmt.executeUpdate();
+		} catch (SQLException e) {
+			throw new MemberException(e);
+		}
+		return result;
 	}
 
 }

@@ -17,7 +17,6 @@ public class MemberService {
 	public int memberUpdate(Member member) {
 		int result = 0;
 		Connection conn = getConnection();
-		
 		try {
 			result = memberDao.memberUpdate(conn, member);
 			commit(conn);
@@ -57,6 +56,22 @@ public class MemberService {
 		Member member = memberDao.findById(conn, memberId);
 		close(conn);
 		return member;
+	}
+
+
+	public int memberWithdraw(String memberId) {
+		int result = 0;
+		Connection conn = getConnection();
+		try {
+			result = memberDao.memberWithdraw(conn, memberId);
+			commit(conn);
+		} catch (Exception e) {
+			rollback(conn);
+			throw e;
+		} finally {
+			close(conn);
+		}
+		return result;
 	}
 
 }
