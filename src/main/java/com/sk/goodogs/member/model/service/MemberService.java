@@ -52,11 +52,10 @@ public class MemberService {
 		return result;
 	}
 
+
 	public Member findById(String memberId) {
-		Connection conn = getConnection();
-		Member member = memberDao.findById(conn, memberId);
-		close(conn);
-		return member;
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }
