@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 <%@page import="javax.sound.midi.SysexMessage"%>
 <%@page import="com.sk.goodogs.news.model.vo.News"%>
 <%@page import="java.util.List"%>
