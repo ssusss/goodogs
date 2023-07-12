@@ -52,13 +52,14 @@ public class MemberLoginServlet extends HttpServlet {
 				cookie.setMaxAge(60 * 60 * 24 * 7); // 쿠키 유효기간 7일
 			}
 			else {
-				// 기존의 쿠키 삭제
+				// 기존 쿠키 삭제
 				cookie.setMaxAge(0); // 클라이언트 있던 쿠기의 만료기간을 0으로 변경함과 동시에 삭제 
 			}
 			response.addCookie(cookie); // 응답 헤더 Set-Cookie : saveId=honggd
 			
 		} else {
 			// 로그인 실패 시
+			session.setAttribute("message", "아이디 또는 비밀번호가 일치하지 않습니다.");
 		}
 		
 		// 3. 응답처리 (메인페이지로 리다이렉트)

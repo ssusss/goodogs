@@ -4,13 +4,13 @@ import java.sql.Date;
 
 public class NewsScript {
 	private int scriptNo;
+	private String scriptWriter;
 	private String scriptTitle;
 	private String scriptCategory;
 	private String scriptContent;
 	private Date scriptWriteDate;
 	private String scriptTag;
 	private int scriptState;
-	private String scriptWriter;
 	
 	public NewsScript() {
 		super();
