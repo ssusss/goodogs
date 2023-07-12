@@ -17,7 +17,6 @@ public class MemberService {
 	public int memberUpdate(Member member) {
 		int result = 0;
 		Connection conn = getConnection();
-		
 		try {
 			result = memberDao.memberUpdate(conn, member);
 			commit(conn);
@@ -54,8 +53,10 @@ public class MemberService {
 
 
 	public Member findById(String memberId) {
-		// TODO Auto-generated method stub
-		return null;
+		Connection conn = getConnection();
+		Member member= memberDao.findById(conn, memberId);
+		close(conn);
+		return member;
 	}
 
 }
