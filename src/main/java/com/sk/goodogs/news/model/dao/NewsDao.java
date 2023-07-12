@@ -22,7 +22,7 @@ public class NewsDao {
 
 	public NewsDao() {
 		String filename =
-				NewsDao.class.getResource("/sql/news/news-query.properties").getPath();
+				NewsDao.class.getResource("/news/news-query.properties").getPath();
 		try {
 			prop.load(new FileReader(filename));
 		}catch(IOException e) {
@@ -33,7 +33,7 @@ public class NewsDao {
 	public List<News> findAll(Connection conn, String memberId) {
 		List<News> newsList = new ArrayList<>();
 		String sql = prop.getProperty("findAll");
-		
+		System.out.println(memberId);
 		try(
 			PreparedStatement pstmt = conn.prepareStatement(sql)){
 			pstmt.setString(1, memberId);

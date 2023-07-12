@@ -29,6 +29,7 @@ public class NewsService {
 	public List<News> findAll(String memberId) {
 		Connection conn = getConnection();
 		List<News> newsList = newsDao.findAll(conn, memberId);
+		System.out.println(conn);
 		close(conn);
 		return newsList;
 		
