@@ -8,9 +8,7 @@ bannerContainerLower = document.querySelector(".bannerContainerLower");
 bannerContainerLower.style.display = "none";
 </script>
 <style>
-#contentArea {
-	color: red;
-}
+
 </style>
 <form name="scriptWriteFrm">
 	<div class="myScriptWrite">
@@ -27,7 +25,11 @@ bannerContainerLower.style.display = "none";
 		<button>p태그</button>
 		<button>a태그</button>
 		
+		<%-- 
 		<textarea id="contentArea" name="contentArea" rows="20"></textarea>
+		--%>
+		<div id="contentArea"> 뭔ㅔ</div>
+		
 		<div class="ScriptWriteBtnContainer">
 			<button type="submit" class="scriptSubmit scriptBtn">제출</button>
 			<button class="scriptTempSave scriptBtn">임시저장</button>
@@ -40,15 +42,8 @@ document.scriptWriteFrm.onsubmit = (e) => {
 	e.preventDefault();
 }
 
-
 console.log(contentArea);
 
-function addh2Tag() {
-	const contentArea = document.querySelector("#contentArea");
-	const headingText = contentArea.value;
-	const newText = `<h2>\${headingText}</h2>`;
-	contentArea.value = newText;
-}
 
 
 </script>
