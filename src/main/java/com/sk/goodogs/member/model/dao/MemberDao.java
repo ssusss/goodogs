@@ -108,4 +108,17 @@ public class MemberDao {
 
 	}
 
+	public int memberWithdraw(Connection conn, String memberId) {
+		int result = 0;
+		// delete from member where member_id = ?
+		String sql = prop.getProperty("memberWithdraw");
+		try (PreparedStatement pstmt = conn.prepareStatement(sql)) {
+			pstmt.setString(1, memberId);
+			result = pstmt.executeUpdate();
+		} catch (SQLException e) {
+			throw new MemberException(e);
+		}
+		return result;
+	}
+
 }
