@@ -6,7 +6,7 @@ import java.sql.Timestamp;
 /**
  * @author 전수경, 이혜령
  * - 전수경: 생성자, getter/setter 생성, toString 오버라이드
- *
+ * - 이혜령 : 생성자 추가
  */
 public class Member {
 	
@@ -38,6 +38,15 @@ public class Member {
 		this.enrollDate = enrollDate;
 		this.memberProfile = memberProfile;
 		this.isBanned = isBanned;
+	}
+
+	public Member(String memberId, String password, String nickname, String phone, Gender gender) {
+		super();
+		this.memberId = memberId;
+		this.password = password;
+		this.nickname = nickname;
+		this.phone = phone;
+		this.gender = gender;
 	}
 
 	public String getMemberId() {
