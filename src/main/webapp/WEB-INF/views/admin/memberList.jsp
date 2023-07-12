@@ -63,7 +63,7 @@ div#search-memberRole	{display: none}
                <input type="hidden" name="searchType" value="member_id"/>
                 <input 
                 	type="text" name="searchKeyword"  size="25" placeholder="검색할 아이디를 입력하세요." 
-                	value="사용자 입력값"/>
+                	value=""/>
                 <button type="submit">검색</button>			
             </form>	
         </div>
@@ -72,7 +72,7 @@ div#search-memberRole	{display: none}
                 <input type="hidden" name="searchType" value="nickName"/>
                 <input 
                 	type="text" name="searchKeyword" size="25" placeholder="검색할 이름을 입력하세요."
-                	value="notalready"/>
+                	value=""/>
                 <button type="submit">검색</button>			
             </form>	
         </div>
@@ -121,17 +121,33 @@ document.querySelector("select#searchType").onchange = (e) => {
 		
 		const findSelectedMember= ()=>{
 			$.ajax({
-				url:"",
+				url:"<%= request.getContextPath() %>/admin/member/findMember",
 				data :frmData,
-				processData : false,
-				contentType : false,
-				method :"POST",
+				method :"GET",
 				dataType :"json",
-				success(responseData) {
-				console.log(responseData);
+				success(selectedMembers) {
+				console.log(selectedMembers);
+					
+					const tbody= document.querySelector("#tbl-member tbody");
+					tbody.innerHTML= selectedMembers.reduce((html,member)=>{
+						const{memberId,nickname,memberRole,phone,gender,enrollDate,isBanned}=member;
+						return html +`
+						<tr>
+							<td>\${memberId}</td>
+							<td>\${nickname}</td> 
+							<td>\${memberRole}</td>
+							<td>\${phone}</td>
+							<td>\${gender}</td>
+							<td>\${enrollDate}</td>
+							<td>\${isBanned}</td>
+						</tr>
+					`;
+				},"");
 				
-
 				},
+				complete(){
+					e.target.reset();
+				}
 				
 			});
 			

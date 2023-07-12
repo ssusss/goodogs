@@ -19,5 +19,10 @@ public class AdminService {
 		return members;
 	}
 
+	public List<Member> memberFindSelected(String searchType, String searchKeyword) {
+		
+		return null;
+	}
+
 
 }
