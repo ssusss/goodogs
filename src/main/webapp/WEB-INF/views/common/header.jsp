@@ -2,11 +2,31 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%
-	// 전수경 로그인멤버
+	// 전수경 작성 로그인 성공 메세지
+	String message = (String) session.getAttribute("message");
+	if(message != null) session.removeAttribute("message"); // 1회용
+	
+	// 전수경 작성 로그인멤버
 	Member loginMember = (Member) session.getAttribute("loginMember");
 	System.out.println("loginMember = " + loginMember);
+	
+	Cookie[] cookies = request.getCookies();
+	String saveId = null;
+	if(cookies != null) {
+		for(Cookie cookie : cookies) {
+			String name = cookie.getName();
+			String value = cookie.getValue();
+			// System.out.println("[Cookie] " + name + " = " + value);
+			if ("saveId".equals(name))
+				saveId = value;
+		}
+	}
+	String easyLoginMember = "";		
 
-	String easyLoginMember = (String) session.getAttribute("EasyLoginMember");
+	// 로그인멤버가 null일 때 easyLoginMember 사용
+	if(loginMember == null){
+		easyLoginMember = (String) session.getAttribute("EasyLoginMember");		
+	}
 %>
 <!DOCTYPE html>
 <html>
@@ -100,14 +120,15 @@
 				
 			</div>
 			<%
-			} else if (easyLoginMember.equals("Member")) {
+			} else if (easyLoginMember.equals("Member") || loginMember != null) {
 			%>
+			<!-- 로그인 회원 컨테이너 -->
 			<div class="bannerContainerUpper" role="banner">우리가 시간이 없지, 세상이 안궁금하냐</div>
 			<div class="bannerContainerLower">
 				<br>
 				<div class="infoContainer">
 					<h3>반가워 죽겠개,</h2>
-					<h2>### 구독스!</h2>
+					<h2><%= loginMember.getNickname() %> 구독스!</h2>
 					<input type="button" value="정보수정" onclick="location.href='<%= request.getContextPath() %>/member/memberInfo';">
 					<input type="button" value="좋아요" onclick="location.href='<%= request.getContextPath() %>/like/likePage';">
 					<input type="button" value="북마크" onclick="location.href='<%= request.getContextPath() %>/bookmark/bookmarkPage';">

@@ -15,28 +15,23 @@ import com.sk.goodogs.news.model.service.NewsService;
 import com.sk.goodogs.news.model.vo.News;
 
 /**
- * Servlet implementation class ReporterMyNewsListServlet
+ * 김준한
  */
 @WebServlet("/reporter/myNewsList")
 public class ReporterMyNewsListServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	private final NewsService newsService = new NewsService();
+	
 	/**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		HttpSession session = request.getSession();
-		String memberId = (String) session.getAttribute("EasyLoginMember");
 		
-		System.out.println(memberId);
 		
-		List<News> newsList = newsService.findAll(memberId);
-		
-		response.setContentType("application/json; charset=utf-8");
-		
-		new Gson().toJson(newsList, response.getWriter());
 		
 		request.getRequestDispatcher("/WEB-INF/views/reporter/myNewsList.jsp").forward(request, response);
+	
 	}
-
-}
+	
+}	
+	
