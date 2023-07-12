@@ -6,16 +6,27 @@
 <%@ include file="/WEB-INF/views/common/header.jsp" %>
 <script src="<%= request.getContextPath() %>/js/jquery-3.7.0.js"></script>
 
+<style>
+h1 {text-align : center;}
+table#tbl-news th, td { border: 1px solid black; padding: 3px; }
+</style>
+
 <script>
-bannerContainerLower = document.querySelector(".bannerContainerLower");
-bannerContainerLower.style.display = "none";
-bannerContainerUpper = document.querySelector(".bannerContainerUpper");
-bannerContainerUpper.style.display = "none";
+	bannerContainerLower = document.querySelector(".bannerContainerLower");
+	bannerContainerLower.style.display = "none";
+	bannerContainerUpper = document.querySelector(".bannerContainerUpper");
+	bannerContainerUpper.style.display = "none";
+
+	window.onload = () => {
+		findAll();
+	}
+
 
 </script>
+
 <div class="myPostList">
 	<h1>기사 목록</h1>
-	<table>
+	<table id ="tbl-news">
 		<thead>
 			<tr>
 				<th>기사번호</th>
@@ -26,21 +37,16 @@ bannerContainerUpper.style.display = "none";
 				<th>게시일</th>
 			</tr>
 		</thead>
-		<button id = "btn1">전체조회</button>
 		<tbody>
-		
 		</tbody>
 	</table>
 	
 	</div>
 	
 	<script>
-	btn1.onclick = () => {
-		findAll();
-	}
 	const findAll = () => {
 		$.ajax({
-			url : "<%= request.getContextPath() %>/reporter/myNewsList",
+			url : "<%= request.getContextPath() %>/reporter/reporterNewsFindAll",
 			dataType : "json",
 			success(newsList){
 				console.log(newsList);

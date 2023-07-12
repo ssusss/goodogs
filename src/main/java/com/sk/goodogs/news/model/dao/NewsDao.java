@@ -53,7 +53,7 @@ public class NewsDao {
 			}
 		
 		private News handleCelebResultSet(ResultSet rset) throws SQLException {
-			int no = rset.getInt("news_no");
+			int newsNo = rset.getInt("news_no");
 			String newsWriter = rset.getString("news_writer");
 			String newsTitle = rset.getString("news_title");
 			String newsCategory = rset.getString("news_category");
@@ -64,7 +64,7 @@ public class NewsDao {
 			int newsReadCnt = rset.getInt("news_read_cnt");
 			Date newsConfirmedDate = rset.getDate("news_confirmed_date");
 			
-			return new News(newsReadCnt, newsWriter, newsTitle, newsCategory, newsContent, newsWriteDate, newsTag, newsLikeCnt, newsReadCnt, newsConfirmedDate);
+			return new News(newsNo, newsWriter, newsTitle, newsCategory, newsContent, newsWriteDate, newsTag, newsLikeCnt, newsReadCnt, newsConfirmedDate);
 		}
 
 }
