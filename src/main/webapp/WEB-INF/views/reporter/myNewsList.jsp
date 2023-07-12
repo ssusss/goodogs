@@ -9,6 +9,9 @@
 <script>
 bannerContainerLower = document.querySelector(".bannerContainerLower");
 bannerContainerLower.style.display = "none";
+bannerContainerUpper = document.querySelector(".bannerContainerUpper");
+bannerContainerUpper.style.display = "none";
+
 </script>
 <div class="myPostList">
 	<h1>기사 목록</h1>
