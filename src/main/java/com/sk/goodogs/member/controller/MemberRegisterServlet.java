@@ -58,6 +58,7 @@ public class MemberRegisterServlet extends HttpServlet {
 		
 		// 2. 업무로직 - db 저장 요청
 		int result = memberService.insertMember(newMember);
+		System.out.println("회원가입 완료! result="+result);
 		
 		// 결과메세지 속성 등록
 		HttpSession session = request.getSession();

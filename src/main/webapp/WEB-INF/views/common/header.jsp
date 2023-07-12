@@ -53,15 +53,18 @@ String easyLoginMember = (String) session.getAttribute("EasyLoginMember");
 			%>
 			<div class="bannerContainerUpper" role="banner"> 우리가 시간이 없지, 세상이 안궁금하냐 </div>
 			<div class="bannerContainerLower">
+				
+				<!-- 
+					@author 전수경
+					로그인 컨테이너 
+				-->
 				<div class="loginContainer">
-					<form id="loginFrm" name="loginFrm" action="" method="post">
+					<form id="loginFrm" name="loginFrm" action="<%= request.getContextPath() %>/member/memberLogin" method="post">
 						<table>
 							<tr>
-								<td><input type="text" name="memberId" id="memberId"
+								<td><input type="email" name="memberId" id="memberId"
 									placeholder="아이디" tabindex="1" value=""></td>
 								<td rowspan="2"><input type="submit" value="로그인"></td>
-								<td rowspan="2"><input type="button" value="회원가입"
-									onclick=""></td>
 							</tr>
 							<tr>
 								<td><input type="password" name="password" id="password"
@@ -76,6 +79,20 @@ String easyLoginMember = (String) session.getAttribute("EasyLoginMember");
 						</table>
 					</form>
 				</div>
+				<div>
+					<form id="RegisterFrm" name="RegisterFrm" action="<%= request.getContextPath() %>/member/memberRegister" method="GET">
+						<table>
+							<td rowspan="2"><input type="button" value="회원가입"
+										onclick="location.href='<%= request.getContextPath() %>/member/memberRegister';"></td>
+						</table>					
+					</form>
+				</div>
+				<script>
+				
+				
+				</script>
+				
+				
 			</div>
 			<%
 			} else if (easyLoginMember.equals("Member")) {
