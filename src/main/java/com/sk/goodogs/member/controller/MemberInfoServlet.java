@@ -7,9 +7,10 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-// 내정보 조회 페이지
-/**
- * Servlet implementation class MemberInfoServlet
+
+/***
+ * @author 이혜령
+ * 내정보 조회 페이지
  */
 @WebServlet("/member/memberInfo")
 public class MemberInfoServlet extends HttpServlet {
@@ -17,7 +18,7 @@ public class MemberInfoServlet extends HttpServlet {
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
-		
+		request.getRequestDispatcher("/WEB-INF/views/member/memberInfo.jsp").forward(request, response);
 	}
 
 }

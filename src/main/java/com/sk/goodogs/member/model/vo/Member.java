@@ -5,13 +5,13 @@ import java.sql.Timestamp;
 /**
  * @author 전수경, 이혜령
  * - 전수경: 생성자, getter/setter 생성, toString 오버라이드
- *
+ * - 이혜령 : 생성자 추가
  */
 public class Member {
 	
 	private String memberId;
 	private String password;
-	private String nickname;
+	private String nickName;
 	private String phone;
 	
 	private Gender gender; // M, F, N
@@ -24,18 +24,26 @@ public class Member {
 		super();
 	}
 
-	public Member(String memberId, String password, String nickname, String phone, Gender gender, MemberRole memberRole,
+	public Member(String memberId, String password, String nickName, String phone, Gender gender, MemberRole memberRole,
 			Timestamp enrollDate) {
 		super();
 		this.memberId = memberId;
 		this.password = password;
-		this.nickname = nickname;
+		this.nickName = nickName;
 		this.phone = phone;
 		this.gender = gender;
 		this.memberRole = memberRole;
 		this.enrollDate = enrollDate;
 	}
 
+	public Member(String memberId, String password, String nickName, String phone, Gender gender) {
+		super();
+		this.memberId = memberId;
+		this.password = password;
+		this.nickName = nickName;
+		this.phone = phone;
+		this.gender = gender;
+	}
 
 	public String getMemberId() {
 		return memberId;
@@ -58,12 +66,12 @@ public class Member {
 
 
 	public String getNickname() {
-		return nickname;
+		return nickName;
 	}
 
 
 	public void setNickname(String nickname) {
-		this.nickname = nickname;
+		this.nickName = nickname;
 	}
 
 
@@ -109,9 +117,10 @@ public class Member {
 
 	@Override
 	public String toString() {
-		return "Member [memberId=" + memberId + ", password=" + password + ", nickname=" + nickname + ", phone=" + phone
+		return "Member [memberId=" + memberId + ", password=" + password + ", nickName=" + nickName + ", phone=" + phone
 				+ ", gender=" + gender + ", memberRole=" + memberRole + ", enrollDate=" + enrollDate + "]";
 	}
+	
 	
 	
 }
