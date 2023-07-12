@@ -7,8 +7,10 @@
 
 #contentArea {
 	background-color: white;
+	border: 1px solid black;
 	width: 100%;
 	height: 400px;
+	padding: 10px;
 }
 
 #titleArea {
@@ -31,3 +33,13 @@
 	display: flex;
 	flex-direction: row-reverse;
 }
+
+#linkBox {
+	display: none;
+}
+
+#summernote {
+	height: 200px;
+}
+
+
