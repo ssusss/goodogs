@@ -97,20 +97,20 @@
 							</table>
 						</form>
 					</div> <!-- 로그인 컨테이너 종료 -->
+					<!-- 
+						@author 전수경
+						회원가입 컨테이너 시작
+					 -->
+					<div class="registerContainer">
+						<form id="RegisterFrm" name="RegisterFrm" action="<%= request.getContextPath() %>/member/memberRegister" method="GET">
+							<table>
+								<td rowspan="2"><input type="button" value="회원가입"
+											onclick="location.href='<%= request.getContextPath() %>/member/memberRegister';"></td>
+							</table>					
+						</form>
+					</div> <!-- 회원가입 컨테이너 종료 -->
 					
 				</div>
-				<!-- 
-					@author 전수경
-					회원가입 컨테이너 시작
-				 -->
-				<div class="registerContainer">
-					<form id="RegisterFrm" name="RegisterFrm" action="<%= request.getContextPath() %>/member/memberRegister" method="GET">
-						<table>
-							<td rowspan="2"><input type="button" value="회원가입"
-										onclick="location.href='<%= request.getContextPath() %>/member/memberRegister';"></td>
-						</table>					
-					</form>
-				</div> <!-- 회원가입 컨테이너 종료 -->
 				
 			</div>
 			<%
@@ -148,13 +148,14 @@
 			</div>
 			<div class="bannerContainerLower">
 
-				<br>
-				<div class="infoContainer">
-					<h2>기자 <%= loginMember.getNickname() %>님, 어서오개!</h2>
-					<input type="button" value="정보수정" onclick="location.href='<%= request.getContextPath() %>/member/memberInfo';">
-					<input type="button" value="좋아요" onclick="location.href='<%= request.getContextPath() %>/like/likePage';">
-					<input type="button" value="북마크" onclick="location.href='<%= request.getContextPath() %>/bookmark/bookmarkPage';">
-
+				<div class="infoWrapper">
+					<div class="infoContainer">
+						<h2>기자 <%= loginMember.getNickname() %>님, 어서오개!</h2>
+						<input type="button" value="정보수정" onclick="location.href='<%= request.getContextPath() %>/member/memberInfo';">
+						<input type="button" value="좋아요" onclick="location.href='<%= request.getContextPath() %>/like/likePage';">
+						<input type="button" value="북마크" onclick="location.href='<%= request.getContextPath() %>/bookmark/bookmarkPage';">
+	
+					</div>
 				</div>
 			</div>
 			<%
@@ -171,13 +172,14 @@
 			</div>
 			<div class="bannerContainerLower">
 
-				<br>
-				<div class="infoContainer">
-					<h2>관리자 <%= loginMember.getNickname() %>님, 환영하개!</h2>
-					<input type="button" value="정보수정" onclick="location.href='<%= request.getContextPath() %>/member/memberInfo';">
-					<input type="button" value="좋아요" onclick="location.href='<%= request.getContextPath() %>/like/likePage';">
-					<input type="button" value="북마크" onclick="location.href='<%= request.getContextPath() %>/bookmark/bookmarkPage';">
-
+				<div class="infoWrapper">
+					<div class="infoContainer">
+						<h2>관리자 <%= loginMember.getNickname() %>님, 환영하개!</h2>
+						<input type="button" value="정보수정" onclick="location.href='<%= request.getContextPath() %>/member/memberInfo';">
+						<input type="button" value="좋아요" onclick="location.href='<%= request.getContextPath() %>/like/likePage';">
+						<input type="button" value="북마크" onclick="location.href='<%= request.getContextPath() %>/bookmark/bookmarkPage';">
+	
+					</div>
 				</div>
 			</div>
 			<div>
