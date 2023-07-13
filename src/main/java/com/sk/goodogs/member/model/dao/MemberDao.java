@@ -2,6 +2,7 @@ package com.sk.goodogs.member.model.dao;
 
 import java.io.FileReader;
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -12,6 +13,7 @@ import java.util.Properties;
 import com.sk.goodogs.member.model.exception.MemberException;
 import com.sk.goodogs.member.model.vo.Gender;
 import com.sk.goodogs.member.model.vo.Member;
+import com.sk.goodogs.member.model.vo.MemberRole;
 
 public class MemberDao {
 	private Properties prop = new Properties();
@@ -69,7 +71,14 @@ public class MemberDao {
 		String _gender = rset.getString("gender");
 		Gender gender = _gender != null ? Gender.valueOf(_gender) : null;
 		
-		return new Member(memberId, password, nickname, phone, gender);
+		String _memberRole = rset.getString("member_role");
+		MemberRole memberRole = _memberRole != null ? MemberRole.valueOf(_memberRole) : null;
+		
+		Date enrollDate = rset.getDate("enroll_date");
+		String memberProfile = rset.getString("member_profile");
+		int isBanned = rset.getInt("is_banned");
+		
+		return new Member(memberId, password, nickname, phone, gender, memberRole, enrollDate, memberProfile, isBanned);
 
 	}
 		

@@ -5,8 +5,10 @@ import static com.sk.goodogs.common.JdbcTemplate.*;
 import java.sql.Connection;
 import java.util.List;
 
+import com.sk.goodogs.member.model.vo.Member;
 import com.sk.goodogs.news.model.dao.NewsDao;
 import com.sk.goodogs.news.model.vo.News;
+import com.sk.goodogs.news.model.vo.NewsScript;
 
 public class NewsService {
 	public final NewsDao newsDao = new NewsDao();
@@ -26,13 +28,20 @@ public class NewsService {
 	 * 
 	 */
 
-	public List<News> findAll(String memberId) {
+	public List<News> findAllNewsById(Member loginMember) {
 		Connection conn = getConnection();
-		List<News> newsList = newsDao.findAll(conn, memberId);
+		List<News> newsList = newsDao.findAllNewsById(conn, loginMember);
 		System.out.println(conn);
 		close(conn);
 		return newsList;
 		
 	}
+	public List<NewsScript> findAllScriptById(Member loginMember) {
+		Connection conn = getConnection();
+		List<NewsScript> scripts = newsDao.findAllScriptById(conn, loginMember);
+		close(conn);
+		return scripts;
+	}
+	
 	
 }

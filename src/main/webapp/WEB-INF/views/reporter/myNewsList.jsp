@@ -8,18 +8,23 @@
 
 <style>
 h1 {text-align : center;}
-table#tbl-news th, td { border: 1px solid black; padding: 3px; }
+table#tbl-news th { border: 1px solid black; padding: 3px; background-color: #f2f2f2;}
+table#tbl-news td { border: 1px solid black; padding: 3px; }
+table#tbl-news{ 
+  border-collapse: collapse;
+  margin:auto; 
+  }
+
 </style>
 
 
 <script>
 	bannerContainerLower = document.querySelector(".bannerContainerLower");
 	bannerContainerLower.style.display = "none";
-	bannerContainerUpper = document.querySelector(".bannerContainerUpper");
-	bannerContainerUpper.style.display = "none";
+	
 
 	window.onload = () => {
-		findAll();
+		findAllNewsById();
 	}
 
 
@@ -45,7 +50,7 @@ table#tbl-news th, td { border: 1px solid black; padding: 3px; }
 	</div>
 	
 	<script>
-	const findAll = () => {
+	const findAllNewsById = () => {
 		$.ajax({
 			url : "<%= request.getContextPath() %>/reporter/reporterNewsFindAll",
 			dataType : "json",
