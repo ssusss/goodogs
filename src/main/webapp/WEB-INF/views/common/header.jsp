@@ -5,11 +5,11 @@
 	// 전수경 작성 로그인 성공 메세지
 	String message = (String) session.getAttribute("message");
 	if(message != null) session.removeAttribute("message"); // 1회용
-	
+
 	// 전수경 작성 로그인멤버
 	Member loginMember = (Member) session.getAttribute("loginMember");
 	System.out.println("loginMember = " + loginMember);
-	
+
 	Cookie[] cookies = request.getCookies();
 	String saveId = null;
 	if(cookies != null) {
@@ -21,7 +21,7 @@
 				saveId = value;
 		}
 	}
-	String easyLoginMember = "";		
+	String easyLoginMember = "";
 
 	// 로그인멤버가 null일 때 easyLoginMember 사용
 	if(loginMember == null){
@@ -45,10 +45,10 @@
 
 		<input type="radio" id="Member" name="radio-group" value="Member">
 		<label for="option2">Member</label><br> 
-		
+
 		<input type="radio" id="Reporter" name="radio-group" value="kjh0425@naver.com"> 
 		<label for="option3">Reporter</label><br> 
-		
+
 		<input type="radio" id="Admin" name="radio-group" value="Admin"> 
 		<label for="option3">Admin</label><br>
 
@@ -133,10 +133,10 @@
 					<input type="button" value="좋아요" onclick="location.href='<%= request.getContextPath() %>/like/likePage';">
 					<input type="button" value="북마크" onclick="location.href='<%= request.getContextPath() %>/bookmark/bookmarkPage';">
 				</div>
-				
+
 			</div>
 			<%
-			} else if (easyLoginMember.equals("kjh0425@naver.com")) {
+			} else if (loginMember != null) {
 			%>
 			<div class="bannerContainerUpper" role="banner">
 				<nav>
@@ -178,9 +178,9 @@
 				</div>
 			</div>
 			<div>
-			
+
 			</div>
-			
+
 			<%
 			}
 			%>

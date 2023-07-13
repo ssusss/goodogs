@@ -7,6 +7,7 @@ import java.util.List;
 
 import com.sk.goodogs.news.model.dao.NewsDao;
 import com.sk.goodogs.news.model.vo.News;
+import com.sk.goodogs.news.model.vo.NewsScript;
 
 public class NewsService {
 	public final NewsDao newsDao = new NewsDao();
@@ -26,13 +27,20 @@ public class NewsService {
 	 * 
 	 */
 
-	public List<News> findAll(String memberId) {
+	public List<News> findAllNewsById(String memberId) {
 		Connection conn = getConnection();
-		List<News> newsList = newsDao.findAll(conn, memberId);
+		List<News> newsList = newsDao.findAllNewsById(conn, memberId);
 		System.out.println(conn);
 		close(conn);
 		return newsList;
 		
 	}
+	public List<NewsScript> findAllScriptById(String memberId) {
+		Connection conn = getConnection();
+		List<NewsScript> scripts = newsDao.findAllScriptById(conn, memberId);
+		close(conn);
+		return scripts;
+	}
+	
 	
 }

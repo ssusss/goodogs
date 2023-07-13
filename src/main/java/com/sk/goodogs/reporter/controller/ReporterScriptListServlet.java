@@ -12,29 +12,22 @@ import javax.servlet.http.HttpSession;
 
 import com.google.gson.Gson;
 import com.sk.goodogs.news.model.service.NewsService;
-import com.sk.goodogs.news.model.vo.News;
+import com.sk.goodogs.news.model.vo.NewsScript;
 
 /**
- * 김준한 (기사찾는서블릿)
+ * Servlet implementation class ScriptFindServlet
  */
-@WebServlet("/reporter/reporterNewsFindAll")
-public class MyNewsListFindAllServlet extends HttpServlet {
+@WebServlet("/reporter/scriptFind")
+public class ReporterScriptListServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	private static final NewsService newsService = new NewsService();
+
 	/**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		HttpSession session = request.getSession();
-		String memberId = (String) session.getAttribute("EasyLoginMember");
 		
-		System.out.println(memberId);
-		
-		List<News> newsList = newsService.findAllNewsById(memberId);
-		
-		response.setContentType("application/json; charset=utf-8");
-		
-		new Gson().toJson(newsList, response.getWriter());
+		request.getRequestDispatcher("/WEB-INF/views/myScript.jsp").forward(request, response);
 		
 	}
 
