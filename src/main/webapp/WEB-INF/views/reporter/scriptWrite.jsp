@@ -18,8 +18,10 @@ bannerContainerLower.style.display = "none";
 		<div class="titleAreaContanier">
 			<label for="titleArea">뉴스 제목 : </label>
 			<input type="text" name="titleArea" id="titleArea"/>
+			<input class="writerId" name="scriptWriter" value="<%= loginMember.getMemberId() %>" readonly/>
 		</div>
 		<select name="category" id="category">
+			<option value="none">-선택-</option>
 			<option value="politic">정치</option>
 			<option value="economy">경제</option>
 			<option value="global">세계</option>
@@ -64,6 +66,15 @@ bannerContainerLower.style.display = "none";
 		<textarea id="summernote" name="editordata">
 		</textarea>
 		
+		<div class="addTagBox">
+			<input type="text" id="newsTag" name="newTag"/>
+			<button id="addTagBtn">태그 추가</button>
+		</div>
+		<div class="tagContainer">
+			
+		</div>
+		<input type="text" id="newsTagList" name="newsTagList" style="display: none;"/>
+		
 		<div class="ScriptWriteBtnContainer">
 			<button id="submitBtn" type="submit" class="scriptSubmit scriptBtn">제출</button>
 			<button id="tempSaveBtn" class="scriptTempSave scriptBtn">임시저장</button>
@@ -72,6 +83,7 @@ bannerContainerLower.style.display = "none";
 </form>
 
 <script>
+// ==================== 폼 제출 =========================
 submitBtn.onclick = () => {
 	document.scriptWriteFrm.onsubmit = (e) => {
 	const frmData = new FormData(e.target);
@@ -99,9 +111,53 @@ submitBtn.onclick = () => {
 	};
 };
 
+
+// ==================== 폼 임시저장 =========================
+
+	
+const tagList = []; 
+// ==================== 태그 추가 ==========================
+addTagBtn.onclick = () => {
+	if (!newsTag.value) {
+		return false;
+	}
+	
+	tagList.push(newsTag.value);
+	
+	console.log(tagList);
+	
+	const tagContainer = document.querySelector(".tagContainer");
+	tagContainer.insertAdjacentHTML('beforeend', `
+			<div class="tag">
+				<div class="inputTag">#\${newsTag.value}</div>
+				<div class="cancleTagBox" onclick="cancleTag(this);">
+				</div>
+			</div>`);
+	
+	
+	
+	newsTag.value = "";
+	newsTagList.value = tagList;
+}
+
+// ==================== 태그 삭제 ==========================
+const cancleTag = (elem) => {
+	console.log(elem.previousElementSibling.innerHTML.replace("#", ""));
+	elem.parentElement.remove();
+	
+	const value = elem.previousElementSibling.innerHTML.replace("#", ""); // 삭제할 값을 지정
+	const index = tagList.findIndex(element => element === value); // 삭제할 값과 일치하는 요소의 인덱스
+	if (index !== -1) {
+		tagList.splice(index, 1); // 해당 인덱스의 요소를 1개 삭제
+	}
+	console.log(tagList);
+	newsTagList.value = tagList;
+}
+
+
+// ---------------- summernote설정 -----------------------
 document.scriptWriteFrm.onsubmit = (e) => {
 	e.preventDefault();
-	console.log("sdff");
 };
 
 $('#summernote').summernote({
@@ -146,6 +202,7 @@ colorBtn.onclick = () => {
 	}
 	
 }
+// ---------------------------------------------------------
 
 </script>
 <%@ include file="/WEB-INF/views/common/footer.jsp" %>

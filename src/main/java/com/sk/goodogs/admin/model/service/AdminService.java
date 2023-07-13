@@ -32,14 +32,13 @@ public class AdminService {
 
 
 	
-// <Ban> ----------------------------------------
-	
 	public List<NewsComment> findBanComment() {
 		Connection conn = getConnection();
 		 List<NewsComment> newsComments = adminDao.findBenComment(conn);
 		close(conn);
 		return newsComments;
 	}
+
 
 	public int roleUpdate(String memberRole, String memberId) {
 		int result =0;
@@ -56,7 +55,25 @@ public class AdminService {
 		}
 		return result;
 	}
+			
+
+	public int BanUpdate(String memberId) {
+		Connection conn = getConnection();
+		int result = 0;
+	
+		try {
+			result = adminDao.BanUpdate(conn, memberId );
+			commit(conn);
+		} catch (Exception e) {
+			rollback(conn);
+			throw e;
+		}finally {
+			close(conn);
+		}
+
+		return result;
+	}
 		
-// ---------------------------------------
+
 
 }

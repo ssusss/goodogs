@@ -57,13 +57,28 @@ public class AdminDao {
 			}
 			
 		} catch (Exception e) {
-//			throw new AdminrException(e);
+			throw new  AdminException(e);
 		}
 
 		return newsComments;
 	}
 
+	public int BanUpdate(Connection conn, String memberId) {
+		int result = 0;
+		
+		String sql=prop.getProperty("banMember");
+		
+		try (PreparedStatement pstmt = conn.prepareStatement(sql)){
+			pstmt.setString(1, memberId);
+			System.out.println(memberId);
+			result = pstmt.executeUpdate(); 
+			
+		} catch (SQLException e) {
+			throw new  AdminException(e);
+		}
 
+		return result;
+	}
 
 private NewsComment handleCommentrResultSet(ResultSet rset) throws SQLException {
 	 int commentNo = rset.getInt("comment_no");
@@ -81,7 +96,7 @@ private NewsComment handleCommentrResultSet(ResultSet rset) throws SQLException 
 			 newsCommentNickname,  newsCommentContent,commentRegDate, newsCommentReportCnt, commentState);
 	
 }
-// ---------------------------------------
+
 
 	public List<Member> memberFindAll(Connection conn) {
 		List<Member> members= new ArrayList<>();
@@ -149,6 +164,7 @@ public List<Member> memberFindSelected(String searchType, String searchKeyword, 
 
 
 
+
 public int roleUpdate(String memberRole, String memberId, Connection conn) {
 	int result=0;
 	String sql=prop.getProperty("roleUpdate");
@@ -163,5 +179,6 @@ public int roleUpdate(String memberRole, String memberId, Connection conn) {
 	
 	return result;
 }
+
 	
 }

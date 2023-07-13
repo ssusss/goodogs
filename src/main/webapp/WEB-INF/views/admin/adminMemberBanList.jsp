@@ -12,7 +12,7 @@
 	// 클릭후 관리자 메인화면 창 가림
 	const bannerContainerLower = document.querySelector(".bannerContainerLower");
 	bannerContainerLower.style.display = "none";
-	
+	                
 </script>
 <%
 
@@ -21,33 +21,25 @@ String searchType = request.getParameter("searchType");
 String searchKeyword = request.getParameter("searchKeyword");
 
 //멤버
-
-List<NewsComment> newsComments  = (List<NewsComment>) request.getAttribute("newsComments");
-
-
-%>
+List<NewsComment> newsComments = (List<NewsComment>)request.getAttribute("newsComments");
+System.out.println("히히 : " + newsComments);
+String memberId = (String) request.getAttribute("memberId");
+%> 
 
 <style>
-
 section#adminMemberBan-container {text-align:center;}
 section#adminMemberBan-container table#tbl-adminMemberBan {width:100%; border:1px solid black; border-collapse:collapse; }
 table#tbl-adminMemberBan th {border:1px solid black; padding:10px; background-color : rgb(192, 192, 192); }
 table#tbl-adminMemberBan td {border:1px solid black; padding:10px; background-color : white;  }
-
-
 </style>
-
-
 
 <section id="adminMemberBan-container">
 
-	<h2>신고 관리</h2>
-	
-       
+	<h2>신고 관ㄴ리</h2>	    
 	<div id="search-container">
         <label for="searchType">검색타입 :</label> 
         <select id="searchType">
-            <option value="memberId" >아이디</option>		
+            <option value="memberId">아이디</option>		
             <option value="nickName">기사</option>
         </select>
 
@@ -62,40 +54,28 @@ table#tbl-adminMemberBan td {border:1px solid black; padding:10px; background-co
             </form>	
         </div>
         
-<!--  
-        <div id="search-enrole" class="search-type">
-            <form action="<%=request.getContextPath()%>/admin/memberFinder">
-                <input type="hidden" name="searchType" value="enrole"/>
-                <input type="radio" name="searchKeyword" value="A" > 1회
-                <input type="radio" name="searchKeyword" value="R"> 3회
-                <input type="radio" name="searchKeyword" value="U"> 10회
-                <button type="submit">검색</button>
-            </form>
-        </div>
--->        
-        
     </div>
     
-    
-    
-    
+
+  <!--  신고 내용 목록  -->
 	<table id="tbl-adminMemberBan">
-		<thead>
-		
+		<thead>		
 			<tr>
 				<th>댓글 No</th>
-				<th>닉네임(이메일)</th>
+				<th>아이디(이메일)</th>
+				<th>닉네임</th>
 				<th>신고 내용</th>
 				<th>신고 횟수</th>
-				<th>기사</th>
+				<th>게시 상태</th>
+				<th>신고 기사</th>
 				<th>벤</th>
-			</tr>
-			
+			</tr>			
 		</thead>
 		<tbody>
-		<% if(newsComments == null) {%>
+		
+		<% if( newsComments == null ||newsComments.isEmpty()) {%>
 			<tr>
-				<td colspan="6">신고 내용이 없습니다.</td>
+				<td colspan="8">신고 내용이 없습니다.</td>
 			</tr>
 			
 		<%
@@ -103,75 +83,64 @@ table#tbl-adminMemberBan td {border:1px solid black; padding:10px; background-co
 			for(NewsComment newsComment : newsComments) {
 			%>
 			
-			<tr>
-			
-				<td><%= newsComment.getCommentNo()%></td>
-				<td><%= newsComment.getNewsCommentWriter()%></td>
-				<td><%= newsComment.getNewsCommentContent()%></td>
-				<td><%= newsComment.getNewsCommentReportCnt()%></td>
-				<td><%= newsComment.getNewsNo()%></td>
+			<tr>	
+					
+				<td><%= newsComment.getCommentNo()%></td> <!-- 넘버 -->				
+				<td><%= newsComment.getNewsCommentWriter()%></td><!-- 아이디 -->			
+				<td><%= newsComment.getNewsCommentNickname() %></td><!-- 닉네임 -->
+				<td><%= newsComment.getNewsCommentContent() %></td><!-- 신고 내용 -->	
+				<td><%= newsComment.getNewsCommentReportCnt()%>번</td><!-- 신고 횟수-->
 				<td>
-					<button id = "IsBanned">벤</button>
+  						<%= newsComment.getCommentState() == 0 ? "게시됨" : "삭제됨" %>
 				</td>
-			</tr>
-			
+				<td>
+						<a href="<%= request.getContextPath() %>/board/boardDetail?no=<%=newsComment.getNewsNo()%>">기사 가져올것임</a>
+				</td>				
+				<td>
+					<button class="IsBanned" data-news-comment-writer="<%= newsComment.getNewsCommentWriter() %>">벤</button><!-- 벤여부 -->
+				</td>
+				
+			</tr>			
 		<% }
 			
-		} %>
-
-			
-			
-			
-		</tbody>
-		
+		} %>	
+		</tbody>	
 	</table>
 </section>
 
 <!--  멤버 벤 처리 -->
 
 <form 
-	name="memberBanUpdateFrm" 
+	name="memberBanForm" 
 	action="<%= request.getContextPath() %>/admin/memberbanUpdate"
 	method="post">
-	<input type="hidden" name="newsCommentWriter"/>
+	<input type="hidden" name="memberId"/>
 </form>
-
-
 
 <script>
 
-button = document.getElementById("IsBanned");
+ document.querySelectorAll(".IsBanned").forEach((elem)=>{
+	elem.addEventListener("click",(e)=>{
+		  if (confirm("회원 벤 처리 하시겠습니까?")) {
+			  
+		      const memberIdVal = e.target.dataset.newsCommentWriter;
+		      const memberIdInput = document.getElementsByName("memberId")[0];
+				
+		      const frm = document.memberBanForm;
+		      
+		      frm.memberId.value = memberIdVal;
+		      frm.submit();
 
-
-button.addEventListener("click", function() {
-	
-	if(confirm("회원 벤 처리 하시겠습니까?")) {	
+		      alert("아이디 [" +memberIdVal + "]님이 벤 처리 되었습니다.");
+		      
+		    } else {
+		      // 사용자가 취소를 누른 경우
+		    }
 		
-		
-		
-		alert( "회원아이디" +"님이 벤 처리 되었습니다.");
-		// 사용자가 확인을 누른 경우
-		const IsBannedVal = e.target.dataset.IsBanned.value;
-		const newsCommentWriterVal = e.target.dataset.memberId;
-		
-		const frm = document.memberBanUpdateFrm;
-		frm.IsBanned.value = IsBannedVal;
-		frm.memberId.value = memberIdVal;
-		frm.submit();
-		
-	}
-	else {
-		 // 사용자가 취소를 누른 경우
-	}
-	
-});
-
-
+	});
+	 
+ });
 
 </script>
-
-
-
-
 
 <%@ include file="/WEB-INF/views/common/footer.jsp" %>
