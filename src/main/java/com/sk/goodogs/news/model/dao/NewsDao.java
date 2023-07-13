@@ -97,8 +97,8 @@ public class NewsDao {
 			String scriptContent = rset.getString("script_content");
 			Date scriptWriteDate = rset.getDate("script_write_date");
 			String scriptTag = rset.getString("script_tag");
-			int scriptStateNumber = rset.getInt("script_state_number");
-			NewsScript newsScript = new NewsScript(scriptNo, scriptTitle, scriptCategory, scriptContent, scriptWriteDate, scriptTag, scriptStateNumber, scriptWriter);
+			int scriptState = rset.getInt("script_state");
+			NewsScript newsScript = new NewsScript(scriptNo, scriptWriter, scriptTitle, scriptCategory, scriptContent, scriptWriteDate, scriptTag, scriptState);
 			
 			return newsScript;
 		}
