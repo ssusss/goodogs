@@ -57,13 +57,28 @@ public class AdminDao {
 			}
 			
 		} catch (Exception e) {
-//			throw new AdminrException(e);
+			throw new  AdminException(e);
 		}
 
 		return newsComments;
 	}
 
+	public int BanUpdate(Connection conn, String memberId) {
+		int result = 0;
+		
+		String sql=prop.getProperty("banMember");
+		
+		try (PreparedStatement pstmt = conn.prepareStatement(sql)){
+			pstmt.setString(1, memberId);
+			System.out.println(memberId);
+			result = pstmt.executeUpdate(); 
+			
+		} catch (SQLException e) {
+			throw new  AdminException(e);
+		}
 
+		return result;
+	}
 
 private NewsComment handleCommentrResultSet(ResultSet rset) throws SQLException {
 	 int commentNo = rset.getInt("comment_no");
@@ -146,5 +161,9 @@ public List<Member> memberFindSelected(String searchType, String searchKeyword, 
 		}
 	return members;
 }
+
+
+
+
 	
 }

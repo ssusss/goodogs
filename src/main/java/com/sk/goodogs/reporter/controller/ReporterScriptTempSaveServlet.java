@@ -18,10 +18,10 @@ import com.sk.goodogs.news.model.service.NewsService;
 import com.sk.goodogs.news.model.vo.NewsScript;
 
 /**
- * Servlet implementation class ReporterScriptSubmitServlet
+ * Servlet implementation class ReporterScriptTempSaveServlet
  */
-@WebServlet("/reporter/scriptSubmit")
-public class ReporterScriptSubmitServlet extends HttpServlet {
+@WebServlet("/reporter/scriptTempSave")
+public class ReporterScriptTempSaveServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	private final NewsService newsService = new NewsService();
 
@@ -46,11 +46,13 @@ public class ReporterScriptSubmitServlet extends HttpServlet {
 		String scriptTag = multiReq.getParameter("newsTagList");
 		
 		
-		NewsScript newNewsScript = new NewsScript(0, scriptWriter, scriptTitle, scriptCategory, scriptContent, null, scriptTag, 0);
+		NewsScript tempNewsScript = new NewsScript(0, scriptWriter, scriptTitle, scriptCategory, scriptContent, null, scriptTag, 0);
 		
-		System.out.println("newNewsScript = " +  newNewsScript);
+		System.out.println("newNewsScript = " +  tempNewsScript);
 		
-		int result = newsService.newsScriptSubmit(newNewsScript);
+		int result = newsService.newsScriptTempSave(tempNewsScript);
+		// 5개만 임시저장 되게 수정해야함
+		
 		
 		String newsImage = multiReq.getFilesystemName("newsImage"); // 저장된 파일명 
 		
@@ -58,7 +60,7 @@ public class ReporterScriptSubmitServlet extends HttpServlet {
 		response.setContentType("application/json; charset=utf-8");
 		
 		Map<String, Object> map = new HashMap<>();
-		map.put("message", "성공적으로 원고를 제출했습니다.");
+		map.put("message", "원고를 임시 저장했습니다.");
 		new Gson().toJson(map, response.getWriter());
 	}
 
