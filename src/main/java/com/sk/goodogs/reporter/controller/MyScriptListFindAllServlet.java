@@ -11,6 +11,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import com.google.gson.Gson;
+import com.sk.goodogs.member.model.vo.Member;
 import com.sk.goodogs.news.model.service.NewsService;
 import com.sk.goodogs.news.model.vo.NewsScript;
 
@@ -24,11 +25,11 @@ public class MyScriptListFindAllServlet extends HttpServlet {
 	
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		HttpSession session = request.getSession();
-		String memberId = (String) session.getAttribute("EasyLoginMember");
+		Member loginMember = (Member)session.getAttribute("loginMember");
 		
-		System.out.println(memberId);
+		System.out.println(loginMember.getMemberId());
 		
-		List<NewsScript> scripts =  newsService.findAllScriptById(memberId);
+		List<NewsScript> scripts =  newsService.findAllScriptById(loginMember);
 		
 		response.setContentType("application/json; charset=utf-8");
 		

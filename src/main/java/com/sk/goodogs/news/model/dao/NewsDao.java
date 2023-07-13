@@ -13,6 +13,7 @@ import java.util.Properties;
 
 import javax.script.ScriptException;
 
+import com.sk.goodogs.member.model.vo.Member;
 import com.sk.goodogs.news.model.exception.NewsException;
 import com.sk.goodogs.news.model.vo.News;
 import com.sk.goodogs.news.model.vo.NewsScript;
@@ -34,12 +35,12 @@ public class NewsDao {
 		}
 	}
 	
-	public List<News> findAllNewsById(Connection conn, String memberId) {
+	public List<News> findAllNewsById(Connection conn, Member loginMember) {
 		List<News> newsList = new ArrayList<>();
 		String sql = prop.getProperty("findAllNewsById");
 		
 		try(PreparedStatement pstmt = conn.prepareStatement(sql)) {
-			pstmt.setString(1, memberId);
+			pstmt.setString(1, loginMember.getMemberId());
 			try(ResultSet rset = pstmt.executeQuery()) {
 				while(rset.next()) {
 					News news = handleNewsResultSet(rset);
@@ -50,7 +51,7 @@ public class NewsDao {
 			} catch (SQLException e) {
 				throw new NewsException(e);
 			}
-			
+			System.out.println(loginMember);
 			return newsList;
 			}
 		
@@ -69,11 +70,11 @@ public class NewsDao {
 			return new News(newsNo, newsWriter, newsTitle, newsCategory, newsContent, newsWriteDate, newsTag, newsLikeCnt, newsReadCnt, newsConfirmedDate);
 		}
 
-		public List<NewsScript> findAllScriptById(Connection conn, String memberId) {
+		public List<NewsScript> findAllScriptById(Connection conn, Member loginMember) {
 			List<NewsScript> scripts = new ArrayList<>();
 			String sql = prop.getProperty("findAllScriptById");
 			try(PreparedStatement pstmt = conn.prepareStatement(sql)){
-				pstmt.setString(1, memberId);
+				pstmt.setString(1, loginMember.getMemberId());
 				try(ResultSet rset = pstmt.executeQuery()) {
 					while(rset.next()) {
 						NewsScript script = handleScriptResultSet(rset);
