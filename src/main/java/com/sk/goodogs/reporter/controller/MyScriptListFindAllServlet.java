@@ -34,6 +34,8 @@ public class MyScriptListFindAllServlet extends HttpServlet {
 		
 		new Gson().toJson(scripts,response.getWriter());
 		
+		
+		
 	}
 
 }
