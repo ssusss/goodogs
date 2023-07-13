@@ -17,24 +17,18 @@ public class NewsScript {
 		// TODO Auto-generated constructor stub
 	}
 
-	
-
-	public NewsScript(int scriptNo, String scriptTitle, String scriptCategory, String scriptContent,
-			Date scriptWriteDate, String scriptTag, int scriptState, String scriptWriter) {
+	public NewsScript(int scriptNo, String scriptWriter, String scriptTitle, String scriptCategory,
+			String scriptContent, Date scriptWriteDate, String scriptTag, int scriptState) {
 		super();
 		this.scriptNo = scriptNo;
+		this.scriptWriter = scriptWriter;
 		this.scriptTitle = scriptTitle;
 		this.scriptCategory = scriptCategory;
 		this.scriptContent = scriptContent;
 		this.scriptWriteDate = scriptWriteDate;
 		this.scriptTag = scriptTag;
 		this.scriptState = scriptState;
-		this.scriptWriter = scriptWriter;
 	}
-
-
-
-	
 
 	public int getScriptNo() {
 		return scriptNo;
@@ -130,17 +124,13 @@ public class NewsScript {
 		this.scriptWriter = scriptWriter;
 	}
 
-
-
 	@Override
 	public String toString() {
-		return "NewsScript [scriptNo=" + scriptNo + ", scriptTitle=" + scriptTitle + ", scriptCategory="
-				+ scriptCategory + ", scriptContent=" + scriptContent + ", scriptWriteDate=" + scriptWriteDate
-				+ ", scriptTag=" + scriptTag + ", scriptState=" + scriptState + ", scriptWriter=" + scriptWriter + "]";
+		return "NewsScript [scriptNo=" + scriptNo + ", scriptWriter=" + scriptWriter + ", scriptTitle=" + scriptTitle
+				+ ", scriptCategory=" + scriptCategory + ", scriptContent=" + scriptContent + ", scriptWriteDate="
+				+ scriptWriteDate + ", scriptTag=" + scriptTag + ", scriptState=" + scriptState + "]";
 	}
 
 
-
-		
 	
 }
