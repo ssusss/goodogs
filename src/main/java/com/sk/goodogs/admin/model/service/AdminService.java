@@ -32,14 +32,30 @@ public class AdminService {
 
 
 	
-// <Ban> ----------------------------------------
-	
 	public List<NewsComment> findBanComment() {
 		Connection conn = getConnection();
 		 List<NewsComment> newsComments = adminDao.findBenComment(conn);
 		close(conn);
 		return newsComments;
 	}
+
+
+	public int roleUpdate(String memberRole, String memberId) {
+		int result =0;
+		Connection conn= getConnection();
+		result= adminDao.roleUpdate(memberRole,memberId,conn);
+		commit(conn);
+		try{
+			
+		}catch (Exception e) {
+			rollback(conn);
+			throw e;
+		}finally {
+			close(conn);
+		}
+		return result;
+	}
+			
 
 	public int BanUpdate(String memberId) {
 		Connection conn = getConnection();
@@ -54,11 +70,10 @@ public class AdminService {
 		}finally {
 			close(conn);
 		}
-		
-		
+
 		return result;
 	}
 		
-// ---------------------------------------
+
 
 }
