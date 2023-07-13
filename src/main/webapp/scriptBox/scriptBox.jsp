@@ -27,14 +27,14 @@
 			<input class="writerId" name="scriptWriter" value="<%= loginMember.getMemberId() %>" readonly/>
 		</div>
 		<select name="category" id="category">
-			<option value="none">-선택-</option>
-			<option value="politic">정치</option>
-			<option value="economy">경제</option>
-			<option value="global">세계</option>
-			<option value="tech">테크</option>
-			<option value="environ">환경</option>
-			<option value="sports">스포츠</option>
-			<option value="society">사회</option>
+			<option value="-선택-" disabled selected>-선택-</option>
+			<option value="정치">정치</option>
+			<option value="경제">경제</option>
+			<option value="세계">세계</option>
+			<option value="테크">테크</option>
+			<option value="환경">환경</option>
+			<option value="스포츠">스포츠</option>
+			<option value="사회">사회</option>
 		</select>
 		<div class="fileUploadContainer">
 			<label for="newsImage">뉴스 이미지 첨부 : </label>
@@ -77,10 +77,14 @@
 			<button id="addTagBtn">태그 추가</button>
 		</div>
 		<div class="tagContainer">
-			
+			<div class="tag" style="display: none;">
+				<div class="inputTag">-선택-</div>
+				<div class="cancleTagBox" onclick="cancleCategoryAlert();">
+				</div>
+			</div>
 		</div>
 		<input type="text" id="newsTagList" name="newsTagList" style="display: none;"/>
-		
+  	
 		<div class="ScriptWriteBtnContainer">
 			<button id="submitBtn" type="submit" class="scriptSubmit scriptBtn">제출</button>
 			<button id="tempSaveBtn" class="scriptTempSave scriptBtn">임시저장</button>
@@ -152,11 +156,38 @@
 		e.preventDefault();
 		};
 	};
+	
+	
+	const tagList = ['-선택-']; 
+	// =================== 카테고리 설정시 태그 추가, 삭제 =========================
+	category.onchange = () => {
+		tagList.shift();
 		
+		console.log(document.querySelector(".tagContainer").firstElementChild);
+		
+		document.querySelector(".tagContainer").firstElementChild.remove();
+		
+		
+		tagList.unshift(category.value);
+		
+		console.log(tagList);
+		
+		const tagContainer = document.querySelector(".tagContainer");
+		tagContainer.insertAdjacentHTML('afterbegin', `
+				<div class="tag">
+					<div class="inputTag">#\${category.value}</div>
+					<div class="cancleTagBox" onclick="cancleCategoryAlert();">
+					</div>
+				</div>`);
+		
+		
+		
+		newsTag.value = "";
+		newsTagList.value = tagList;
+	}
 		
 		
 	// ==================== 태그 추가 ==========================
-	const tagList = []; 
 	addTagBtn.onclick = () => {
 		if (!newsTag.value) {
 			return false;

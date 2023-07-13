@@ -219,3 +219,4 @@ select * from member;
 update member set is_banned = 0 where member_id = 'honggd@naver.com';
 commit;
 
+

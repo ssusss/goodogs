@@ -11,7 +11,6 @@
 	String nickname = loginMember.getNickname();
 	String phone = loginMember.getPhone();
 	Gender gender = loginMember.getGender();
-	
 %>
 <script>
 bannerContainerLower = document.querySelector(".bannerContainerLower");
