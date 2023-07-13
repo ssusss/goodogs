@@ -64,36 +64,41 @@
 			<%
 			if (loginMember == null) {
 			%>
-			<div class="bannerContainerUpper" role="banner"> 우리가 시간이 없지, 세상이 안궁금하냐 </div>
+			<div class="bannerContainerUpper" role="banner"> 
+				<nav>
+					<span class="slogan">우리가 시간이 없지, 세상이 안궁금하냐 </span>
+				</nav>
+			</div>
 			
 			<div class="bannerContainerLower">
-				
-				<!-- 
-					@author 전수경
-					로그인 컨테이너 시작
-				-->
-				<div class="loginContainer">
-					<form id="loginFrm" name="loginFrm" action="<%= request.getContextPath() %>/member/memberLogin" method="GET">
-						<table>
-							<tr>
-								<td><input type="email" name="memberId" id="memberId"
-									placeholder="아이디" tabindex="1" value=""></td>
-								<td rowspan="2"><input type="submit" value="로그인"></td>
-							</tr>
-							<tr>
-								<td><input type="password" name="password" id="password"
-									tabindex="2" placeholder="비밀번호"></td>
-								<td></td>
-								<td></td>
-							</tr>
-							<tr>
-								<td colspan="2"><input type="checkbox" name="saveId"
-									id="saveId" /> <label for="saveId">아이디저장</label></td>
-							</tr>
-						</table>
-					</form>
-				</div> <!-- 로그인 컨테이너 종료 -->
-				
+				<div class="infoWrapper">
+					<!-- 
+						@author 전수경
+						로그인 컨테이너 시작
+					-->
+					<div class="loginContainer">
+						<form id="loginFrm" name="loginFrm" action="<%= request.getContextPath() %>/member/memberLogin" method="GET">
+							<table>
+								<tr>
+									<td><input type="email" name="memberId" id="memberId"
+										placeholder="아이디" tabindex="1" value=""></td>
+									<td rowspan="2"><input type="submit" value="로그인"></td>
+								</tr>
+								<tr>
+									<td><input type="password" name="password" id="password"
+										tabindex="2" placeholder="비밀번호"></td>
+									<td></td>
+									<td></td>
+								</tr>
+								<tr>
+									<td colspan="2"><input type="checkbox" name="saveId"
+										id="saveId" /> <label for="saveId">아이디저장</label></td>
+								</tr>
+							</table>
+						</form>
+					</div> <!-- 로그인 컨테이너 종료 -->
+					
+				</div>
 				<!-- 
 					@author 전수경
 					회원가입 컨테이너 시작
@@ -112,17 +117,21 @@
 			} else if (loginMember != null && loginMember.getMemberRole() == MemberRole.M) {
 			%>
 			<!-- 로그인 회원 컨테이너 -->
-			<div class="bannerContainerUpper" role="banner">우리가 시간이 없지, 세상이 안궁금하냐</div>
-			<div class="bannerContainerLower">
-				<br>
-				<div class="infoContainer">
-					<h3>반가워 죽겠개,</h2>
-					<h2><%= loginMember.getNickname() %> 구독스!</h2>
-					<input type="button" value="정보수정" onclick="location.href='<%= request.getContextPath() %>/member/memberInfo';">
-					<input type="button" value="좋아요" onclick="location.href='<%= request.getContextPath() %>/like/likePage';">
-					<input type="button" value="북마크" onclick="location.href='<%= request.getContextPath() %>/bookmark/bookmarkPage';">
+			<div class="bannerContainerUpper" role="banner">
+				<nav>
+					<span class="slogan">우리가 시간이 없지, 세상이 안궁금하냐 </span>
+				</nav>
+			</div>
+			<div class="bannerContainerLower"></div>
+				<div class="infoWrapper">
+					<div class="infoContainer">
+						<h3>반가워 죽겠개,</h2>
+						<h2> 구독스!</h2>
+						<input type="button" value="정보수정" onclick="location.href='<%= request.getContextPath() %>/member/memberInfo';">
+						<input type="button" value="좋아요" onclick="location.href='<%= request.getContextPath() %>/like/likePage';">
+						<input type="button" value="북마크" onclick="location.href='<%= request.getContextPath() %>/bookmark/bookmarkPage';">
+					</div>
 				</div>
-
 			</div>
 			<%
 
@@ -138,12 +147,14 @@
 				</nav>
 			</div>
 			<div class="bannerContainerLower">
+
 				<br>
 				<div class="infoContainer">
 					<h2>기자 <%= loginMember.getNickname() %>님, 어서오개!</h2>
 					<input type="button" value="정보수정" onclick="location.href='<%= request.getContextPath() %>/member/memberInfo';">
 					<input type="button" value="좋아요" onclick="location.href='<%= request.getContextPath() %>/like/likePage';">
 					<input type="button" value="북마크" onclick="location.href='<%= request.getContextPath() %>/bookmark/bookmarkPage';">
+
 				</div>
 			</div>
 			<%
@@ -159,12 +170,14 @@
 				</nav>
 			</div>
 			<div class="bannerContainerLower">
+
 				<br>
 				<div class="infoContainer">
 					<h2>관리자 <%= loginMember.getNickname() %>님, 환영하개!</h2>
 					<input type="button" value="정보수정" onclick="location.href='<%= request.getContextPath() %>/member/memberInfo';">
 					<input type="button" value="좋아요" onclick="location.href='<%= request.getContextPath() %>/like/likePage';">
 					<input type="button" value="북마크" onclick="location.href='<%= request.getContextPath() %>/bookmark/bookmarkPage';">
+
 				</div>
 			</div>
 			<div>
