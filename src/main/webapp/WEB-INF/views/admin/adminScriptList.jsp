@@ -19,6 +19,7 @@
             <option value="memberId" >아이디</option>		
             <option value="nickName" >카테고리</option>
         </select>
+        
         <div id="search-memberId" class="search-type">
             <form action="<%=request.getContextPath()%>/admin/memberFinder">
                 <input type="hidden" name="searchType" value="member_id"/>
@@ -28,6 +29,7 @@
                 <button type="submit">검색</button>			
             </form>	
         </div>
+        
         <div id="search-name" class="search-type">
             <form action="">
                 <input type="hidden" name="searchType" value="name"/>
@@ -37,6 +39,7 @@
                 <button type="submit">검색</button>			
             </form>	
         </div>
+        
         <div id="search-enrole" class="search-type">
             <form action="<%=request.getContextPath()%>/admin/memberFinder">
                 <input type="hidden" name="searchType" value="enrole"/>
