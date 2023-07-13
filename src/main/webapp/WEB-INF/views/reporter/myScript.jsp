@@ -1,7 +1,9 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ include file="/WEB-INF/views/common/header.jsp" %>
 <script src="<%= request.getContextPath() %>/js/jquery-3.7.0.js"></script>
-
+<style>
+	.myScriptList table
+</style>
 <script>
 	bannerContainerLower = document.querySelector(".bannerContainerLower");
 	bannerContainerLower.style.display = "none";
@@ -10,11 +12,28 @@
 		findAllScriptById();
 	}
 </script>
+<style>
+h1, h3{text-align:center;}
+.script-tbl {
+  border-collapse: collapse;
+  margin:auto;
+}
 
+.script-tbl th,
+.script-tbl td {
+  border: 1px solid black;
+  padding: 3px;
+  text-align: center;
+}
+
+.script-tbl th {
+  background-color: #f2f2f2;
+}
+</style>
 <div class="myScriptList">
 	<h1>원고 기사 목록</h1>
 	<h3>반려된 원고</h3>
-	<table id="tbl-script1">
+	<table id="tbl-script1" class="script-tbl">
 		<thead>
 			<tr>
 				<th>기사번호</th>
@@ -27,10 +46,8 @@
 		<tbody id="scriptBodyList1">
 		</tbody>
 	</table>
-</div>
-<div class="myScriptList2">
 	<h3>임시저장 원고</h3>
-	<table id="tbl-script2">
+	<table id="tbl-script2" class="script-tbl">
 		<thead>
 			<tr>
 				<th>기사번호</th>
@@ -44,11 +61,9 @@
 			
 		</tbody>
 	</table>
-</div>
 
-<div class = "myScriptList3">
 	<h3>제출한 원고</h3>
-	<table id="tbl-script3">
+	<table id="tbl-script3" class="script-tbl">
 		<thead>
 			<tr>
 				<th>기사번호</th>
@@ -66,32 +81,67 @@
 <script>
 			//=========== 아이디로 원고 전부 찾기 ============
 			
-	const findAllScriptById = () => {
-		$.ajax({
-			url: "<%= request.getContextPath() %>/reporter/reporterFindAllScript",
-			dataType: "json",
-			success(Scripts) {
-				console.log(Scripts);
+const findAllScriptById = () => {
+  $.ajax({
+    url: "<%= request.getContextPath() %>/reporter/reporterFindAllScript",
+    dataType: "json",
+    success(Scripts) {
+      const tbody1 = document.getElementById("scriptBodyList1");
+      const tbody2 = document.getElementById("scriptBodyList2");
+      const tbody3 = document.getElementById("scriptBodyList3");
 
-				const tbody = document.getElementById("scriptBodyList1");
-				tbody.innerHTML = Scripts.reduce((html, newsScript) => {
-					const { scriptNo, scriptTitle, scriptCategory, scriptWriteDate, scriptState } = newsScript;
-					return (
-						html +
-						`
-						<tr>
-							<td>\${scriptNo}</td>
-							<td>\${scriptTitle}</td>
-							<td>\${scriptCategory}</td>
-							<td>\${scriptWriteDate}</td>
-							<td>\${scriptState}</td>
-						</tr>
-					`
-					);
-				}, "");
-			},
-		});
-	};
+      Scripts.forEach(newsScript => {
+        const { scriptNo, scriptTitle, scriptCategory, scriptWriteDate, scriptState } = newsScript;
+        let scriptStateText = "";
+
+        if (scriptState === 3) {
+          tbody1.innerHTML += `
+            <tr>
+              <td>\${scriptNo}</td>
+              <td>\${scriptTitle}</td>
+              <td>\${scriptCategory}</td>
+              <td>\${scriptWriteDate}</td>
+              <td>반려됨</td>
+            </tr>
+          `;
+        } else if (scriptState === 0) {
+          tbody2.innerHTML += `
+            <tr>
+              <td>\${scriptNo}</td>
+              <td>\${scriptTitle}</td>
+              <td>\${scriptCategory}</td>
+              <td>\${scriptWriteDate}</td>
+              <td>작성중 <button>이어쓰기</button> <button>삭제</button></td>
+            </tr>
+          `;
+        } else if (scriptState === 1) {
+          scriptStateText = "제출완료(미승인)";
+          tbody3.innerHTML += `
+            <tr>
+              <td>\${scriptNo}</td>
+              <td>\${scriptTitle}</td>
+              <td>\${scriptCategory}</td>
+              <td>\${scriptWriteDate}</td>
+              <td>\${scriptStateText}</td>
+            </tr>
+          `;
+        } else if (scriptState === 2) {
+          scriptStateText = "제출완료(게시중)";
+          tbody3.innerHTML += `
+            <tr>
+              <td>\${scriptNo}</td>
+              <td>\${scriptTitle}</td>
+              <td>\${scriptCategory}</td>
+              <td>\${scriptWriteDate}</td>
+              <td>\${scriptStateText}</td>
+            </tr>
+          `;
+        }
+      });
+    },
+  });
+};
+
 </script>
 
 <%@ include file="/WEB-INF/views/common/footer.jsp" %>
