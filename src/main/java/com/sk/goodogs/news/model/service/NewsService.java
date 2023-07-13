@@ -25,7 +25,6 @@ public class NewsService {
 	 * 3. 실행 및 int 반환
 	 * 4. 트랜잭션 (commit/rollback)
 	 * 5. 자원반납
-	 * 
 	 */
 
 	public List<News> findAllNewsById(Member loginMember) {
@@ -69,6 +68,23 @@ public class NewsService {
 			close(conn);
 		}
 		return result;
+	}
+	
+	public int scriptDelete(int scriptNo) {
+		int result = 0;
+		Connection conn = getConnection();
+		try {
+			result = newsDao.scriptDelete(scriptNo, conn);
+			commit(conn);
+		} catch (Exception e) {
+			rollback(conn);
+			throw e;
+		}finally {
+			close(conn);
+		}
+		return result;
+		
+		
 	}
 	
 	
