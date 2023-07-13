@@ -167,7 +167,6 @@ CREATE TABLE like_list (
 insert into member values('honggd@naver.com', 'M', 'qwe123!', '길동좌', '01011112222', to_date('20140909','yyyymmdd'), 'M', default, default);
 insert into member values('sinsa@naver.com', 'F', 'qwe123!', '신사임당', '01011113333', to_date('20191111','yyyymmdd'), 'M', default, default);
 insert into member values('sejong@naver.com', 'N', 'qwe123!', '킹세종', '01011114444', to_date('20160307','yyyymmdd'), 'M', default, default);
-insert into member values('sejon11g@naver.com', 'N', 'q11we123!', '신고확인용', '01021114444', to_date('20160307','yyyymmdd'), 'M', default, default);
 
 -- 관리자
 insert into member values('admin@naver.com', 'M', 'qwe123!', '어드민', '01033332222', to_date('20131024','yyyymmdd'), 'A', default, default);
@@ -195,6 +194,7 @@ insert into news values(1001,'kjh0425@naver.com','애국가2절','세계','남�
 insert into news values(1002,'kdc0526@naver.com','애국가3절','스포츠','가을 하늘 공활한데 높고 구름없이 밝은달은 우리가슴 일편 단심일세 무궁화 삼천리 화려강산 대한사람 대한으로 길이 보전하세',to_date('20230210','yyyymmdd'),'#스포츠',8,40,'23-02-15');
 insert into news values(1003,'kdc0526@naver.com','애국가4절','경제','이 기상과 이 맘으로 충성을 다하여 괴로우나 즐거우나 나라 사랑하세 무궁화 삼천리 화려강산 대한사람 대한으로 길이 보전하세',to_date('20210903','yyyymmdd'),'#경제',3,25,'21-09-05');
 
+<<<<<<< HEAD
 
 -- 기사 댓글 
 insert into news_comment values (2, 1000, 1,'admin@naver.com', 2, '어드민','바보양ㅋ', to_date('20180425','yyyymmdd'), 8, 0);
@@ -206,14 +206,3 @@ insert into news_comment values (7, 1000, 1,'kny0910@naver.com', 7, 'na0','마�
 insert into news_comment values (8, 1000, 1,'sejong@naver.com', 8, '킹세종','먹고시플지도', to_date('20180425','yyyymmdd'), 1, 2);
 insert into news_comment values (9, 1000, 1,'kdc0526@naver.com', 9, '동찬','아닌강.ㅋ', to_date('20180425','yyyymmdd'), 3, 0);
 
--- 확인용
-select * from member;
-select * from news_comment;
-select * from news;
-select * from news_script;
-
-commit;
-
-insert into member values('yoon', 'M', '123', '간단상윤', '01023551112', to_date('20131024','yyyymmdd'), 'A', default, default);
-
-UPDATE member SET member_Id = '2@2' WHERE nickname LIKE '간단상윤';
