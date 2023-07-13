@@ -103,7 +103,7 @@
 				<br>
 				<div class="infoContainer">
 					<h3>반가워 죽겠개,</h2>
-					<h2> 구독스!</h2>
+					<h2><%= loginMember.getNickname() %> 구독스!</h2>
 					<input type="button" value="정보수정" onclick="location.href='<%= request.getContextPath() %>/member/memberInfo';">
 					<input type="button" value="좋아요" onclick="location.href='<%= request.getContextPath() %>/like/likePage';">
 					<input type="button" value="북마크" onclick="location.href='<%= request.getContextPath() %>/bookmark/bookmarkPage';">
@@ -126,7 +126,7 @@
 			<div class="bannerContainerLower">
 				<br>
 				<div class="infoContainer">
-					<h2>기자 @@@님, 환영합니다!</h2>
+					<h2>기자 <%= loginMember.getNickname() %>님, 어서오개!</h2>
 					<input type="button" value="정보수정" onclick="location.href='<%= request.getContextPath() %>/member/memberInfo';">
 					<input type="button" value="좋아요" onclick="location.href='<%= request.getContextPath() %>/like/likePage';">
 					<input type="button" value="북마크" onclick="location.href='<%= request.getContextPath() %>/bookmark/bookmarkPage';">
@@ -147,7 +147,7 @@
 			<div class="bannerContainerLower">
 				<br>
 				<div class="infoContainer">
-					<h2>관리자님, 환영합니다!</h2>
+					<h2>관리자 <%= loginMember.getNickname() %>님, 환영하개!</h2>
 					<input type="button" value="정보수정" onclick="location.href='<%= request.getContextPath() %>/member/memberInfo';">
 					<input type="button" value="좋아요" onclick="location.href='<%= request.getContextPath() %>/like/likePage';">
 					<input type="button" value="북마크" onclick="location.href='<%= request.getContextPath() %>/bookmark/bookmarkPage';">
@@ -156,7 +156,6 @@
 			<div>
 
 			</div>
-
 			<%
 			}
 			%>
