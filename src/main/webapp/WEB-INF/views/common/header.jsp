@@ -1,3 +1,4 @@
+<%@page import="com.sk.goodogs.member.model.vo.MemberRole"%>
 <%@page import="com.sk.goodogs.member.model.vo.Member"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
@@ -21,12 +22,6 @@
 				saveId = value;
 		}
 	}
-	String easyLoginMember = "";		
-
-	// 로그인멤버가 null일 때 easyLoginMember 사용
-	if(loginMember == null){
-		easyLoginMember = (String) session.getAttribute("EasyLoginMember");		
-	}
 %>
 <!DOCTYPE html>
 <html>
@@ -36,26 +31,6 @@
 <link rel="stylesheet" href="<%=request.getContextPath()%>/css/style.css" />
 </head>
 <body>
-
-	<!-- 임시 로그인 기능 start -->
-	<form id="EasyloginFrm" name="EasyloginFrm"
-		action="<%=request.getContextPath()%>/easyLogin" method="post">
-		<input type="radio" id="NonMember" name="radio-group"
-			value="NonMember"> <label for="option1">NonMember</label><br>
-
-		<input type="radio" id="Member" name="radio-group" value="Member">
-		<label for="option2">Member</label><br> 
-		
-		<input type="radio" id="Reporter" name="radio-group" value="kjh0425@naver.com"> 
-		<label for="option3">Reporter</label><br> 
-		
-		<input type="radio" id="Admin" name="radio-group" value="Admin"> 
-		<label for="option3">Admin</label><br>
-
-		<button type="submit">Go!</button>
-	</form>
-	<!-- 임시 로그인 기능 end -->
-
 
 	<div id="container">
 		<nav class="navBar">
@@ -73,7 +48,7 @@
 
 		<header>
 			<%
-			if (easyLoginMember == null || easyLoginMember.equals("NonMember")) {
+			if (loginMember == null) {
 			%>
 			<div class="bannerContainerUpper" role="banner"> 우리가 시간이 없지, 세상이 안궁금하냐 </div>
 			
@@ -120,7 +95,7 @@
 				
 			</div>
 			<%
-			} else if (easyLoginMember.equals("Member") || loginMember != null) {
+			} else if (loginMember != null && loginMember.getMemberRole() == MemberRole.M) {
 			%>
 			<!-- 로그인 회원 컨테이너 -->
 			<div class="bannerContainerUpper" role="banner">우리가 시간이 없지, 세상이 안궁금하냐</div>
@@ -136,7 +111,7 @@
 				
 			</div>
 			<%
-			} else if (easyLoginMember.equals("kjh0425@naver.com")) {
+			} else if (loginMember != null && loginMember.getMemberRole() == MemberRole.R) {
 			%>
 			<div class="bannerContainerUpper" role="banner">
 				<nav>
@@ -157,7 +132,7 @@
 				</div>
 			</div>
 			<%
-			} else if (easyLoginMember.equals("Admin")) {
+			} else if (loginMember != null && loginMember.getMemberRole() == MemberRole.A) {
 			%>
 			<div class="bannerContainerUpper" role="banner">
 				<nav>
