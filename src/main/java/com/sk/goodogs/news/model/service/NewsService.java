@@ -42,6 +42,34 @@ public class NewsService {
 		close(conn);
 		return scripts;
 	}
+	public int newsScriptSubmit(NewsScript newNewsScript) {
+		Connection conn = getConnection();
+		int result = 0;
+		try {
+			result = newsDao.newsScriptSubmit(conn, newNewsScript);
+			commit(conn);
+		} catch(Exception e) {
+			rollback(conn);
+			throw e;
+		} finally {
+			close(conn);
+		}
+		return result;
+	}
+	public int newsScriptTempSave(NewsScript tempNewsScript) {
+		Connection conn = getConnection();
+		int result = 0;
+		try {
+			result = newsDao.newsScriptTempSave(conn, tempNewsScript);
+			commit(conn);
+		} catch(Exception e) {
+			rollback(conn);
+			throw e;
+		} finally {
+			close(conn);
+		}
+		return result;
+	}
 	
 	
 }

@@ -103,4 +103,38 @@ public class NewsDao {
 			return newsScript;
 		}
 
+		public int newsScriptSubmit(Connection conn, NewsScript newNewsScript) {
+			int result = 0;
+			String sql = prop.getProperty("newsScriptSubmit");
+			try (PreparedStatement pstmt = conn.prepareStatement(sql)) {
+				pstmt.setString(1, newNewsScript.getScriptWriter());
+				pstmt.setString(2, newNewsScript.getScriptTitle());
+				pstmt.setString(3, newNewsScript.getScriptCategory());
+				pstmt.setString(4, newNewsScript.getScriptContent());
+				pstmt.setString(5, newNewsScript.getScriptTag());
+				result = pstmt.executeUpdate();
+			} catch (SQLException e) {
+				throw new NewsException(e);
+			}
+			
+			return result;
+		}
+
+		public int newsScriptTempSave(Connection conn, NewsScript tempNewsScript) {
+			int result = 0;
+			String sql = prop.getProperty("tempNewsScript");
+			try (PreparedStatement pstmt = conn.prepareStatement(sql)) {
+				pstmt.setString(1, tempNewsScript.getScriptWriter());
+				pstmt.setString(2, tempNewsScript.getScriptTitle());
+				pstmt.setString(3, tempNewsScript.getScriptCategory());
+				pstmt.setString(4, tempNewsScript.getScriptContent());
+				pstmt.setString(5, tempNewsScript.getScriptTag());
+				result = pstmt.executeUpdate();
+			} catch (SQLException e) {
+				throw new NewsException(e);
+			}
+			
+			return result;
+		}
+
 }

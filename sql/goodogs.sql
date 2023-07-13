@@ -215,12 +215,16 @@ select * from news_script;
 commit;
 
 
+<<<<<<< HEAD
+select * from news_script;
+=======
 --update member set is_banned = 0 where member_id = 'kdc0526@naver.com';
 
 --select * from news where news_writer = 'kjh0425@naver.com';
 
 --select * from news_script;
 --select * from news_script where script_writer = ? and script_state = ?
+>>>>>>> branch 'master' of https://github.com/ssusss/goodogs
 
 
 
