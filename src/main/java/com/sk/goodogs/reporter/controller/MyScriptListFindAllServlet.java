@@ -27,7 +27,6 @@ public class MyScriptListFindAllServlet extends HttpServlet {
 		HttpSession session = request.getSession();
 		Member loginMember = (Member)session.getAttribute("loginMember");
 		
-		System.out.println(loginMember.getMemberId());
 		
 		List<NewsScript> scripts =  newsService.findAllScriptById(loginMember);
 		

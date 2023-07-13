@@ -51,6 +51,10 @@ public class MemberService {
 		return result;
 	}
 
+	
+	/***
+	 * @author 이혜령
+	 */
 	public Member findById(String memberId) {
 		Connection conn = getConnection();
 		Member member = memberDao.findById(conn, memberId);
@@ -58,7 +62,10 @@ public class MemberService {
 		return member;
 	}
 
-
+	/***
+	 * @author 이혜령
+	 * 회원탈퇴
+	 */
 	public int memberWithdraw(String memberId) {
 		int result = 0;
 		Connection conn = getConnection();

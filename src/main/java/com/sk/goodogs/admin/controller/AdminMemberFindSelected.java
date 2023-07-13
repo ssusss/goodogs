@@ -29,8 +29,8 @@ public class AdminMemberFindSelected extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
 		//입력값 확인
-		String searchType=request.getParameter("searchType");
-		String searchKeyword=request.getParameter("searchKeyword");
+		String searchType=request.getParameter("searchTypeVal");
+		String searchKeyword=request.getParameter("searchKeywordVal");
 		
 		
 		System.out.println(searchType);
@@ -38,6 +38,10 @@ public class AdminMemberFindSelected extends HttpServlet {
 		
 		List<Member>members = adminService.memberFindSelected(searchType,searchKeyword);
 		System.out.println(members);
+		
+		
+		response.setContentType("application/json; charset=utf-8");
+		
 		
 		Gson gson= new Gson();
 		String jsonStr=gson.toJson(members);
