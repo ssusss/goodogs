@@ -33,8 +33,6 @@ drop sequence seq_news_script_no;
 --==============================
 -- 테이블 생성
 --==============================
-
--- 회원
 CREATE TABLE member (
 	member_id varchar2(50) NOT NULL,
 	gender char(1) NOT NULL,
@@ -51,7 +49,6 @@ CREATE TABLE member (
     constraints uq_member_nickname unique(nickname)
 );
 
--- 탈퇴 회원 
 CREATE TABLE withdraw_member (
 	withdraw_member_no number NOT NULL,
 	member_id varchar2(50) NOT NULL,
@@ -65,7 +62,7 @@ CREATE TABLE withdraw_member (
 );
 create sequence seq_withdraw_member_no;
 
--- 원고
+
 CREATE TABLE news_script (
 	script_no number,
 	script_writer varchar2(50) NOT NULL,
@@ -185,6 +182,11 @@ insert into news_script values(seq_news_script_no.NEXTVAL,'kjh0425@naver.com','�
 insert into news_script values(seq_news_script_no.NEXTVAL,'kjh0425@naver.com','라면 회사 부도','테크','아납주ㅏ우ㅏ무나 ㅏㅈ부ㅏㅜㅇㅈ바ㅜㄴ매ㅓ애ㅡㅂ재ㅡㅇ ㅡ ㅁ냐 ㅐ으ㅐㅡㅂ재읜믜으',default,'#사회',1);
 insert into news_script values(seq_news_script_no.NEXTVAL,'kdc0526@naver.com','집가고 싶어요','정치','ㅂ자ㅜㅏ암느읒븨긤느이ㅡ지집에 가고싶다니까요 집에가고싶다구요',default,'#사회',1);
 insert into news_script values(seq_news_script_no.NEXTVAL,'kdc0526@naver.com','세미하기싫다','스포츠','집가고싶다구요 집가고싶다구요집가고싶다구요집가고싶다구요집가고싶다구요집가고싶다구요집가고싶다구요집가고싶다구요집가고싶다구요집가고싶다구요 집가고싶다구요',default,'#사회',1);
+insert into news_script values(seq_news_script_no.NEXTVAL,'kjh0425@naver.com','시종일관','테크','asldmqwnklndqlkwndklnqklnsaklhioh9120uio12oijhokdakslndnasnm,nm,xznmznx,.nlkaskldmasdml;m',to_date('20230110','yyyymmdd'),'#테크',0);
+insert into news_script values(seq_news_script_no.NEXTVAL,'kjh0425@naver.com','동의보감','스포츠','qn2n12n3nklnkldnkl120i012u4ioj13krnknklandlknaslkmd;lm;l,12nknkn,nm,xznmznx,.nlkaskldmasdml;m',to_date('20230411','yyyymmdd'),'#스포츠',0);
+insert into news_script values(seq_news_script_no.NEXTVAL,'kjh0425@naver.com','생각나는대로 씀','정치','9123jhiji1rb1wheb12uyv34hv1hj5vbjkbkj53n1k3lmlk6mlk5m437m543,nm,n64,nm,xznmznx,.nlkaskldmasdml;m',to_date('20220117','yyyymmdd'),'#정치',2);
+insert into news_script values(seq_news_script_no.NEXTVAL,'kjh0425@naver.com','집에가고싶은걸까','사회','k12ih3io1jhj90u90ucinndjkbhej2vbrhjbjhbjdknjknjkndjanjk,nm,xznmznx,.nlkaskldmasdml;m',to_date('20200601','yyyymmdd'),'#사회',3);
+
 
 
 -- 기사
@@ -193,6 +195,7 @@ insert into news values(1001,'kjh0425@naver.com','애국가2절','세계','남�
 insert into news values(1002,'kdc0526@naver.com','애국가3절','스포츠','가을 하늘 공활한데 높고 구름없이 밝은달은 우리가슴 일편 단심일세 무궁화 삼천리 화려강산 대한사람 대한으로 길이 보전하세',to_date('20230210','yyyymmdd'),'#스포츠',8,40,'23-02-15');
 insert into news values(1003,'kdc0526@naver.com','애국가4절','경제','이 기상과 이 맘으로 충성을 다하여 괴로우나 즐거우나 나라 사랑하세 무궁화 삼천리 화려강산 대한사람 대한으로 길이 보전하세',to_date('20210903','yyyymmdd'),'#경제',3,25,'21-09-05');
 
+<<<<<<< HEAD
 -- 기사 댓글 
 insert into news_comment values (2, 1000, 1,'admin@naver.com', 2, '어드민','바보양ㅋ', to_date('20180425','yyyymmdd'), 8, 0);
 insert into news_comment values (3, 1000, 1,'honggd@naver.com', 3, '길동좌','어쩔티비저쩔티비', to_date('20180425','yyyymmdd'), 9, 0);
@@ -211,9 +214,14 @@ select * from news_script;
 
 commit;
 
------
 
 --update member set is_banned = 0 where member_id = 'kdc0526@naver.com';
+
+--select * from news where news_writer = 'kjh0425@naver.com';
+
+--select * from news_script;
+--select * from news_script where script_writer = ? and script_state = ?
+
 
 
 

@@ -31,6 +31,44 @@
 	height: 50px;
 }
 
+
+.addTagBox {
+	background-color: yellow;
+}
+
+.tagContainer {
+	background-color : lightgray;
+	display: flex;
+	flex-wrap: wrap;
+}
+
+.tag {
+	background-color : lime;
+	margin: 10px;
+
+	height: 40px;
+	display: flex;
+	flex-wrap: wrap;
+	align-content: center;
+	position: relative;
+	text-align: center;
+}
+
+.inputTag {
+	margin-left: 10px;
+	margin-right: 40px;
+}
+
+.cancleTagBox {
+	background-color: red;
+	width: 20px;
+	height: 20px;
+	position: absolute;
+	top: 10px;
+	right: 10px;
+	cursor: pointer;
+}
+
 .ScriptWriteBtnContainer {
 	background-color : green;
 	display: flex;
