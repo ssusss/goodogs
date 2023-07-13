@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 <%@page import="javax.sound.midi.SysexMessage"%>
 <%@page import="com.sk.goodogs.news.model.vo.News"%>
 <%@page import="java.util.List"%>
@@ -10,6 +9,7 @@
 <style>
 h1 {text-align : center;}
 table#tbl-news th, td { border: 1px solid black; padding: 3px; }
+table#tbl-news{ margin:auto; }
 </style>
 
 
@@ -20,7 +20,7 @@ table#tbl-news th, td { border: 1px solid black; padding: 3px; }
 	bannerContainerUpper.style.display = "none";
 
 	window.onload = () => {
-		findAll();
+		findAllNewsById();
 	}
 
 
@@ -46,7 +46,7 @@ table#tbl-news th, td { border: 1px solid black; padding: 3px; }
 	</div>
 	
 	<script>
-	const findAll = () => {
+	const findAllNewsById = () => {
 		$.ajax({
 			url : "<%= request.getContextPath() %>/reporter/reporterNewsFindAll",
 			dataType : "json",

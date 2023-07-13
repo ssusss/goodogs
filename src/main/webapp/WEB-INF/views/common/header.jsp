@@ -1,12 +1,28 @@
+<%@page import="com.sk.goodogs.member.model.vo.MemberRole"%>
 <%@page import="com.sk.goodogs.member.model.vo.Member"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%
-	// 전수경 로그인멤버
+	// 전수경 작성 로그인 성공 메세지
+	String message = (String) session.getAttribute("message");
+	if(message != null) session.removeAttribute("message"); // 1회용
+
+	// 전수경 작성 로그인멤버
 	Member loginMember = (Member) session.getAttribute("loginMember");
 	System.out.println("loginMember = " + loginMember);
 
-	String easyLoginMember = (String) session.getAttribute("EasyLoginMember");
+	Cookie[] cookies = request.getCookies();
+	String saveId = null;
+	if(cookies != null) {
+		for(Cookie cookie : cookies) {
+			String name = cookie.getName();
+			String value = cookie.getValue();
+			// System.out.println("[Cookie] " + name + " = " + value);
+			if ("saveId".equals(name))
+				saveId = value;
+		}
+	}
+
 %>
 <!DOCTYPE html>
 <html>
@@ -16,25 +32,6 @@
 <link rel="stylesheet" href="<%=request.getContextPath()%>/css/style.css" />
 </head>
 <body>
-
-	<!-- 임시 로그인 기능 start -->
-	<form id="EasyloginFrm" name="EasyloginFrm"
-		action="<%=request.getContextPath()%>/easyLogin" method="post">
-		<input type="radio" id="NonMember" name="radio-group"
-			value="NonMember"> <label for="option1">NonMember</label><br>
-
-		<input type="radio" id="Member" name="radio-group" value="Member">
-		<label for="option2">Member</label><br> 
-		
-		<input type="radio" id="Reporter" name="radio-group" value="kjh0425@naver.com"> 
-		<label for="option3">Reporter</label><br> 
-		
-		<input type="radio" id="Admin" name="radio-group" value="Admin"> 
-		<label for="option3">Admin</label><br>
-
-		<button type="submit">Go!</button>
-	</form>
-	<!-- 임시 로그인 기능 end -->
 
 
 	<div id="container">
@@ -53,7 +50,7 @@
 
 		<header>
 			<%
-			if (easyLoginMember == null || easyLoginMember.equals("NonMember")) {
+			if (loginMember == null) {
 			%>
 			<div class="bannerContainerUpper" role="banner"> 우리가 시간이 없지, 세상이 안궁금하냐 </div>
 			
@@ -64,7 +61,7 @@
 					로그인 컨테이너 시작
 				-->
 				<div class="loginContainer">
-					<form id="loginFrm" name="loginFrm" action="<%= request.getContextPath() %>/member/memberLogin" method="post">
+					<form id="loginFrm" name="loginFrm" action="<%= request.getContextPath() %>/member/memberLogin" method="GET">
 						<table>
 							<tr>
 								<td><input type="email" name="memberId" id="memberId"
@@ -100,22 +97,24 @@
 				
 			</div>
 			<%
-			} else if (easyLoginMember.equals("Member")) {
+			} else if (loginMember != null && loginMember.getMemberRole() == MemberRole.M) {
 			%>
+			<!-- 로그인 회원 컨테이너 -->
 			<div class="bannerContainerUpper" role="banner">우리가 시간이 없지, 세상이 안궁금하냐</div>
 			<div class="bannerContainerLower">
 				<br>
 				<div class="infoContainer">
 					<h3>반가워 죽겠개,</h2>
-					<h2>### 구독스!</h2>
+					<h2><%= loginMember.getNickname() %> 구독스!</h2>
 					<input type="button" value="정보수정" onclick="location.href='<%= request.getContextPath() %>/member/memberInfo';">
 					<input type="button" value="좋아요" onclick="location.href='<%= request.getContextPath() %>/like/likePage';">
 					<input type="button" value="북마크" onclick="location.href='<%= request.getContextPath() %>/bookmark/bookmarkPage';">
 				</div>
-				
+
 			</div>
 			<%
-			} else if (easyLoginMember.equals("kjh0425@naver.com")) {
+
+			} else if (loginMember != null && loginMember.getMemberRole() == MemberRole.R) {
 			%>
 			<div class="bannerContainerUpper" role="banner">
 				<nav>
@@ -136,7 +135,7 @@
 				</div>
 			</div>
 			<%
-			} else if (easyLoginMember.equals("Admin")) {
+			} else if (loginMember != null && loginMember.getMemberRole() == MemberRole.A) {
 			%>
 			<div class="bannerContainerUpper" role="banner">
 				<nav>
@@ -157,9 +156,9 @@
 				</div>
 			</div>
 			<div>
-			
+
 			</div>
-			
+
 			<%
 			}
 			%>

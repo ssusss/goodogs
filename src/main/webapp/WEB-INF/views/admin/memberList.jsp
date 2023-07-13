@@ -59,26 +59,26 @@ div#search-memberRole	{display: none}
         
         
         <div id="search-memberId" class="search-type">
-            <form action="<%=request.getContextPath()%>/admin/memberFinder">
+            <form action="">
                <input type="hidden" name="searchType" value="member_id"/>
                 <input 
                 	type="text" name="searchKeyword"  size="25" placeholder="검색할 아이디를 입력하세요." 
-                	value="사용자 입력값"/>
+                	value=""/>
                 <button type="submit">검색</button>			
             </form>	
         </div>
         <div id="search-nickName" class="search-type">
             <form action="">
-                <input type="hidden" name="searchType" value="nickName"/>
+                <input type="hidden" name="searchType" value="nickname"/>
                 <input 
                 	type="text" name="searchKeyword" size="25" placeholder="검색할 이름을 입력하세요."
-                	value="notalready"/>
+                	value=""/>
                 <button type="submit">검색</button>			
             </form>	
         </div>
         <div id="search-memberRole" class="search-type">
-            <form action="<%=request.getContextPath()%>/admin/memberFinder">
-                <input type="hidden" name="searchType" value="enrole"/>
+            <form action="">
+                <input type="hidden" name="searchType" value="member_role"/>
                 <input type="radio" name="searchKeyword" value="A" > 관리자
                 <input type="radio" name="searchKeyword" value="R"> 기자
                 <input type="radio" name="searchKeyword" value="M"> 회원
@@ -118,24 +118,52 @@ document.querySelector("select#searchType").onchange = (e) => {
 		e.preventDefault();
 
 		const frmData = new FormData(e.target);
+		console.log(frmData);
+		
 		
 		const findSelectedMember= ()=>{
 			$.ajax({
-				url:"",
+				url:"<%= request.getContextPath() %>/admin/member/findMember",
 				data :frmData,
-				processData : false,
-				contentType : false,
-				method :"POST",
+				method :"GET",
 				dataType :"json",
-				success(responseData) {
-				console.log(responseData);
+				success(selectedMembers) {
+				console.log(selectedMembers);
+					
+				if(selectedMembers != null){
+					
+						const tbody= document.querySelector("#tbl-member tbody");
+						tbody.innerHTML= selectedMembers.reduce((html,member)=>{
+							const{memberId,nickname,memberRole,phone,gender,enrollDate,isBanned}=member;
+							return html +`
+							<tr>
+								<td>\${memberId}</td>
+								<td>\${nickname}</td> 
+								<td>\${memberRole}</td>
+								<td>\${phone}</td>
+								<td>\${gender}</td>
+								<td>\${enrollDate}</td>
+								<td>\${isBanned}</td>
+							</tr>
+						`;
+					},"");
+				}else{
+					const tbody= document.querySelector("#tbl-member tbody");
+					tbody.innerHTML=`
+						<tr>
+							<td>조회된 결과가 없습니다.</td>
+						</tr>
+					`;
+				}
 				
-
 				},
+				complete(){
+					e.target.reset();
+				}
 				
 			});
 			
-		}
+		};
 
 	};
 	
@@ -167,7 +195,7 @@ document.querySelector("select#searchType").onchange = (e) => {
 				},"");
 			}
 		});
-	}
+	};
 		
 	
 	

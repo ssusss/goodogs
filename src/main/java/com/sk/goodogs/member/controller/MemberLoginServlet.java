@@ -17,7 +17,7 @@ import com.sk.goodogs.member.model.vo.Member;
 /**
  * Servlet implementation class MemberLoginServlet
  */
-@WebServlet("/member/login")
+@WebServlet("/member/memberLogin")
 public class MemberLoginServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	private final MemberService memberService = new MemberService();
@@ -62,8 +62,10 @@ public class MemberLoginServlet extends HttpServlet {
 			session.setAttribute("message", "아이디 또는 비밀번호가 일치하지 않습니다.");
 		}
 		
-		// 3. 응답처리 (메인페이지로 리다이렉트)
-		response.sendRedirect(request.getContextPath() + "/");
+		// 3. 응답처리 (메인페이지로 리다이렉트) -- 김동찬 수정
+		String referer = request.getHeader("Referer");
+		System.out.println("referer = " + referer);
+		response.sendRedirect(referer);
 	}
 
 }
