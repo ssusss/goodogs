@@ -162,7 +162,7 @@ div.infoContainer {
 
 
 .container {
-    border: 2px solid gray; /* 드롭 영역을 나타내는 테두리 스타일 */
+    border: 2px dashed transparent; /* 드롭 영역을 나타내는 테두리 스타일 */
     padding: 10px;
     margin-bottom: 10px;
   }
