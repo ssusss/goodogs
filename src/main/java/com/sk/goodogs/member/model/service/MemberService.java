@@ -51,6 +51,10 @@ public class MemberService {
 		return result;
 	}
 
+	/***
+	 * @author 이혜령
+	 * 회원탈퇴
+	 */
 	public Member findById(String memberId) {
 		Connection conn = getConnection();
 		Member member = memberDao.findById(conn, memberId);
