@@ -6,11 +6,11 @@
 	// 전수경 작성 로그인 성공 메세지
 	String message = (String) session.getAttribute("message");
 	if(message != null) session.removeAttribute("message"); // 1회용
-	
+
 	// 전수경 작성 로그인멤버
 	Member loginMember = (Member) session.getAttribute("loginMember");
 	System.out.println("loginMember = " + loginMember);
-	
+
 	Cookie[] cookies = request.getCookies();
 	String saveId = null;
 	if(cookies != null) {
@@ -22,6 +22,7 @@
 				saveId = value;
 		}
 	}
+
 %>
 <!DOCTYPE html>
 <html>
@@ -31,6 +32,7 @@
 <link rel="stylesheet" href="<%=request.getContextPath()%>/css/style.css" />
 </head>
 <body>
+
 
 	<div id="container">
 		<nav class="navBar">
@@ -108,9 +110,10 @@
 					<input type="button" value="좋아요" onclick="location.href='<%= request.getContextPath() %>/like/likePage';">
 					<input type="button" value="북마크" onclick="location.href='<%= request.getContextPath() %>/bookmark/bookmarkPage';">
 				</div>
-				
+
 			</div>
 			<%
+
 			} else if (loginMember != null && loginMember.getMemberRole() == MemberRole.R) {
 			%>
 			<div class="bannerContainerUpper" role="banner">
@@ -153,9 +156,9 @@
 				</div>
 			</div>
 			<div>
-			
+
 			</div>
-			
+
 			<%
 			}
 			%>

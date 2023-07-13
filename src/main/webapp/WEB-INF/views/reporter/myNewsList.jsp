@@ -9,6 +9,7 @@
 <style>
 h1 {text-align : center;}
 table#tbl-news th, td { border: 1px solid black; padding: 3px; }
+table#tbl-news{ margin:auto; }
 </style>
 
 
@@ -19,7 +20,7 @@ table#tbl-news th, td { border: 1px solid black; padding: 3px; }
 	bannerContainerUpper.style.display = "none";
 
 	window.onload = () => {
-		findAll();
+		findAllNewsById();
 	}
 
 
@@ -45,7 +46,7 @@ table#tbl-news th, td { border: 1px solid black; padding: 3px; }
 	</div>
 	
 	<script>
-	const findAll = () => {
+	const findAllNewsById = () => {
 		$.ajax({
 			url : "<%= request.getContextPath() %>/reporter/reporterNewsFindAll",
 			dataType : "json",
