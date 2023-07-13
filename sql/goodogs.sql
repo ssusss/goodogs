@@ -204,6 +204,7 @@ select * from news where news_writer = 'kjh0425@naver.com';
 select * from news_script;
 --select * from news_script where script_writer = ?
 
+--delete from news_script where script_no = ?
 
 
 
