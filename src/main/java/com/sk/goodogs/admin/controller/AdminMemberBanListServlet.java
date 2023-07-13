@@ -43,8 +43,11 @@ public class AdminMemberBanListServlet extends HttpServlet {
 		
 		// 2, 업무로직
 	
+		
 		List<NewsComment> newsComments  = adminService.findBanComment();
+		
 		System.out.println("newsComments = " + newsComments);
+		
 		request.setAttribute("newsComments", newsComments);
 		
 		

@@ -40,6 +40,24 @@ public class AdminService {
 		close(conn);
 		return newsComments;
 	}
+
+	public int BanUpdate(String memberId) {
+		Connection conn = getConnection();
+		int result = 0;
+	
+		try {
+			result = adminDao.BanUpdate(conn, memberId );
+			commit(conn);
+		} catch (Exception e) {
+			rollback(conn);
+			throw e;
+		}finally {
+			close(conn);
+		}
+		
+		
+		return result;
+	}
 		
 // ---------------------------------------
 
