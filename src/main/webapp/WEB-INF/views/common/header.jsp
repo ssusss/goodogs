@@ -29,7 +29,15 @@
 <head>
 <meta charset="UTF-8">
 <title>goodogs</title>
+
+<!-- 폰트 링크 -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300&display=swap" rel="stylesheet">
+<!-- 폰트 링크 -->
+
 <link rel="stylesheet" href="<%=request.getContextPath()%>/css/style.css" />
+
 </head>
 <body>
 
@@ -37,13 +45,19 @@
 	<div id="container">
 		<nav class="navBar">
 			<div class="navInner">
-				<h1>goodogs</h1>
+				<h1 id="toMain">goodogs</h1>
 				<div class="navBox">
 					<div class="searchBox">검색</div>
 					<div class="infoBox">정보</div>
 				</div>
 			</div>
 		</nav>
+		
+		<script>
+		toMain.onclick = () => {
+			location.href = '<%=request.getContextPath()%>/';
+		}
+		</script>
 
 
 		<!-- 로그인 객체마다 헤더가 다르게 보이게 -->

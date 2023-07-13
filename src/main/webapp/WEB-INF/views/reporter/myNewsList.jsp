@@ -14,8 +14,6 @@ table#tbl-news{ margin:auto; }
 
 
 <script>
-	bannerContainerLower = document.querySelector(".bannerContainerLower");
-	bannerContainerLower.style.display = "none";
 	bannerContainerUpper = document.querySelector(".bannerContainerUpper");
 	bannerContainerUpper.style.display = "none";
 
