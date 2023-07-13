@@ -195,7 +195,7 @@ insert into news values(1001,'kjh0425@naver.com','애국가2절','세계','남�
 insert into news values(1002,'kdc0526@naver.com','애국가3절','스포츠','가을 하늘 공활한데 높고 구름없이 밝은달은 우리가슴 일편 단심일세 무궁화 삼천리 화려강산 대한사람 대한으로 길이 보전하세',to_date('20230210','yyyymmdd'),'#스포츠',8,40,'23-02-15');
 insert into news values(1003,'kdc0526@naver.com','애국가4절','경제','이 기상과 이 맘으로 충성을 다하여 괴로우나 즐거우나 나라 사랑하세 무궁화 삼천리 화려강산 대한사람 대한으로 길이 보전하세',to_date('20210903','yyyymmdd'),'#경제',3,25,'21-09-05');
 
-<<<<<<< HEAD
+
 -- 기사 댓글 
 insert into news_comment values (2, 1000, 1,'admin@naver.com', 2, '어드민','바보양ㅋ', to_date('20180425','yyyymmdd'), 8, 0);
 insert into news_comment values (3, 1000, 1,'honggd@naver.com', 3, '길동좌','어쩔티비저쩔티비', to_date('20180425','yyyymmdd'), 9, 0);
@@ -214,18 +214,6 @@ select * from news_script;
 
 commit;
 
+insert into member values('yoon', 'M', '123', '간단상윤', '01023551112', to_date('20131024','yyyymmdd'), 'A', default, default);
 
-<<<<<<< HEAD
-select * from news_script;
-=======
---update member set is_banned = 0 where member_id = 'kdc0526@naver.com';
-
---select * from news where news_writer = 'kjh0425@naver.com';
-
---select * from news_script;
---select * from news_script where script_writer = ? and script_state = ?
->>>>>>> branch 'master' of https://github.com/ssusss/goodogs
-
-
-
-
+UPDATE member SET member_Id = '2@2' WHERE nickname LIKE '간단상윤';
