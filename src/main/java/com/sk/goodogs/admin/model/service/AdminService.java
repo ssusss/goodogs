@@ -40,6 +40,22 @@ public class AdminService {
 		close(conn);
 		return newsComments;
 	}
+
+	public int roleUpdate(String memberRole, String memberId) {
+		int result =0;
+		Connection conn= getConnection();
+		result= adminDao.roleUpdate(memberRole,memberId,conn);
+		commit(conn);
+		try{
+			
+		}catch (Exception e) {
+			rollback(conn);
+			throw e;
+		}finally {
+			close(conn);
+		}
+		return result;
+	}
 		
 // ---------------------------------------
 
