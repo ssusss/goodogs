@@ -7,83 +7,24 @@
 bannerContainerLower = document.querySelector(".bannerContainerLower");
 bannerContainerLower.style.display = "none";
 </script>
-<link href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css" rel="stylesheet">
-<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
-<link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.css" rel="stylesheet">
-<script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.js"></script>
 
 <form name="scriptWriteFrm">
-	<div class="myScriptWrite">
-		<div class="titleAreaContanier">
-			<label for="titleArea">뉴스 제목 : </label>
-			<input type="text" name="titleArea" id="titleArea"/>
-		</div>
-		<select name="category" id="category">
-			<option value="none">-선택-</option>
-			<option value="politic">정치</option>
-			<option value="economy">경제</option>
-			<option value="global">세계</option>
-			<option value="tech">테크</option>
-			<option value="environment">환경</option>
-			<option value="sports">스포츠</option>
-			<option value="society">사회</option>
-		</select>
-		<div class="fileUploadContainer">
-			<label for="newsImage">뉴스 이미지 첨부 : </label>
-			<input type="file" name="newsImage" id="newsImage"/>
-		</div>
-		<br>
-		
-		
-		<button id="h2Btn">h2</button>
-		<button id="pBtn">p</button>
-		<button id="aBtn">a</button>
-		<button id="olBtn">ol</button>
-		<button id="ulBtn">ul</button>
-		<button id="colorBtn">color</button>
-		
-		<fieldset id="linkBox">
-			<legend> 링크 </legend>
-			<table>
-				<tr>
-					<td>
-						<label for="aContent">내용 : </label>
-						<input type="text" id="aContent"/>
-					</td>
-				</tr>
-				<tr>
-					<td>
-						<label for="aLink">링크 : </label>
-						<input type="text" id="aLink"/>
-					</td>
-				</tr>
-			</table>
-			<button id="insertLink">insert link</button>
-		</fieldset>
-		
-		<textarea id="summernote" name="editordata">
-		</textarea>
-		
-		<div class="addTagBox">
-			<input type="text" id="newsTag" name="newTag"/>
-			<button id="addTagBtn">태그 추가</button>
-		</div>
-		<div class="tagContainer">
-			
-		</div>
-		<input type="text" id="newsTagList" name="newsTagList"/>
-		
-		<div class="ScriptWriteBtnContainer">
-			<button id="submitBtn" type="submit" class="scriptSubmit scriptBtn">제출</button>
-			<button id="tempSaveBtn" class="scriptTempSave scriptBtn">임시저장</button>
-		</div>
-	</div>
+	
+	<iframe name="iframe1" id="iframe1" src="scriptBox.jsp" 
+        frameborder="0" border="0" cellspacing="0"
+        style="border-style: none;width: 100%; height: 120px;"></iframe>
 </form>
 
 <script>
 // ==================== 폼 제출 =========================
 submitBtn.onclick = () => {
+	
+	// 내용 안적은 거 있으면 제출 안되도록 함수하나 만들것
+	if (category.value == "none") {
+		alert("카테고리를 선택하세요");
+		return false;
+	}
+	
 	document.scriptWriteFrm.onsubmit = (e) => {
 	const frmData = new FormData(e.target);
 	console.log(frmData);
@@ -97,11 +38,11 @@ submitBtn.onclick = () => {
 		dataType : "json",
 		success(responseData) {
 			console.log(responseData);
-			const {result, message} = responseData;
+			const {message} = responseData;
 			alert(message);
 		},
 		complete() {
-			e.target.reset(); // 폼 초기화
+			window.location.href = '<%= request.getContextPath() %>/reporter/myScript';
 		}
 		
 	});
@@ -112,10 +53,38 @@ submitBtn.onclick = () => {
 
 
 // ==================== 폼 임시저장 =========================
-
+tempSaveBtn.onclick = () => {
 	
-const tagList = []; 
+	document.scriptWriteFrm.onsubmit = (e) => {
+	const frmData = new FormData(e.target);
+	console.log(frmData);
+	
+	$.ajax({
+		url : "<%= request.getContextPath() %>/reporter/scriptTempSave",
+		data : frmData,
+		processData : false, // 직렬화 처리방지
+		contentType : false, // 기본 Content-Type : application/x-www-form-urlencoded 사용안함. 
+		method : "POST",
+		dataType : "json",
+		success(responseData) {
+			console.log(responseData);
+			const {message} = responseData;
+			alert(message);
+		},
+		complete() {
+			window.location.href = '<%= request.getContextPath() %>/reporter/myScript';
+		}
+		
+	});
+	
+	e.preventDefault();
+	};
+};
+	
+	
+	
 // ==================== 태그 추가 ==========================
+const tagList = []; 
 addTagBtn.onclick = () => {
 	if (!newsTag.value) {
 		return false;
@@ -204,4 +173,5 @@ colorBtn.onclick = () => {
 // ---------------------------------------------------------
 
 </script>
+
 <%@ include file="/WEB-INF/views/common/footer.jsp" %>
