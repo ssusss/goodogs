@@ -96,7 +96,7 @@ private NewsComment handleCommentrResultSet(ResultSet rset) throws SQLException 
 			 newsCommentNickname,  newsCommentContent,commentRegDate, newsCommentReportCnt, commentState);
 	
 }
-// ---------------------------------------
+
 
 	public List<Member> memberFindAll(Connection conn) {
 		List<Member> members= new ArrayList<>();
@@ -164,6 +164,21 @@ public List<Member> memberFindSelected(String searchType, String searchKeyword, 
 
 
 
+
+public int roleUpdate(String memberRole, String memberId, Connection conn) {
+	int result=0;
+	String sql=prop.getProperty("roleUpdate");
+	try(PreparedStatement pstmt=conn.prepareStatement(sql)){
+		pstmt.setString(1, memberRole);
+		pstmt.setString(2, memberId);
+		
+		result=pstmt.executeUpdate();
+	}catch (SQLException e) {
+		throw new MemberException(e);
+	}
+	
+	return result;
+}
 
 	
 }
