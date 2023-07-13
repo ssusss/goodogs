@@ -20,8 +20,8 @@ table#tbl-news{
 
 
 <script>
-	bannerContainerUpper = document.querySelector(".bannerContainerUpper");
-	bannerContainerUpper.style.display = "none";
+	bannerContainerLower = document.querySelector(".bannerContainerLower");
+	bannerContainerLower.style.display = "none";
 
 	window.onload = () => {
 		findAllNewsById();
