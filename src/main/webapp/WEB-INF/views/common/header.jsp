@@ -41,7 +41,6 @@
 </head>
 <body>
 
-
 	<div id="container">
 		<nav class="navBar">
 			<div class="navInner">
@@ -58,7 +57,6 @@
 			location.href = '<%=request.getContextPath()%>/';
 		}
 		</script>
-
 
 		<!-- 로그인 객체마다 헤더가 다르게 보이게 -->
 
@@ -119,7 +117,7 @@
 				<br>
 				<div class="infoContainer">
 					<h3>반가워 죽겠개,</h2>
-					<h2><%= loginMember.getNickname() %> 구독스!</h2>
+					<h2> 구독스!</h2>
 					<input type="button" value="정보수정" onclick="location.href='<%= request.getContextPath() %>/member/memberInfo';">
 					<input type="button" value="좋아요" onclick="location.href='<%= request.getContextPath() %>/like/likePage';">
 					<input type="button" value="북마크" onclick="location.href='<%= request.getContextPath() %>/bookmark/bookmarkPage';">
