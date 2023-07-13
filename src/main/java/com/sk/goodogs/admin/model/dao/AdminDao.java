@@ -16,6 +16,7 @@ import com.sk.goodogs.news.model.vo.NewsComment;
 import javax.naming.spi.DirStateFactory.Result;
 import static com.sk.goodogs.common.JdbcTemplate.*;
 import com.sk.goodogs.admin.model.exception.AdminException;
+import com.sk.goodogs.member.model.exception.MemberException;
 import com.sk.goodogs.member.model.vo.Gender;
 import com.sk.goodogs.member.model.vo.Member;
 import com.sk.goodogs.member.model.vo.MemberRole;
@@ -123,5 +124,27 @@ private Member handleMemberResultSet(ResultSet rset) throws SQLException{
 				
 		return member;
 	}
+
+
+
+public List<Member> memberFindSelected(String searchType, String searchKeyword, Connection conn) {
+		List<Member> members = new ArrayList<>();
+		String sql=prop.getProperty("memberFindSelected");
+		sql=sql.replace("#",searchType);
+		System.out.println("check sql ="+ sql);
+		
+		try(PreparedStatement pstmt = conn.prepareStatement(sql)) {
+			pstmt.setString(1, "%"+searchKeyword+"%");
+			try(ResultSet rset = pstmt.executeQuery()){
+				while(rset.next()) {
+					Member member=handleMemberResultSet(rset);
+					members.add(member);
+				}
+			}
+		} catch (SQLException e) {
+			throw new MemberException();
+		}
+	return members;
+}
 	
 }

@@ -43,6 +43,7 @@ public class AdminMemberFindSelected extends HttpServlet {
 		String jsonStr=gson.toJson(members);
 		System.out.println("jsonStr = " + jsonStr);
 		response.getWriter().append(jsonStr);
+		
 	}
 
 
