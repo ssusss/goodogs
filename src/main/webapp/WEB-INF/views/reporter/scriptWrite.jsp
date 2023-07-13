@@ -18,6 +18,7 @@ bannerContainerLower.style.display = "none";
 		<div class="titleAreaContanier">
 			<label for="titleArea">뉴스 제목 : </label>
 			<input type="text" name="titleArea" id="titleArea"/>
+			<input class="writerId" name="scriptWriter" value="<%= loginMember.getMemberId() %>" readonly/>
 		</div>
 		<select name="category" id="category">
 			<option value="none">-선택-</option>
@@ -72,7 +73,7 @@ bannerContainerLower.style.display = "none";
 		<div class="tagContainer">
 			
 		</div>
-		<input type="text" id="newsTagList" name="newsTagList"/>
+		<input type="text" id="newsTagList" name="newsTagList" style="display: none;"/>
 		
 		<div class="ScriptWriteBtnContainer">
 			<button id="submitBtn" type="submit" class="scriptSubmit scriptBtn">제출</button>

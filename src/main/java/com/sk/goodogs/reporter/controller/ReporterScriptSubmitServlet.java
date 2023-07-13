@@ -11,6 +11,7 @@ import com.oreilly.servlet.MultipartRequest;
 import com.oreilly.servlet.multipart.DefaultFileRenamePolicy;
 import com.oreilly.servlet.multipart.FileRenamePolicy;
 import com.sk.goodogs.news.model.service.NewsService;
+import com.sk.goodogs.news.model.vo.NewsScript;
 
 /**
  * Servlet implementation class ReporterScriptSubmitServlet
@@ -34,12 +35,16 @@ public class ReporterScriptSubmitServlet extends HttpServlet {
 			new MultipartRequest(request, saveDirectory, maxPostSize, encoding, policy);
 		
 		// 1. 사용자입력값 처리
-		String scriptWriter = "asd";
+		String scriptWriter = multiReq.getParameter("scriptWriter");
 		String scriptTitle = multiReq.getParameter("titleArea");
 		String scriptCategory = multiReq.getParameter("category");
-		String scriptContent = multiReq.getParameter("category");
+		String scriptContent = multiReq.getParameter("editordata");
+		String scriptTag = multiReq.getParameter("newsTagList");
 		
 		
+		NewsScript newsScript = new NewsScript(0, scriptWriter, scriptTitle, scriptCategory, scriptContent, null, scriptTag, 0);
+		
+		System.out.println("newsScript = " +  newsScript);
 		
 		String newsImage = multiReq.getFilesystemName("newsImage"); // 저장된 파일명 
 		
