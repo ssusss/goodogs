@@ -33,7 +33,6 @@
 </head>
 <body>
 
-
 	<div id="container">
 		<nav class="navBar">
 			<div class="navInner">
@@ -44,7 +43,6 @@
 				</div>
 			</div>
 		</nav>
-
 
 		<!-- 로그인 객체마다 헤더가 다르게 보이게 -->
 

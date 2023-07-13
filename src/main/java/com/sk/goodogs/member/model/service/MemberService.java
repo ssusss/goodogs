@@ -51,9 +51,9 @@ public class MemberService {
 		return result;
 	}
 
+	
 	/***
 	 * @author 이혜령
-	 * 회원탈퇴
 	 */
 	public Member findById(String memberId) {
 		Connection conn = getConnection();
@@ -62,7 +62,10 @@ public class MemberService {
 		return member;
 	}
 
-
+	/***
+	 * @author 이혜령
+	 * 회원탈퇴
+	 */
 	public int memberWithdraw(String memberId) {
 		int result = 0;
 		Connection conn = getConnection();
