@@ -20,11 +20,11 @@
 				<th>기사번호</th>
 				<th>제목</th>
 				<th>카테고리</th>
-				<th>제출일</th>
+				<th>제출일자</th>
 				<th>상태</th>
 			</tr>
 		</thead>
-		<tbody>
+		<tbody id="scriptBodyList1">
 		</tbody>
 	</table>
 </div>
@@ -40,16 +40,8 @@
 				<th colspan="3">상태</th>
 			</tr>
 		</thead>
-		<tbody>
-			<tr>
-				<td>1</td>
-				<td>2</td>
-				<td>3</td>
-				<td>일자</td>
-				<td>작성중</td>
-				<td><button id="scriptUpdate">이어쓰기</button></td>
-				<td><button id="scriptDelete">삭제</button></td>
-			</tr>
+		<tbody id="scriptBodyList2">
+			
 		</tbody>
 	</table>
 </div>
@@ -66,18 +58,14 @@
 				<th>상태</th>
 			</tr>
 		</thead>
-		<tbody>
-			<tr>
-				<td>1</td>
-				<td>2</td>
-				<td>3</td>
-				<td>4</td>
-				<td>제출됨</td>
-			</tr>
+		<tbody id="scriptBodyList3">
+			
 		</tbody>
 	</table>
 </div>
 <script>
+			//=========== 아이디로 원고 전부 찾기 ============
+			
 	const findAllScriptById = () => {
 		$.ajax({
 			url: "<%= request.getContextPath() %>/reporter/reporterFindAllScript",
@@ -85,18 +73,18 @@
 			success(Scripts) {
 				console.log(Scripts);
 
-				const tbody = document.querySelector(".myScriptList table tbody");
+				const tbody = document.getElementById("scriptBodyList1");
 				tbody.innerHTML = Scripts.reduce((html, newsScript) => {
 					const { scriptNo, scriptTitle, scriptCategory, scriptWriteDate, scriptState } = newsScript;
 					return (
 						html +
 						`
 						<tr>
-							<td>${scriptNo}</td>
-							<td>${scriptTitle}</td>
-							<td>${scriptCategory}</td>
-							<td>${scriptState}</td>
-							<td>${scriptState}</td>
+							<td>\${scriptNo}</td>
+							<td>\${scriptTitle}</td>
+							<td>\${scriptCategory}</td>
+							<td>\${scriptWriteDate}</td>
+							<td>\${scriptState}</td>
 						</tr>
 					`
 					);
