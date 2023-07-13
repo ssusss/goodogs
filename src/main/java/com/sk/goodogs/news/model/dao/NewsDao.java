@@ -13,6 +13,7 @@ import java.util.Properties;
 
 import javax.script.ScriptException;
 
+import static com.sk.goodogs.common.JdbcTemplate.*;
 import com.sk.goodogs.member.model.vo.Member;
 import com.sk.goodogs.news.model.exception.NewsException;
 import com.sk.goodogs.news.model.vo.News;
@@ -101,6 +102,54 @@ public class NewsDao {
 			NewsScript newsScript = new NewsScript(scriptNo, scriptWriter, scriptTitle, scriptCategory, scriptContent, scriptWriteDate, scriptTag, scriptState);
 			
 			return newsScript;
+		}
+
+		public int newsScriptSubmit(Connection conn, NewsScript newNewsScript) {
+			int result = 0;
+			String sql = prop.getProperty("newsScriptSubmit");
+			try (PreparedStatement pstmt = conn.prepareStatement(sql)) {
+				pstmt.setString(1, newNewsScript.getScriptWriter());
+				pstmt.setString(2, newNewsScript.getScriptTitle());
+				pstmt.setString(3, newNewsScript.getScriptCategory());
+				pstmt.setString(4, newNewsScript.getScriptContent());
+				pstmt.setString(5, newNewsScript.getScriptTag());
+				result = pstmt.executeUpdate();
+			} catch (SQLException e) {
+				throw new NewsException(e);
+			}
+			
+			return result;
+		}
+
+		public int newsScriptTempSave(Connection conn, NewsScript tempNewsScript) {
+			int result = 0;
+			String sql = prop.getProperty("tempNewsScript");
+			try (PreparedStatement pstmt = conn.prepareStatement(sql)) {
+				pstmt.setString(1, tempNewsScript.getScriptWriter());
+				pstmt.setString(2, tempNewsScript.getScriptTitle());
+				pstmt.setString(3, tempNewsScript.getScriptCategory());
+				pstmt.setString(4, tempNewsScript.getScriptContent());
+				pstmt.setString(5, tempNewsScript.getScriptTag());
+				result = pstmt.executeUpdate();
+			} catch (SQLException e) {
+				throw new NewsException(e);
+			}
+			
+			return result;
+		}
+
+		
+
+		public int scriptDelete(int scriptNo, Connection conn) {
+			int result = 0;
+			String sql = prop.getProperty("scriptDelete");
+			try(PreparedStatement pstmt = conn.prepareStatement(sql)){
+				pstmt.setInt(1,scriptNo);
+				result = pstmt.executeUpdate();
+			}catch (SQLException e) {
+				throw new NewsException(e);
+			}
+			return result;
 		}
 
 }
