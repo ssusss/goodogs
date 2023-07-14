@@ -2,6 +2,8 @@
     pageEncoding="UTF-8"%>
 <%@ include file="/WEB-INF/views/common/header.jsp" %>
 
+
+
 <!-- 
 	@author 이혜령 
 	- 카테고리
