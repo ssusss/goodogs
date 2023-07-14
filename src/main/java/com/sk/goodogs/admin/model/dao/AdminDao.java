@@ -41,26 +41,24 @@ public class AdminDao {
 // 벤용 ----------------------------------------
 	
 
-	public List<NewsComment> findBenComment(Connection conn) {
+	public List<NewsComment> findBanComment(Connection conn, int start, int end) {
 		List<NewsComment> newsComments = new ArrayList<>();
 		String sql = prop.getProperty("findBanComment");
 		
-		try (
-				PreparedStatement pstmt = conn.prepareStatement(sql);
-				ResultSet rset = pstmt.executeQuery();
-				){
-			
-			while(rset.next()) {
-				NewsComment newsComment  =  handleCommentrResultSet(rset);
-				newsComments.add(newsComment);
-				
+		try(PreparedStatement pstmt = conn.prepareStatement(sql)) {
+				pstmt.setInt(1, start);
+				pstmt.setInt(2, end);
+					
+			try(ResultSet rset = pstmt.executeQuery()) {
+				while(rset.next()) {
+					NewsComment newsComment  =  handleCommentrResultSet(rset);
+					newsComments.add(newsComment);
+				}
 			}
-			
 		} catch (Exception e) {
 			throw new  AdminException(e);
 		}
-
-		return newsComments;
+			return newsComments;
 	}
 
 	public int BanUpdate(Connection conn, String memberId) {
@@ -179,6 +177,25 @@ public int roleUpdate(String memberRole, String memberId, Connection conn) {
 	
 	return result;
 }
+
+
+
+public int getTotalContent(Connection conn) {
+	
+	int totalContent = 0;
+	String sql = prop.getProperty("getTotalContent"); // select count(*) from board
+	
+	try (PreparedStatement pstmt = conn.prepareStatement(sql)) {
+		try (ResultSet rset = pstmt.executeQuery()) {
+			while(rset.next())
+				totalContent = rset.getInt(1);
+		}
+	} catch (SQLException e) {
+		throw new AdminException(e);
+	}
+	return totalContent;
+}
+
 
 	
 }
