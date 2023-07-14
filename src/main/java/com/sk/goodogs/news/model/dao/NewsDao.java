@@ -177,4 +177,34 @@ public class NewsDao {
 			return newsScript;
 		}
 
+		/***
+		 * @author 이혜령
+		 * 메인메뉴 페이지 구현
+		 */
+		public int getTotalContent(Connection conn) {
+			int totalContent = 0;
+			String sql = prop.getProperty("getTotalContent");
+			try (PreparedStatement pstmt = conn.prepareStatement(sql)){
+				try (ResultSet rset = pstmt.executeQuery()) {
+					if(rset.next())
+						totalContent = rset.getInt(1);
+				}
+			} catch (SQLException e) {
+				throw new NewsException(e);
+			}
+			return totalContent;
+		}
+		
+		
+
+//		public List<News> findNews(Connection conn, int start, int end) {
+//			List<News> news = new ArrayList<>();
+//			String sql = prop.getProperty("findNews");
+//			try(PreparedStatement pstmt = conn.prepareStatement(sql)) {
+//				pstmt.setInt(1, start);
+//				pstmt.setInt(2, end);
+//			}
+//			return null;
+//		}
+
 }

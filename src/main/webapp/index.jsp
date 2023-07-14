@@ -1,8 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ include file="/WEB-INF/views/common/header.jsp" %>
-
-
+<% int totalPage = (int) request.getAttribute("totalPage"); %>
 
 <!-- 
 	@author 이혜령 
@@ -124,34 +123,19 @@ function getDragAfterElement(container, x) {
 </nav>
 
 <section>
-	<div class="posts">
-		<a class="card" href="">기사 <!-- a태그 : 전체박스 -->
-			<div class="card-inner"> <!-- 박스 안 내용물 -->
-				<figure class="card-thumbnail"> <!-- 기사 썸네일 -->
+	<div id="news-container">
+		<a id="card" href="">기사 <!-- a태그 : 전체박스 -->
+			<div id="card-inner"> <!-- 박스 안 내용물 -->
+				<figure id="card-thumbnail"> <!-- 기사 썸네일 -->
 					<img src="" alt>
 				</figure>			
-				<div class="card-body"><!-- 기사 제목/날짜/카테고리 박스 -->
-					<h3 class="card-title">라면먹고싶다</h3> <!-- 기사 제목 -->
-					<time class="card-date">2023/07/11</time> <!-- 기사 날짜 -->
-					<i class="card-category">학원생활</i> <!-- 기사 카테고리 -->
+				<div id="card-body"><!-- 기사 제목/날짜/카테고리 박스 -->
+					<h3 id="card-title">라면먹고싶다</h3> <!-- 기사 제목 -->
+					<time id="card-date">2023/07/11</time> <!-- 기사 날짜 -->
+					<i id="card-category">학원생활</i> <!-- 기사 카테고리 -->
 				</div>
 			</div>
 		</a>
-		<a class="card" href="">기사</a>
-		<a class="card" href="">기사</a>
-		<a class="card" href="">기사</a>
-		<a class="card" href="">기사</a>
-		<a class="card" href="">기사</a>
-		<a class="card" href="">기사</a>
-		<a class="card" href="">기사</a>
-		<a class="card" href="">기사</a>
-		<a class="card" href="">기사</a>
-		<a class="card" href="">기사</a>
-		<a class="card" href="">기사</a>
-		<a class="card" href="">기사</a>
-		<a class="card" href="">기사</a>
-		<a class="card" href="">기사</a>
-		<a class="card" href="">기사</a>
 	</div>
 	<nav class="postsPagination">
 		<button id="btn-more" value="">더보기(<span id="cpage"></span>/<span id="totalPage"></span>)</button>
@@ -161,13 +145,47 @@ function getDragAfterElement(container, x) {
 <script>
 document.querySelector("#btn-more").onclick = () => {
 	const cpage = Number(document.querySelector("#cpage").innerHTML);
-	const nextPage = cpage + 1;
-	getPage(nextPage);
+	const nextPage = cpage + 1; 
+	getPage(nextPage); // 다음페이지 요청
 };
 
 window.addEventListener('load', () => {
 	getPage(1);	
 });
+
+const getPage = (cpage) => {
+	
+	$.ajax({
+		url : "<%= request.getContextPath() %>/goodogs/more",
+		data : {cpage},
+		success(news) {
+			
+			<div id="news-container">
+			<a id="card" href="">기사 <!-- a태그 : 전체박스 -->
+				<div id="card-inner"> <!-- 박스 안 내용물 -->
+					<figure id="card-thumbnail"> <!-- 기사 썸네일 -->
+						<img src="" alt>
+					</figure>			
+					<div id="card-body"><!-- 기사 제목/날짜/카테고리 박스 -->
+						<h3 id="card-title">라면먹고싶다</h3> <!-- 기사 제목 -->
+						<time id="card-date">2023/07/11</time> <!-- 기사 날짜 -->
+						<i id="card-category">학원생활</i> <!-- 기사 카테고리 -->
+					</div>
+				</div>
+			</a>
+			</div>
+		
+			const container = document.querySelector("#news-container")
+			news.forEach((news) => {
+				const {} = news;
+				
+			})
+			
+			
+		}
+	})
+	
+}
 
 </script>    
 
