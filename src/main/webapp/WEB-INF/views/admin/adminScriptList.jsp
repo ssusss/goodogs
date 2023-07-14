@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ include file="/WEB-INF/views/common/header.jsp" %>
-<script src=""></script>
+
 <script>
 	const bannerContainerLower = document.querySelector(".bannerContainerLower");
 	bannerContainerLower.style.display = "none";
@@ -154,7 +154,7 @@ function serchScript(frm){
 				return html +`
 				<tr>
 					<td colspan="2">\${scriptWriter}</td>
-					<td colspan="3">\${scriptTitle}</td>
+					<td colspan="3"><a href="<%= request.getContextPath() %>/admin/scriptDetail?no=\${scriptNo}">\${scriptTitle}</a></td>
 					<td colspan="1">\${scriptCategory}</td>
 					<td colspan="1">\${scriptWriteDate}</td>
 					<td colspan="1">\${scriptStateText}</td>
@@ -241,7 +241,7 @@ const findSciptState=(sciptState)=>{
 					return html +`
 					<tr>
 						<td colspan="2">\${scriptWriter}</td>
-						<td colspan="3">\${scriptTitle}</td>
+						<td colspan="3"><a href="<%= request.getContextPath() %>/admin/scriptDetail?no=\${scriptNo}">\${scriptTitle}</a></td>
 						<td colspan="1">\${scriptCategory}</td>
 						<td colspan="1">\${scriptWriteDate}</td>
 						<td colspan="1">\${scriptStateText}</td>
