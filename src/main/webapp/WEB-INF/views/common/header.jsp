@@ -72,6 +72,8 @@
 			
 			<div class="bannerContainerLower">
 				<div class="infoWrapper">
+				<!-- @author : 이혜령 (신문파는강아지) -->
+				<img src="<%= request.getContextPath() %>/upload/character/main.png" alt=""/> 
 					<!-- 
 						@author 전수경
 						로그인 컨테이너 시작
@@ -154,7 +156,6 @@
 						<input type="button" value="정보수정" onclick="location.href='<%= request.getContextPath() %>/member/memberInfo';">
 						<input type="button" value="좋아요" onclick="location.href='<%= request.getContextPath() %>/like/likePage';">
 						<input type="button" value="북마크" onclick="location.href='<%= request.getContextPath() %>/bookmark/bookmarkPage';">
-	
 					</div>
 				</div>
 			</div>

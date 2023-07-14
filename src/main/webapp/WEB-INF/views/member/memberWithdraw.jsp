@@ -15,27 +15,23 @@ bannerContainerUpper.style.display = "none";
 <form name="memberWithdrawFrm" action="<%= request.getContextPath() %>/member/memberWithdraw" method="post">
 	<!-- 눈물바다 이미지 -->
 	<section class="withdraw-img">
-	<img src="" alt>
+	<img src="/upload/character/main.png" alt=""/>
 	</section>
 	
 	<!-- 탈퇴사유 -->
 	<section>
+	
 		<header class="withdraw-head">
-			<h1 class="withdraw-head-title">회원탈퇴</h1>
+			<h2 class="withdraw-head-title">회원탈퇴</h2>
 		</header>
+		
 		<section class="withdraw-why">
-			<h2 class="withdraw-why-title">
-				안녕~은 영원한~헤어짐은 아니겠~지요. 어떤점이 불편하셨나요? 참고해서 다음에 만났을 때는 더 좋은 서비스가 되어 있을게요.
-			</h2>
-			<br>
-			<fieldset>
-				<input type="memo">
-			</fieldset>
-		</section>
-		<footer class="withdraw-shy-action">
+			<h2 class="withdraw-why-title">안녕~은 영원한~헤어짐은 아니겠~지요. 어떤점이 불편하셨나요? 참고해서 다음에 만났을 때는 더 좋은 서비스가 되어 있을게요.</h2><br>
+			<textarea name="withdrawReason"rows="10" cols="30" placeholder="탈퇴 사유를 적어주개!"></textarea> <br>
 			<input type="submit" value="모든 정보와 계정을 삭제합니다.">
-			<input type="button" style="color rgb(0, 0 , 0); text-decoration: underline; value="조금 더 이용해볼게요" onclick="location.href='<%= request.getContextPath() %>/member/memberInfo';">
-		</footer>
+			<input type="button" style="color rgb(0, 0 , 0); text-decoration: underline;" value="조금 더 이용해볼게요" onclick="location.href='<%= request.getContextPath() %>/member/memberInfo';">
+		</section>
+		
 	</section>
 </form>
 
