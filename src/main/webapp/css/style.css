@@ -105,7 +105,7 @@ header .bannerContainerUpper {
 }
 
 header .bannerContainerUpper nav {
-	max-width: 1000px;
+	max-width: 1100px;
 	height: 50px;
 	margin: 0 auto;
 	display: flex;
@@ -140,6 +140,7 @@ header .bannerContainerUpper ul{
 .slogan {
 	font-size: 30px;
 	font-weight: bold;
+	margin: 0 5%;
 }
 
 /* 메인화면 로그인창 */
@@ -152,32 +153,51 @@ header .bannerContainerLower {
 
 /* 메인화면 뤠퍼 */
 .bannerContainerLower .infoWrapper {
-	max-width: 1000px;
+	max-width: 1100px;
 	height: 400px;
 	margin: 0 auto;
-	display: flex;
 }
 
 /* 메인화면 메뉴 박스 */
 .loginContainer {
-	width: 100%;
+	background-color:aqua;
+	width: 90%;
 	height: 200px;
-	display: flex;
 	margin: 0;
 	padding: 0 5%;
 }
 .registerContainer {
-	width: 100%;
+	width: 90%;
 	height: 50px;
-	display: flex;
 	margin: 0;
 	padding: 0 5%;
 }
 
 .infoContainer {
-	width: 100%;
+	width: 90%;
 	margin: 0;
 	padding: 0 5%;
+}
+.loginContainer table {
+	width: 55%;
+	border: 1px solid black;
+}
+.loginContainer table td, .loginContainer table tr {
+	
+	border: 1px solid black;
+}
+
+.loginInput {
+	display: block;
+	max-width: 400px;
+}
+
+.loginContainer form table tr td input {
+	background-color: white;
+	width: 95%;
+	height: 40px;
+	font-size: 16px;
+	padding-left: 10px;
 }
 
 
