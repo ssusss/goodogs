@@ -9,11 +9,13 @@
 <%
 	Member loginMember = (Member) session.getAttribute("loginMember");
 	NewsScript newsScript = (NewsScript)session.getAttribute("newsScript");
+	System.out.println(newsScript);
 	String scriptTitle = "";
 	String category = "";
 	String content = "";
 	String tag = "";
 	List<String> scriptTagArr = new ArrayList<>();
+	
 	if(newsScript != null){
 		scriptTitle = newsScript.getScriptTitle();
 		category = newsScript.getScriptCategory();
@@ -25,6 +27,7 @@
 		}
 		
 	}
+
 %>
 <html>
 <head>
@@ -98,12 +101,12 @@
 			<button id="addTagBtn">태그 추가</button>
 		</div>
 		<div class="tagContainer">
-			<div class="tag" <%= scriptTagArr.isEmpty() ? "style='display: none;'" : "" %>> 
-				<div class="inputTag"><%= scriptTagArr.isEmpty() ? "-선택-" : "#" + scriptTagArr.get(0) %></div>
+			<div class="tag" <%= newsScript == null ? "style='display: none;'" : "" %>> 
+				<div class="inputTag"><%= newsScript == null ? "-선택-" : "#" + scriptTagArr.get(0) %></div>
 				<div class="cancleTagBox" onclick="cancleCategoryAlert();">
 				</div>
 			</div>
-		<% if(scriptTagArr != null) {%>
+		<% if(newsScript != null) {%>
 			<% for (int i = 1; i < scriptTagArr.size(); i++) { %>
 			<div class="tag">
 				<div class="inputTag"><%="#"+scriptTagArr.get(i) %></div>
@@ -117,7 +120,7 @@
 		
 		
 		
-		<input type="text" id="newsTagList" name="newsTagList" style="display:none"/>
+		<input type="text" id="newsTagList" name="newsTagList" value=<%= tag %>	/>
   	
 		<div class="ScriptWriteBtnContainer">
 			<button id="submitBtn" type="submit" class="scriptSubmit scriptBtn">제출</button>
@@ -182,7 +185,7 @@
 				alert(message);
 			},
 			complete() {
-				window.location.href = '<%= request.getContextPath() %>/reporter/myScript';
+				parent.window.location.href = '<%= request.getContextPath() %>/reporter/myScript';
 			}
 			
 		});
@@ -192,7 +195,19 @@
 	};
 	
 	
-	const tagList = ['-선택-']; 
+	const tagList = ['-선택-'];
+
+	window.addEventListener("load", function() {
+	  const newsTagList1 = newsTagList.value.split(","); // 콤마(,)를 기준으로 분할하여 배열에 저장
+	  console.log(newsTagList1[0]);
+	  if (newsTagList1[0] !== '/') {
+		  console.log(newsTagList1);
+		  tagList.shift(); // 빈 문자열인 경우 첫 번째 요소인 '-선택-' 제외
+	 	  tagList.push(...newsTagList1); // tagList 배열에 newsTagList 배열 요소를 추가
+	  }
+	  console.log(tagList);
+	});
+	
 	// =================== 카테고리 설정시 태그 추가, 삭제 =========================
 	category.onchange = () => {
 		tagList.shift();
