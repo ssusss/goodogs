@@ -32,9 +32,9 @@ public class AdminService {
 
 
 	
-	public List<NewsComment> findBanComment() {
+	public List<NewsComment> findBanComment(int start, int end) {
 		Connection conn = getConnection();
-		 List<NewsComment> newsComments = adminDao.findBenComment(conn);
+		 List<NewsComment> newsComments = adminDao.findBanComment(conn,start, end);
 		close(conn);
 		return newsComments;
 	}
@@ -72,6 +72,14 @@ public class AdminService {
 		}
 
 		return result;
+	}
+	
+
+	public int getTotalContent() {
+		Connection conn = getConnection();
+		int totalContent = adminDao.getTotalContent(conn);
+		close(conn);
+		return totalContent;
 	}
 		
 
