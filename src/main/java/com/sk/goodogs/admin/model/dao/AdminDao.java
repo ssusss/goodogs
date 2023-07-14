@@ -13,9 +13,12 @@ import java.util.Properties;
 
 
 import com.sk.goodogs.news.model.vo.NewsComment;
+import com.sk.goodogs.news.model.vo.NewsScript;
+
 import javax.naming.spi.DirStateFactory.Result;
 import static com.sk.goodogs.common.JdbcTemplate.*;
 import com.sk.goodogs.admin.model.exception.AdminException;
+import com.sk.goodogs.admin.model.exception.AdminScriptException;
 import com.sk.goodogs.member.model.exception.MemberException;
 import com.sk.goodogs.member.model.vo.Gender;
 import com.sk.goodogs.member.model.vo.Member;
@@ -194,6 +197,66 @@ public int getTotalContent(Connection conn) {
 		throw new AdminException(e);
 	}
 	return totalContent;
+}
+
+
+
+public List<NewsScript> scriptFind(int scriptState, Connection conn) {
+	List<NewsScript> scripts= new ArrayList<>();
+	String sql=prop.getProperty("scriptFind");
+	try(PreparedStatement pstmt = conn.prepareStatement(sql)) {
+		pstmt.setInt(1, scriptState);
+		try(ResultSet rset=pstmt.executeQuery()){
+			while(rset.next()) {
+				NewsScript script=handleScriptResultSet(rset);
+				scripts.add(script);
+			}
+		}
+	} catch (SQLException e) {
+		throw new AdminException();
+	}
+	return scripts;
+}
+
+
+
+private NewsScript handleScriptResultSet(ResultSet rset) throws SQLException{
+	
+	int scriptNo =rset.getInt("script_no");
+	String scriptWriter=rset.getString("script_writer");
+	String scriptTitle=rset.getString("script_title");
+	String scriptCategory=rset.getString("script_category");
+	String scriptContent=rset.getString("script_content");
+	Date scriptWriteDate=rset.getDate("script_write_date");
+	String scriptTag=rset.getString("script_tag");
+	int scriptState=rset.getInt("script_state");
+	
+	NewsScript script=new NewsScript(scriptNo, scriptWriter, scriptTitle, scriptCategory, scriptContent, scriptWriteDate, scriptTag, scriptState);
+	return script;
+}
+
+
+
+public List<NewsScript> scriptSerch(int scriptState, String searchTypeVal, String searchKeywordVal, Connection conn) {
+	List<NewsScript> scripts= new ArrayList<>();
+	String sql=prop.getProperty("scriptSerch");
+	sql=sql.replace("#",searchTypeVal);
+	System.out.println(sql);
+	
+	try(PreparedStatement pstmt= conn.prepareStatement(sql)){
+		pstmt.setString(1, "%"+searchKeywordVal+"%");
+		pstmt.setInt(2, scriptState);
+		try(ResultSet rset=pstmt.executeQuery()){
+			while(rset.next()) {
+				NewsScript script=handleScriptResultSet(rset);
+				scripts.add(script);
+			}
+		}
+	} catch (SQLException e) {
+		throw new AdminException();
+	}
+	
+	return scripts;
 }
 
 

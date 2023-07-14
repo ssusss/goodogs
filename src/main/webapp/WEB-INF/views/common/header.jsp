@@ -102,15 +102,15 @@
 						<form id="loginFrm" name="loginFrm" action="<%= request.getContextPath() %>/member/memberLogin" method="GET">
 							<table>
 								<tr>
-									<td><input type="email" name="memberId" id="memberId"
-										placeholder="아이디" tabindex="1" value=""></td>
-									<td rowspan="2"><input type="submit" value="로그인"></td>
+									<td class="loginInput"><input type="email" name="memberId" id="memberId"
+										placeholder="아이디(이메일 주소)" tabindex="1" value=""></td>
 								</tr>
 								<tr>
-									<td><input type="password" name="password" id="password"
+									<td class="loginInput"><input type="password" name="password" id="password"
 										tabindex="2" placeholder="비밀번호"></td>
-									<td></td>
-									<td></td>
+								</tr>
+								<tr>
+									<td><input type="submit" value="로그인"></td>
 								</tr>
 								<tr>
 									<td colspan="2"><input type="checkbox" name="saveId"
@@ -141,7 +141,7 @@
 			<!-- 로그인 회원 컨테이너 -->
 			<div class="bannerContainerUpper" role="banner">
 				<nav>
-					<span class="slogan">우리가 시간이 없지, 세상이 안궁금하냐 </span>
+					<span class="slogan">우리가 시간이 없지,</span><span class="slogan"> 세상이 안궁금하냐 </span>
 				</nav>
 			</div>
 			<div class="bannerContainerLower"></div>
