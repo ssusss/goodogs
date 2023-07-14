@@ -53,9 +53,31 @@
 		</nav>
 		
 		<script>
+		<!-- 동찬 -->
 		toMain.onclick = () => {
 			location.href = '<%=request.getContextPath()%>/';
 		}
+		document.querySelector(".searchBox").onclick = () => {
+			location.href = '<%=request.getContextPath()%>/search';
+		}
+		document.querySelector(".infoBox").onclick = () => {
+			const navBox = document.querySelector(".navBox");
+			navBox.insertAdjacentHTML('beforeend', `
+				<% if (loginMember != null) { %>
+					<div class="accountMenu">
+						<a  class="accountMenuDetail" href="<%=request.getContextPath()%>/member/memberInfo">내정보</a>
+						<a  class="accountMenuDetail" href="<%=request.getContextPath()%>/member/memberInfo">좋아요</a>
+						<a  class="accountMenuDetail" href="<%=request.getContextPath()%>/member/memberInfo">북마크</a>
+						<a  class="accountMenuDetail" href="<%=request.getContextPath()%>/member/logout">로그아웃</a>
+					</div>
+				<% } else { %>
+					<div class="accountMenu">
+						<img src="<%=request.getContextPath()%>/images/goodogs_face.jpg" alt="">
+					</div>
+				<% } %>
+			`);
+		}
+		
 		</script>
 
 		<!-- 로그인 객체마다 헤더가 다르게 보이게 -->
