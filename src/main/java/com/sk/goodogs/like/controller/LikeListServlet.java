@@ -7,6 +7,10 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.sk.goodogs.like.model.service.LikeService;
+import com.sk.goodogs.member.model.dao.MemberDao;
+import com.sk.goodogs.member.model.vo.Member;
+
 
 //do get VS do POST 차이
 //get, post 같이쓰려면 url 공유
@@ -19,10 +23,12 @@ import javax.servlet.http.HttpServletResponse;
  */
 
 @WebServlet("/like/likePage")
-public class LikePage extends HttpServlet {
+public class LikeListServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
+	public final LikeService likeService = new LikeService();
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+
 		request.getRequestDispatcher("/WEB-INF/views/common/like.jsp").forward(request, response);
 	}
 
