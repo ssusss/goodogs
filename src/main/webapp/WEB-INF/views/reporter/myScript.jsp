@@ -55,7 +55,6 @@ h1, h3{text-align:center;}
 			</tr>
 		</thead>
 		<tbody id="scriptBodyList2">
-			
 		</tbody>
 	</table>
 
@@ -71,7 +70,6 @@ h1, h3{text-align:center;}
 			</tr>
 		</thead>
 		<tbody id="scriptBodyList3">
-			
 		</tbody>
 	</table>
 </div>
@@ -104,15 +102,13 @@ document.addEventListener('click',(e)=>{
 		$.ajax({
 			url : "<%= request.getContextPath()%>/reporter/scriptUpdate",
 			data : {scriptNo},
-			method : "POST",
+			method : "GET",
 			dataType : "json",
 			success(scriptUpdate){
 				console.log(scriptUpdate);
 				alert(scriptUpdate.message);
+
 			},
-			complete(){
-				location.reload();
-			}
 		});
 	}
 });
