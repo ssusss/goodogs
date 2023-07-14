@@ -29,6 +29,8 @@ public class MainNewsServlet extends HttpServlet {
 		int totalPage = (int) Math.ceil((double) totalContent / limit);
 		request.setAttribute("totalPage", totalPage);
 		
+		System.out.println("toalPage : " + totalPage);
+		
 		request.getRequestDispatcher("/index.jsp")
 			.forward(request, response);
 		

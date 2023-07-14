@@ -105,13 +105,12 @@ public class NewsService {
 	}
 	
 	
-	
-//	public List<News> findNews(int start, int end) {
-//		Connection conn = getConnection();
-//		List<News> news = NewsDao.findNews(conn, start, end);
-//		close(conn);
-//		return news;
-//	}
+	public List<News> findNews(int start, int end) {
+		Connection conn = getConnection();
+		List<News> news = newsDao.findNews(conn, start, end);
+		close(conn);
+		return news;
+	}
 	
 	
 }

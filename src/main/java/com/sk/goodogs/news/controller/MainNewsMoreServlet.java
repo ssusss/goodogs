@@ -39,12 +39,13 @@ public class MainNewsMoreServlet extends HttpServlet {
 		int start = (cpage - 1) * limit + 1;
 		int end = cpage * limit;
 		
-//		// 2. 업무로직 (
-//		List<News> news = newsService.findNews(start, end);
-//		
-//		// 3. 응답처리 (json)
-//		response.setContentType("application/json; charset=utf-8");
-//		new Gson().toJson(news, response.getWriter());
+		// 2. 업무로직 (
+		List<News> news = newsService.findNews(start, end);
+		System.out.println("news : " + news);
+		
+		// 3. 응답처리 (json)
+		response.setContentType("application/json; charset=utf-8");
+		new Gson().toJson(news, response.getWriter());
 	}
 
 }

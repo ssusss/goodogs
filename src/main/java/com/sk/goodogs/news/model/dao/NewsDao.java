@@ -196,15 +196,21 @@ public class NewsDao {
 		}
 		
 		
-
-//		public List<News> findNews(Connection conn, int start, int end) {
-//			List<News> news = new ArrayList<>();
-//			String sql = prop.getProperty("findNews");
-//			try(PreparedStatement pstmt = conn.prepareStatement(sql)) {
-//				pstmt.setInt(1, start);
-//				pstmt.setInt(2, end);
-//			}
-//			return null;
-//		}
-
+		public List<News> findNews(Connection conn, int start, int end) {
+			List<News> news = new ArrayList<>();
+			String sql = prop.getProperty("findNews");
+			try(PreparedStatement pstmt = conn.prepareStatement(sql)) {
+				pstmt.setInt(1, start);
+				pstmt.setInt(2, end);
+				
+				try(ResultSet rset = pstmt.executeQuery()) {
+					while(rset.next())
+						news.add(handleNewsResultSet(rset));
+				}
+				
+			} catch (SQLException e) {
+				throw new NewsException(e);
+			}
+			return news;
+		}
 }

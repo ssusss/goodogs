@@ -146,7 +146,7 @@
 					<span class="slogan">우리가 시간이 없지,</span><span class="slogan"> 세상이 안궁금하냐 </span>
 				</nav>
 			</div>
-			<div class="bannerContainerLower"></div>
+			<div class="bannerContainerLower">
 				<div class="infoWrapper">
 					<div class="infoContainer">
 						<h3>반가워 죽겠개,</h2>
