@@ -152,4 +152,29 @@ public class NewsDao {
 			return result;
 		}
 
+		public NewsScript findByScriptNo(Connection conn, int scriptNo) {
+			NewsScript newsScript = null;
+			String sql = prop.getProperty("findByScriptNo");
+			try(PreparedStatement pstmt = conn.prepareStatement(sql)){
+				pstmt.setInt(1, scriptNo);
+				try(ResultSet rset = pstmt.executeQuery()){
+					while(rset.next()) {
+						int scriptNo_ = rset.getInt("script_no");
+						String scriptWriter = rset.getString("script_writer");
+						String scriptTitle = rset.getString("script_title");
+						String scriptCategory = rset.getString("script_category");
+						String scriptContent = rset.getString("script_content");
+						Date scriptWriteDate = rset.getDate("script_write_date");
+						String scriptTag = rset.getString("script_tag");
+						int scriptState = rset.getInt("script_state");
+						newsScript = new NewsScript(scriptNo_, scriptWriter, scriptTitle, scriptCategory, scriptContent, scriptWriteDate, scriptTag, scriptState);
+					}
+				}
+			} catch (SQLException e) {
+				throw new NewsException(e);
+			}
+			
+			return newsScript;
+		}
+
 }

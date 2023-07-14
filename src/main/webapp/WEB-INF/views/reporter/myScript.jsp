@@ -55,7 +55,6 @@ h1, h3{text-align:center;}
 			</tr>
 		</thead>
 		<tbody id="scriptBodyList2">
-			
 		</tbody>
 	</table>
 
@@ -71,11 +70,11 @@ h1, h3{text-align:center;}
 			</tr>
 		</thead>
 		<tbody id="scriptBodyList3">
-			
 		</tbody>
 	</table>
 </div>
 <script>
+
 //삭제 버튼에 대한 이벤트 리스너 추가
 document.addEventListener('click', (e) => {
   if (e.target.matches('.delete')) {
@@ -97,23 +96,13 @@ document.addEventListener('click', (e) => {
   }
 });
 
+// 이어쓰기 버튼에 대한 이벤트 리스너 추가
 document.addEventListener('click',(e)=>{
 	if(e.target.matches('.scriptUpdate')){
 		const scriptNo = e.target.closest('tr').querySelector('td:first-child').textContent;
 		
-		$.ajax({
-			url : "<%= request.getContextPath()%>/reporter/scriptUpdate",
-			data : {scriptNo},
-			method : "POST",
-			dataType : "json",
-			success(scriptUpdate){
-				console.log(scriptUpdate);
-				alert(scriptUpdate.message);
-			},
-			complete(){
-				location.reload();
-			}
-		});
+		// 동기적으로 서블릿으로 이동하는 코드
+	    window.location.href = `<%= request.getContextPath()%>/reporter/scriptUpdate?scriptNo=\${scriptNo}`;
 	}
 });
 

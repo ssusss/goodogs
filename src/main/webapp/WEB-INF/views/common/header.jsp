@@ -3,11 +3,11 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%
-	// 전수경 작성 로그인 성공 메세지
+	// 전수경 로그인 성공 메세지
 	String message = (String) session.getAttribute("message");
 	if(message != null) session.removeAttribute("message"); // 1회용
 
-	// 전수경 작성 로그인멤버
+	// 전수경 로그인멤버
 	Member loginMember = (Member) session.getAttribute("loginMember");
 	System.out.println("loginMember = " + loginMember);
 
@@ -53,9 +53,31 @@
 		</nav>
 		
 		<script>
+		<!-- 동찬 -->
 		toMain.onclick = () => {
 			location.href = '<%=request.getContextPath()%>/';
 		}
+		document.querySelector(".searchBox").onclick = () => {
+			location.href = '<%=request.getContextPath()%>/search';
+		}
+		document.querySelector(".infoBox").onclick = () => {
+			const navBox = document.querySelector(".navBox");
+			navBox.insertAdjacentHTML('beforeend', `
+				<% if (loginMember != null) { %>
+					<div class="accountMenu">
+						<a  class="accountMenuDetail" href="<%=request.getContextPath()%>/member/memberInfo">내정보</a>
+						<a  class="accountMenuDetail" href="<%=request.getContextPath()%>/member/memberInfo">좋아요</a>
+						<a  class="accountMenuDetail" href="<%=request.getContextPath()%>/member/memberInfo">북마크</a>
+						<a  class="accountMenuDetail" href="<%=request.getContextPath()%>/member/logout">로그아웃</a>
+					</div>
+				<% } else { %>
+					<div class="accountMenu">
+						<img src="<%=request.getContextPath()%>/images/goodogs_face.jpg" alt="">
+					</div>
+				<% } %>
+			`);
+		}
+		
 		</script>
 
 		<!-- 로그인 객체마다 헤더가 다르게 보이게 -->
@@ -126,7 +148,7 @@
 				<div class="infoWrapper">
 					<div class="infoContainer">
 						<h3>반가워 죽겠개,</h2>
-						<h2> 구독스!</h2>
+						<h2><%= loginMember.getNickname() %> 구독스!</h2>
 						<input type="button" value="정보수정" onclick="location.href='<%= request.getContextPath() %>/member/memberInfo';">
 						<input type="button" value="좋아요" onclick="location.href='<%= request.getContextPath() %>/like/likePage';">
 						<input type="button" value="북마크" onclick="location.href='<%= request.getContextPath() %>/bookmark/bookmarkPage';">
