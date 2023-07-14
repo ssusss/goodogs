@@ -260,5 +260,25 @@ public List<NewsScript> scriptSerch(int scriptState, String searchTypeVal, Strin
 }
 
 
+
+public NewsScript findOneScript(int no, Connection conn) {
+	NewsScript script=null;
+	String sql=prop.getProperty("findOneScript");
+	
+	try(PreparedStatement pstmt= conn.prepareStatement(sql)) {
+		pstmt.setInt(1, no);
+		try(ResultSet rset=pstmt.executeQuery()){
+			while(rset.next()) {
+				script=handleScriptResultSet(rset);
+			}
+		}
+	} catch (SQLException e) {
+		throw new AdminException();
+	}
+	
+	return script;
+}
+
+
 	
 }
