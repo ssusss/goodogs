@@ -195,16 +195,28 @@ insert into news values(1002,'kdc0526@naver.com','애국가3절','스포츠','�
 insert into news values(1003,'kdc0526@naver.com','애국가4절','경제','이 기상과 이 맘으로 충성을 다하여 괴로우나 즐거우나 나라 사랑하세 무궁화 삼천리 화려강산 대한사람 대한으로 길이 보전하세',to_date('20210903','yyyymmdd'),'#경제',3,25,'21-09-05');
 
 
-select * from news;
-select * from news_script;
+-- 기사 댓글 
+insert into news_comment values (2, 1000, 1,'admin@naver.com', 2, '어드민','바보양ㅋ', to_date('20180425','yyyymmdd'), 8, 0);
+insert into news_comment values (3, 1000, 1,'honggd@naver.com', 3, '길동좌','어쩔티비저쩔티비', to_date('20180425','yyyymmdd'), 9, 0);
+insert into news_comment values (4, 1000, 1,'kjh0425@naver.com', 4, '준한','쿠루루삥뻥', to_date('20180425','yyyymmdd'), 2, 0);
+insert into news_comment values (5, 1000, 1,'sejong@naver.com', 5, '킹세종','어쩔', to_date('20180425','yyyymmdd'), 3, 0);
+insert into news_comment values (6, 1000, 1,'sejong@naver.com', 6, '킹세종','배고프다', to_date('20180425','yyyymmdd'), 5, 0);
+insert into news_comment values (7, 1000, 1,'kny0910@naver.com', 7, 'na0','마라탕이', to_date('20180425','yyyymmdd'), 2, 1);
+insert into news_comment values (8, 1000, 1,'sejong@naver.com', 8, '킹세종','먹고시플지도', to_date('20180425','yyyymmdd'), 1, 2);
+insert into news_comment values (9, 1000, 1,'kdc0526@naver.com', 9, '동찬','아닌강.ㅋ', to_date('20180425','yyyymmdd'), 3, 0);
+
+
+insert into news_comment values (112, 1000, 1,'admin@naver.com', 0, '어드민','바보양ㅋ', to_date('20180425','yyyymmdd'), 8, 0);
+insert into news_comment values (113, 1000, 1,'honggd@naver.com', 0, '길동좌','어쩔티비저쩔티비', to_date('20180425','yyyymmdd'), 9, 0);
+insert into news_comment values (114, 1000, 1,'kjh0425@naver.com', 0, '준한','쿠루루삥뻥', to_date('20180425','yyyymmdd'), 2, 0);
+insert into news_comment values (115, 1000, 1,'sejong@naver.com', 0,'킹세종','어쩔', to_date('20180425','yyyymmdd'), 3, 0);
+insert into news_comment values (116, 1000, 1,'sejong@naver.com',0,'킹세종','배고프다', to_date('20180425','yyyymmdd'), 5, 0);
+insert into news_comment values (117, 1000, 1,'kny0910@naver.com', 0, 'na0','마라탕이', to_date('20180425','yyyymmdd'), 2, 1);
+insert into news_comment values (118, 1000, 1,'sejong@naver.com', 0,'킹세종','먹고시플지도', to_date('20180425','yyyymmdd'), 1, 2);
+insert into news_comment values (119, 1000, 1,'kdc0526@naver.com', 0, '동찬','아닌강.ㅋ', to_date('20180425','yyyymmdd'), 3, 0);
+
+select * from member;
+update member set is_banned = 0 where member_id = 'honggd@naver.com';
 commit;
-
-select * from news where news_writer = 'kjh0425@naver.com';
-
-select * from news_script;
---select * from news_script where script_writer = ?
-
---delete from news_script where script_no = ?
-
 
 
