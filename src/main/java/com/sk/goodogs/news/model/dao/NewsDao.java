@@ -11,9 +11,13 @@ import java.util.Date;
 import java.util.List;
 import java.util.Properties;
 
+import javax.script.ScriptException;
 
+import static com.sk.goodogs.common.JdbcTemplate.*;
+import com.sk.goodogs.member.model.vo.Member;
 import com.sk.goodogs.news.model.exception.NewsException;
 import com.sk.goodogs.news.model.vo.News;
+import com.sk.goodogs.news.model.vo.NewsScript;
 
 /**
  * @author 김준한
@@ -32,15 +36,15 @@ public class NewsDao {
 		}
 	}
 	
-	public List<News> findAll(Connection conn, String memberId) {
+	public List<News> findAllNewsById(Connection conn, Member loginMember) {
 		List<News> newsList = new ArrayList<>();
-		String sql = prop.getProperty("findAll");
+		String sql = prop.getProperty("findAllNewsById");
 		
 		try(PreparedStatement pstmt = conn.prepareStatement(sql)) {
-			pstmt.setString(1, memberId);
+			pstmt.setString(1, loginMember.getMemberId());
 			try(ResultSet rset = pstmt.executeQuery()) {
 				while(rset.next()) {
-					News news = handleCelebResultSet(rset);
+					News news = handleNewsResultSet(rset);
 					
 					newsList.add(news);
 					}
@@ -48,11 +52,11 @@ public class NewsDao {
 			} catch (SQLException e) {
 				throw new NewsException(e);
 			}
-			
+			System.out.println(loginMember);
 			return newsList;
 			}
 		
-		private News handleCelebResultSet(ResultSet rset) throws SQLException {
+		private News handleNewsResultSet(ResultSet rset) throws SQLException {
 			int newsNo = rset.getInt("news_no");
 			String newsWriter = rset.getString("news_writer");
 			String newsTitle = rset.getString("news_title");
@@ -65,6 +69,112 @@ public class NewsDao {
 			Date newsConfirmedDate = rset.getDate("news_confirmed_date");
 			
 			return new News(newsNo, newsWriter, newsTitle, newsCategory, newsContent, newsWriteDate, newsTag, newsLikeCnt, newsReadCnt, newsConfirmedDate);
+		}
+
+		public List<NewsScript> findAllScriptById(Connection conn, Member loginMember) {
+			List<NewsScript> scripts = new ArrayList<>();
+			String sql = prop.getProperty("findAllScriptById");
+			try(PreparedStatement pstmt = conn.prepareStatement(sql)){
+				pstmt.setString(1, loginMember.getMemberId());
+				try(ResultSet rset = pstmt.executeQuery()) {
+					while(rset.next()) {
+						NewsScript script = handleScriptResultSet(rset);
+						
+						scripts.add(script);
+						}
+					}
+			} catch (SQLException e) {
+				throw new NewsException(e);
+			} 
+			
+			return scripts;
+		}
+
+		private NewsScript handleScriptResultSet(ResultSet rset) throws SQLException{
+			int scriptNo = rset.getInt("script_no");
+			String scriptWriter = rset.getString("script_writer");
+			String scriptTitle = rset.getString("script_title");
+			String scriptCategory = rset.getString("script_category");
+			String scriptContent = rset.getString("script_content");
+			Date scriptWriteDate = rset.getDate("script_write_date");
+			String scriptTag = rset.getString("script_tag");
+			int scriptState = rset.getInt("script_state");
+			NewsScript newsScript = new NewsScript(scriptNo, scriptWriter, scriptTitle, scriptCategory, scriptContent, scriptWriteDate, scriptTag, scriptState);
+			
+			return newsScript;
+		}
+
+		public int newsScriptSubmit(Connection conn, NewsScript newNewsScript) {
+			int result = 0;
+			String sql = prop.getProperty("newsScriptSubmit");
+			try (PreparedStatement pstmt = conn.prepareStatement(sql)) {
+				pstmt.setString(1, newNewsScript.getScriptWriter());
+				pstmt.setString(2, newNewsScript.getScriptTitle());
+				pstmt.setString(3, newNewsScript.getScriptCategory());
+				pstmt.setString(4, newNewsScript.getScriptContent());
+				pstmt.setString(5, newNewsScript.getScriptTag());
+				result = pstmt.executeUpdate();
+			} catch (SQLException e) {
+				throw new NewsException(e);
+			}
+			
+			return result;
+		}
+
+		public int newsScriptTempSave(Connection conn, NewsScript tempNewsScript) {
+			int result = 0;
+			String sql = prop.getProperty("tempNewsScript");
+			try (PreparedStatement pstmt = conn.prepareStatement(sql)) {
+				pstmt.setString(1, tempNewsScript.getScriptWriter());
+				pstmt.setString(2, tempNewsScript.getScriptTitle());
+				pstmt.setString(3, tempNewsScript.getScriptCategory());
+				pstmt.setString(4, tempNewsScript.getScriptContent());
+				pstmt.setString(5, tempNewsScript.getScriptTag());
+				result = pstmt.executeUpdate();
+			} catch (SQLException e) {
+				throw new NewsException(e);
+			}
+			
+			return result;
+		}
+
+		
+
+		public int scriptDelete(int scriptNo, Connection conn) {
+			int result = 0;
+			String sql = prop.getProperty("scriptDelete");
+			try(PreparedStatement pstmt = conn.prepareStatement(sql)){
+				pstmt.setInt(1,scriptNo);
+				result = pstmt.executeUpdate();
+			}catch (SQLException e) {
+				throw new NewsException(e);
+			}
+			return result;
+		}
+
+		public NewsScript findByScriptNo(Connection conn, int scriptNo) {
+			NewsScript newsScript = null;
+			String sql = prop.getProperty("findByScriptNo");
+			try(PreparedStatement pstmt = conn.prepareStatement(sql)){
+				pstmt.setInt(1, scriptNo);
+				try(ResultSet rset = pstmt.executeQuery()){
+					while(rset.next()) {
+						int scriptNo_ = rset.getInt("script_no");
+						String scriptWriter = rset.getString("script_writer");
+						String scriptTitle = rset.getString("script_title");
+						String scriptCategory = rset.getString("script_category");
+						String scriptContent = rset.getString("script_content");
+						Date scriptWriteDate = rset.getDate("script_write_date");
+						String scriptTag = rset.getString("script_tag");
+						int scriptState = rset.getInt("script_state");
+						newsScript = new NewsScript(scriptNo_, scriptWriter, scriptTitle, scriptCategory, scriptContent, scriptWriteDate, scriptTag, scriptState);
+					}
+				}
+			} catch (SQLException e) {
+				throw new NewsException(e);
+			}
+			
+			return newsScript;
 		}
 
 }

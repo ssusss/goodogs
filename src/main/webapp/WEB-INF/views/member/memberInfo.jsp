@@ -11,7 +11,6 @@
 	String nickname = loginMember.getNickname();
 	String phone = loginMember.getPhone();
 	Gender gender = loginMember.getGender();
-	
 %>
 <script>
 bannerContainerLower = document.querySelector(".bannerContainerLower");
@@ -96,11 +95,9 @@ bannerContainerUpper.style.display = "none";
 		</table>
 </section>
 
-<section id=member-delete>
-	
+<section id=member-withdraw-confirm>
 	<h1>회원탈퇴</h1>
-	<input type="button" value="탈퇴" onclick="location.href='<%= request.getContextPath() %>/member/memberWithdraw';">
-	
+	<input type="button" value="탈퇴" onclick="location.href='<%= request.getContextPath() %>/member/memberWithdrawConfirm';">
 </section>
 
 <script>

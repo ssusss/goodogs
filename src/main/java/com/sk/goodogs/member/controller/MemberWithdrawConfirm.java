@@ -1,4 +1,4 @@
-package com.sk.goodogs.reporter.controller;
+package com.sk.goodogs.member.controller;
 
 import java.io.IOException;
 import javax.servlet.ServletException;
@@ -7,20 +7,23 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-/**
- * Servlet implementation class ReporterScriptWriteServlet
+
+/***
+ * 
+ * @author 이혜령
+ * 회원 탈퇴 페이지 조회
+ *
  */
-@WebServlet("/reporter/scriptWrite")
-public class ReporterScriptWriteServlet extends HttpServlet {
+@WebServlet("/member/memberWithdrawConfirm")
+public class MemberWithdrawConfirm extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
 	/**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-
-
-		request.getRequestDispatcher("/WEB-INF/views/reporter/scriptWrite.jsp").forward(request, response);
+		// TODO Auto-generated method stub
+		request.getRequestDispatcher("/WEB-INF/views/member/memberWithdraw.jsp").forward(request, response);
 	}
 
 }

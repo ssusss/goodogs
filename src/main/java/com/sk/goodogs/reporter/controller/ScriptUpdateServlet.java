@@ -2,6 +2,7 @@ package com.sk.goodogs.reporter.controller;
 
 import java.io.IOException;
 
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -9,28 +10,29 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.sk.goodogs.news.model.service.NewsService;
+import com.sk.goodogs.news.model.vo.NewsScript;
 
 /**
- * Servlet implementation class ReporterScriptServlet
+ * 김준한 ㅋ
  */
-/**
- * @author 김준한 ㅋ
- *
- */
-@WebServlet("/reporter/myScript")
-public class ReporterMyScriptServlet extends HttpServlet {
+@WebServlet("/reporter/scriptUpdate")
+public class ScriptUpdateServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	private final NewsService newsService = new NewsService();
 	
 	
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
+		int scriptNo = Integer.parseInt(request.getParameter("scriptNo"));
+		NewsScript newsScript = newsService.findByScriptNo(scriptNo);
 		
-		request.getRequestDispatcher("/WEB-INF/views/reporter/myScript.jsp").forward(request, response);
 		
+		request.setAttribute("newsScript", newsScript);
+
+	    // 페이지로 이동
+	    RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/views/reporter/scriptWrite.jsp");
+	    dispatcher.forward(request, response);
 		
 	}
-
-	
 
 }

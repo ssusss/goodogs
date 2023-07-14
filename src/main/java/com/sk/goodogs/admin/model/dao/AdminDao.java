@@ -16,6 +16,7 @@ import com.sk.goodogs.news.model.vo.NewsComment;
 import javax.naming.spi.DirStateFactory.Result;
 import static com.sk.goodogs.common.JdbcTemplate.*;
 import com.sk.goodogs.admin.model.exception.AdminException;
+import com.sk.goodogs.member.model.exception.MemberException;
 import com.sk.goodogs.member.model.vo.Gender;
 import com.sk.goodogs.member.model.vo.Member;
 import com.sk.goodogs.member.model.vo.MemberRole;
@@ -40,29 +41,42 @@ public class AdminDao {
 // 벤용 ----------------------------------------
 	
 
-	public List<NewsComment> findBenComment(Connection conn) {
+	public List<NewsComment> findBanComment(Connection conn, int start, int end) {
 		List<NewsComment> newsComments = new ArrayList<>();
 		String sql = prop.getProperty("findBanComment");
 		
-		try (
-				PreparedStatement pstmt = conn.prepareStatement(sql);
-				ResultSet rset = pstmt.executeQuery();
-				){
-			
-			while(rset.next()) {
-				NewsComment newsComment  =  handleCommentrResultSet(rset);
-				newsComments.add(newsComment);
-				
+		try(PreparedStatement pstmt = conn.prepareStatement(sql)) {
+				pstmt.setInt(1, start);
+				pstmt.setInt(2, end);
+					
+			try(ResultSet rset = pstmt.executeQuery()) {
+				while(rset.next()) {
+					NewsComment newsComment  =  handleCommentrResultSet(rset);
+					newsComments.add(newsComment);
+				}
 			}
-			
 		} catch (Exception e) {
-//			throw new AdminrException(e);
+			throw new  AdminException(e);
 		}
-
-		return newsComments;
+			return newsComments;
 	}
 
+	public int BanUpdate(Connection conn, String memberId) {
+		int result = 0;
+		
+		String sql=prop.getProperty("banMember");
+		
+		try (PreparedStatement pstmt = conn.prepareStatement(sql)){
+			pstmt.setString(1, memberId);
+			System.out.println(memberId);
+			result = pstmt.executeUpdate(); 
+			
+		} catch (SQLException e) {
+			throw new  AdminException(e);
+		}
 
+		return result;
+	}
 
 private NewsComment handleCommentrResultSet(ResultSet rset) throws SQLException {
 	 int commentNo = rset.getInt("comment_no");
@@ -80,7 +94,7 @@ private NewsComment handleCommentrResultSet(ResultSet rset) throws SQLException 
 			 newsCommentNickname,  newsCommentContent,commentRegDate, newsCommentReportCnt, commentState);
 	
 }
-// ---------------------------------------
+
 
 	public List<Member> memberFindAll(Connection conn) {
 		List<Member> members= new ArrayList<>();
@@ -123,5 +137,65 @@ private Member handleMemberResultSet(ResultSet rset) throws SQLException{
 				
 		return member;
 	}
+
+
+
+public List<Member> memberFindSelected(String searchType, String searchKeyword, Connection conn) {
+		List<Member> members = new ArrayList<>();
+		String sql=prop.getProperty("memberFindSelected");
+		sql=sql.replace("#",searchType);
+		System.out.println("check sql ="+ sql);
+		
+		try(PreparedStatement pstmt = conn.prepareStatement(sql)) {
+			pstmt.setString(1, "%"+searchKeyword+"%");
+			try(ResultSet rset = pstmt.executeQuery()){
+				while(rset.next()) {
+					Member member=handleMemberResultSet(rset);
+					members.add(member);
+				}
+			}
+		} catch (SQLException e) {
+			throw new MemberException();
+		}
+	return members;
+}
+
+
+
+
+public int roleUpdate(String memberRole, String memberId, Connection conn) {
+	int result=0;
+	String sql=prop.getProperty("roleUpdate");
+	try(PreparedStatement pstmt=conn.prepareStatement(sql)){
+		pstmt.setString(1, memberRole);
+		pstmt.setString(2, memberId);
+		
+		result=pstmt.executeUpdate();
+	}catch (SQLException e) {
+		throw new MemberException(e);
+	}
+	
+	return result;
+}
+
+
+
+public int getTotalContent(Connection conn) {
+	
+	int totalContent = 0;
+	String sql = prop.getProperty("getTotalContent"); // select count(*) from board
+	
+	try (PreparedStatement pstmt = conn.prepareStatement(sql)) {
+		try (ResultSet rset = pstmt.executeQuery()) {
+			while(rset.next())
+				totalContent = rset.getInt(1);
+		}
+	} catch (SQLException e) {
+		throw new AdminException(e);
+	}
+	return totalContent;
+}
+
+
 	
 }

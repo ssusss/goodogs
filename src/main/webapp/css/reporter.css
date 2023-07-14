@@ -7,8 +7,10 @@
 
 #contentArea {
 	background-color: white;
+	border: 1px solid black;
 	width: 100%;
 	height: 400px;
+	padding: 10px;
 }
 
 #titleArea {
@@ -20,10 +22,51 @@
 	display: flex;
 }
 
+.fileUploadContainer {
+	display: flex;
+}
 
 .scriptBtn {
 	width: 100px;
 	height: 50px;
+}
+
+
+.addTagBox {
+	background-color: yellow;
+}
+
+.tagContainer {
+	background-color : lightgray;
+	display: flex;
+	flex-wrap: wrap;
+}
+
+.tag {
+	background-color : lime;
+	margin: 10px;
+
+	height: 40px;
+	display: flex;
+	flex-wrap: wrap;
+	align-content: center;
+	position: relative;
+	text-align: center;
+}
+
+.inputTag {
+	margin-left: 10px;
+	margin-right: 40px;
+}
+
+.cancleTagBox {
+	background-color: red;
+	width: 20px;
+	height: 20px;
+	position: absolute;
+	top: 10px;
+	right: 10px;
+	cursor: pointer;
 }
 
 .ScriptWriteBtnContainer {
@@ -31,3 +74,12 @@
 	display: flex;
 	flex-direction: row-reverse;
 }
+
+#linkBox {
+	display: none;
+}
+
+.note-editable {
+	height: 360px;
+}
+

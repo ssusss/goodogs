@@ -20,19 +20,13 @@ public class NewsScriptRejected extends NewsScript{
 	
 
 
-	public NewsScriptRejected(int rejectedNo, int scriptNo, String scriptTitle, String scriptCategory, String scriptContent,
-			Date scriptWriteDate, String scriptTag, int scriptState, String scriptWriter, String rejectedReson) {
-		super(scriptNo,
-				scriptTitle,
-				scriptCategory, 
-				scriptContent, 
-				scriptWriteDate, 
-				scriptTag, 
-				scriptState, 
-				scriptWriter);
+	public NewsScriptRejected(int scriptNo, String scriptWriter, String scriptTitle, String scriptCategory,
+			String scriptContent, Date scriptWriteDate, String scriptTag, int scriptState, int rejectedNo,
+			String rejectedReson) {
+		super(scriptNo, scriptWriter, scriptTitle, scriptCategory, scriptContent, scriptWriteDate, scriptTag,
+				scriptState);
 		this.rejectedNo = rejectedNo;
 		this.rejectedReson = rejectedReson;
-		
 	}
 
 
