@@ -42,7 +42,9 @@ public class MemberDao {
 		return result;
 	}
 
-
+	/***
+	 * @author 이혜령
+	 */
 	public Member findById(Connection conn, String memberId) {
 		// select * from member where member_id = ?
 		String sql = prop.getProperty("findById"); 
@@ -60,7 +62,10 @@ public class MemberDao {
 		}
 		return member;
 	}
-
+	
+	/***
+	 * @author 이혜령
+	 */
 	private Member handleMemberResultSet(ResultSet rset) throws SQLException {
 		
 		String memberId = rset.getString("member_id");
@@ -119,12 +124,35 @@ public class MemberDao {
 
 	}
 
+	/***
+	 * @author 이혜령
+	 * 회원탈퇴
+	 */
 	public int memberWithdraw(Connection conn, String memberId) {
 		int result = 0;
 		// delete from member where member_id = ?
 		String sql = prop.getProperty("memberWithdraw");
 		try (PreparedStatement pstmt = conn.prepareStatement(sql)) {
 			pstmt.setString(1, memberId);
+			result = pstmt.executeUpdate();
+		} catch (SQLException e) {
+			throw new MemberException(e);
+		}
+		return result;
+	}
+
+
+	/***
+	 * @author 이혜령
+	 * 회원탈퇴 사유
+	 */
+	public int UpdateWithdraw(Connection conn, String memberId, String reason) {
+		int result = 0;
+		// update withdraw_member set withdraw_reason = ? where member_id = ?
+		String sql = prop.getProperty("UpdateWithdraw");
+		try (PreparedStatement pstmt = conn.prepareStatement(sql)) {
+			pstmt.setString(1, reason);
+			pstmt.setString(2, memberId);
 			result = pstmt.executeUpdate();
 		} catch (SQLException e) {
 			throw new MemberException(e);

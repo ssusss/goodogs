@@ -37,9 +37,10 @@ public class MemberWIthdraw extends HttpServlet {
 		HttpSession session = request.getSession();
 		Member loginMember = (Member) session.getAttribute("loginMember");
 		String memberId = loginMember.getMemberId();
+		String reason = request.getParameter("reason");
 		
 		// 2. 서비스 로직 호출
-		int result = memberService.memberWithdraw(memberId);
+		int result = memberService.memberWithdraw(memberId, reason);
 		
 		// 세션 속성 삭제
 		Enumeration<String> names = session.getAttributeNames();
@@ -59,6 +60,7 @@ public class MemberWIthdraw extends HttpServlet {
 		response.sendRedirect(request.getContextPath() + "/");
 	}
 
+	
 }
 
 
