@@ -86,6 +86,12 @@ public class NewsService {
 		
 		
 	}
+	public NewsScript findByScriptNo(int scriptNo) {
+		Connection conn = getConnection();
+		NewsScript newsScript = newsDao.findByScriptNo(conn, scriptNo);
+		close(conn);
+		return newsScript;
+	}
 	
 	
 }
