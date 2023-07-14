@@ -21,9 +21,7 @@
 		tag = newsScript.getScriptTag();
 		if(tag != null){
 			String[] arr = tag.split(",");
-			System.out.println(arr[0]+arr[1]+arr[2]);
 			scriptTagArr = Arrays.asList(arr);
-			System.out.println(scriptTagArr);
 		}
 		
 	}
@@ -64,8 +62,8 @@
 			<input type="file" name="newsImage" id="newsImage"/>
 		</div>
 		<br>
-		
-		
+
+
 		<button id="h2Btn">h2</button>
 		<button id="pBtn">p</button>
 		<button id="aBtn">a</button>

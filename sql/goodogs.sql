@@ -342,7 +342,8 @@ insert into news_comment values (119, 1000, 1,'kdc0526@naver.com', null, '동찬
 --select * from news_comment;
 --update member set is_banned = 0 where member_id = 'honggd@naver.com';
 --commit;
---
+insert into news_script values(seq_news_script_no.NEXTVAL,'kjh0425@naver.com','집에가고싶은걸까','사회','k12ih3io1jhj90u90ucinndjkbhej2vbrhjbjhbjdknjknjkndjanjk,nm,xznmznx,.nlkaskldmasdml;m',to_date('20200601','yyyymmdd'),'사회,과학,문화,동양',0);
+--commit;
 --
 --select * from news where news_writer = 'kjh0425@naver.com';
 --
