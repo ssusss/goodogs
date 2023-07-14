@@ -54,6 +54,7 @@ nav.navBar div.searchBox {
 	width: 50px;
 	height: 50px;
 	border: 1px solid black;
+	cursor: pointer;
 }
 
 nav.navBar div.infoBox {
@@ -61,6 +62,36 @@ nav.navBar div.infoBox {
 	height: 50px;
 	border: 1px solid black;
 	border-left: none;
+	cursor: pointer;
+}
+.accountMenu {
+	width: 280px;
+    box-sizing: border-box;
+    border-radius: 0;
+    background: #fff;
+    border: 1px solid #051619;
+    position: absolute;
+    top: 72px;
+    right: 0;
+    z-index: 4;
+}
+.accountMenu a {
+	text-decoration: none;
+}
+.accountMenuDetail {
+	display: block;
+    padding: 0.75rem 1.5rem;
+    border-bottom: 1px solid #051619;
+    color: #051619;
+    cursor: pointer;
+}
+.accountMenuDetail:last-of-type {
+	border-bottom: none;
+}
+.accountMenu img {
+	width: 278px;
+	height: 278px;
+	margin: 0px;
 }
 
 /* 슬로건 */
@@ -74,7 +105,7 @@ header .bannerContainerUpper {
 }
 
 header .bannerContainerUpper nav {
-	max-width: 1000px;
+	max-width: 1100px;
 	height: 50px;
 	margin: 0 auto;
 	display: flex;
@@ -109,6 +140,7 @@ header .bannerContainerUpper ul{
 .slogan {
 	font-size: 30px;
 	font-weight: bold;
+	margin: 0 5%;
 }
 
 /* 메인화면 로그인창 */
@@ -121,32 +153,51 @@ header .bannerContainerLower {
 
 /* 메인화면 뤠퍼 */
 .bannerContainerLower .infoWrapper {
-	max-width: 1000px;
+	max-width: 1100px;
 	height: 400px;
 	margin: 0 auto;
-	display: flex;
 }
 
 /* 메인화면 메뉴 박스 */
 .loginContainer {
-	width: 100%;
+	background-color:aqua;
+	width: 90%;
 	height: 200px;
-	display: flex;
 	margin: 0;
 	padding: 0 5%;
 }
 .registerContainer {
-	width: 100%;
+	width: 90%;
 	height: 50px;
-	display: flex;
 	margin: 0;
 	padding: 0 5%;
 }
 
 .infoContainer {
-	width: 100%;
+	width: 90%;
 	margin: 0;
 	padding: 0 5%;
+}
+.loginContainer table {
+	width: 55%;
+	border: 1px solid black;
+}
+.loginContainer table td, .loginContainer table tr {
+	
+	border: 1px solid black;
+}
+
+.loginInput {
+	display: block;
+	max-width: 400px;
+}
+
+.loginContainer form table tr td input {
+	background-color: white;
+	width: 95%;
+	height: 40px;
+	font-size: 16px;
+	padding-left: 10px;
 }
 
 

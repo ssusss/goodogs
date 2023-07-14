@@ -3,11 +3,11 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%
-	// 전수경 작성 로그인 성공 메세지
+	// 전수경 로그인 성공 메세지
 	String message = (String) session.getAttribute("message");
 	if(message != null) session.removeAttribute("message"); // 1회용
 
-	// 전수경 작성 로그인멤버
+	// 전수경 로그인멤버
 	Member loginMember = (Member) session.getAttribute("loginMember");
 	System.out.println("loginMember = " + loginMember);
 
@@ -53,9 +53,31 @@
 		</nav>
 		
 		<script>
+		<!-- 동찬 -->
 		toMain.onclick = () => {
 			location.href = '<%=request.getContextPath()%>/';
 		}
+		document.querySelector(".searchBox").onclick = () => {
+			location.href = '<%=request.getContextPath()%>/search';
+		}
+		document.querySelector(".infoBox").onclick = () => {
+			const navBox = document.querySelector(".navBox");
+			navBox.insertAdjacentHTML('beforeend', `
+				<% if (loginMember != null) { %>
+					<div class="accountMenu">
+						<a  class="accountMenuDetail" href="<%=request.getContextPath()%>/member/memberInfo">내정보</a>
+						<a  class="accountMenuDetail" href="<%=request.getContextPath()%>/member/memberInfo">좋아요</a>
+						<a  class="accountMenuDetail" href="<%=request.getContextPath()%>/member/memberInfo">북마크</a>
+						<a  class="accountMenuDetail" href="<%=request.getContextPath()%>/member/logout">로그아웃</a>
+					</div>
+				<% } else { %>
+					<div class="accountMenu">
+						<img src="<%=request.getContextPath()%>/images/goodogs_face.jpg" alt="">
+					</div>
+				<% } %>
+			`);
+		}
+		
 		</script>
 
 		<!-- 로그인 객체마다 헤더가 다르게 보이게 -->
@@ -80,15 +102,15 @@
 						<form id="loginFrm" name="loginFrm" action="<%= request.getContextPath() %>/member/memberLogin" method="GET">
 							<table>
 								<tr>
-									<td><input type="email" name="memberId" id="memberId"
-										placeholder="아이디" tabindex="1" value=""></td>
-									<td rowspan="2"><input type="submit" value="로그인"></td>
+									<td class="loginInput"><input type="email" name="memberId" id="memberId"
+										placeholder="아이디(이메일 주소)" tabindex="1" value=""></td>
 								</tr>
 								<tr>
-									<td><input type="password" name="password" id="password"
+									<td class="loginInput"><input type="password" name="password" id="password"
 										tabindex="2" placeholder="비밀번호"></td>
-									<td></td>
-									<td></td>
+								</tr>
+								<tr>
+									<td><input type="submit" value="로그인"></td>
 								</tr>
 								<tr>
 									<td colspan="2"><input type="checkbox" name="saveId"
@@ -119,14 +141,14 @@
 			<!-- 로그인 회원 컨테이너 -->
 			<div class="bannerContainerUpper" role="banner">
 				<nav>
-					<span class="slogan">우리가 시간이 없지, 세상이 안궁금하냐 </span>
+					<span class="slogan">우리가 시간이 없지,</span><span class="slogan"> 세상이 안궁금하냐 </span>
 				</nav>
 			</div>
 			<div class="bannerContainerLower"></div>
 				<div class="infoWrapper">
 					<div class="infoContainer">
 						<h3>반가워 죽겠개,</h2>
-						<h2> 구독스!</h2>
+						<h2><%= loginMember.getNickname() %> 구독스!</h2>
 						<input type="button" value="정보수정" onclick="location.href='<%= request.getContextPath() %>/member/memberInfo';">
 						<input type="button" value="좋아요" onclick="location.href='<%= request.getContextPath() %>/like/likePage';">
 						<input type="button" value="북마크" onclick="location.href='<%= request.getContextPath() %>/bookmark/bookmarkPage';">
