@@ -1,9 +1,32 @@
+<%@page import="java.util.List"%>
+<%@page import="java.util.ArrayList"%>
+<%@page import="java.util.Arrays"%>
+<%@page import="com.sk.goodogs.news.model.vo.NewsScript"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@page import="com.sk.goodogs.member.model.vo.Member"%>
 <!DOCTYPE html>
 <%
 	Member loginMember = (Member) session.getAttribute("loginMember");
+	NewsScript newsScript = (NewsScript)session.getAttribute("newsScript");
+	String scriptTitle = "";
+	String category = "";
+	String content = "";
+	String tag = "";
+	List<String> scriptTagArr = new ArrayList<>();
+	if(newsScript != null){
+		scriptTitle = newsScript.getScriptTitle();
+		category = newsScript.getScriptCategory();
+		content = newsScript.getScriptContent();
+		tag = newsScript.getScriptTag();
+		if(tag != null){
+			String[] arr = tag.split(",");
+			System.out.println(arr[0]+arr[1]+arr[2]);
+			scriptTagArr = Arrays.asList(arr);
+			System.out.println(scriptTagArr);
+		}
+		
+	}
 %>
 <html>
 <head>
@@ -23,18 +46,18 @@
 	<div class="myScriptWrite">
 		<div class="titleAreaContanier">
 			<label for="titleArea">뉴스 제목 : </label>
-			<input type="text" name="titleArea" id="titleArea"/>
+			<input type="text" name="titleArea" id="titleArea" value=<%=scriptTitle %>>
 			<input class="writerId" name="scriptWriter" value="<%= loginMember.getMemberId() %>" readonly/>
 		</div>
 		<select name="category" id="category">
 			<option value="-선택-" disabled selected>-선택-</option>
-			<option value="정치">정치</option>
-			<option value="경제">경제</option>
-			<option value="세계">세계</option>
-			<option value="테크">테크</option>
-			<option value="환경">환경</option>
-			<option value="스포츠">스포츠</option>
-			<option value="사회">사회</option>
+			<option value="정치" <%=category.equals("정치") ? "selected" : "" %>>정치</option>
+			<option value="경제" <%=category.equals("경제") ? "selected" : "" %>>경제</option>
+			<option value="세계" <%=category.equals("세계") ? "selected" : "" %>>세계</option>
+			<option value="테크" <%=category.equals("테크") ? "selected" : "" %>>테크</option>
+			<option value="환경" <%=category.equals("환경") ? "selected" : "" %>>환경</option>
+			<option value="스포츠" <%=category.equals("스포츠") ? "selected" : "" %>>스포츠</option>
+			<option value="사회" <%=category.equals("사회") ? "selected" : "" %>>사회</option>
 		</select>
 		<div class="fileUploadContainer">
 			<label for="newsImage">뉴스 이미지 첨부 : </label>
@@ -70,20 +93,33 @@
 		</fieldset>
 		
 		<textarea id="summernote" name="editordata">
+		<%=content%>
 		</textarea>
-		
 		<div class="addTagBox">
 			<input type="text" id="newsTag" name="newTag"/>
 			<button id="addTagBtn">태그 추가</button>
 		</div>
 		<div class="tagContainer">
-			<div class="tag" style="display: none;">
-				<div class="inputTag">-선택-</div>
+			<div class="tag" <%= scriptTagArr.isEmpty() ? "style='display: none;'" : "" %>> 
+				<div class="inputTag"><%= scriptTagArr.isEmpty() ? "-선택-" : "#" + scriptTagArr.get(0) %></div>
 				<div class="cancleTagBox" onclick="cancleCategoryAlert();">
 				</div>
 			</div>
+		<% if(scriptTagArr != null) {%>
+			<% for (int i = 1; i < scriptTagArr.size(); i++) { %>
+			<div class="tag">
+				<div class="inputTag"><%="#"+scriptTagArr.get(i) %></div>
+				<div class="cancleTagBox" onclick="cancleTag(this);">
+				</div>
+			</div>
+			<% }%>
+		<% }%>
 		</div>
-		<input type="text" id="newsTagList" name="newsTagList" style="display: none;"/>
+		
+		
+		
+		
+		<input type="text" id="newsTagList" name="newsTagList" style="display:none"/>
   	
 		<div class="ScriptWriteBtnContainer">
 			<button id="submitBtn" type="submit" class="scriptSubmit scriptBtn">제출</button>
