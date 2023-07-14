@@ -96,6 +96,15 @@ public class AdminService {
 		
 		return scripts;
 	}
+
+	public NewsScript findOneScript(int no) {
+		NewsScript script=null;
+		Connection conn= getConnection();
+		script=adminDao.findOneScript(no,conn);
+		close(conn);
+
+		return script;
+	}
 		
 
 
