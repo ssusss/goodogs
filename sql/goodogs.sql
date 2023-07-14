@@ -14,21 +14,24 @@
 --==============================
 -- 초기화 블럭
 --==============================
---drop table bookmark;
---drop table like_list;
---drop table news;
---drop table news_image;
---drop table news_script_rejected;
---drop table deleted_news;
---drop table news_script;
---drop table news_comment;
---drop table withdraw_member;
---drop table member;
---drop sequence seq_withdraw_member_no;
---drop sequence seq_news_script_rejected_no;
---drop sequence seq_news_comment_no;
---drop sequence seq_news_script_no;
-
+drop table bookmark;
+drop table like_list;
+drop table news;
+drop table news_image;
+drop table news_script_rejected;
+drop table deleted_news;
+drop table news_script;
+drop table news_comment;
+drop table withdraw_member;
+drop table member;
+drop sequence seq_withdraw_member_no;
+drop sequence seq_news_script_rejected_no;
+drop sequence seq_news_comment_no;
+drop sequence seq_news_script_no;
+drop trigger trg_news_script_to_news;
+drop trigger trg_news_to_deleted_news;
+drop trigger trg_member_to_withdraw_member;
+drop trigger trg_news_script_to_rejected;
 
 --==============================
 -- 테이블 생성
@@ -57,7 +60,7 @@ CREATE TABLE withdraw_member (
 	phone varchar2(20),
 	enroll_date date,
 	withdraw_date date DEFAULT sysdate,
-	withdraw_reason varchar2(200) NOT NULL,
+	withdraw_reason varchar2(200) default '-',
     constraints pk_withdraw_member_no primary key(withdraw_member_no)
 );
 create sequence seq_withdraw_member_no;
@@ -93,7 +96,7 @@ CREATE TABLE news_script_rejected (
 	script_content clob,
 	script_write_date date,
 	script_tag varchar2(100),
-	script_rejected_reason varchar2(1000) NOT NULL,
+	script_rejected_reason varchar2(1000) default '-',
     constraints pk_news_script_rejected_script_no primary key(script_rejected_no)
 );
 create sequence seq_news_script_rejected_no;
@@ -123,7 +126,8 @@ CREATE TABLE deleted_news (
 	news_like_cnt number,
 	news_read_cnt number	,
 	news_confirmed_date date,
-	news_deleted_date date DEFAULT sysdate
+	news_deleted_date date DEFAULT sysdate,
+    news_deleted_reason varchar2(1000) DEFAULT '-'
 );
 
 CREATE TABLE news_comment (
@@ -131,7 +135,7 @@ CREATE TABLE news_comment (
 	news_no number	 NOT NULL,
 	news_comment_level number DEFAULT 1,
 	news_comment_writer varchar2(50) NOT NULL,
-	comment_no_ref number	DEFAULT 0,
+	comment_no_ref number, -- null 댓글인경우 | board_comment.no 대댓글인 경우
 	news_comment_nickname varchar2(20) NOT NULL,
 	news_comment_content varchar2(1000) NOT NULL,
 	comment_reg_date date DEFAULT sysdate,
@@ -161,7 +165,7 @@ CREATE TABLE like_list (
 --=================================================
 -- trigger 생성
 --=================================================
-CREATE OR REPLACE TRIGGER trg_news_script_to_news
+CREATE OR REPLACE TRIGGER trg_news_script_to_news -- 원고 승인시 원고에서 뉴스테이블로 넘기는 트리거
 AFTER UPDATE OF script_state ON news_script
 FOR EACH ROW
 WHEN (NEW.script_state = 2)
@@ -186,9 +190,94 @@ BEGIN
 END;
 /
 
+CREATE OR REPLACE TRIGGER trg_news_to_deleted_news -- 뉴스 삭제 트리거
+BEFORE DELETE ON news
+FOR EACH ROW
+BEGIN
+    INSERT INTO deleted_news (
+        news_no,
+        news_writer,
+        news_title,
+        news_category,
+        news_content,
+        news_tag,
+        news_write_date,
+        news_like_cnt,
+        news_read_cnt,
+        news_confirmed_date,
+        news_deleted_date,
+        news_deleted_reason
+    ) VALUES (
+        :old.news_no,
+        :old.news_writer,
+        :old.news_title,
+        :old.news_category,
+        :old.news_content,
+        :old.news_tag,
+        :old.news_write_date,
+        :old.news_like_cnt,
+        :old.news_read_cnt,
+        :old.news_confirmed_date,
+        sysdate,
+        default
+    );
+END;
+/
 
+CREATE OR REPLACE TRIGGER trg_member_to_withdraw_member -- 멤버탈퇴 트리거
+BEFORE DELETE ON member
+FOR EACH ROW
+BEGIN
+    INSERT INTO withdraw_member (
+        withdraw_member_no,
+        member_id,
+        gender,
+        nickname,
+        phone,
+        enroll_date,
+        withdraw_date,
+        withdraw_reason
+    ) VALUES (
+        seq_withdraw_member_no.NEXTVAL,
+        :old.member_id,
+        :old.gender,
+        :old.nickname,
+        :old.phone,
+        :old.enroll_date,
+        sysdate,
+        default
+    );
+END;
+/
 
-
+CREATE OR REPLACE TRIGGER trg_news_script_to_rejected -- 원고 반려 트리거
+AFTER UPDATE OF script_state ON news_script
+FOR EACH ROW
+WHEN (NEW.script_state = 3)
+BEGIN
+    INSERT INTO news_script_rejected (
+        script_rejected_no,
+        script_no,
+        script_writer,
+        script_title,
+        script_category,
+        script_content,
+        script_write_date,
+        script_tag,
+        script_rejected_reason
+    ) VALUES (
+        seq_news_script_rejected_no.NEXTVAL,
+        :new.script_no,
+        :new.script_writer,
+        :new.script_title,
+        :new.script_category,
+        :new.script_content,
+        :new.script_write_date,
+        :new.script_tag,
+        default
+    );
+END;
+/
 
 --=================================================
 -- sample data 생성
@@ -197,6 +286,8 @@ END;
 insert into member values('honggd@naver.com', 'M', 'qwe123!', '길동좌', '01011112222', to_date('20140909','yyyymmdd'), 'M', default, default);
 insert into member values('sinsa@naver.com', 'F', 'qwe123!', '신사임당', '01011113333', to_date('20191111','yyyymmdd'), 'M', default, default);
 insert into member values('sejong@naver.com', 'N', 'qwe123!', '킹세종', '01011114444', to_date('20160307','yyyymmdd'), 'M', default, default);
+insert into member values('naga@naver.com', 'N', 'qwe123!', 'naga', '0101111568', to_date('20160617','yyyymmdd'), 'M', default, default);
+
 
 -- 관리자
 insert into member values('admin@naver.com', 'M', 'qwe123!', '어드민', '01033332222', to_date('20131024','yyyymmdd'), 'A', default, default);
@@ -225,17 +316,54 @@ insert into news values(1002,'kdc0526@naver.com','애국가3절','스포츠','�
 insert into news values(1003,'kdc0526@naver.com','애국가4절','경제','이 기상과 이 맘으로 충성을 다하여 괴로우나 즐거우나 나라 사랑하세 무궁화 삼천리 화려강산 대한사람 대한으로 길이 보전하세',to_date('20210903','yyyymmdd'),'경제',3,25,'21-09-05');
 
 
-select * from news;
-select * from news_script;
-commit;
-
-select * from news where news_writer = 'kjh0425@naver.com';
-
-select * from news_script;
---select * from news_script where script_writer = ?
-
---delete from news_script where script_no = ?
-update news_script set script_state = 2 where script_no = 16;
+-- 기사 댓글 
+insert into news_comment values (2, 1000, 1,'admin@naver.com', null, '어드민','바보양ㅋ', to_date('20180425','yyyymmdd'), 8, 0);
+insert into news_comment values (3, 1000, 1,'honggd@naver.com', null, '길동좌','어쩔티비저쩔티비', to_date('20180425','yyyymmdd'), 9, 0);
+insert into news_comment values (4, 1000, 1,'kjh0425@naver.com', null, '준한','쿠루루삥뻥', to_date('20180425','yyyymmdd'), 2, 0);
+insert into news_comment values (5, 1000, 1,'sejong@naver.com', null, '킹세종','어쩔', to_date('20180425','yyyymmdd'), 3, 0);
+insert into news_comment values (6, 1000, 1,'sejong@naver.com', null, '킹세종','배고프다', to_date('20180425','yyyymmdd'), 5, 0);
+insert into news_comment values (7, 1000, 1,'kny0910@naver.com', null, 'na0','마라탕이', to_date('20180425','yyyymmdd'), 2, 1);
+insert into news_comment values (8, 1000, 1,'sejong@naver.com', null, '킹세종','먹고시플지도', to_date('20180425','yyyymmdd'), 1, 2);
+insert into news_comment values (9, 1000, 1,'kdc0526@naver.com', null, '동찬','아닌강.ㅋ', to_date('20180425','yyyymmdd'), 3, 0);
 
 
+insert into news_comment values (112, 1000, 1,'admin@naver.com', null, '어드민','바보양ㅋ', to_date('20180425','yyyymmdd'), 8, 0);
+insert into news_comment values (113, 1000, 1,'honggd@naver.com', null, '길동좌','어쩔티비저쩔티비', to_date('20180425','yyyymmdd'), 9, 0);
+insert into news_comment values (114, 1000, 1,'kjh0425@naver.com', null, '준한','쿠루루삥뻥', to_date('20180425','yyyymmdd'), 2, 0);
+insert into news_comment values (115, 1000, 1,'sejong@naver.com', null,'킹세종','어쩔', to_date('20180425','yyyymmdd'), 3, 0);
+insert into news_comment values (116, 1000, 1,'sejong@naver.com', null,'킹세종','배고프다', to_date('20180425','yyyymmdd'), 5, 0);
+insert into news_comment values (117, 1000, 1,'kny0910@naver.com', null, 'na0','마라탕이', to_date('20180425','yyyymmdd'), 2, 1);
+insert into news_comment values (118, 1000, 1,'sejong@naver.com', null,'킹세종','먹고시플지도', to_date('20180425','yyyymmdd'), 1, 2);
+insert into news_comment values (119, 1000, 1,'kdc0526@naver.com', null, '동찬','아닌강.ㅋ', to_date('20180425','yyyymmdd'), 3, 0);
 
+
+---- 테스트
+--select * from member;
+--select * from news_comment;
+--update member set is_banned = 0 where member_id = 'honggd@naver.com';
+--commit;
+--
+--
+--select * from news where news_writer = 'kjh0425@naver.com';
+--
+--select * from news_script;
+--select * from news_script where script_writer = ?;
+--
+--delete from news_script where script_no = ?;
+--
+---- 트리거 테스트
+--select * from news_script;
+--update news_script set script_state = 2 where script_no = 8;
+--select * from news;
+--
+--select * from news;
+--delete from news where news_no = 1003;
+--select * from deleted_news;
+--
+--select * from member;
+--delete from member where member_id = 'naga@naver.com';
+--select * from withdraw_member;
+--
+--select * from news_script;
+--update news_script set script_state = 3 where script_no = 4;
+--select * from news_script_rejected;

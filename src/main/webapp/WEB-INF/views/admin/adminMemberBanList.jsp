@@ -22,8 +22,8 @@ String searchKeyword = request.getParameter("searchKeyword");
 
 //멤버
 List<NewsComment> newsComments = (List<NewsComment>)request.getAttribute("newsComments");
-System.out.println("히히 : " + newsComments);
 String memberId = (String) request.getAttribute("memberId");
+
 %> 
 
 <style>
@@ -34,13 +34,16 @@ table#tbl-adminMemberBan td {border:1px solid black; padding:10px; background-co
 </style>
 
 <section id="adminMemberBan-container">
-
-	<h2>신고 관ㄴ리</h2>	    
+	<h2>신고 관리</h2>	    
+	
+	
 	<div id="search-container">
         <label for="searchType">검색타입 :</label> 
         <select id="searchType">
-            <option value="memberId">아이디</option>		
-            <option value="nickName">기사</option>
+            <option value="memberId" selected>아이디</option>		
+            <option value="news">기사</option>
+            <option value=state>게시 상태</option>
+            <option value="report_cnt">신고 목록</option>
         </select>
 
         
@@ -49,9 +52,30 @@ table#tbl-adminMemberBan td {border:1px solid black; padding:10px; background-co
                 <input type="hidden" name="searchType" value="member_id"/>
                 <input 
                 	type="text" name="searchKeyword"  size="25" placeholder="검색할 아이디를 입력하세요." 
-                	value="notalready"/>
+                	value=""/>
                 <button type="submit">검색</button>			
             </form>	
+        </div>
+        
+          
+        <div id="search-news" class="search-type">
+            <form action="<%=request.getContextPath()%>/admin/memberFinder">
+                <input type="hidden" name="searchType" value="news"/>
+                <input 
+                	type="text" name="searchKeyword"  size="25" placeholder="검색할 기사를 입력하세요." 
+                	value=""/>
+                <button type="submit">검색</button>			
+            </form>	
+        </div>
+        
+         <div id="search-state" class="search-type">
+            <form action="<%=request.getContextPath()%>/admin/memberFinder">
+                <input type="hidden" name="searchType" value="enrole"/>
+                <input type="radio" name="searchKeyword" value="0" > 게시됨
+                <input type="radio" name="searchKeyword" value="1"> 회원 삭제
+                <input type="radio" name="searchKeyword" value="2"> 관리자 삭제
+                <button type="submit">검색</button>
+            </form>
         </div>
         
     </div>
@@ -106,6 +130,14 @@ table#tbl-adminMemberBan td {border:1px solid black; padding:10px; background-co
 		} %>	
 		</tbody>	
 	</table>
+
+
+<!-- 페이징바 가져오기  --> 
+	<div id='pagebar'>
+		<%= request.getAttribute("pagebar") %>
+	</div>
+	
+	
 </section>
 
 <!--  멤버 벤 처리 -->

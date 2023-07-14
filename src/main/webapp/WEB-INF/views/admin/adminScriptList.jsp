@@ -8,54 +8,89 @@
 	
 </script>
 
+<style>
+div#check-scriptList 	{width: 100%; margin:0 0 10px 0; padding:3px; background-color: rgba(0, 188, 212, 0.3);}
+div#search-container 	{width: 100%; margin:0 0 10px 0; padding:3px; background-color: rgba(0, 188, 212, 0.3);}
+div#search-memberId 	{display: inline-block;}
+div#search-nickName		{display: none}
+div#search-memberRole	{display: none}
+
+</style>
+<script src="<%= request.getContextPath() %>/js/jquery-3.7.0.js"></script>
 
 
-<section id="memberList-container">
-	<h2>회원관리</h2>
+<section id="adminScriptList-container">
+	<h2>원고관리</h2>
+	
+	<div id="check-scriptList" class="check-type">
+             <form action="javascript:void(0)" onsubmit="return checkList(this)">
+                <input type="hidden" name="searchType" value="member_role"/>
+                <input type="radio" name="checkedScript" value=1 > 미확인
+                <input type="radio" name="checkedScript" value=2> 승인
+                <input type="radio" name="checkedScript" value=3> 반려
+            </form>
+     </div>
+	
 	
 	<div id="search-container">
         <label for="searchType">검색타입 :</label> 
         <select id="searchType">
-            <option value="memberId" >아이디</option>		
-            <option value="nickName" >카테고리</option>
+            <option value="title" >제목</option>		
+            <option value="writer" >작성자</option>		
+            <option value="category" >카테고리</option>       
+            <option value="category" >카테고리</option>       
         </select>
-        <div id="search-memberId" class="search-type">
-            <form action="<%=request.getContextPath()%>/admin/memberFinder">
-                <input type="hidden" name="searchType" value="member_id"/>
+        
+        
+        <div id="search-title" class="search-type">
+            <form action="">
+                <input type="hidden" name="searchType" value="script_title"/>
+                <input 
+                	type="text" name="searchKeyword"  size="25" placeholder="기사의 제목을 입력하세요." 
+                	value=""/>
+                <button type="submit">검색</button>			
+            </form>	
+        </div>
+        
+        <div id="search-writer" class="search-type">
+            <form action="">
+                <input type="hidden" name="searchType" value="script_writer"/>
                 <input 
                 	type="text" name="searchKeyword"  size="25" placeholder="검색할 아이디를 입력하세요." 
-                	value="notalready"/>
+                	value=""/>
                 <button type="submit">검색</button>			
             </form>	
         </div>
-        <div id="search-name" class="search-type">
+        
+        <div id="search-category" class="search-type">
             <form action="">
-                <input type="hidden" name="searchType" value="name"/>
+                <input type="hidden" name="searchType" value="script_category"/>
                 <input 
-                	type="text" name="searchKeyword" size="25" placeholder="검색할 이름을 입력하세요."
-                	value="notalready"/>
+                	type="text" name="searchKeyword" size="25" placeholder="기사의 카테고리를 입력하세요."
+                	value=""/>
                 <button type="submit">검색</button>			
             </form>	
         </div>
-        <div id="search-enrole" class="search-type">
-            <form action="<%=request.getContextPath()%>/admin/memberFinder">
-                <input type="hidden" name="searchType" value="enrole"/>
-                <input type="radio" name="searchKeyword" value="A" > 관리자
-                <input type="radio" name="searchKeyword" value="R"> 기자
-                <input type="radio" name="searchKeyword" value="U"> 회원
-                <button type="submit">검색</button>
-            </form>
-        </div>
+        
+        <div id="search-date" class="search-type">
+            <form action="">
+                <input type="hidden" name="searchType" value="script_write_date"/>
+                <input 
+                	type="date" name="searchKeyword" size="25" placeholder="날짜를 입력하세요."
+                	value=""/>
+                <button type="submit">검색</button>			
+            </form>	
+        </div> 
+       
     </div>
 	
-	<table id="tbl-member">
+	<table id="tbl-script">
 		<thead>
 			<tr>
 				<th>기자(이메일)</th>
 				<th>제목</th>
 				<th>카테고리</th>
 				<th>승인여부</th>
-				<
 			</tr>
 		</thead>
 		<tbody>
@@ -72,5 +107,19 @@
 		</tbody>
 	</table>
 </section>
+
+<script>
+
+document.querySelector("select#searchType").onchange = (e) => {
+	console.log(e.target.value);
+	document.querySelectorAll(".search-type").forEach((elem) => {
+		elem.style.display = "none";
+	});
+	
+	document.querySelector(`#search-\${e.target.value}`).style.display = "inline-block";
+	
+};
+
+</script>
 
 <%@ include file="/WEB-INF/views/common/footer.jsp" %>
