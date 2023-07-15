@@ -33,6 +33,8 @@ public class MemberUpdateServlet extends HttpServlet {
 		String phone = request.getParameter("phone");
 		String memberProfile = request.getParameter("memberProfile");
 		
+		System.out.println("memberProfile" + memberProfile);
+		
 		String _gender = request.getParameter("gender");
 		Gender gender = _gender != null? Gender.valueOf(_gender) : null;
 		

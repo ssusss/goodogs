@@ -27,14 +27,15 @@ public class MemberDao {
 	public int memberUpdate(Connection conn, Member member) {
 		int result = 0;
 		String sql = prop.getProperty("memberUpdate");
-		// update member set password = ?, nickname = ?, phone = ?, gender = ? where member_id = ?
+		// update member set password = ?, nickname = ?, phone = ?, member_profile =?, gender = ? where member_id = ?
 		
 		try (PreparedStatement pstmt = conn.prepareStatement(sql)) {
 			pstmt.setString(1, member.getPassword());
 			pstmt.setString(2, member.getNickname());
 			pstmt.setString(3, member.getPhone());
-			pstmt.setString(4, member.getGender() != null? member.getGender().name() : null);
-			pstmt.setString(5, member.getMemberId());
+			pstmt.setString(4, member.getMemberProfile());
+			pstmt.setString(5, member.getGender() != null? member.getGender().name() : null);
+			pstmt.setString(6, member.getMemberId());
 			
 			result = pstmt.executeUpdate();
 			
