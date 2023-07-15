@@ -336,6 +336,10 @@ insert into news_comment values (117, 1000, 1,'kny0910@naver.com', null, 'na0','
 insert into news_comment values (118, 1000, 1,'sejong@naver.com', null,'킹세종','먹고시플지도', to_date('20180425','yyyymmdd'), 1, 2);
 insert into news_comment values (119, 1000, 1,'kdc0526@naver.com', null, '동찬','아닌강.ㅋ', to_date('20180425','yyyymmdd'), 3, 0);
 
+-- like_list 샘플 데이터
+insert into like_list values('honggd@naver.com', 1000, default);
+--select * from like_list where member_id = 'honggd@naver.com';
+
 
 ---- 테스트
 --select * from member;
