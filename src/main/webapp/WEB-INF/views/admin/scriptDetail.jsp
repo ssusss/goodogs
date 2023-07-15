@@ -10,5 +10,33 @@
 	bannerContainerLower.style.display = "none";
 </script>
 <script src="<%= request.getContextPath() %>/js/jquery-3.7.0.js"></script>
+	
+<section id="adminScriptDetail-container">
+		
+		<h5><%=script.getScriptCategory() %></h5>
+		<h2><%=script.getScriptTitle() %></h2>
 
+		<h2>사진 준비중</h2>
+		
+		
+		<p>
+		<%=script.getScriptContent() %>
+		</p>
+		
+		
+		
+		<textarea name="reson" id="" cols="40" rows="10" >
+		</textarea>
+		<br/>
+		<button>승인</button>
+		<button>반려사유적기</button>
+		<button>반려</button>
+		
+		
+</section>
+	
+	
+<script>
+	
+</script>	
 <%@ include file="/WEB-INF/views/common/footer.jsp" %>
