@@ -36,11 +36,13 @@ public class MemberWIthdraw extends HttpServlet {
 		// 1. 사용자 입력값 처리
 		HttpSession session = request.getSession();
 		Member loginMember = (Member) session.getAttribute("loginMember");
+		
 		String memberId = loginMember.getMemberId();
-		String reason = request.getParameter("reason");
+		String[] reason = request.getParameterValues("reason");
 		
 		// 2. 서비스 로직 호출
 		int result = memberService.memberWithdraw(memberId, reason);
+//		int result = memberService.memberWithdraw(memberId);
 		
 		// 세션 속성 삭제
 		Enumeration<String> names = session.getAttributeNames();

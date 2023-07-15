@@ -40,12 +40,13 @@ public class Member {
 		this.isBanned = isBanned;
 	}
 
-	public Member(String memberId, String password, String nickname, String phone, Gender gender) {
+	public Member(String memberId, String password, String nickname, String phone, String memberProfile, Gender gender) {
 		super();
 		this.memberId = memberId;
 		this.password = password;
 		this.nickname = nickname;
 		this.phone = phone;
+		this.memberProfile = memberProfile;
 		this.gender = gender;
 	}
 

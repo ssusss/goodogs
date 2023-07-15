@@ -125,6 +125,31 @@ nav.navBar h1 {
 	transform: translateY(-60px);
 }
 
+/* 프로필 아이콘 부모속성 */
+.infoBox {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+
+/* 프로필 아이콘 속성 */
+.profile {
+	display : flex;
+	justify-content: center;
+	align-items: center;
+	width: 100%;
+	font-size: 30px;
+}
+
+/* 비회원 아이콘 위치 조정 */
+.infoIcon {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+  margin-top: 15px; /* 가운데 조정할 값 */
+}
+
 nav.navBar div.searchBox {
 	width: 50px;
 	height: 50px;
@@ -258,6 +283,12 @@ header .bannerContainerUpper ul{
 	flex-direction: row-reverse;
 }
 .goodogsImage {
+	height: 426px;
+	z-index: 2;
+	transform: translate(-20px, -419px);
+}
+
+.speechImage {
 	height: 426px;
 	z-index: 2;
 	transform: translate(-20px, -419px);
@@ -515,4 +546,5 @@ div.infoContainer {
     padding: 10px;
     margin-bottom: 10px;
   }
- 
+  
+  
