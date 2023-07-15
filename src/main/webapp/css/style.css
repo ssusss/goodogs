@@ -3,10 +3,37 @@
 html {
 	background-color: white;
 	margin: 0px;
-	font-family: 'Noto Sans KR', sans-serif;
+	font-family: 'GmarketSansMedium', sans-serif;
 }
 
+body {
+	min-width: 200px;
+}
 
+@media (max-width: 590px) {
+  /* 600px 이하일 때 적용되는 스타일 */
+	.sloganWrapper {
+		height: 100px !important;
+	}
+	.slogan {
+		justify-content: center;
+	}
+	.loginContainer {
+		display: flex;
+		justify-content: center;
+	}
+	.signUpBtn {
+		right: 51%;
+		/* transform: translate(300px, -100px); */
+	}
+}
+
+@font-face {
+    font-family: 'GmarketSansMedium';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2001@1.1/GmarketSansMedium.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
 
 /*아왜 없어져*/
 
@@ -141,6 +168,18 @@ header .bannerContainerUpper ul{
 	font-size: 30px;
 	font-weight: bold;
 	margin: 0 5%;
+	display: flex;
+	flex-wrap: wrap;
+	align-items: center;
+}
+
+.we {
+	display: flex;
+	width: 265px;
+}
+.world {
+	display: flex;
+	width: 250px;
 }
 
 /* 메인화면 로그인창 */
@@ -160,7 +199,6 @@ header .bannerContainerLower {
 
 /* 메인화면 메뉴 박스 */
 .loginContainer {
-	background-color:aqua;
 	width: 90%;
 	height: 200px;
 	margin: 0;
@@ -179,12 +217,8 @@ header .bannerContainerLower {
 	padding: 0 5%;
 }
 .loginContainer table {
-	width: 55%;
-	border: 1px solid black;
-}
-.loginContainer table td, .loginContainer table tr {
-	
-	border: 1px solid black;
+	min-width: 410px;
+	width: 410px;
 }
 
 .loginInput {
@@ -198,9 +232,47 @@ header .bannerContainerLower {
 	height: 40px;
 	font-size: 16px;
 	padding-left: 10px;
+	border-radius: 5px;
+	border: 2px solid darkgray;
 }
-
-
+.loginBtn {
+	background-color: #EDEDE1 !important;
+	width: 196px !important;
+	height: 36px !important;
+	font-family: 'GmarketSansMedium', sans-serif;
+	border-radius: 5px;
+}
+.signUpBtn {
+	background-color: #EDEDE1 !important;
+	width: 196px !important;
+	height: 36px !important;
+	font-family: 'GmarketSansMedium', sans-serif;
+	font-size: 16px;
+	border-radius: 5px;
+	position: absolute;
+	transform: translate(200px, -100px);
+	border: 2px solid darkgray;
+}
+.idSaveWrapper {
+	display: flex;
+	align-items: center
+}
+.idSaveBox {
+	appearance: none;
+	display: inline-block;
+	width: 18px !important;
+	height: 18px !important;
+	border: 1px solid darkgray !important;
+	padding-left: 0px !important;
+	margin-left: 0px !important;
+}
+.idSaveBox:checked {
+	appearance: none;
+	background-color: pink;
+}
+.idSaveWrapper label {
+	font-size: 14px;
+}
 
 nav.category {
 	background-color: #F7F7EF;
@@ -240,7 +312,7 @@ section .posts {
 
 section .posts .card {
 	display: block;
-	width: 24.92%;
+	width: 24.87%;
 	height: 200px;
 	border: 1px solid black;
 	border-width: 0 1px 1px 0;
