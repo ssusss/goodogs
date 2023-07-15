@@ -4,21 +4,23 @@ import java.sql.Date;
 
 /**
  * @author 전수경
- *
+ * - 테이블에는 없지만 뉴스 제목을 담는 편의용 변수 newsTitle 추가 
  */
 public class LikeList {
 	private String memberId;
 	private int newsNo;
+	private String newsTitle;
 	private Date likeDate;
 	
 	public LikeList() {
 		super();
 	}
 
-	public LikeList(String memberId, int newsNo, Date likeDate) {
+	public LikeList(String memberId, int newsNo, String newsTitle, Date likeDate) {
 		super();
 		this.memberId = memberId;
 		this.newsNo = newsNo;
+		this.newsTitle = newsTitle;
 		this.likeDate = likeDate;
 	}
 
@@ -38,6 +40,14 @@ public class LikeList {
 		this.newsNo = newsNo;
 	}
 
+	public String getNewsTitle() {
+		return newsTitle;
+	}
+
+	public void setNewsTitle(String newsTitle) {
+		this.newsTitle = newsTitle;
+	}
+
 	public Date getLikeDate() {
 		return likeDate;
 	}
@@ -48,8 +58,8 @@ public class LikeList {
 
 	@Override
 	public String toString() {
-		return "Like [memberId=" + memberId + ", newsNo=" + newsNo + ", likeDate=" + likeDate + "]";
+		return "LikeList [memberId=" + memberId + ", newsNo=" + newsNo + ", newsTitle=" + newsTitle + ", likeDate="
+				+ likeDate + "]";
 	}
-	
 
 }
