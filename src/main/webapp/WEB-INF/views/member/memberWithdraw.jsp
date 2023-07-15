@@ -9,7 +9,6 @@
 	@author 이혜령
 	- 폰트 링크  
 -->
-<link href="https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2001@1.1/GmarketSansMedium.woff" rel="stylesheet">
 <link rel="stylesheet" href="<%= request.getContextPath()%>/css/member.css"/>
 
 
@@ -35,8 +34,24 @@ bannerContainerUpper.style.display = "none";
 			<h2 class="withdraw-why-title">안녕~은 영원한~헤어짐은 아니겠~지요. 어떤점이 불편하셨나요? 
 			<br>참고해서 다음에 만났을 때는 더 좋은 서비스가 되어 있을게요.</h2>
 			<br>
-			<textarea name="reason"rows="10" cols="30" placeholder="탈퇴 사유를 적어주세요."></textarea>
-			<br>
+			<table>
+				<tbody>
+					<td>
+					<input type="radio" name="reason" id="service" value="콘텐츠 품질 및 서비스 정보 불만족">
+					<label for="service">콘텐츠 품질 및 서비스 정보 불만족</label>
+					<br>
+					<input type="radio" name="reason" id="email" value="다른 이메일로 재가입">
+					<label for="email">다른 이메일로 재가입</label>
+					<br>	
+					<input type="radio" name="reason" id="information" value="개인정보 노출 우려">
+					<label for="information">개인정보 노출 우려</label>
+					<br>	
+					<input type="radio" name="reason" id="random" value="기타">
+					<label for="random">기타</label>
+					<br>
+					</td>
+				</tbody>			
+			</table>
 			<input type="submit" value="모든 정보와 계정을 삭제합니다." onclick="withdrawMember()">
 			<input type="button" style="color rgb(0, 0 , 0); text-decoration: underline;" value="조금 더 이용해볼게요" onclick="location.href='<%= request.getContextPath() %>/member/memberInfo';">
 	</section>

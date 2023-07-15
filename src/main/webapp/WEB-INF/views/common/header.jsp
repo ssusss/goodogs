@@ -22,7 +22,6 @@
 				saveId = value;
 		}
 	}
-
 %>
 <!DOCTYPE html>
 <html>
@@ -36,7 +35,6 @@
 
 </head>
 <body>
-
 	<div id="container">
 		<nav class="navBar">
 			<div class="navInner">
@@ -47,7 +45,6 @@
 				</div>
 			</div>
 		</nav>
-
 
 <!-- 
 	@author : 김동찬, 이혜령
