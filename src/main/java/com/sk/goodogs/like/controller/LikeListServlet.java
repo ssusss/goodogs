@@ -45,7 +45,7 @@ public class LikeListServlet extends HttpServlet {
 		System.out.println("likes="+likes);
 		
 		request.setAttribute("likes", likes);
-		request.getRequestDispatcher("/WEB-INF/views/common/like.jsp").forward(request, response);
+		request.getRequestDispatcher("/WEB-INF/views/member/like.jsp").forward(request, response);
 	}
 
 }
