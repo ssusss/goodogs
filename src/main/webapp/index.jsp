@@ -3,7 +3,6 @@
 <%@ include file="/WEB-INF/views/common/header.jsp" %>
 <script src="<%= request.getContextPath() %>/js/jquery-3.7.0.js"></script>
 <% int totalPage = (int) request.getAttribute("totalPage"); %>
-
 <!-- 
 	@author 이혜령 
 	- 카테고리
@@ -11,22 +10,24 @@
 -->
 
 <!-- 카테고리 -->
-<section>
+<section class="navContainer">
 	<nav class="category" role="navigation" aria-label="카테고리">
-	
-		<div class="category-all">
-		  <a class="draggable" draggable="false" href="https://example.com/page1">전체 &nbsp;&nbsp;&nbsp;</a>
+		<div class="categoryInner">
+			<div class="category-all">
+			  <a class="draggable" draggable="false" href="https://example.com/page1">전체 &nbsp;&nbsp;&nbsp;</a>
+			</div>
+			
+			<div class="container">
+			  <a class="draggable" draggable="true" href="https://example.com/page2">⚖️정치 &nbsp;</a>
+			  <a class="draggable" draggable="true" href="https://example.com/page2">💰경제 &nbsp;</a>
+			  <a class="draggable" draggable="true" href="https://example.com/page2">🌐세계 &nbsp;</a>
+			  <a class="draggable" draggable="true" href="https://example.com/page3">🤖테크 &nbsp;</a>
+			  <a class="draggable" draggable="true" href="https://example.com/page4">🌱환경 &nbsp;</a>
+			  <a class="draggable" draggable="true" href="https://example.com/page4">🤸🏻‍♀️스포츠 &nbsp;</a>
+			  <a class="draggable" draggable="true" href="https://example.com/page4">👥사회 &nbsp;</a>
+			</div>
 		</div>
-		
-		<div class="container">
-		  <a class="draggable" draggable="true" href="https://example.com/page2">⚖️정치 &nbsp;</a>
-		  <a class="draggable" draggable="true" href="https://example.com/page2">💰경제 &nbsp;</a>
-		  <a class="draggable" draggable="true" href="https://example.com/page2">🌐세계 &nbsp;</a>
-		  <a class="draggable" draggable="true" href="https://example.com/page3">🤖테크 &nbsp;</a>
-		  <a class="draggable" draggable="true" href="https://example.com/page4">🌱환경 &nbsp;</a>
-		  <a class="draggable" draggable="true" href="https://example.com/page4">🤸🏻‍♀️스포츠 &nbsp;</a>
-		  <a class="draggable" draggable="true" href="https://example.com/page4">👥사회 &nbsp;</a>
-		</div>
+	</nav>
 </section>
 
 
@@ -121,7 +122,6 @@ function getDragAfterElement(container, x) {
 }
 
 </script>
-</nav>
 
 <section>
 
