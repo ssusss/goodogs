@@ -87,7 +87,7 @@ document.memberRegisterFrm.onsubmit = (e) => {
 	}
 
 	// 닉네임 검사 - 영문자/한글/숫자 2글자 이상
-	if (!/^[a-zA-Z0-9가-힣\d{2,}$/.test(nickname.value)) {
+	if (!/^[a-zA-Z0-9가-힣]{2,}$/.test(nickname.value)) {
 		alert("닉네임은 영문자,한글,숫자 조합으로 2글자 이상이어야 합니다.");
 		return false;
 	}
