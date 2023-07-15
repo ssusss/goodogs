@@ -28,10 +28,13 @@
 <head>
 <meta charset="UTF-8">
 <title>goodogs</title>
-<!-- 폰트 링크 -->
+
 <link rel="stylesheet" href="<%=request.getContextPath()%>/css/style.css" />
-<link href="https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2001@1.1/GmarketSansMedium.woff" rel="stylesheet">
-<!-- 폰트 링크 -->
+
+<!-- 아이콘 링크 -->
+<script src="https://kit.fontawesome.com/d7ccac7be9.js" crossorigin="anonymous"></script>
+<!-- 아이콘 링크 -->
+
 
 </head>
 <body>
@@ -40,8 +43,12 @@
 			<div class="navInner">
 				<h1 id="toMain">goodogs</h1>
 				<div class="navBox">
-					<div class="searchBox">검색</div>
-					<div class="infoBox">정보</div>
+					<div class="searchBox"><i class="fa-solid fa-magnifying-glass fa-2xl searchIcon" style="color: ##051619;"></i></div>
+					<div class="infoBox">
+						<% if (loginMember == null) { %>
+						<i class="fa-regular fa-user fa-2xl infoIcon" style="color: ##051619;"></i>
+						<% } %>
+					</div>
 				</div>
 			</div>
 		</nav>
@@ -85,8 +92,8 @@
 
 		<header>
 			<%
-			if (loginMember == null) {
-			%>
+			if (loginMember == null || (loginMember != null && loginMember.getMemberRole() == MemberRole.M)) {
+			%>			
 			<div class="bannerContainerUpper sloganWrapper" role="banner"> 
 				<nav>
 					<div class="slogan">
@@ -94,16 +101,51 @@
 					</div>
 				</nav>
 			</div>
+			<%
+			} else if (loginMember != null && loginMember.getMemberRole() == MemberRole.R) {
+			%>
+			<div class="bannerContainerUpper" role="banner">
+				<nav>
+					<ul class="reporterNav">
+						<li class="myNewsList"><a href="<%= request.getContextPath() %>/reporter/myNewsList">기사 목록</a></li>
+						<li class="script"><a href="<%= request.getContextPath() %>/reporter/myScript">원고 관리</a></li>
+						<li class="scriptWrite"><a href="<%= request.getContextPath() %>/reporter/scriptWrite">원고 작성</a></li>
+					</ul>
+				</nav>
+			</div>
+			<%
+			} else if (loginMember != null && loginMember.getMemberRole() == MemberRole.A) {
+			%>
+			<div class="bannerContainerUpper" role="banner">
+				<nav>
+					<ul class="adminNav">
+						<li class="memberManagement"><a href="<%= request.getContextPath() %>/admin/memberList">회원관리</a></li>
+						<li class="articleManagement"><a href="<%= request.getContextPath() %>/admin/adminScriptList">기사관리</a></li>
+						<li class="reportManagement"><a href="<%= request.getContextPath() %>/admin/adminMemberBanList">신고관리</a></li>
+					</ul>
+				</nav>
+			</div>
+			<%
+			}
+			%>
+			
+			
 			
 			<div class="bannerContainerLower">
 				<div class="infoWrapper">
-				<!-- @author : 이혜령 (신문파는강아지) -->
-				<img src="<%= request.getContextPath() %>/upload/character/main.png" alt=""/> 
+					<%
+					if (loginMember == null) {
+					%>	
 					<!-- 
 						@author 전수경
 						로그인 컨테이너 시작
 					-->
 					<div class="loginContainer">
+						<div class="welcomeBox">
+							<p class="p1">✨지금 555,346명이 구독스를 읽고 있어요.</p>
+							<p class="p2">세상 돌아가는 소식, 빠르고 편하게 접해보세요!</p>
+							<p class="p3">아침마다 세상 돌아가는 소식을 메일로 받아보세요.</p>
+						</div>
 						<form id="loginFrm" name="loginFrm" action="<%= request.getContextPath() %>/member/memberLogin" method="GET">
 							<table>
 								<tr>
@@ -136,21 +178,9 @@
 							</table>					
 						</form>
 					</div> <!-- 회원가입 컨테이너 종료 -->
-					
-				</div>
-				
-			</div>
-			<%
-			} else if (loginMember != null && loginMember.getMemberRole() == MemberRole.M) {
-			%>
-			<!-- 로그인 회원 컨테이너 -->
-			<div class="bannerContainerUpper" role="banner">
-				<nav>
-					<span class="slogan">우리가 시간이 없지,</span><span class="slogan"> 세상이 안궁금하냐 </span>
-				</nav>
-			</div>
-			<div class="bannerContainerLower">
-				<div class="infoWrapper">
+					<%
+					} else if (loginMember != null && loginMember.getMemberRole() == MemberRole.M) {
+					%>
 					<div class="infoContainer">
 						<h3>반가워 죽겠개,</h2>
 						<h2><%= loginMember.getNickname() %> 구독스!</h2>
@@ -158,46 +188,18 @@
 						<input type="button" value="좋아요" onclick="location.href='<%= request.getContextPath() %>/like/likePage';">
 						<input type="button" value="북마크" onclick="location.href='<%= request.getContextPath() %>/bookmark/bookmarkPage';">
 					</div>
-				</div>
-			</div>
-			<%
-			} else if (loginMember != null && loginMember.getMemberRole() == MemberRole.R) {
-			%>
-			<div class="bannerContainerUpper" role="banner">
-				<nav>
-					<ul class="reporterNav">
-						<li class="myNewsList"><a href="<%= request.getContextPath() %>/reporter/myNewsList">기사 목록</a></li>
-						<li class="script"><a href="<%= request.getContextPath() %>/reporter/myScript">원고 관리</a></li>
-						<li class="scriptWrite"><a href="<%= request.getContextPath() %>/reporter/scriptWrite">원고 작성</a></li>
-					</ul>
-				</nav>
-			</div>
-			<div class="bannerContainerLower">
-
-				<div class="infoWrapper">
+					<%
+					} else if (loginMember != null && loginMember.getMemberRole() == MemberRole.R) {
+					%>
 					<div class="infoContainer">
 						<h2>기자 <%= loginMember.getNickname() %>님, 어서오개!</h2>
 						<input type="button" value="정보수정" onclick="location.href='<%= request.getContextPath() %>/member/memberInfo';">
 						<input type="button" value="좋아요" onclick="location.href='<%= request.getContextPath() %>/like/likePage';">
 						<input type="button" value="북마크" onclick="location.href='<%= request.getContextPath() %>/bookmark/bookmarkPage';">
 					</div>
-				</div>
-			</div>
-			<%
-			} else if (loginMember != null && loginMember.getMemberRole() == MemberRole.A) {
-			%>
-			<div class="bannerContainerUpper" role="banner">
-				<nav>
-					<ul class="adminNav">
-						<li class="memberManagement"><a href="<%= request.getContextPath() %>/admin/memberList">회원관리</a></li>
-						<li class="articleManagement"><a href="<%= request.getContextPath() %>/admin/adminScriptList">기사관리</a></li>
-						<li class="reportManagement"><a href="<%= request.getContextPath() %>/admin/adminMemberBanList">신고관리</a></li>
-					</ul>
-				</nav>
-			</div>
-			<div class="bannerContainerLower">
-
-				<div class="infoWrapper">
+					<%
+					} else if (loginMember != null && loginMember.getMemberRole() == MemberRole.A) {
+					%>
 					<div class="infoContainer">
 						<h2>관리자 <%= loginMember.getNickname() %>님, 환영하개!</h2>
 						<input type="button" value="정보수정" onclick="location.href='<%= request.getContextPath() %>/member/memberInfo';">
@@ -205,14 +207,17 @@
 						<input type="button" value="북마크" onclick="location.href='<%= request.getContextPath() %>/bookmark/bookmarkPage';">
 	
 					</div>
+					<%
+					}
+					%>
+				</div>
+				<div class="goodogsImageWrapper">
+					<div class="goodogsImageContainer">
+						<img class="goodogsImage" alt="" src="<%= request.getContextPath() %>/images/character/goodogs_news.png">
+					</div>
 				</div>
 			</div>
-			<div>
-
-			</div>
-			<%
-			}
-			%>
+			
 			
 		</header>
 		<section class="sc-bcXHqe exBdsH home-recent">

@@ -14,6 +14,9 @@
 <!-- 
 	@author 이혜령 
 	- 좋아요 목록 페이지
+	@author 전수경
+	- 좋아요 목록리스트 갯수, 테이블 작성
+	
 -->
 <script>
 bannerContainerLower = document.querySelector(".bannerContainerLower");
@@ -46,47 +49,5 @@ bannerContainerUpper.style.display = "none";
   <tbody>
   </tbody>
 </table>
-
-
-<!-- 
-	@author 전수경
-	- 좋아요 목록리스트 보여주기
-	- 테이블에서 memberId가 일치하는 정보를 담아서 오기
-	- LikeList 객
- -->
-
-
-<!-- 
-	@author 전수경
-	페이지 로드와 함께 로그인회원의 좋아요 리스트 가져오기
- -->
-<script>
-const getLikeList = () => {
-	
-	
-	
-	//  좋아요 리스트 GET 요청
-	$.ajax({
-		url : "<%= request.getContextPath() %>/member/like/getLikeList",
-		data : {memberRoleVal,memberIdVal},	
-		method : "GET",
-		dataType : "json",
-		success(likeList) {
-			console.log(likeList);
-			
-			
-			
-		}
-	});
-}
-
-document.onload = () => {
-	getLikeList();
-}
-
-</script>
-
-
-
 
 <%@ include file="/WEB-INF/views/common/footer.jsp" %>
