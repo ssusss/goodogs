@@ -29,6 +29,7 @@ bannerContainerUpper.style.display = "none";
 <script>
 const getLikeList = () => {
 	const loginMember = <%= loginMember %>;
+	console.log(loginMember);
 	
 	
 	//  좋아요 리스트 GET 요청
