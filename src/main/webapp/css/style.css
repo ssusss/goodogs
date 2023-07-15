@@ -1,12 +1,47 @@
 @charset "UTF-8";
 
-html {
-	background-color: white;
-	margin: 0px;
-	font-family: 'Noto Sans KR', sans-serif;
+@font-face {
+    font-family: 'GmarketSansMedium';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2001@1.1/GmarketSansMedium.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
 }
 
 
+html {
+	background-color: white;
+	margin: 0px;
+	font-family: 'GmarketSansMedium', sans-serif;
+}
+
+body {
+	min-width: 200px;
+}
+
+@media (max-width: 590px) {
+  /* 600px 이하일 때 적용되는 스타일 */
+	.sloganWrapper {
+		height: 100px !important;
+	}
+	.slogan {
+		justify-content: center;
+	}
+	.loginContainer {
+		display: flex;
+		justify-content: center;
+	}
+	.signUpBtn {
+		right: 51%;
+		/* transform: translate(300px, -100px); */
+	}
+}
+
+@font-face {
+    font-family: 'GmarketSansMedium';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2001@1.1/GmarketSansMedium.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
 
 /*아왜 없어져*/
 
@@ -54,6 +89,7 @@ nav.navBar div.searchBox {
 	width: 50px;
 	height: 50px;
 	border: 1px solid black;
+	cursor: pointer;
 }
 
 nav.navBar div.infoBox {
@@ -61,6 +97,36 @@ nav.navBar div.infoBox {
 	height: 50px;
 	border: 1px solid black;
 	border-left: none;
+	cursor: pointer;
+}
+.accountMenu {
+	width: 280px;
+    box-sizing: border-box;
+    border-radius: 0;
+    background: #fff;
+    border: 1px solid #051619;
+    position: absolute;
+    top: 72px;
+    right: 0;
+    z-index: 4;
+}
+.accountMenu a {
+	text-decoration: none;
+}
+.accountMenuDetail {
+	display: block;
+    padding: 0.75rem 1.5rem;
+    border-bottom: 1px solid #051619;
+    color: #051619;
+    cursor: pointer;
+}
+.accountMenuDetail:last-of-type {
+	border-bottom: none;
+}
+.accountMenu img {
+	width: 278px;
+	height: 278px;
+	margin: 0px;
 }
 
 /* 슬로건 */
@@ -74,7 +140,7 @@ header .bannerContainerUpper {
 }
 
 header .bannerContainerUpper nav {
-	max-width: 1000px;
+	max-width: 1100px;
 	height: 50px;
 	margin: 0 auto;
 	display: flex;
@@ -109,6 +175,19 @@ header .bannerContainerUpper ul{
 .slogan {
 	font-size: 30px;
 	font-weight: bold;
+	margin: 0 5%;
+	display: flex;
+	flex-wrap: wrap;
+	align-items: center;
+}
+
+.we {
+	display: flex;
+	width: 265px;
+}
+.world {
+	display: flex;
+	width: 250px;
 }
 
 /* 메인화면 로그인창 */
@@ -121,35 +200,87 @@ header .bannerContainerLower {
 
 /* 메인화면 뤠퍼 */
 .bannerContainerLower .infoWrapper {
-	max-width: 1000px;
+	max-width: 1100px;
 	height: 400px;
 	margin: 0 auto;
-	display: flex;
 }
 
 /* 메인화면 메뉴 박스 */
 .loginContainer {
-	width: 100%;
+	width: 90%;
 	height: 200px;
-	display: flex;
 	margin: 0;
 	padding: 0 5%;
 }
 .registerContainer {
-	width: 100%;
+	width: 90%;
 	height: 50px;
-	display: flex;
 	margin: 0;
 	padding: 0 5%;
 }
 
 .infoContainer {
-	width: 100%;
+	width: 90%;
 	margin: 0;
 	padding: 0 5%;
 }
+.loginContainer table {
+	min-width: 410px;
+	width: 410px;
+}
 
+.loginInput {
+	display: block;
+	max-width: 400px;
+}
 
+.loginContainer form table tr td input {
+	background-color: white;
+	width: 95%;
+	height: 40px;
+	font-size: 16px;
+	padding-left: 10px;
+	border-radius: 5px;
+	border: 2px solid darkgray;
+}
+.loginBtn {
+	background-color: #EDEDE1 !important;
+	width: 196px !important;
+	height: 36px !important;
+	font-family: 'GmarketSansMedium', sans-serif;
+	border-radius: 5px;
+}
+.signUpBtn {
+	background-color: #EDEDE1 !important;
+	width: 196px !important;
+	height: 36px !important;
+	font-family: 'GmarketSansMedium', sans-serif;
+	font-size: 16px;
+	border-radius: 5px;
+	position: absolute;
+	transform: translate(200px, -100px);
+	border: 2px solid darkgray;
+}
+.idSaveWrapper {
+	display: flex;
+	align-items: center
+}
+.idSaveBox {
+	appearance: none;
+	display: inline-block;
+	width: 18px !important;
+	height: 18px !important;
+	border: 1px solid darkgray !important;
+	padding-left: 0px !important;
+	margin-left: 0px !important;
+}
+.idSaveBox:checked {
+	appearance: none;
+	background-color: pink;
+}
+.idSaveWrapper label {
+	font-size: 14px;
+}
 
 nav.category {
 	background-color: #F7F7EF;
@@ -189,7 +320,7 @@ section .posts {
 
 section .posts .card {
 	display: block;
-	width: 24.92%;
+	width: 24.87%;
 	height: 200px;
 	border: 1px solid black;
 	border-width: 0 1px 1px 0;
