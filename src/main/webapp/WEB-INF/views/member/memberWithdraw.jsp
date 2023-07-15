@@ -37,17 +37,14 @@ bannerContainerUpper.style.display = "none";
 			<table>
 				<tbody>
 					<td>
-					<input type="radio" name="reason" id="service" value="콘텐츠 품질 및 서비스 정보 불만족">
-					<label for="service">콘텐츠 품질 및 서비스 정보 불만족</label>
+					<input type="radio" name="reason" id="service" value="콘텐츠 품질 및 서비스 정보 불만족"> 콘텐츠 품질 및 서비스 정보 불만족
 					<br>
-					<input type="radio" name="reason" id="email" value="다른 이메일로 재가입">
-					<label for="email">다른 이메일로 재가입</label>
+					<input type="radio" name="reason" id="email" value="다른 이메일로 재가입"> 다른 이메일로 재가입
 					<br>	
-					<input type="radio" name="reason" id="information" value="개인정보 노출 우려">
-					<label for="information">개인정보 노출 우려</label>
+					<input type="radio" name="reason" id="information" value="개인정보 노출 우려"> 개인정보 노출 우려
 					<br>	
-					<input type="radio" name="reason" id="random" value="기타">
-					<label for="random">기타</label>
+					<input type="radio" name="reason" id="random" value="기타"> 기타
+					<textarea name="reason"rows="10" cols="30" placeholder="탈퇴 사유를 적어주세요"></textarea> <br>
 					<br>
 					</td>
 				</tbody>			

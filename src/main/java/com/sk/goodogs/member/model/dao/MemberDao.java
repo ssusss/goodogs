@@ -1,12 +1,14 @@
 package com.sk.goodogs.member.model.dao;
 
 import java.io.FileReader;
+import java.sql.Array;
 import java.sql.Connection;
 import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Properties;
 
@@ -146,19 +148,39 @@ public class MemberDao {
 	 * @author 이혜령
 	 * 회원탈퇴 사유
 	 */
-	public int UpdateWithdraw(Connection conn, String memberId, String reason) {
+	
+	public int getLastNo(Connection conn) {
+		int no = 0;
+		// select seq_withdraw_member_no.currval from dual
+		String sql = prop.getProperty("getLastNo");
+		
+		try(
+			PreparedStatement pstmt = conn.prepareStatement(sql);
+			ResultSet rset = pstmt.executeQuery();
+		) {
+			if(rset.next())
+				no = rset.getInt(1);
+		} catch (SQLException e) {
+			throw new MemberException(e);
+		}
+		return no;
+	}
+	
+	public int UpdateWithdraw(Connection conn, int no, String[] reason) {
 		int result = 0;
-		// update withdraw_member set withdraw_reason = ? where member_id = ?
+		// update withdraw_member set withdraw_reason = ? where withdraw_member_no = ?
 		String sql = prop.getProperty("UpdateWithdraw");
 		try (PreparedStatement pstmt = conn.prepareStatement(sql)) {
-			pstmt.setString(1, reason);
-			pstmt.setString(2, memberId);
+			String reasonString = Arrays.toString(reason);
+			pstmt.setString(1, reasonString);
+			pstmt.setInt(2, no);
 			result = pstmt.executeUpdate();
 		} catch (SQLException e) {
 			throw new MemberException(e);
 		}
 		return result;
 	}
+	
 
 
 }

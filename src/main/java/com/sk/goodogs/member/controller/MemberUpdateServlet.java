@@ -31,12 +31,13 @@ public class MemberUpdateServlet extends HttpServlet {
 		String password = request.getParameter("password");
 		String nickName = request.getParameter("nickName");
 		String phone = request.getParameter("phone");
+		String memberProfile = request.getParameter("memberProfile");
 		
 		String _gender = request.getParameter("gender");
 		Gender gender = _gender != null? Gender.valueOf(_gender) : null;
 		
 		// Member 객체로 변환
-		Member member = new Member(memberId, password, nickName, phone, gender);
+		Member member = new Member(memberId, password, nickName, phone, memberProfile, gender);
 		
 		// 업무로직
 		int result = memberService.memberUpdate(member);
