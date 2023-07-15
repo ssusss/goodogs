@@ -1,3 +1,4 @@
+<%@page import="java.util.Date"%>
 <%@page import="com.google.gson.Gson"%>
 <%@page import="com.sk.goodogs.news.model.vo.NewsScript"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
@@ -38,6 +39,7 @@
 		<p><%=script.getScriptTag() %> </p>
 		<p><%=script.getScriptNo() %> </p>
 
+	<%if(script.getScriptState()==1){ %>
 		
 		<textarea name="reason" class="adminComent"  cols="40" rows="10" >
 		</textarea>
@@ -46,7 +48,9 @@
 		<button name="rejectInput">반려사유적기</button>
 		<button name="reject" class="adminComent">반려</button>
 		
-
+	<%} %>
+		
+	
 
 </section>
 	
@@ -71,6 +75,7 @@
 					console.log(responseData);
 					alert(responseData.message);
 					window.location.href = "<%=request.getContextPath() %>/admin/adminScriptList";
+					alarm();
 				},
 
 				
@@ -101,6 +106,7 @@
 					
 					alert(responseData.message);
 					window.location.href = "<%=request.getContextPath() %>/admin/adminScriptList";
+					alarm();
 				},
 
 				
@@ -120,6 +126,38 @@
 		});
 		e.target.style.display="none";
 	});
+	
+	
+	function alarm(){
+		function alarm(){
+			
+			let scriptStateText = "";
+	         switch (<%=script.getScriptState() %>) {
+	            case 1:
+	              scriptStateText = "미확인";
+	              break;
+	            case 2:
+		              scriptStateText = "승인";
+		              break;
+	            case 3:
+		              scriptStateText = "반려";
+		              break;
+	            default:
+	              scriptStateText = "상태이상";
+	              break;
+			};
+			
+			const payload={
+				messageType : "ALARM_MESSAGE",
+				no:<%=script.getScriptNo() %>,
+				comemt:"원고가 `\${scriptStateText}`처리되었습니다 확인하세요-관리자",
+				receiver:"<%=script.getScriptWriter().replace("@", "\\@") %>",
+				hasRead:0,
+				createdAt :Date.now()
+			}
+		};
+		ws.send(JSON.stringify(payload));
+	};
 
 </script>	
 <%@ include file="/WEB-INF/views/common/footer.jsp" %>

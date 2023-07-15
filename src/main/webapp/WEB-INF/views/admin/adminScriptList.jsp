@@ -223,7 +223,7 @@ const findSciptState=(sciptState)=>{
 						scriptTag,scriptTitle,scriptWriteDate,scriptWriter}=script;
 					
 						let scriptStateText = "";
-				          switch (scriptState) {
+				         switch (scriptState) {
 				            case 1:
 				              scriptStateText = "미확인";
 				              break;
@@ -236,7 +236,7 @@ const findSciptState=(sciptState)=>{
 				            default:
 				              scriptStateText = "상태이상";
 				              break;
-					};
+						};
 						
 					return html +`
 					<tr>

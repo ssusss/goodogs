@@ -32,7 +32,10 @@
 <title>goodogs</title>
 
 <link rel="stylesheet" href="<%=request.getContextPath()%>/css/style.css" />
-
+<!-- 웹소켓 객체생성 (상윤) -->
+<% 	if(loginMember != null) { %>
+	<script src="<%= request.getContextPath() %>/js/ws.js"></script>		
+<% 	} %>
 <!-- 아이콘 링크 -->
 <script src="https://kit.fontawesome.com/d7ccac7be9.js" crossorigin="anonymous"></script>
 <!-- 아이콘 링크 -->
@@ -45,6 +48,7 @@
  -->	
  
 <body>
+<span id="notification"></span>	
 	<div id="container">
 		<nav class="navBar">
 			<div class="navInner">
