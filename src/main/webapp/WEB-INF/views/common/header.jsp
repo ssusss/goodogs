@@ -36,9 +36,14 @@
 <!-- 아이콘 링크 -->
 <script src="https://kit.fontawesome.com/d7ccac7be9.js" crossorigin="anonymous"></script>
 <!-- 아이콘 링크 -->
-
-
 </head>
+
+<!-- 
+	@author : 김동찬, 이혜령
+	- navBox에서 검색/정보 바로가기
+	- 로그인 안하고 정보누를 시 경고창 + focus
+ -->	
+ 
 <body>
 	<div id="container">
 		<nav class="navBar">
@@ -48,20 +53,17 @@
 					<div class="searchBox"><i class="fa-solid fa-magnifying-glass fa-2xl searchIcon" style="color: ##051619;"></i></div>
 					<div class="infoBox">
 						<% if (loginMember == null) { %>
-						<i class="fa-regular fa-user fa-2xl infoIcon" style="color: ##051619;"></i>
-						<% } else { %>						
-						<span><%= loginMember.getMemberProfile() %></span>
+							<i class="fa-regular fa-user fa-2xl infoIcon" style="color: ##051619;"></i>
+						<% } else { %>
+							<div class="profile">
+								<span><%= loginMember.getMemberProfile() %></span>
+							</div>						
 						<% } %>
 					</div>
 				</div>
 			</div>
 		</nav>
-
-<!-- 
-	@author : 김동찬, 이혜령
-	- navBox에서 검색/정보 바로가기
-	- 로그인 안하고 정보누를 시 경고창 + focus
- -->		
+	</div>	
 <script>
 	toMain.onclick = () => {
 	  location.href = '<%=request.getContextPath()%>/';
