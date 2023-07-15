@@ -1,9 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ include file="/WEB-INF/views/common/header.jsp" %>
 <script src="<%= request.getContextPath() %>/js/jquery-3.7.0.js"></script>
-<style>
-	.myScriptList table
-</style>
 <script>
 	bannerContainerLower = document.querySelector(".bannerContainerLower");
 	bannerContainerLower.style.display = "none";
@@ -58,7 +55,6 @@ h1, h3{text-align:center;}
 			</tr>
 		</thead>
 		<tbody id="scriptBodyList2">
-			
 		</tbody>
 	</table>
 
@@ -74,11 +70,42 @@ h1, h3{text-align:center;}
 			</tr>
 		</thead>
 		<tbody id="scriptBodyList3">
-			
 		</tbody>
 	</table>
 </div>
 <script>
+
+//삭제 버튼에 대한 이벤트 리스너 추가
+document.addEventListener('click', (e) => {
+  if (e.target.matches('.delete')) {
+    const scriptNo = e.target.closest('tr').querySelector('td:first-child').textContent;
+    
+    $.ajax({
+    	url : "<%= request.getContextPath() %>/reporter/scriptDelete",
+    	data : {scriptNo},
+    	method : "POST",
+    	dataType : "json",
+    	success(scriptDelete){
+    		console.log(scriptDelete);
+    		alert(scriptDelete.message);
+    	},
+    	complete() {
+    		location.reload();
+    	}
+    });
+  }
+});
+
+// 이어쓰기 버튼에 대한 이벤트 리스너 추가
+document.addEventListener('click',(e)=>{
+	if(e.target.matches('.scriptUpdate')){
+		const scriptNo = e.target.closest('tr').querySelector('td:first-child').textContent;
+		
+		// 동기적으로 서블릿으로 이동하는 코드
+	    window.location.href = `<%= request.getContextPath()%>/reporter/scriptUpdate?scriptNo=\${scriptNo}`;
+	}
+});
+
 			//=========== 아이디로 원고 전부 찾기 ============
 			
 const findAllScriptById = () => {
@@ -111,7 +138,7 @@ const findAllScriptById = () => {
               <td>\${scriptTitle}</td>
               <td>\${scriptCategory}</td>
               <td>\${scriptWriteDate}</td>
-              <td>작성중 <button>이어쓰기</button> <button>삭제</button></td>
+              <td>작성중 <button class="scriptUpdate">이어쓰기</button> <button class="delete">삭제</button></td>
             </tr>
           `;
         } else if (scriptState === 1) {

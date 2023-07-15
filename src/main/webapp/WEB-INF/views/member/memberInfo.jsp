@@ -10,8 +10,8 @@
 	String password = loginMember.getPassword();
 	String nickname = loginMember.getNickname();
 	String phone = loginMember.getPhone();
+	String memberProfile = loginMember.getMemberProfile();
 	Gender gender = loginMember.getGender();
-	
 %>
 <script>
 bannerContainerLower = document.querySelector(".bannerContainerLower");
@@ -23,11 +23,7 @@ bannerContainerUpper.style.display = "none";
 
 <section id=enroll-container>
 	<br>
-	<div>
-		<p> <%= nickname %> 구독스,</p>
-		<p>어떤 사람인지 더 알고싶개!</p>
-	</div>
-	<br>
+		<h2><%= nickname %> 구독스, <br>어떤 사람인지 더 알고싶개!</h2> 
 	<h1>회원 정보</h1>
 	<form name="memberUpdateFrm" action="<%= request.getContextPath() %>/member/memberUpdate"method="post">
 		<table>
@@ -67,34 +63,28 @@ bannerContainerUpper.style.display = "none";
 				</td>
 			</tr>
 		</table>
-		<input type="submit" value="정보수정"/>
+		<br><h1>프로필 변경</h1>
+		<table>
+			<small style="display:block; margin: 2rem 0px 0.5rem;">"데스크탑에서 이모지는"<a href="https://emojipedia.org/unicode-8.0/" target="_blank" rel="noopener noreferrer">여기에서</a>"복사 붙여넣기!"</small>
+			<tr>
+				<th>프로필</th>
+				<td>
+					<% if (memberProfile != null) { %>
+					<input type="text" name="memberProfile" placeholder="이모지를 입력해주세요" value="<%= memberProfile %>"><br>
+					<% } else { %>
+					<input type="text" name="memberProfile" placeholder="이모지를 입력해주세요" value=""><br>
+					<% } %>	
+					<br>
+				</td>
+			</tr>
+		</table>
+		<br>	
+		<br><input type="submit" value="정보수정"/>
 		<input type="reset" value="취소">
 	</form>
 	<br>
 </section>
 
-<section id=profile-update>
-	<h1>프로필 이미지</h1>
-		<table>
-			<thead>
-				<tr>원하는 이미지를 선택하개!</tr>
-			</thead>
-			<tbody>
-				<tr>
-					<td>
-					<input type="radio" name="member_profile" id="dog0" vaule="">
-					<label for="dog0">푸들</label>
-					<input type="radio" name="member_profile" id="dog1" vaule="">
-					<label for="dog1">비숑</label>
-					<input type="radio" name="member_profile" id="rabbit" value="">
-					<label for="rabbit">토끼</label>
-					<input type="radio" name="member_profile" id="cat" vaule="">
-					<label for="cat">고양이</label>
-					</td>
-				</tr>
-			</tbody>
-		</table>
-</section>
 
 <section id=member-withdraw-confirm>
 	<h1>회원탈퇴</h1>

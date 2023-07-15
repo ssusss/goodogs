@@ -5,6 +5,7 @@ import java.sql.Connection;
 import java.util.List;
 import com.sk.goodogs.admin.model.dao.AdminDao;
 import com.sk.goodogs.news.model.vo.NewsComment;
+import com.sk.goodogs.news.model.vo.NewsScript;
 import com.sk.goodogs.member.model.dao.MemberDao;
 import com.sk.goodogs.member.model.vo.Member;
 
@@ -32,9 +33,9 @@ public class AdminService {
 
 
 	
-	public List<NewsComment> findBanComment() {
+	public List<NewsComment> findBanComment(int start, int end) {
 		Connection conn = getConnection();
-		 List<NewsComment> newsComments = adminDao.findBenComment(conn);
+		 List<NewsComment> newsComments = adminDao.findBanComment(conn,start, end);
 		close(conn);
 		return newsComments;
 	}
@@ -43,10 +44,9 @@ public class AdminService {
 	public int roleUpdate(String memberRole, String memberId) {
 		int result =0;
 		Connection conn= getConnection();
-		result= adminDao.roleUpdate(memberRole,memberId,conn);
-		commit(conn);
 		try{
-			
+			result= adminDao.roleUpdate(memberRole,memberId,conn);
+			commit(conn);
 		}catch (Exception e) {
 			rollback(conn);
 			throw e;
@@ -72,6 +72,38 @@ public class AdminService {
 		}
 
 		return result;
+	}
+	
+
+	public int getTotalContent() {
+		Connection conn = getConnection();
+		int totalContent = adminDao.getTotalContent(conn);
+		close(conn);
+		return totalContent;
+	}
+
+	public List<NewsScript> scriptFind(int scriptState) {
+		Connection conn = getConnection();
+		List<NewsScript> scripts= adminDao.scriptFind(scriptState,conn);
+		close(conn);
+		return scripts;
+	}
+
+	public List<NewsScript> scriptSerch(int scriptState, String searchTypeVal, String searchKeywordVal) {
+		Connection conn = getConnection();
+		List<NewsScript> scripts=adminDao.scriptSerch(scriptState,searchTypeVal,searchKeywordVal,conn);
+		close(conn);
+		
+		return scripts;
+	}
+
+	public NewsScript findOneScript(int no) {
+		NewsScript script=null;
+		Connection conn= getConnection();
+		script=adminDao.findOneScript(no,conn);
+		close(conn);
+
+		return script;
 	}
 		
 

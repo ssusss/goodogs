@@ -13,9 +13,12 @@ import java.util.Properties;
 
 
 import com.sk.goodogs.news.model.vo.NewsComment;
+import com.sk.goodogs.news.model.vo.NewsScript;
+
 import javax.naming.spi.DirStateFactory.Result;
 import static com.sk.goodogs.common.JdbcTemplate.*;
 import com.sk.goodogs.admin.model.exception.AdminException;
+import com.sk.goodogs.admin.model.exception.AdminScriptException;
 import com.sk.goodogs.member.model.exception.MemberException;
 import com.sk.goodogs.member.model.vo.Gender;
 import com.sk.goodogs.member.model.vo.Member;
@@ -41,26 +44,24 @@ public class AdminDao {
 // 벤용 ----------------------------------------
 	
 
-	public List<NewsComment> findBenComment(Connection conn) {
+	public List<NewsComment> findBanComment(Connection conn, int start, int end) {
 		List<NewsComment> newsComments = new ArrayList<>();
 		String sql = prop.getProperty("findBanComment");
 		
-		try (
-				PreparedStatement pstmt = conn.prepareStatement(sql);
-				ResultSet rset = pstmt.executeQuery();
-				){
-			
-			while(rset.next()) {
-				NewsComment newsComment  =  handleCommentrResultSet(rset);
-				newsComments.add(newsComment);
-				
+		try(PreparedStatement pstmt = conn.prepareStatement(sql)) {
+				pstmt.setInt(1, start);
+				pstmt.setInt(2, end);
+					
+			try(ResultSet rset = pstmt.executeQuery()) {
+				while(rset.next()) {
+					NewsComment newsComment  =  handleCommentrResultSet(rset);
+					newsComments.add(newsComment);
+				}
 			}
-			
 		} catch (Exception e) {
 			throw new  AdminException(e);
 		}
-
-		return newsComments;
+			return newsComments;
 	}
 
 	public int BanUpdate(Connection conn, String memberId) {
@@ -179,6 +180,105 @@ public int roleUpdate(String memberRole, String memberId, Connection conn) {
 	
 	return result;
 }
+
+
+
+public int getTotalContent(Connection conn) {
+	
+	int totalContent = 0;
+	String sql = prop.getProperty("getTotalContent"); // select count(*) from board
+	
+	try (PreparedStatement pstmt = conn.prepareStatement(sql)) {
+		try (ResultSet rset = pstmt.executeQuery()) {
+			while(rset.next())
+				totalContent = rset.getInt(1);
+		}
+	} catch (SQLException e) {
+		throw new AdminException(e);
+	}
+	return totalContent;
+}
+
+
+
+public List<NewsScript> scriptFind(int scriptState, Connection conn) {
+	List<NewsScript> scripts= new ArrayList<>();
+	String sql=prop.getProperty("scriptFind");
+	try(PreparedStatement pstmt = conn.prepareStatement(sql)) {
+		pstmt.setInt(1, scriptState);
+		try(ResultSet rset=pstmt.executeQuery()){
+			while(rset.next()) {
+				NewsScript script=handleScriptResultSet(rset);
+				scripts.add(script);
+			}
+		}
+	} catch (SQLException e) {
+		throw new AdminException();
+	}
+	return scripts;
+}
+
+
+
+private NewsScript handleScriptResultSet(ResultSet rset) throws SQLException{
+	
+	int scriptNo =rset.getInt("script_no");
+	String scriptWriter=rset.getString("script_writer");
+	String scriptTitle=rset.getString("script_title");
+	String scriptCategory=rset.getString("script_category");
+	String scriptContent=rset.getString("script_content");
+	Date scriptWriteDate=rset.getDate("script_write_date");
+	String scriptTag=rset.getString("script_tag");
+	int scriptState=rset.getInt("script_state");
+	
+	NewsScript script=new NewsScript(scriptNo, scriptWriter, scriptTitle, scriptCategory, scriptContent, scriptWriteDate, scriptTag, scriptState);
+	return script;
+}
+
+
+
+public List<NewsScript> scriptSerch(int scriptState, String searchTypeVal, String searchKeywordVal, Connection conn) {
+	List<NewsScript> scripts= new ArrayList<>();
+	String sql=prop.getProperty("scriptSerch");
+	sql=sql.replace("#",searchTypeVal);
+	System.out.println(sql);
+	
+	try(PreparedStatement pstmt= conn.prepareStatement(sql)){
+		pstmt.setString(1, "%"+searchKeywordVal+"%");
+		pstmt.setInt(2, scriptState);
+		try(ResultSet rset=pstmt.executeQuery()){
+			while(rset.next()) {
+				NewsScript script=handleScriptResultSet(rset);
+				scripts.add(script);
+			}
+		}
+	} catch (SQLException e) {
+		throw new AdminException();
+	}
+	
+	return scripts;
+}
+
+
+
+public NewsScript findOneScript(int no, Connection conn) {
+	NewsScript script=null;
+	String sql=prop.getProperty("findOneScript");
+	
+	try(PreparedStatement pstmt= conn.prepareStatement(sql)) {
+		pstmt.setInt(1, no);
+		try(ResultSet rset=pstmt.executeQuery()){
+			while(rset.next()) {
+				script=handleScriptResultSet(rset);
+			}
+		}
+	} catch (SQLException e) {
+		throw new AdminException();
+	}
+	
+	return script;
+}
+
 
 	
 }

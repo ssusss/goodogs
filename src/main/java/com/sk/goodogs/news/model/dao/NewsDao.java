@@ -13,6 +13,7 @@ import java.util.Properties;
 
 import javax.script.ScriptException;
 
+import static com.sk.goodogs.common.JdbcTemplate.*;
 import com.sk.goodogs.member.model.vo.Member;
 import com.sk.goodogs.news.model.exception.NewsException;
 import com.sk.goodogs.news.model.vo.News;
@@ -137,4 +138,79 @@ public class NewsDao {
 			return result;
 		}
 
+		
+
+		public int scriptDelete(int scriptNo, Connection conn) {
+			int result = 0;
+			String sql = prop.getProperty("scriptDelete");
+			try(PreparedStatement pstmt = conn.prepareStatement(sql)){
+				pstmt.setInt(1,scriptNo);
+				result = pstmt.executeUpdate();
+			}catch (SQLException e) {
+				throw new NewsException(e);
+			}
+			return result;
+		}
+
+		public NewsScript findByScriptNo(Connection conn, int scriptNo) {
+			NewsScript newsScript = null;
+			String sql = prop.getProperty("findByScriptNo");
+			try(PreparedStatement pstmt = conn.prepareStatement(sql)){
+				pstmt.setInt(1, scriptNo);
+				try(ResultSet rset = pstmt.executeQuery()){
+					while(rset.next()) {
+						int scriptNo_ = rset.getInt("script_no");
+						String scriptWriter = rset.getString("script_writer");
+						String scriptTitle = rset.getString("script_title");
+						String scriptCategory = rset.getString("script_category");
+						String scriptContent = rset.getString("script_content");
+						Date scriptWriteDate = rset.getDate("script_write_date");
+						String scriptTag = rset.getString("script_tag");
+						int scriptState = rset.getInt("script_state");
+						newsScript = new NewsScript(scriptNo_, scriptWriter, scriptTitle, scriptCategory, scriptContent, scriptWriteDate, scriptTag, scriptState);
+					}
+				}
+			} catch (SQLException e) {
+				throw new NewsException(e);
+			}
+			
+			return newsScript;
+		}
+
+		/***
+		 * @author 이혜령
+		 * 메인메뉴 페이지 구현
+		 */
+		public int getTotalContent(Connection conn) {
+			int totalContent = 0;
+			String sql = prop.getProperty("getTotalContent");
+			try (PreparedStatement pstmt = conn.prepareStatement(sql)){
+				try (ResultSet rset = pstmt.executeQuery()) {
+					if(rset.next())
+						totalContent = rset.getInt(1);
+				}
+			} catch (SQLException e) {
+				throw new NewsException(e);
+			}
+			return totalContent;
+		}
+		
+		
+		public List<News> findNews(Connection conn, int start, int end) {
+			List<News> news = new ArrayList<>();
+			String sql = prop.getProperty("findNews");
+			try(PreparedStatement pstmt = conn.prepareStatement(sql)) {
+				pstmt.setInt(1, start);
+				pstmt.setInt(2, end);
+				
+				try(ResultSet rset = pstmt.executeQuery()) {
+					while(rset.next())
+						news.add(handleNewsResultSet(rset));
+				}
+				
+			} catch (SQLException e) {
+				throw new NewsException(e);
+			}
+			return news;
+		}
 }

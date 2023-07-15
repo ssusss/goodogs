@@ -14,6 +14,7 @@ import com.google.gson.Gson;
 import com.oreilly.servlet.MultipartRequest;
 import com.oreilly.servlet.multipart.DefaultFileRenamePolicy;
 import com.oreilly.servlet.multipart.FileRenamePolicy;
+import com.sk.goodogs.common.GoodogsFileRenamePolicy;
 import com.sk.goodogs.news.model.service.NewsService;
 import com.sk.goodogs.news.model.vo.NewsScript;
 
@@ -34,7 +35,7 @@ public class ReporterScriptSubmitServlet extends HttpServlet {
 		String saveDirectory = getServletContext().getRealPath("/images");
 		int maxPostSize = 1024 * 1024 * 10; 
 		String encoding = "utf-8";
-		FileRenamePolicy policy = new DefaultFileRenamePolicy();
+		FileRenamePolicy policy = new GoodogsFileRenamePolicy();
 		MultipartRequest multiReq = 
 			new MultipartRequest(request, saveDirectory, maxPostSize, encoding, policy);
 		
@@ -54,6 +55,7 @@ public class ReporterScriptSubmitServlet extends HttpServlet {
 		
 		String newsImage = multiReq.getFilesystemName("newsImage"); // 저장된 파일명 
 		
+		System.out.println("newNewsScript = " +  newNewsScript);
 		// 3. 응답처리 - 비동기식 POST요청은 redirect없이 결과값을 json으로 전송
 		response.setContentType("application/json; charset=utf-8");
 		

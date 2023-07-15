@@ -3,11 +3,11 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%
-	// 전수경 작성 로그인 성공 메세지
+	// 전수경 로그인 성공 메세지
 	String message = (String) session.getAttribute("message");
 	if(message != null) session.removeAttribute("message"); // 1회용
 
-	// 전수경 작성 로그인멤버
+	// 전수경 로그인멤버
 	Member loginMember = (Member) session.getAttribute("loginMember");
 	System.out.println("loginMember = " + loginMember);
 
@@ -22,110 +22,92 @@
 				saveId = value;
 		}
 	}
-
+	
 %>
+
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
 <title>goodogs</title>
 
-<!-- 폰트 링크 -->
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300&display=swap" rel="stylesheet">
-<!-- 폰트 링크 -->
-
 <link rel="stylesheet" href="<%=request.getContextPath()%>/css/style.css" />
 
+<!-- 아이콘 링크 -->
+<script src="https://kit.fontawesome.com/d7ccac7be9.js" crossorigin="anonymous"></script>
+<!-- 아이콘 링크 -->
 </head>
-<body>
 
+<!-- 
+	@author : 김동찬, 이혜령
+	- navBox에서 검색/정보 바로가기
+	- 로그인 안하고 정보누를 시 경고창 + focus
+ -->	
+ 
+<body>
 	<div id="container">
 		<nav class="navBar">
 			<div class="navInner">
 				<h1 id="toMain">goodogs</h1>
 				<div class="navBox">
-					<div class="searchBox">검색</div>
-					<div class="infoBox">정보</div>
+					<div class="searchBox"><i class="fa-solid fa-magnifying-glass fa-2xl searchIcon" style="color: ##051619;"></i></div>
+					<div class="infoBox">
+						<% if (loginMember == null) { %>
+							<i class="fa-regular fa-user fa-2xl infoIcon" style="color: ##051619;"></i>
+						<% } else { %>
+							<div class="profile">
+								<span><%= loginMember.getMemberProfile() %></span>
+							</div>						
+						<% } %>
+					</div>
 				</div>
 			</div>
 		</nav>
-		
-		<script>
-		toMain.onclick = () => {
-			location.href = '<%=request.getContextPath()%>/';
-		}
-		</script>
+	</div>	
+<script>
+	toMain.onclick = () => {
+	  location.href = '<%=request.getContextPath()%>/';
+	}
+	
+	document.querySelector(".searchBox").onclick = () => {
+	  location.href = '<%=request.getContextPath()%>/search';
+	}
+	
+	document.querySelector(".infoBox").onclick = () => {
+	  <% if (loginMember != null) { %>
+	    const navBox = document.querySelector(".navBox");
+	    navBox.insertAdjacentHTML('beforeend', `
+	      <div class="accountMenu">
+	        <a class="accountMenuDetail" href="<%=request.getContextPath()%>/member/memberInfo">내정보</a>
+	        <a class="accountMenuDetail" href="<%=request.getContextPath()%>/like/likePage">좋아요</a>
+	        <a class="accountMenuDetail" href="<%=request.getContextPath()%>/bookmark/bookmarkPage">북마크</a>
+	        <a class="accountMenuDetail" href="<%=request.getContextPath()%>/member/logout">로그아웃</a>
+	      </div>
+	    `);
+	  <% } else { %>
+            alert('로그인이 필요합니다!');
+          	const memberIdInput = document.querySelector("#memberId"); 
+          		if(memberIdInput) {
+            		memberIdInput.focus();
+            	}
+	  <% } %>
+	}
+</script>
 
 		<!-- 로그인 객체마다 헤더가 다르게 보이게 -->
 
 		<header>
 			<%
-			if (loginMember == null) {
-			%>
-			<div class="bannerContainerUpper" role="banner"> 우리가 시간이 없지, 세상이 안궁금하냐 </div>
-			
-			<div class="bannerContainerLower">
-				
-				<!-- 
-					@author 전수경
-					로그인 컨테이너 시작
-				-->
-				<div class="loginContainer">
-					<form id="loginFrm" name="loginFrm" action="<%= request.getContextPath() %>/member/memberLogin" method="GET">
-						<table>
-							<tr>
-								<td><input type="email" name="memberId" id="memberId"
-									placeholder="아이디" tabindex="1" value=""></td>
-								<td rowspan="2"><input type="submit" value="로그인"></td>
-							</tr>
-							<tr>
-								<td><input type="password" name="password" id="password"
-									tabindex="2" placeholder="비밀번호"></td>
-								<td></td>
-								<td></td>
-							</tr>
-							<tr>
-								<td colspan="2"><input type="checkbox" name="saveId"
-									id="saveId" /> <label for="saveId">아이디저장</label></td>
-							</tr>
-						</table>
-					</form>
-				</div> <!-- 로그인 컨테이너 종료 -->
-				
-				<!-- 
-					@author 전수경
-					회원가입 컨테이너 시작
-				 -->
-				<div class="registerContainer">
-					<form id="RegisterFrm" name="RegisterFrm" action="<%= request.getContextPath() %>/member/memberRegister" method="GET">
-						<table>
-							<td rowspan="2"><input type="button" value="회원가입"
-										onclick="location.href='<%= request.getContextPath() %>/member/memberRegister';"></td>
-						</table>					
-					</form>
-				</div> <!-- 회원가입 컨테이너 종료 -->
-				
+			if (loginMember == null || (loginMember != null && loginMember.getMemberRole() == MemberRole.M)) {
+			%>			
+			<div class="bannerContainerUpper sloganWrapper" role="banner"> 
+				<nav>
+					<div class="slogan">
+						<span class="we">우리가 시간이 없지,</span><span class="world">세상이 안궁금하냐 </span>
+					</div>
+				</nav>
 			</div>
 			<%
-			} else if (loginMember != null && loginMember.getMemberRole() == MemberRole.M) {
-			%>
-			<!-- 로그인 회원 컨테이너 -->
-			<div class="bannerContainerUpper" role="banner">우리가 시간이 없지, 세상이 안궁금하냐</div>
-			<div class="bannerContainerLower">
-				<br>
-				<div class="infoContainer">
-					<h3>반가워 죽겠개,</h2>
-					<h2> 구독스!</h2>
-					<input type="button" value="정보수정" onclick="location.href='<%= request.getContextPath() %>/member/memberInfo';">
-					<input type="button" value="좋아요" onclick="location.href='<%= request.getContextPath() %>/like/likePage';">
-					<input type="button" value="북마크" onclick="location.href='<%= request.getContextPath() %>/bookmark/bookmarkPage';">
-				</div>
-
-			</div>
-			<%
-
 			} else if (loginMember != null && loginMember.getMemberRole() == MemberRole.R) {
 			%>
 			<div class="bannerContainerUpper" role="banner">
@@ -136,15 +118,6 @@
 						<li class="scriptWrite"><a href="<%= request.getContextPath() %>/reporter/scriptWrite">원고 작성</a></li>
 					</ul>
 				</nav>
-			</div>
-			<div class="bannerContainerLower">
-				<br>
-				<div class="infoContainer">
-					<h2>기자 @@@님, 환영합니다!</h2>
-					<input type="button" value="정보수정" onclick="location.href='<%= request.getContextPath() %>/member/memberInfo';">
-					<input type="button" value="좋아요" onclick="location.href='<%= request.getContextPath() %>/like/likePage';">
-					<input type="button" value="북마크" onclick="location.href='<%= request.getContextPath() %>/bookmark/bookmarkPage';">
-				</div>
 			</div>
 			<%
 			} else if (loginMember != null && loginMember.getMemberRole() == MemberRole.A) {
@@ -158,22 +131,100 @@
 					</ul>
 				</nav>
 			</div>
-			<div class="bannerContainerLower">
-				<br>
-				<div class="infoContainer">
-					<h2>관리자님, 환영합니다!</h2>
-					<input type="button" value="정보수정" onclick="location.href='<%= request.getContextPath() %>/member/memberInfo';">
-					<input type="button" value="좋아요" onclick="location.href='<%= request.getContextPath() %>/like/likePage';">
-					<input type="button" value="북마크" onclick="location.href='<%= request.getContextPath() %>/bookmark/bookmarkPage';">
-				</div>
-			</div>
-			<div>
-
-			</div>
-
 			<%
 			}
 			%>
+			
+			
+			
+			<div class="bannerContainerLower">
+				<div class="infoWrapper">
+					<%
+					if (loginMember == null) {
+					%>	
+					<!-- 
+						@author 전수경
+						로그인 컨테이너 시작
+					-->
+					<div class="loginContainer">
+						<div class="welcomeBox">
+							<p class="p1">✨지금 555,346명이 구독스를 읽고 있어요.</p>
+							<p class="p2">세상 돌아가는 소식, 빠르고 편하게 접해보세요!</p>
+							<p class="p3">아침마다 세상 돌아가는 소식을 메일로 받아보세요.</p>
+						</div>
+						<form id="loginFrm" name="loginFrm" action="<%= request.getContextPath() %>/member/memberLogin" method="GET">
+							<table>
+								<tr>
+									<td class="loginInput"><input type="email" name="memberId" id="memberId"
+										placeholder="아이디(이메일 주소)" tabindex="1" value=""></td>
+								</tr>
+								<tr>
+									<td class="loginInput"><input type="password" name="password" id="password"
+										tabindex="2" placeholder="비밀번호"></td>
+								</tr>
+								<tr>
+									<td><input class="loginBtn" type="submit" value="로그인"></td>
+								</tr>
+								<tr>
+									<td colspan="2" class="idSaveWrapper"><input class="idSaveBox" type="checkbox" name="saveId"
+										id="saveId" /> <label for="saveId">아이디저장</label></td>
+								</tr>
+							</table>
+						</form>
+					</div> <!-- 로그인 컨테이너 종료 -->
+					<!-- 
+						@author 전수경
+						회원가입 컨테이너 시작
+					 -->
+					<div class="registerContainer">
+						<form id="RegisterFrm" name="RegisterFrm" action="<%= request.getContextPath() %>/member/memberRegister" method="GET">
+							<table>
+								<td rowspan="2"><input class="signUpBtn" type="button" value="회원가입"
+											onclick="location.href='<%= request.getContextPath() %>/member/memberRegister';"></td>
+							</table>					
+						</form>
+					</div> <!-- 회원가입 컨테이너 종료 -->
+					<%
+					} else if (loginMember != null && loginMember.getMemberRole() == MemberRole.M) {
+					%>
+					<div class="infoContainer">
+						<h3>반가워 죽겠개,</h2>
+						<h2><%= loginMember.getNickname() %> 구독스!</h2>
+						<input type="button" value="정보수정" onclick="location.href='<%= request.getContextPath() %>/member/memberInfo';">
+						<input type="button" value="좋아요" onclick="location.href='<%= request.getContextPath() %>/like/likePage';">
+						<input type="button" value="북마크" onclick="location.href='<%= request.getContextPath() %>/bookmark/bookmarkPage';">
+					</div>
+					<%
+					} else if (loginMember != null && loginMember.getMemberRole() == MemberRole.R) {
+					%>
+					<div class="infoContainer">
+						<h2>기자 <%= loginMember.getNickname() %>님, 어서오개!</h2>
+						<input type="button" value="정보수정" onclick="location.href='<%= request.getContextPath() %>/member/memberInfo';">
+						<input type="button" value="좋아요" onclick="location.href='<%= request.getContextPath() %>/like/likePage';">
+						<input type="button" value="북마크" onclick="location.href='<%= request.getContextPath() %>/bookmark/bookmarkPage';">
+					</div>
+					<%
+					} else if (loginMember != null && loginMember.getMemberRole() == MemberRole.A) {
+					%>
+					<div class="infoContainer">
+						<h2>관리자 <%= loginMember.getNickname() %>님, 환영하개!</h2>
+						<input type="button" value="정보수정" onclick="location.href='<%= request.getContextPath() %>/member/memberInfo';">
+						<input type="button" value="좋아요" onclick="location.href='<%= request.getContextPath() %>/like/likePage';">
+						<input type="button" value="북마크" onclick="location.href='<%= request.getContextPath() %>/bookmark/bookmarkPage';">
+	
+					</div>
+					<%
+					}
+					%>
+				</div>
+				<div class="goodogsImageWrapper">
+					<div class="goodogsImageContainer">
+						<img class="goodogsImage" alt="" src="<%= request.getContextPath() %>/images/character/goodogs_news.png">
+						<!-- 말풍선 이미지 수정할 것 -->
+					</div>
+				</div>
+			</div>
+			
 			
 		</header>
 		<section class="sc-bcXHqe exBdsH home-recent">

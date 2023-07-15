@@ -189,7 +189,7 @@ document.querySelector("select#searchType").onchange = (e) => {
 	
 	document.querySelector(`#search-\${e.target.value}`).style.display = "inline-block";
 	
-	};
+};
 	
 
 	const findAllMember= ()=>{

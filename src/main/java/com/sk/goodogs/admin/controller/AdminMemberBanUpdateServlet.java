@@ -10,7 +10,7 @@ import javax.servlet.http.HttpServletResponse;
 import com.sk.goodogs.admin.model.service.AdminService;
 
 /**
- * @author 김나영
+ * @author 김나영 ( 멤버 벤 처리 )
  */
 @WebServlet("/admin/memberbanUpdate")
 public class AdminMemberBanUpdateServlet extends HttpServlet {
