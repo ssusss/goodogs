@@ -367,3 +367,5 @@ insert into news_comment values (119, 1000, 1,'kdc0526@naver.com', null, '동찬
 --select * from news_script;
 --update news_script set script_state = 3 where script_no = 4;
 --select * from news_script_rejected;
+
+
