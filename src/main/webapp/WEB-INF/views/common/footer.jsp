@@ -1,7 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-</section>
-
     <aside>
       <a class="home-banner" href=" " target=" " rel=" ">
         <figure class="home-banner-image"> 강아지 사진 </figure>
@@ -24,6 +22,5 @@
       </nav>
       <div class="footer-address-info"></div>
     </footer>
-  </div>
 </body>
 </html>

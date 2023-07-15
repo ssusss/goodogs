@@ -345,6 +345,55 @@ header .bannerContainerLower {
 	padding: 2px 0 10px 10px;
 }
 
+.welcomeMember1 {
+	
+}
+.welcomeMember2 {
+	padding: 10px 0 0 10px;
+	margin: 0;
+	font-size: 40px;
+	font-weight: bold;
+}
+
+.welcomeBtnWrapper {
+	width: 400px;
+	height: 100px;
+}
+
+.infoContainer input:first-of-type {
+	background-color: #EDEDE1;
+	position: absolute;
+	margin: 0 0 0 10px;
+	font-family: 'GmarketSansMedium', sans-serif;
+	font-size: 16px;
+	border: 2px solid darkgray;
+	border-radius: 5px;
+}
+.infoContainer input:nth-of-type(2) {
+	background-color: #EDEDE1;
+	position: absolute;
+	width: 190px;
+	height: 40px;
+	margin: 0;
+	font-family: 'GmarketSansMedium', sans-serif;
+	font-size: 24px;
+	border: 2px solid darkgray;
+	border-radius: 5px;
+	transform: translate(10px, 36px);
+}
+.infoContainer input:last-of-type {
+	background-color: #EDEDE1;
+	position: absolute;
+	width: 190px;
+	height: 40px;
+	margin: 0;
+	font-family: 'GmarketSansMedium', sans-serif;
+	font-size: 24px;
+	border: 2px solid darkgray;
+	border-radius: 5px;
+	transform: translate(206px, 36px);
+}
+
 .registerContainer {
 	width: 90%;
 	height: 50px;
@@ -352,11 +401,6 @@ header .bannerContainerLower {
 	padding: 0 5%;
 }
 
-.infoContainer {
-	width: 90%;
-	margin: 0;
-	padding: 0 5%;
-}
 .loginContainer table {
 	min-width: 410px;
 	width: 410px;
@@ -424,8 +468,7 @@ nav.category {
 	position: sticky;
 	overflow: hidden;
 	top: 0;
-	border-left: 1px solid #051619;
-	border-right: 1px solid #051619;
+	border-bottom: 1px solid #051619;
 	z-index: 1;
 	overflow-x: auto;
 	white-space: nowrap;
@@ -439,7 +482,6 @@ nav.category {
 }
 
 section {
-	/* background-color: royalblue; */
 	max-width: 1360px;
 	margin: 0 auto;
 	padding: 0px 5%;
@@ -452,7 +494,7 @@ section .posts {
     position: relative;
     border-color: #051619;
     border-style: solid;
-    border-width: 1px 0 0 1px;
+    border-width: 0 0 0 1px;
     z-index: 10px;
 }
 
@@ -533,12 +575,6 @@ aside figure {
 footer {
 	background-color: khaki;
 	height: 200px;
-}
-
-
-/* 메인화면 메뉴 박스 */
-div.infoContainer {
-	background-color: gray;
 }
 
 /* 카테고리 밑줄 안보이게 하기*/

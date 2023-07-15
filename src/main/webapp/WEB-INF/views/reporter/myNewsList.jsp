@@ -29,7 +29,7 @@ table#tbl-news{
 
 
 </script>
-
+<section>
 <div class="myPostList">
 	<h1>기사 목록</h1>
 	<table id ="tbl-news">
@@ -47,8 +47,8 @@ table#tbl-news{
 		</tbody>
 	</table>
 	
-	</div>
-	
+</div>
+</section>
 	<script>
 	const findAllNewsById = () => {
 		$.ajax({

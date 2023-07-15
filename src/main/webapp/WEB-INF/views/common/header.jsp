@@ -164,38 +164,38 @@
 							</table>					
 						</form>
 					</div> <!-- 회원가입 컨테이너 종료 -->
-					<%
-					} else if (loginMember != null && loginMember.getMemberRole() == MemberRole.M) {
-					%>
-					<div class="infoContainer">
-						<h3>반가워 죽겠개,</h2>
-						<h2><%= loginMember.getNickname() %> 구독스!</h2>
-						<input type="button" value="정보수정" onclick="location.href='<%= request.getContextPath() %>/member/memberInfo';">
-						<input type="button" value="좋아요" onclick="location.href='<%= request.getContextPath() %>/like/likePage';">
-						<input type="button" value="북마크" onclick="location.href='<%= request.getContextPath() %>/bookmark/bookmarkPage';">
+					<% } else if (loginMember != null) { %>
+					<div class="loginContainer infoContainer">
+						<div class="welcomeBox">
+							<p class="p1">✨지금 555,346명이 구독스를 읽고 있어요.</p>
+							<p class="p2">세상 돌아가는 소식, 빠르고 편하게 접해보세요!</p>
+							<p class="p3">아침마다 세상 돌아가는 소식을 메일로 받아보세요.</p>
+						</div>
+						<% if (loginMember.getMemberRole() == MemberRole.M) { %>
+						<p class="welcomeMember1">반가워 죽겠개,</p>
+						<p class="welcomeMember2"><%= loginMember.getNickname() %> 구독스!</p>
+						<div class="welcomeBtnWrapper">
+							<input type="button" value="프로필 편집" onclick="location.href='<%= request.getContextPath() %>/member/memberInfo';">
+							<input type="button" value="좋아요" onclick="location.href='<%= request.getContextPath() %>/like/likePage';">
+							<input type="button" value="북마크" onclick="location.href='<%= request.getContextPath() %>/bookmark/bookmarkPage';">
+						</div>
+						<% } else if (loginMember.getMemberRole() == MemberRole.R) { %>
+						<p class="welcomeMember2">기자 <%= loginMember.getNickname() %>님, 어서오개!</p>
+						<div class="welcomeBtnWrapper">
+							<input type="button" value="프로필 편집" onclick="location.href='<%= request.getContextPath() %>/member/memberInfo';">
+							<input type="button" value="좋아요" onclick="location.href='<%= request.getContextPath() %>/like/likePage';">
+							<input type="button" value="북마크" onclick="location.href='<%= request.getContextPath() %>/bookmark/bookmarkPage';">
+						</div>	
+						<% } else if (loginMember.getMemberRole() == MemberRole.A) { %>
+						<p class="welcomeMember2">관리자 <%= loginMember.getNickname() %>님, 환영하개!</p>
+						<div class="welcomeBtnWrapper">
+							<input type="button" value="프로필 편집" onclick="location.href='<%= request.getContextPath() %>/member/memberInfo';">
+							<input type="button" value="좋아요" onclick="location.href='<%= request.getContextPath() %>/like/likePage';">
+							<input type="button" value="북마크" onclick="location.href='<%= request.getContextPath() %>/bookmark/bookmarkPage';">
+						</div>		
+						<% } %>
 					</div>
-					<%
-					} else if (loginMember != null && loginMember.getMemberRole() == MemberRole.R) {
-					%>
-					<div class="infoContainer">
-						<h2>기자 <%= loginMember.getNickname() %>님, 어서오개!</h2>
-						<input type="button" value="정보수정" onclick="location.href='<%= request.getContextPath() %>/member/memberInfo';">
-						<input type="button" value="좋아요" onclick="location.href='<%= request.getContextPath() %>/like/likePage';">
-						<input type="button" value="북마크" onclick="location.href='<%= request.getContextPath() %>/bookmark/bookmarkPage';">
-					</div>
-					<%
-					} else if (loginMember != null && loginMember.getMemberRole() == MemberRole.A) {
-					%>
-					<div class="infoContainer">
-						<h2>관리자 <%= loginMember.getNickname() %>님, 환영하개!</h2>
-						<input type="button" value="정보수정" onclick="location.href='<%= request.getContextPath() %>/member/memberInfo';">
-						<input type="button" value="좋아요" onclick="location.href='<%= request.getContextPath() %>/like/likePage';">
-						<input type="button" value="북마크" onclick="location.href='<%= request.getContextPath() %>/bookmark/bookmarkPage';">
-	
-					</div>
-					<%
-					}
-					%>
+					<% } %>
 				</div>
 				<div class="goodogsImageWrapper">
 					<div class="goodogsImageContainer">
@@ -230,5 +230,3 @@
 			</script>
 			
 		</header>
-		
-		<section class="sc-bcXHqe exBdsH home-recent">

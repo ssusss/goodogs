@@ -1,4 +1,5 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" 
+	pageEncoding="UTF-8"%>
 <%@ include file="/WEB-INF/views/common/header.jsp" %>
 <script src="<%= request.getContextPath() %>/js/jquery-3.7.0.js"></script>
 <script>
@@ -27,6 +28,7 @@ h1, h3{text-align:center;}
   background-color: #f2f2f2;
 }
 </style>
+<section>
 <div class="myScriptList">
 	<h1>원고 기사 목록</h1>
 	<h3>반려된 원고</h3>
@@ -73,6 +75,7 @@ h1, h3{text-align:center;}
 		</tbody>
 	</table>
 </div>
+</section>
 <script>
 
 //삭제 버튼에 대한 이벤트 리스너 추가
