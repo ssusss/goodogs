@@ -111,6 +111,6 @@ public class NewsService {
 		close(conn);
 		return news;
 	}
-	
+
 	
 }

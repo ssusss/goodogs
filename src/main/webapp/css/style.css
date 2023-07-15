@@ -395,14 +395,14 @@ nav.categoryInner {
 }
 
 section {
-	background-color: royalblue;
+	/* background-color: royalblue; */
 	max-width: 1360px;
 	margin: 0 auto;
 	padding: 0px 5%;
 }
 
 section .posts {
-	background-color: coral;
+	/* background-color: coral; */
 	display: flex;
     flex-wrap: wrap;
     position: relative;

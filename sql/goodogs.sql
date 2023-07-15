@@ -69,7 +69,7 @@ create sequence seq_withdraw_member_no;
 CREATE TABLE news_script (
 	script_no number,
 	script_writer varchar2(50) NOT NULL,
-	script_title varchar2(30) NOT NULL,
+	script_title varchar2(300) NOT NULL,
 	script_category varchar2(10)	NOT NULL,
 	script_content clob NOT NULL,
 	script_write_date date DEFAULT sysdate,
@@ -91,7 +91,7 @@ CREATE TABLE news_script_rejected (
 	script_rejected_no number,
 	script_no number,
 	script_writer varchar2(50),
-	script_title varchar2(30),
+	script_title varchar2(300),
 	script_category varchar2(10),
 	script_content clob,
 	script_write_date date,
@@ -104,7 +104,7 @@ create sequence seq_news_script_rejected_no;
 CREATE TABLE news (
 	news_no number	,
 	news_writer varchar2(50),
-	news_title varchar2(30),
+	news_title varchar2(300),
 	news_category varchar2(10),
 	news_content clob,
 	news_write_date date,
@@ -118,7 +118,7 @@ CREATE TABLE news (
 CREATE TABLE deleted_news (
 	news_no number,
 	news_writer varchar2(50),
-	news_title varchar2(30),
+	news_title varchar2(300),
 	news_category varchar2(10),
 	news_content clob,
 	news_tag varchar2(20),
@@ -346,7 +346,7 @@ insert into news_comment values (119, 1000, 1,'kdc0526@naver.com', null, '동찬
 --
 --select * from news where news_writer = 'kjh0425@naver.com';
 --
---select * from news_script;
+select * from news_script;
 --select * from news_script where script_writer = ?;
 --
 --delete from news_script where script_no = ?;
