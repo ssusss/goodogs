@@ -46,14 +46,14 @@ public class ReporterScriptSubmitServlet extends HttpServlet {
 		String scriptContent = multiReq.getParameter("editordata");
 		String scriptTag = multiReq.getParameter("newsTagList");
 		
-		
 		NewsScript newNewsScript = new NewsScript(0, scriptWriter, scriptTitle, scriptCategory, scriptContent, null, scriptTag, 0);
 		
 		System.out.println("newNewsScript = " +  newNewsScript);
 		
-		int result = newsService.newsScriptSubmit(newNewsScript);
+		int result1 = newsService.newsScriptSubmit(newNewsScript);
 		
 		String newsImage = multiReq.getFilesystemName("newsImage"); // 저장된 파일명 
+		
 		
 		System.out.println("newNewsScript = " +  newNewsScript);
 		// 3. 응답처리 - 비동기식 POST요청은 redirect없이 결과값을 json으로 전송
