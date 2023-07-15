@@ -22,13 +22,15 @@
 				saveId = value;
 		}
 	}
-
+	
+	
 %>
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
 <title>goodogs</title>
+
 <link rel="stylesheet" href="<%=request.getContextPath()%>/css/style.css" />
 
 <!-- 아이콘 링크 -->
@@ -53,34 +55,42 @@
 				</div>
 			</div>
 		</nav>
-		
-		<script>
-		<!-- 동찬 -->
-		toMain.onclick = () => {
-			location.href = '<%=request.getContextPath()%>/';
-		}
-		document.querySelector(".searchBox").onclick = () => {
-			location.href = '<%=request.getContextPath()%>/search';
-		}
-		document.querySelector(".infoBox").onclick = () => {
-			const navBox = document.querySelector(".navBox");
-			navBox.insertAdjacentHTML('beforeend', `
-				<% if (loginMember != null) { %>
-					<div class="accountMenu">
-						<a  class="accountMenuDetail" href="<%=request.getContextPath()%>/member/memberInfo">내정보</a>
-						<a  class="accountMenuDetail" href="<%=request.getContextPath()%>/member/memberInfo">좋아요</a>
-						<a  class="accountMenuDetail" href="<%=request.getContextPath()%>/member/memberInfo">북마크</a>
-						<a  class="accountMenuDetail" href="<%=request.getContextPath()%>/member/logout">로그아웃</a>
-					</div>
-				<% } else { %>
-					<div class="accountMenu">
-						<img src="<%=request.getContextPath()%>/images/goodogs_face.jpg" alt="">
-					</div>
-				<% } %>
-			`);
-		}
-		
-		</script>
+
+
+<!-- 
+	@author : 김동찬, 이혜령
+	- navBox에서 검색/정보 바로가기
+	- 로그인 안하고 정보누를 시 경고창 + focus
+ -->		
+<script>
+	toMain.onclick = () => {
+	  location.href = '<%=request.getContextPath()%>/';
+	}
+	
+	document.querySelector(".searchBox").onclick = () => {
+	  location.href = '<%=request.getContextPath()%>/search';
+	}
+	
+	document.querySelector(".infoBox").onclick = () => {
+	  <% if (loginMember != null) { %>
+	    const navBox = document.querySelector(".navBox");
+	    navBox.insertAdjacentHTML('beforeend', `
+	      <div class="accountMenu">
+	        <a class="accountMenuDetail" href="<%=request.getContextPath()%>/member/memberInfo">내정보</a>
+	        <a class="accountMenuDetail" href="<%=request.getContextPath()%>/like/likePage">좋아요</a>
+	        <a class="accountMenuDetail" href="<%=request.getContextPath()%>/bookmark/bookmarkPage">북마크</a>
+	        <a class="accountMenuDetail" href="<%=request.getContextPath()%>/member/logout">로그아웃</a>
+	      </div>
+	    `);
+	  <% } else { %>
+            alert('로그인이 필요합니다!');
+          	const memberIdInput = document.querySelector("#memberId"); 
+          		if(memberIdInput) {
+            		memberIdInput.focus();
+            	}
+	  <% } %>
+	}
+</script>
 
 		<!-- 로그인 객체마다 헤더가 다르게 보이게 -->
 

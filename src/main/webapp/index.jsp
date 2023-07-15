@@ -124,6 +124,7 @@ function getDragAfterElement(container, x) {
 </nav>
 
 <section>
+
 	<div class="posts">
 	<a class="card" href=""> <!-- a태그 : 전체박스 -->
 		<div class="card-inner"> <!-- 박스 안 내용물 -->
@@ -135,9 +136,9 @@ function getDragAfterElement(container, x) {
 				<time class="card-date">2023/07/11</time> <!-- 기사 날짜 -->
 				<span class="card-category">학원</span> <!-- 기사 카테고리 -->
 			</div>
-		</div>
-	</a>
+		</a>	
 	</div>
+	
 	<div id='btn-more-container'>
 		<button id="btn-more" value="">더보기(<span id="cpage"></span>/<span id="totalPage"><%= totalPage %></span>)</button>
 	</div>

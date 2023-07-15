@@ -9,13 +9,13 @@
 			<tr>
 				<th>아이디<sup>*</sup></th>
 				<td>
-					<input type="email" placeholder="이메일" name="memberId" id="memberId" required>
+					<input type="email" placeholder="이메일" name="_memberId" id="_memberId" required>
 				</td>
 			</tr>
 			<tr>
 				<th>비밀번호<sup>*</sup></th>
 				<td>
-					<input type="password" name="password" id="password" placeholder="비밀번호" required><br>
+					<input type="password" name="_password" id="_password" placeholder="비밀번호" required><br>
 				</td>
 			</tr>
 			<tr>
@@ -53,12 +53,12 @@
 	</form>
 </section>
 <script>
-
 // 비밀번호 일치여부
 document.querySelector("#passwordConfirmation").onblur = (e) => {
-	const pw1 = document.querySelector("#password");
+	const pw1 = document.querySelector("#_password");
 	const pw2 = e.target;
-	
+	console.log("pw1"+pw1.value);
+	console.log("pw2"+pw2.value);
 	if(pw1.value !== pw2.value) {
 		alert("비밀번호가 일치하지 않습니다.");
 		pw1.select();
@@ -68,8 +68,8 @@ document.querySelector("#passwordConfirmation").onblur = (e) => {
 // 폼 유효성검사
 document.memberRegisterFrm.onsubmit = (e) => {
 	const frm = e.target;
-	const memberId = e.target.memberId;
-	const password = e.target.password;
+	const memberId = e.target._memberId;
+	const password = e.target._password;
 	const passwordConfirmation = e.target.querySelector("#passwordConfirmation");
 	const nickname = e.target.nickname;
 	const phone = e.target.phone;
@@ -85,15 +85,10 @@ document.memberRegisterFrm.onsubmit = (e) => {
 		alert("비밀번호는 영문자/숫자/특수문자(!@#$%)를 최소 하나를 포함해 8글자 이상이어야 합니다.");
 		return false;
 	}
-	
-	if (password.value !== passwordConfirmation.value) {
-		alert("두 비밀번호가 일치하지 않습니다.");
-		return false;
-	}
 
 	// 닉네임 검사 - 영문자/한글/숫자 2글자 이상
-	if (!/^010\d{8}$/.test(phone.value)) {
-		alert("닉네임은 010으로 시작하고 숫자8자리여야 합니다.");
+	if (!/^[a-zA-Z0-9가-힣]{2,}$/.test(nickname.value)) {
+		alert("닉네임은 영문자,한글,숫자 조합으로 2글자 이상이어야 합니다.");
 		return false;
 	}
 	
@@ -104,7 +99,6 @@ document.memberRegisterFrm.onsubmit = (e) => {
 	}
 	
 };
-
 
 </script>
 <%@ include file="/WEB-INF/views/common/footer.jsp" %>
