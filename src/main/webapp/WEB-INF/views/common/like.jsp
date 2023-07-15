@@ -56,7 +56,7 @@ bannerContainerUpper.style.display = "none";
 		<td><%= like.getNewsNo() %></td>
 		<td>
 			<a href="<%= request.getContextPath()%>/">
-				기사제목 : <%= %>
+				기사제목 : 기사링크
 			</a>
 		</td>
 		<td><%= like.getLikeDate() %></td>
