@@ -6,16 +6,16 @@ import java.sql.Date;
  * @author 전수경
  *
  */
-public class Like {
+public class LikeList {
 	private String memberId;
 	private int newsNo;
 	private Date likeDate;
 	
-	public Like() {
+	public LikeList() {
 		super();
 	}
 
-	public Like(String memberId, int newsNo, Date likeDate) {
+	public LikeList(String memberId, int newsNo, Date likeDate) {
 		super();
 		this.memberId = memberId;
 		this.newsNo = newsNo;
