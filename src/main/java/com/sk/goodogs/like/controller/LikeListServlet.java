@@ -36,6 +36,7 @@ public class LikeListServlet extends HttpServlet {
 		// 로그인회원정보 가져오기
 		HttpSession session = request.getSession();
 		Member loginMember = (Member) session.getAttribute("loginMember");
+		System.out.println(loginMember);
 		String memberId = loginMember.getMemberId();
 		System.out.println("memberId=" + memberId);
 		
