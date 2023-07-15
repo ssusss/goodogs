@@ -124,19 +124,20 @@ function getDragAfterElement(container, x) {
 
 <section>
 	<div id="news-container">
-	<a id="card" href="">기사 <!-- a태그 : 전체박스 -->
-		<div class="card-inner"> <!-- 박스 안 내용물 -->
-			<figure class="card-thumbnail"> <!-- 기사 썸네일 -->
-				<img src="" alt>
-			</figure>			
-			<div class="card-body"><!-- 기사 제목/날짜/카테고리 박스 -->
-				<h3 class="card-title">라면먹고싶다</h3> <!-- 기사 제목 -->
-				<time class="card-date">2023/07/11</time> <!-- 기사 날짜 -->
-				<i class="card-category">학원생활</i> <!-- 기사 카테고리 -->
+		<a class="card" href="">기사 <!-- a태그 : 전체박스 -->
+			<div class="card-inner"> <!-- 박스 안 내용물 -->
+				<figure class="card-thumbnail"> <!-- 기사 썸네일 -->
+					<img src="" alt>
+				</figure>			
+				<div class="card-body"><!-- 기사 제목/날짜/카테고리 박스 -->
+					<h3 class="card-title">라면먹고싶다</h3> <!-- 기사 제목 -->
+					<time class="card-date">2023/07/11</time> <!-- 기사 날짜 -->
+					<i class="card-category">학원생활</i> <!-- 기사 카테고리 -->
+				</div>
 			</div>
-		</div>
-	</a>
+		</a>	
 	</div>
+	
 	<div id='btn-more-container'>
 		<button id="btn-more" value="">더보기(<span id="cpage"></span>/<span id="totalPage"><%= totalPage %></span>)</button>
 	</div>

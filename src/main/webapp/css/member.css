@@ -1,0 +1,35 @@
+@charset "UTF-8";
+
+@font-face {
+    font-family: 'GmarketSansMedium';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2001@1.1/GmarketSansMedium.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+
+/* 눈물바다 이미지 */
+.withdraw-img img {
+	height : 300px;
+	width : 300px;
+	padding : 0;
+}
+
+/* 눈물바다 부모속성 */
+.withdraw-img {
+	padding : 0;
+}
+
+/* 회원탈퇴 타이틀 */
+.withdraw-head-title {
+	 font-family: 'GmarketSansMedium', sans-serif;
+	 font-weight : 700;
+	 font-size : 30px;
+}
+
+/* 회원탈퇴 문구 */
+.withdraw-why-title {
+	font-family: 'GmarketSansMedium', sans-serif;
+	font-weight: 500;
+	font-size : 20px;
+}
+
