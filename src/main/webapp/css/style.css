@@ -288,6 +288,12 @@ header .bannerContainerUpper ul{
 	transform: translate(-20px, -419px);
 }
 
+.speechImage {
+	height: 426px;
+	z-index: 2;
+	transform: translate(-20px, -419px);
+}
+
 /* 메인화면 로그인창 */
 header .bannerContainerLower {
 	background-color: #B5C99A; 

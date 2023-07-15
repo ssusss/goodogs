@@ -220,6 +220,7 @@
 				<div class="goodogsImageWrapper">
 					<div class="goodogsImageContainer">
 						<img class="goodogsImage" alt="" src="<%= request.getContextPath() %>/images/character/goodogs_news.png">
+						<!-- 말풍선 이미지 수정할 것 -->
 					</div>
 				</div>
 			</div>
