@@ -29,16 +29,10 @@
 <head>
 <meta charset="UTF-8">
 <title>goodogs</title>
-
-<!-- 
-	@author 이혜령
-	- 폰트 링크  
--->
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2001@1.1/GmarketSansMedium.woff" rel="stylesheet">
-
+<!-- 폰트 링크 -->
 <link rel="stylesheet" href="<%=request.getContextPath()%>/css/style.css" />
+<link href="https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2001@1.1/GmarketSansMedium.woff" rel="stylesheet">
+<!-- 폰트 링크 -->
 
 </head>
 <body>
@@ -96,9 +90,11 @@
 			<%
 			if (loginMember == null) {
 			%>
-			<div class="bannerContainerUpper" role="banner"> 
+			<div class="bannerContainerUpper sloganWrapper" role="banner"> 
 				<nav>
-					<span class="slogan">우리가 시간이 없지, 세상이 안궁금하냐 </span>
+					<div class="slogan">
+						<span class="we">우리가 시간이 없지,</span><span class="world">세상이 안궁금하냐 </span>
+					</div>
 				</nav>
 			</div>
 			
@@ -122,10 +118,10 @@
 										tabindex="2" placeholder="비밀번호"></td>
 								</tr>
 								<tr>
-									<td><input type="submit" value="로그인"></td>
+									<td><input class="loginBtn" type="submit" value="로그인"></td>
 								</tr>
 								<tr>
-									<td colspan="2"><input type="checkbox" name="saveId"
+									<td colspan="2" class="idSaveWrapper"><input class="idSaveBox" type="checkbox" name="saveId"
 										id="saveId" /> <label for="saveId">아이디저장</label></td>
 								</tr>
 							</table>
@@ -138,7 +134,7 @@
 					<div class="registerContainer">
 						<form id="RegisterFrm" name="RegisterFrm" action="<%= request.getContextPath() %>/member/memberRegister" method="GET">
 							<table>
-								<td rowspan="2"><input type="button" value="회원가입"
+								<td rowspan="2"><input class="signUpBtn" type="button" value="회원가입"
 											onclick="location.href='<%= request.getContextPath() %>/member/memberRegister';"></td>
 							</table>					
 						</form>
@@ -168,7 +164,6 @@
 				</div>
 			</div>
 			<%
-
 			} else if (loginMember != null && loginMember.getMemberRole() == MemberRole.R) {
 			%>
 			<div class="bannerContainerUpper" role="banner">

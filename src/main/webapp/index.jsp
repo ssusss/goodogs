@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ include file="/WEB-INF/views/common/header.jsp" %>
+<script src="<%= request.getContextPath() %>/js/jquery-3.7.0.js"></script>
 <% int totalPage = (int) request.getAttribute("totalPage"); %>
 
 <!-- 
@@ -123,17 +124,17 @@ function getDragAfterElement(container, x) {
 </nav>
 
 <section>
-	<div id="news-container">
-		<a class="card" href="">기사 <!-- a태그 : 전체박스 -->
-			<div class="card-inner"> <!-- 박스 안 내용물 -->
-				<figure class="card-thumbnail"> <!-- 기사 썸네일 -->
-					<img src="" alt>
-				</figure>			
-				<div class="card-body"><!-- 기사 제목/날짜/카테고리 박스 -->
-					<h3 class="card-title">라면먹고싶다</h3> <!-- 기사 제목 -->
-					<time class="card-date">2023/07/11</time> <!-- 기사 날짜 -->
-					<i class="card-category">학원생활</i> <!-- 기사 카테고리 -->
-				</div>
+
+	<div class="posts">
+	<a class="card" href="">기사 <!-- a태그 : 전체박스 -->
+		<div class="card-inner"> <!-- 박스 안 내용물 -->
+			<figure class="card-thumbnail"> <!-- 기사 썸네일 -->
+				<img src="" alt>
+			</figure>			
+			<div class="card-body"><!-- 기사 제목/날짜/카테고리 박스 -->
+				<h3 class="card-title">라면먹고싶다</h3> <!-- 기사 제목 -->
+				<time class="card-date">2023/07/11</time> <!-- 기사 날짜 -->
+				<i class="card-category">학원생활</i> <!-- 기사 카테고리 -->
 			</div>
 		</a>	
 	</div>
@@ -162,12 +163,12 @@ const getPage = (cpage) => {
 		success(news) {
 			console.log(news);
 			
-			const container = document.querySelector("#news-container");
+			const container = document.querySelector(".posts");
 		
 			news.forEach((news) => {
 				const {renamedFilename, newsTitle, newsConfirmedDate, newsCategory} = news;
 				container.innerHTML += `
-					<a href=""></a>
+					<a class="card" href="">
 						<div class="card-inner">
 							<figure class="card-thumbnail">
 								<img src="<%= request.getContextPath() %>/upload/thumbnail/\${renamedFilename}">
