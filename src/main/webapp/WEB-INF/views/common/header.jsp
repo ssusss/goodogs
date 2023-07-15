@@ -22,7 +22,9 @@
 				saveId = value;
 		}
 	}
+	
 %>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -47,6 +49,8 @@
 					<div class="infoBox">
 						<% if (loginMember == null) { %>
 						<i class="fa-regular fa-user fa-2xl infoIcon" style="color: ##051619;"></i>
+						<% } else { %>						
+						<span><%= loginMember.getMemberProfile() %></span>
 						<% } %>
 					</div>
 				</div>
