@@ -342,7 +342,7 @@ insert into news_comment values (119, 1000, 1,'kdc0526@naver.com', null, '동찬
 --select * from news_comment;
 --update member set is_banned = 0 where member_id = 'honggd@naver.com';
 --commit;
---
+-- select * from like_list;
 --
 --select * from news where news_writer = 'kjh0425@naver.com';
 --
