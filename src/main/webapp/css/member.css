@@ -91,6 +91,13 @@
 	min-width: 100px;
 }
 
+.searchIcon {
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+  margin-top: 8px; /* 가운데 조정할 값 */
+}
+
 .profileInfo td input {
 	margin-top: 20px; /* 원하는 만큼의 위쪽 여백 조정 */
 }
