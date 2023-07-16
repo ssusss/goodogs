@@ -1,6 +1,6 @@
 package com.sk.goodogs.bookmark.model.vo;
 
-import java.sql.Date;
+import java.sql.Timestamp;
 
 /**
  * @author 전수경
@@ -10,13 +10,13 @@ public class Bookmark {
 	private String memberId;
 	private int newsNo;
 	private String newBookmarkedContent;
-	private Date bookmarkDate;
+	private Timestamp bookmarkDate;
 	
 	public Bookmark() {
 		super();
 	}
 	
-	public Bookmark(String memberId, int newsNo, String newBookmarkedContent, Date bookmarkDate) {
+	public Bookmark(String memberId, int newsNo, String newBookmarkedContent, Timestamp bookmarkDate) {
 		super();
 		this.memberId = memberId;
 		this.newsNo = newsNo;
@@ -48,11 +48,11 @@ public class Bookmark {
 		this.newBookmarkedContent = newBookmarkedContent;
 	}
 
-	public Date getBookmarkDate() {
+	public Timestamp getBookmarkDate() {
 		return bookmarkDate;
 	}
 
-	public void setBookmarkDate(Date bookmarkDate) {
+	public void setBookmarkDate(Timestamp bookmarkDate) {
 		this.bookmarkDate = bookmarkDate;
 	}
 

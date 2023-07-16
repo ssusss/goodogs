@@ -1,4 +1,8 @@
 @charset "UTF-8";
+
+
+
+/* 원고 작성 css */
 .myScriptWrite {
 	background-color: orange;
 	padding: 0px 15%;
@@ -83,3 +87,48 @@
 	height: 360px;
 }
 
+/* 원고 관리 css */
+.myScriptList {
+	background-color: blue;
+	
+}
+
+.tableWrapper {
+	max-width: 1400px;
+	border: 1px solid black;	
+}
+
+h1, h3{text-align:center;}
+
+.script-tbl {
+  	border-collapse: collapse;
+  	margin:auto;
+  	
+}
+
+.script-tbl th,
+.script-tbl td {
+  	border: 1px solid black;
+  	padding: 5px;
+  	text-align: center;
+}
+
+.script-tbl th {
+  	background-color: #B5C99A;
+}
+
+tr th:first-of-type {
+	width: 75px;
+}
+tr th:nth-of-type(2) {
+	width: 75px;
+}
+tr th:nth-of-type(3) {
+	width: 75px;
+}
+tr th:nth-of-type(4) {
+	width: 175px;
+}
+tr th:last-of-type {
+	width: 75px;
+}

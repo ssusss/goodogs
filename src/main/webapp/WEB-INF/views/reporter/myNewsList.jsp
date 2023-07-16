@@ -4,6 +4,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ include file="/WEB-INF/views/common/header.jsp" %>
+<link rel="stylesheet" href="<%=request.getContextPath()%>/css/reporter.css" />
 <script src="<%= request.getContextPath() %>/js/jquery-3.7.0.js"></script>
 
 <style>
@@ -49,33 +50,54 @@ table#tbl-news{
 	
 </div>
 </section>
-	<script>
-	const findAllNewsById = () => {
-		$.ajax({
-			url : "<%= request.getContextPath() %>/reporter/reporterNewsFindAll",
-			dataType : "json",
-			success(newsList){
-				console.log(newsList);
-				
-				const tbody = document.querySelector(".myPostList table tbody");
-				tbody.innerHTML = newsList.reduce((html, news)=> {
-					const{newsNo, newsTitle, newsCategory, newsLikeCnt, newsReadCnt, newsConfirmedDate} = news;
-					return html + `
-						<tr>
-							<td>\${newsNo}</td>
-							<td>\${newsTitle}</td>
-							<td>\${newsCategory}</td>
-							<td>\${newsLikeCnt}</td>
-							<td>\${newsReadCnt}</td>
-							<td>\${newsConfirmedDate}</td>
-						</tr>
-					`;
-				},"");
-			}
-		});
-	}
+<script>
+// 날짜 형식 변환
+function formatDate(date) {
+	const options = {
+		year: 'numeric',
+		month: '2-digit',
+		day: '2-digit',
+		hour: '2-digit',
+		minute: '2-digit',
+		second: '2-digit',
+		hour12: false
+	};
 	
-	</script>
+	console.log(options);
+
+	const formatter = new Intl.DateTimeFormat('ko-KR', options);
+	return formatter.format(new Date(date));
+}
+
+const findAllNewsById = () => {
+	$.ajax({
+		url : "<%= request.getContextPath() %>/reporter/reporterNewsFindAll",
+		dataType : "json",
+		success(newsList){
+			console.log(newsList);
+			
+			const tbody = document.querySelector(".myPostList table tbody");
+			tbody.innerHTML = newsList.reduce((html, news)=> {
+				const{newsNo, newsTitle, newsCategory, newsLikeCnt, newsReadCnt, newsConfirmedDate} = news;
+				
+				const formattedDate = formatDate(newsConfirmedDate);
+				
+				return html + `
+					<tr>
+						<td>\${newsNo}</td>
+						<td>\${newsTitle}</td>
+						<td>\${newsCategory}</td>
+						<td>\${newsLikeCnt}</td>
+						<td>\${newsReadCnt}</td>
+						<td>\${formattedDate}</td>
+					</tr>
+				`;
+			},"");
+		}
+	});
+}
+
+</script>
 	
 	
 	
