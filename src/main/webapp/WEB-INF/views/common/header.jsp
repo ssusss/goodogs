@@ -56,7 +56,7 @@
 				<div class="navBox">
 					<div class="searchBox"><i class="fa-solid fa-magnifying-glass fa-2xl searchIcon" style="color: ##051619;"></i></div>
 					<div class="infoBox">
-						<% if (loginMember == null) { %>
+						<% if (loginMember == null || loginMember.getMemberProfile() == null) { %>
 							<i class="fa-regular fa-user fa-2xl infoIcon" style="color: ##051619;"></i>
 						<% } else { %>
 							<div class="profile">
