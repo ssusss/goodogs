@@ -10,18 +10,16 @@ import java.sql.Timestamp;
 public class LikeList {
 	private String memberId;
 	private int newsNo;
-	private String newsTitle;
 	private Timestamp likeDate;
 	
 	public LikeList() {
 		super();
 	}
 
-	public LikeList(String memberId, int newsNo, String newsTitle, Timestamp likeDate) {
+	public LikeList(String memberId, int newsNo, Timestamp likeDate) {
 		super();
 		this.memberId = memberId;
 		this.newsNo = newsNo;
-		this.newsTitle = newsTitle;
 		this.likeDate = likeDate;
 	}
 
@@ -41,14 +39,6 @@ public class LikeList {
 		this.newsNo = newsNo;
 	}
 
-	public String getNewsTitle() {
-		return newsTitle;
-	}
-
-	public void setNewsTitle(String newsTitle) {
-		this.newsTitle = newsTitle;
-	}
-
 	public Timestamp getLikeDate() {
 		return likeDate;
 	}
@@ -59,8 +49,7 @@ public class LikeList {
 
 	@Override
 	public String toString() {
-		return "LikeList [memberId=" + memberId + ", newsNo=" + newsNo + ", newsTitle=" + newsTitle + ", likeDate="
-				+ likeDate + "]";
+		return "LikeList [memberId=" + memberId + ", newsNo=" + newsNo + ", likeDate=" + likeDate + "]";
 	}
 
 }
