@@ -16,6 +16,7 @@ html {
 
 body {
 	min-width: 200px;
+	background-color: #EDEDE1;
 }
 
 @media (max-width: 590px) {
@@ -73,6 +74,14 @@ body {
 @media (max-width: 550px) {
 	.card {
     	width: 100% !important;
+	}
+}
+
+@media (max-width: 1020px) {
+	.accountMenu {
+    	 transform: translate(0px, 0px) !important;
+    	 right: 20px;
+    	 top: -480px;
 	}
 }
 
@@ -176,35 +185,6 @@ nav.navBar div.infoBox {
 	border-bottom-right-radius: 3px;
 	border-top-right-radius: 3px;
 }
-.accountMenu {
-	width: 280px;
-    box-sizing: border-box;
-    border-radius: 0;
-    background: #fff;
-    border: 1px solid #051619;
-    position: absolute;
-    top: 72px;
-    right: 0;
-    z-index: 4;
-}
-.accountMenu a {
-	text-decoration: none;
-}
-.accountMenuDetail {
-	display: block;
-    padding: 0.75rem 1.5rem;
-    border-bottom: 1px solid #051619;
-    color: #051619;
-    cursor: pointer;
-}
-.accountMenuDetail:last-of-type {
-	border-bottom: none;
-}
-.accountMenu img {
-	width: 278px;
-	height: 278px;
-	margin: 0px;
-}
 
 /* 슬로건 */
 header .bannerContainerUpper {
@@ -271,27 +251,33 @@ header .bannerContainerUpper ul{
 
 .goodogsImageWrapper {
 	max-width: 1100px;
-	height: 400px;
+	height: 0;
 	margin: 0 auto;
+	position: relative;
+	z-index: 1;
 }
 .goodogsImageContainer {
 	display: flex;
 	width: 90%;
-	height: 200px;
+	height: 0;
 	margin: 0;
 	padding: 0 5%;
 	flex-direction: row-reverse;
 }
 .goodogsImage {
 	height: 426px;
-	z-index: 2;
 	transform: translate(-20px, -419px);
 }
 
 .speechImage {
 	height: 426px;
-	z-index: 2;
 	transform: translate(-20px, -419px);
+}
+
+.menuContainer {
+	max-width: 1000px;
+	height: 30px;
+	margin: 0 auto;
 }
 
 /* 메인화면 로그인창 */
@@ -300,6 +286,30 @@ header .bannerContainerLower {
 	height: 400px;
 	border-bottom: 1px solid #051619;
 	
+}
+.accountMenu {
+	width: 280px;
+    box-sizing: border-box;
+    border-radius: 0;
+    background: #fff;
+    border: 1px solid #051619;
+    position: absolute;
+    z-index: 9999;
+    transform: translate(700px, -480px);
+}
+.accountMenu a {
+	text-decoration: none;
+}
+.accountMenuDetail {
+	display: block;
+    padding: 0.75rem 1.5rem;
+    border-bottom: 1px solid #051619;
+    color: #051619;
+    cursor: pointer;
+    position: relative;
+}
+.accountMenuDetail:last-of-type {
+	border-bottom: none;
 }
 
 /* 메인화면 뤠퍼 */
@@ -335,6 +345,55 @@ header .bannerContainerLower {
 	padding: 2px 0 10px 10px;
 }
 
+.welcomeMember1 {
+	
+}
+.welcomeMember2 {
+	padding: 10px 0 0 10px;
+	margin: 0;
+	font-size: 40px;
+	font-weight: bold;
+}
+
+.welcomeBtnWrapper {
+	width: 400px;
+	height: 100px;
+}
+
+.infoContainer input:first-of-type {
+	background-color: #EDEDE1;
+	position: absolute;
+	margin: 0 0 0 10px;
+	font-family: 'GmarketSansMedium', sans-serif;
+	font-size: 16px;
+	border: 2px solid darkgray;
+	border-radius: 5px;
+}
+.infoContainer input:nth-of-type(2) {
+	background-color: #EDEDE1;
+	position: absolute;
+	width: 190px;
+	height: 40px;
+	margin: 0;
+	font-family: 'GmarketSansMedium', sans-serif;
+	font-size: 24px;
+	border: 2px solid darkgray;
+	border-radius: 5px;
+	transform: translate(10px, 36px);
+}
+.infoContainer input:last-of-type {
+	background-color: #EDEDE1;
+	position: absolute;
+	width: 190px;
+	height: 40px;
+	margin: 0;
+	font-family: 'GmarketSansMedium', sans-serif;
+	font-size: 24px;
+	border: 2px solid darkgray;
+	border-radius: 5px;
+	transform: translate(206px, 36px);
+}
+
 .registerContainer {
 	width: 90%;
 	height: 50px;
@@ -342,11 +401,6 @@ header .bannerContainerLower {
 	padding: 0 5%;
 }
 
-.infoContainer {
-	width: 90%;
-	margin: 0;
-	padding: 0 5%;
-}
 .loginContainer table {
 	min-width: 410px;
 	width: 410px;
@@ -416,9 +470,11 @@ nav.category {
 	top: 0;
 	border-bottom: 1px solid #051619;
 	z-index: 1;
+	overflow-x: auto;
+	white-space: nowrap;
 }
 
-nav.categoryInner {
+.categoryInner {
 	display: flex;
 	overflow: auto;
 	white-space: nowrap;
@@ -426,20 +482,20 @@ nav.categoryInner {
 }
 
 section {
-	background-color: royalblue;
 	max-width: 1360px;
 	margin: 0 auto;
 	padding: 0px 5%;
 }
 
 section .posts {
-	background-color: coral;
+	/* background-color: coral; */
 	display: flex;
     flex-wrap: wrap;
     position: relative;
     border-color: #051619;
     border-style: solid;
-    border-width: 1px 0 0 1px;
+    border-width: 0 0 0 1px;
+    z-index: 10px;
 }
 
 section .posts .card {
@@ -519,12 +575,6 @@ aside figure {
 footer {
 	background-color: khaki;
 	height: 200px;
-}
-
-
-/* 메인화면 메뉴 박스 */
-div.infoContainer {
-	background-color: gray;
 }
 
 /* 카테고리 밑줄 안보이게 하기*/

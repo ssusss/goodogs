@@ -110,6 +110,25 @@ div#search-date			{display: none;}
 </section>
 
 <script>
+//날짜 형식 변환
+function formatDate(date) {
+	const options = {
+		year: 'numeric',
+		month: '2-digit',
+		day: '2-digit',
+		hour: '2-digit',
+		minute: '2-digit',
+		second: '2-digit',
+		hour12: false
+	};
+	
+	console.log(options);
+
+	const formatter = new Intl.DateTimeFormat('ko-KR', options);
+	return formatter.format(new Date(date));
+}
+
+
 
 function serchScript(frm){
 	
@@ -150,13 +169,15 @@ function serchScript(frm){
 			              scriptStateText = "상태이상";
 			              break;
 				};
+				
+				const formattedDate = formatDate(scriptWriteDate);
 					
 				return html +`
 				<tr>
 					<td colspan="2">\${scriptWriter}</td>
 					<td colspan="3"><a href="<%= request.getContextPath() %>/admin/scriptDetail?no=\${scriptNo}">\${scriptTitle}</a></td>
 					<td colspan="1">\${scriptCategory}</td>
-					<td colspan="1">\${scriptWriteDate}</td>
+					<td colspan="1">\${formattedDate}</td>
 					<td colspan="1">\${scriptStateText}</td>
 				</tr>
 				`;
@@ -221,6 +242,7 @@ const findSciptState=(sciptState)=>{
 				tbody.innerHTML=scripts.reduce((html,script)=>{
 					const{scriptCategory,scriptContent,scriptNo,scriptState,
 						scriptTag,scriptTitle,scriptWriteDate,scriptWriter}=script;
+						
 					
 						let scriptStateText = "";
 				          switch (scriptState) {
@@ -237,13 +259,14 @@ const findSciptState=(sciptState)=>{
 				              scriptStateText = "상태이상";
 				              break;
 					};
+					const formattedDate = formatDate(scriptWriteDate);
 						
 					return html +`
 					<tr>
 						<td colspan="2">\${scriptWriter}</td>
 						<td colspan="3"><a href="<%= request.getContextPath() %>/admin/scriptDetail?no=\${scriptNo}">\${scriptTitle}</a></td>
 						<td colspan="1">\${scriptCategory}</td>
-						<td colspan="1">\${scriptWriteDate}</td>
+						<td colspan="1">\${formattedDate}</td>
 						<td colspan="1">\${scriptStateText}</td>
 					</tr>
 					`;

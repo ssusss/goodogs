@@ -1,6 +1,7 @@
 package com.sk.goodogs.like.model.vo;
 
 import java.sql.Date;
+import java.sql.Timestamp;
 
 /**
  * @author 전수경
@@ -9,18 +10,16 @@ import java.sql.Date;
 public class LikeList {
 	private String memberId;
 	private int newsNo;
-	private String newsTitle;
-	private Date likeDate;
+	private Timestamp likeDate;
 	
 	public LikeList() {
 		super();
 	}
 
-	public LikeList(String memberId, int newsNo, String newsTitle, Date likeDate) {
+	public LikeList(String memberId, int newsNo, Timestamp likeDate) {
 		super();
 		this.memberId = memberId;
 		this.newsNo = newsNo;
-		this.newsTitle = newsTitle;
 		this.likeDate = likeDate;
 	}
 
@@ -40,26 +39,17 @@ public class LikeList {
 		this.newsNo = newsNo;
 	}
 
-	public String getNewsTitle() {
-		return newsTitle;
-	}
-
-	public void setNewsTitle(String newsTitle) {
-		this.newsTitle = newsTitle;
-	}
-
-	public Date getLikeDate() {
+	public Timestamp getLikeDate() {
 		return likeDate;
 	}
 
-	public void setLikeDate(Date likeDate) {
+	public void setLikeDate(Timestamp likeDate) {
 		this.likeDate = likeDate;
 	}
 
 	@Override
 	public String toString() {
-		return "LikeList [memberId=" + memberId + ", newsNo=" + newsNo + ", newsTitle=" + newsTitle + ", likeDate="
-				+ likeDate + "]";
+		return "LikeList [memberId=" + memberId + ", newsNo=" + newsNo + ", likeDate=" + likeDate + "]";
 	}
 
 }

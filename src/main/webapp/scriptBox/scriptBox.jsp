@@ -47,7 +47,7 @@
 	<div class="myScriptWrite">
 		<div class="titleAreaContanier">
 			<label for="titleArea">뉴스 제목 : </label>
-			<input type="text" name="titleArea" id="titleArea" value=<%=scriptTitle %>>
+			<input type="text" name="titleArea" id="titleArea" value="<%= scriptTitle %>">
 			<input class="writerId" name="scriptWriter" value="<%= loginMember.getMemberId() %>" readonly/>
 		</div>
 		<select name="category" id="category">

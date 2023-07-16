@@ -1,6 +1,6 @@
 package com.sk.goodogs.news.model.vo;
 
-import java.sql.Date;
+import java.sql.Timestamp;
 
 
 /**
@@ -15,7 +15,7 @@ public class NewsComment {
 	private int  commentNoRef;
 	private String newsCommentNickname;
 	private String newsCommentContent;
-	private Date commentRegDate;
+	private Timestamp commentRegDate;
 	private int newsCommentReportCnt;
 	private int commentState;
 	public NewsComment() {
@@ -25,7 +25,7 @@ public class NewsComment {
 	}
 	
 	public NewsComment(int commentNo, int newsCommentLevel, int newsNo, String newsCommentWriter, int commentNoRef,
-			String newsCommentNickname, String newsCommentContent, Date commentRegDate, int newsCommentReportCnt,
+			String newsCommentNickname, String newsCommentContent, Timestamp commentRegDate, int newsCommentReportCnt,
 			int commentState) {
 		super();
 		this.commentNo = commentNo;
@@ -82,10 +82,10 @@ public class NewsComment {
 	public void setNewsCommentContent(String newsCommentContent) {
 		this.newsCommentContent = newsCommentContent;
 	}
-	public Date getCommentRegDate() {
+	public Timestamp getCommentRegDate() {
 		return commentRegDate;
 	}
-	public void setCommentRegDate(Date commentRegDate) {
+	public void setCommentRegDate(Timestamp commentRegDate) {
 		this.commentRegDate = commentRegDate;
 	}
 	public int getNewsCommentReportCnt() {
