@@ -10,7 +10,7 @@
 	// 전수경 로그인멤버
 	Member loginMember = (Member) session.getAttribute("loginMember");
 	System.out.println("loginMember = " + loginMember);
-
+	session.setAttribute("loginMember", loginMember);
 	Cookie[] cookies = request.getCookies();
 	String saveId = null;
 	if(cookies != null) {
