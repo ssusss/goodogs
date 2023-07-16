@@ -1,6 +1,6 @@
 package com.sk.goodogs.news.model.vo;
 
-import java.util.Date;
+import java.sql.Timestamp;
 
 public class News {
 	private int newsNo;
@@ -8,11 +8,11 @@ public class News {
 	private String newsTitle;
 	private String newsCategory;
 	private String newsContent;
-	private Date newsWriteDate;
+	private Timestamp newsWriteDate;
 	private String newsTag;
 	private int newsLikeCnt;
 	private int newsReadCnt;
-	private Date newsConfirmedDate;
+	private Timestamp newsConfirmedDate;
 	
 	public News() {
 		super();
@@ -20,7 +20,7 @@ public class News {
 	}
 
 	public News(int newsNo, String newsWriter, String newsTitle, String newsCategory, String newsContent,
-			Date newsWriteDate, String newsTag, int newsLikeCnt, int newsReadCnt, Date newsConfirmedDate) {
+			Timestamp newsWriteDate, String newsTag, int newsLikeCnt, int newsReadCnt, Timestamp newsConfirmedDate) {
 		super();
 		this.newsNo = newsNo;
 		this.newsWriter = newsWriter;
@@ -74,11 +74,11 @@ public class News {
 		this.newsContent = newsContent;
 	}
 
-	public Date getNewsWriteDate() {
+	public Timestamp getNewsWriteDate() {
 		return newsWriteDate;
 	}
 
-	public void setNewsWriteDate(Date newsWriteDate) {
+	public void setNewsWriteDate(Timestamp newsWriteDate) {
 		this.newsWriteDate = newsWriteDate;
 	}
 
@@ -106,11 +106,11 @@ public class News {
 		this.newsReadCnt = newsReadCnt;
 	}
 
-	public Date getNewsConfirmedDate() {
+	public Timestamp getNewsConfirmedDate() {
 		return newsConfirmedDate;
 	}
 
-	public void setNewsConfirmedDate(Date newsConfirmedDate) {
+	public void setNewsConfirmedDate(Timestamp newsConfirmedDate) {
 		this.newsConfirmedDate = newsConfirmedDate;
 	}
 

@@ -63,11 +63,11 @@ public class NewsDao {
 			String newsTitle = rset.getString("news_title");
 			String newsCategory = rset.getString("news_category");
 			String newsContent = rset.getString("news_content");
-			Date newsWriteDate = rset.getDate("news_write_date");
+			Timestamp newsWriteDate = rset.getTimestamp("news_write_date");
 			String newsTag = rset.getString("news_tag");
 			int newsLikeCnt = rset.getInt("news_like_cnt");
 			int newsReadCnt = rset.getInt("news_read_cnt");
-			Date newsConfirmedDate = rset.getDate("news_confirmed_date");
+			Timestamp newsConfirmedDate = rset.getTimestamp("news_confirmed_date");
 			
 			return new News(newsNo, newsWriter, newsTitle, newsCategory, newsContent, newsWriteDate, newsTag, newsLikeCnt, newsReadCnt, newsConfirmedDate);
 		}

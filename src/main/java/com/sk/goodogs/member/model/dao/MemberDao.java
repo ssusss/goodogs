@@ -7,6 +7,7 @@ import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -82,7 +83,7 @@ public class MemberDao {
 		String _memberRole = rset.getString("member_role");
 		MemberRole memberRole = _memberRole != null ? MemberRole.valueOf(_memberRole) : null;
 		
-		Date enrollDate = rset.getDate("enroll_date");
+		Timestamp enrollDate = rset.getTimestamp("enroll_date");
 		String memberProfile = rset.getString("member_profile");
 		int isBanned = rset.getInt("is_banned");
 		

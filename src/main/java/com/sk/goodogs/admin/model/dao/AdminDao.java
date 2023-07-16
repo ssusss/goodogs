@@ -90,7 +90,7 @@ private NewsComment handleCommentrResultSet(ResultSet rset) throws SQLException 
 	 int  commentNoRef  = rset.getInt("comment_no_ref");
 	 String newsCommentNickname  = rset.getString("news_comment_nickname");
 	String  newsCommentContent  = rset.getString("news_comment_content");
-	 Date commentRegDate  = rset.getDate("comment_reg_date");
+	Timestamp commentRegDate  = rset.getTimestamp("comment_reg_date");
 	 int newsCommentReportCnt  = rset.getInt("news_comment_report_cnt");
 	 int commentState  = rset.getInt("comment_state");
 
@@ -133,7 +133,7 @@ private Member handleMemberResultSet(ResultSet rset) throws SQLException{
 			memberRole=MemberRole.valueOf(rset.getString("member_role"));
 		 
 		
-		Date enrollDate= rset.getDate("enroll_date");
+		Timestamp enrollDate= rset.getTimestamp("enroll_date");
 		String memberProfile = rset.getString("member_profile");
 		int isBanned =rset.getInt("is_banned");
 		

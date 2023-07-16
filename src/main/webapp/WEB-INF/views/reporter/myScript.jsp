@@ -65,6 +65,23 @@
 	</div>
 </section>
 <script>
+// 날짜 형식 변환
+function formatDate(date) {
+	const options = {
+		year: 'numeric',
+		month: '2-digit',
+		day: '2-digit',
+		hour: '2-digit',
+		minute: '2-digit',
+		second: '2-digit',
+		hour12: false
+	};
+	
+	console.log(options);
+
+	const formatter = new Intl.DateTimeFormat('ko-KR', options);
+	return formatter.format(new Date(date));
+}
 
 //삭제 버튼에 대한 이벤트 리스너 추가
 document.addEventListener('click', (e) => {
@@ -107,14 +124,13 @@ const findAllScriptById = () => {
       const tbody1 = document.getElementById("scriptBodyList1");
       const tbody2 = document.getElementById("scriptBodyList2");
       const tbody3 = document.getElementById("scriptBodyList3");
-      console.log(Scripts);
 
       Scripts.forEach(newsScript => {
         const { scriptNo, scriptTitle, scriptCategory, scriptWriteDate, scriptState } = newsScript;
         let scriptStateText = "";
         
-        console.log(newsScript);
-        console.log(typeof scriptWriteDate);
+    	 // 날짜 형식 변환
+        const formattedDate = formatDate(scriptWriteDate);
 
         if (scriptState === 3) {
           tbody1.innerHTML += `
@@ -122,7 +138,7 @@ const findAllScriptById = () => {
               <td>\${scriptNo}</td>
               <td>\${scriptTitle}</td>
               <td>\${scriptCategory}</td>
-              <td>\${scriptWriteDate}</td>
+              <td>\${formattedDate}</td>
               <td>반려됨</td>
             </tr>
           `;
@@ -132,7 +148,7 @@ const findAllScriptById = () => {
               <td>\${scriptNo}</td>
               <td>\${scriptTitle}</td>
               <td>\${scriptCategory}</td>
-              <td>\${scriptWriteDate}</td>
+              <td>\${formattedDate}</td>
               <td>작성중 <button class="scriptUpdate">이어쓰기</button> <button class="delete">삭제</button></td>
             </tr>
           `;
@@ -143,7 +159,7 @@ const findAllScriptById = () => {
               <td>\${scriptNo}</td>
               <td>\${scriptTitle}</td>
               <td>\${scriptCategory}</td>
-              <td>\${scriptWriteDate}</td>
+              <td>\${formattedDate}</td>
               <td>\${scriptStateText}</td>
             </tr>
           `;
@@ -154,7 +170,7 @@ const findAllScriptById = () => {
               <td>\${scriptNo}</td>
               <td>\${scriptTitle}</td>
               <td>\${scriptCategory}</td>
-              <td>\${scriptWriteDate}</td>
+              <td>\${formattedDate}</td>
               <td>\${scriptStateText}</td>
             </tr>
           `;
@@ -169,14 +185,14 @@ const findAllScriptById = () => {
             `;
       }
       if (!tbody2.firstElementChild) {
-    	  tbody1.innerHTML += `
+    	  tbody2.innerHTML += `
               <tr>
                 <td colspan=5>임시저장된 원고가 존재하지 않습니다.</td>
               </tr>
             `;
       }
       if (!tbody3.firstElementChild) {
-    	  tbody1.innerHTML += `
+    	  tbody3.innerHTML += `
               <tr>
                 <td colspan=5>제출한 원고가 존재하지 않습니다.</td>
               </tr>

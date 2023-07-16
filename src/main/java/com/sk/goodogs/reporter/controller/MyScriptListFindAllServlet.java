@@ -32,6 +32,8 @@ public class MyScriptListFindAllServlet extends HttpServlet {
 		
 		List<NewsScript> scripts =  newsService.findAllScriptById(loginMember);
 		
+		System.out.println(scripts);
+		
 
 		response.setContentType("application/json; charset=utf-8");
 		
