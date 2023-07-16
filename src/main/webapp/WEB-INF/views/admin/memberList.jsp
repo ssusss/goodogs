@@ -1,22 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ include file="/WEB-INF/views/common/header.jsp" %>
-
-<style>
-section#memberList-container {text-align:center;}
-section#memberList-container table#tbl-member {width:100%; border:1px solid gray; border-collapse:collapse;}
-table#tbl-member th, table#tbl-member td {border:1px solid gray; padding:10px; }
-
-section#memberList-container div#neck-container{padding:0px; height: 50px; background-color:rgba(0, 188, 212, 0.3);}
-section#memberList-container div#search-container {margin:0 0 10px 0; padding:3px; float:left;}
-
-div#search-container 	{width: 100%; margin:0 0 10px 0; padding:3px; background-color: rgba(0, 188, 212, 0.3);}
-div#search-memberId 	{display: inline-block;}
-div#search-nickName		{display: none}
-div#search-memberRole	{display: none}
-
-</style>
-
+<link rel="stylesheet" href="<%=request.getContextPath()%>/css/admin.css" />
 <script src="<%= request.getContextPath() %>/js/jquery-3.7.0.js"></script>
 
 <script>
@@ -40,8 +25,8 @@ div#search-memberRole	{display: none}
 	
 </script>
 
-<section id="memberList-container">
-	<h2>회원관리</h2>
+<section>
+	<h1>회원관리</h1>
 	
 	<div id="search-container">
         <label for="searchType">검색타입 :</label> 
@@ -81,24 +66,44 @@ div#search-memberRole	{display: none}
             </form>
         </div>
     </div>
-	
-	<table id="tbl-member">
-		<thead>
-			<tr>
-				<th>아이디(이메일)</th>
-				<th>닉네임</th>
-				<th>회원권한</th>
-				<th>전화번호</th>
-				<th>성별</th>	
-				<th>가입일</th>
-				<th>벤</th>
-			</tr>
-		</thead>
-		<tbody></tbody>
-	</table>
+	<div class="tbl-memberContainer">
+		<table id="tbl-member">
+			<thead>
+				<tr>
+					<th>아이디(이메일)</th>
+					<th>닉네임</th>
+					<th>회원권한</th>
+					<th>전화번호</th>
+					<th>성별</th>	
+					<th>가입일</th>
+					<th>벤</th>
+				</tr>
+			</thead>
+			<tbody></tbody>
+		</table>
+	</div>
+	<br>
+	<br>
 </section>
 
 <script>
+//날짜 형식 변환
+function formatDate(date) {
+	const options = {
+		year: 'numeric',
+		month: '2-digit',
+		day: '2-digit',
+		hour: '2-digit',
+		minute: '2-digit',
+		second: '2-digit',
+		hour12: false
+	};
+	
+	console.log(options);
+
+	const formatter = new Intl.DateTimeFormat('ko-KR', options);
+	return formatter.format(new Date(date));
+}
 
 
 document.addEventListener('change',(e)=>{
@@ -150,6 +155,9 @@ function serchMember(frm){
 				const tbody= document.querySelector("#tbl-member tbody");
 				tbody.innerHTML= selectedMembers.reduce((html,member)=>{
 					const{memberId,nickname,memberRole,phone,gender,enrollDate,isBanned}=member;
+					
+					const formattedDate = formatDate(enrollDate);
+					
 					return html +`
 					<tr>
 						<td>\${memberId}</td>
@@ -163,7 +171,7 @@ function serchMember(frm){
 						</td>
 						<td>\${phone}</td>
 						<td>\${gender}</td>
-						<td>\${enrollDate}</td>
+						<td>\${formattedDate}</td>
 						<td>\${isBanned}</td>
 					</tr>
 					`;
@@ -203,6 +211,7 @@ document.querySelector("select#searchType").onchange = (e) => {
 				const tbody= document.querySelector("#tbl-member tbody");
 				tbody.innerHTML= members.reduce((html,member)=>{
 					const{memberId,nickname,memberRole,phone,gender,enrollDate,isBanned}=member;
+					const formattedDate = formatDate(enrollDate);
 					return html +`
 						<tr>
 							<td>\${memberId}</td>
@@ -216,7 +225,7 @@ document.querySelector("select#searchType").onchange = (e) => {
 							</td>
 							<td>\${phone}</td>
 							<td>\${gender}</td>
-							<td>\${enrollDate}</td>
+							<td>\${formattedDate}</td>
 							<td>\${isBanned}</td>
 						</tr>
 					`;

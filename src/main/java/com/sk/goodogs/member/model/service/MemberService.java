@@ -66,12 +66,15 @@ public class MemberService {
 	 * @author 이혜령
 	 * 회원탈퇴
 	 */
-	public int memberWithdraw(String memberId, String reason) {
+	//public int memberWithdraw(String memberId) {
+		public int memberWithdraw(String memberId, String[] reason) {
 		int result = 0;
+		int no = 0;
 		Connection conn = getConnection();
 		try {
 			result = memberDao.memberWithdraw(conn, memberId); // 회원탈퇴
-			result = memberDao.UpdateWithdraw(conn, memberId, reason); // 회원탈퇴 사유
+			no = memberDao.getLastNo(conn);
+			result = memberDao.UpdateWithdraw(conn, no, reason); // 회원탈퇴 사유
 			commit(conn);
 		} catch (Exception e) {
 			rollback(conn);

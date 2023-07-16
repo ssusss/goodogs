@@ -47,7 +47,7 @@
 	<div class="myScriptWrite">
 		<div class="titleAreaContanier">
 			<label for="titleArea">뉴스 제목 : </label>
-			<input type="text" name="titleArea" id="titleArea" value=<%=scriptTitle %>>
+			<input type="text" name="titleArea" id="titleArea" value="<%= scriptTitle %>">
 			<input class="writerId" name="scriptWriter" value="<%= loginMember.getMemberId() %>" readonly/>
 		</div>
 		<select name="category" id="category">
@@ -156,9 +156,12 @@
 			},
 			complete() {
 				parent.window.location.href = '<%= request.getContextPath() %>/reporter/myScript';
+				console.log(frmData);
 			}
 			
 		});
+		
+		$ajax
 		
 		e.preventDefault();
 		};
@@ -323,6 +326,15 @@
 		
 	}
 	// ---------------------------------------------------------
+	
+	// -------------------- 자동 이어쓰기 -----------------------
+	/*
+window.addEventListener('beforeunload', function(event) {
+	$.ajax({
+		
+	event.returnValue = '이 페이지를 나가시겠습니까?';
+});
+	*/
 	
 	</script>
 

@@ -7,6 +7,7 @@ import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
@@ -89,7 +90,7 @@ private NewsComment handleCommentrResultSet(ResultSet rset) throws SQLException 
 	 int  commentNoRef  = rset.getInt("comment_no_ref");
 	 String newsCommentNickname  = rset.getString("news_comment_nickname");
 	String  newsCommentContent  = rset.getString("news_comment_content");
-	 Date commentRegDate  = rset.getDate("comment_reg_date");
+	Timestamp commentRegDate  = rset.getTimestamp("comment_reg_date");
 	 int newsCommentReportCnt  = rset.getInt("news_comment_report_cnt");
 	 int commentState  = rset.getInt("comment_state");
 
@@ -132,7 +133,7 @@ private Member handleMemberResultSet(ResultSet rset) throws SQLException{
 			memberRole=MemberRole.valueOf(rset.getString("member_role"));
 		 
 		
-		Date enrollDate= rset.getDate("enroll_date");
+		Timestamp enrollDate= rset.getTimestamp("enroll_date");
 		String memberProfile = rset.getString("member_profile");
 		int isBanned =rset.getInt("is_banned");
 		
@@ -158,7 +159,7 @@ public List<Member> memberFindSelected(String searchType, String searchKeyword, 
 				}
 			}
 		} catch (SQLException e) {
-			throw new MemberException();
+			throw new MemberException(e);
 		}
 	return members;
 }
@@ -213,7 +214,7 @@ public List<NewsScript> scriptFind(int scriptState, Connection conn) {
 			}
 		}
 	} catch (SQLException e) {
-		throw new AdminException();
+		throw new AdminException(e);
 	}
 	return scripts;
 }
@@ -227,7 +228,7 @@ private NewsScript handleScriptResultSet(ResultSet rset) throws SQLException{
 	String scriptTitle=rset.getString("script_title");
 	String scriptCategory=rset.getString("script_category");
 	String scriptContent=rset.getString("script_content");
-	Date scriptWriteDate=rset.getDate("script_write_date");
+	Timestamp scriptWriteDate=rset.getTimestamp("script_write_date");
 	String scriptTag=rset.getString("script_tag");
 	int scriptState=rset.getInt("script_state");
 	
@@ -253,7 +254,7 @@ public List<NewsScript> scriptSerch(int scriptState, String searchTypeVal, Strin
 			}
 		}
 	} catch (SQLException e) {
-		throw new AdminException();
+		throw new AdminException(e);
 	}
 	
 	return scripts;
@@ -273,10 +274,28 @@ public NewsScript findOneScript(int no, Connection conn) {
 			}
 		}
 	} catch (SQLException e) {
-		throw new AdminException();
+		throw new AdminException(e);
 	}
 	
 	return script;
+}
+
+
+
+public int scriptUpdate(NewsScript script, Connection conn) {
+	int result=0;
+	String sql=prop.getProperty("scriptUpdate");
+	
+	try(PreparedStatement pstmt=conn.prepareStatement(sql)){
+			pstmt.setInt(1,script.getScriptState());
+			pstmt.setInt(2,script.getScriptNo());
+			
+			result = pstmt.executeUpdate(); 
+	} catch (SQLException e) {
+		throw new AdminException(e);
+	}
+	
+	return result;
 }
 
 

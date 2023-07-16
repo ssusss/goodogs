@@ -12,7 +12,6 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.google.gson.Gson;
 import com.oreilly.servlet.MultipartRequest;
-import com.oreilly.servlet.multipart.DefaultFileRenamePolicy;
 import com.oreilly.servlet.multipart.FileRenamePolicy;
 import com.sk.goodogs.common.GoodogsFileRenamePolicy;
 import com.sk.goodogs.news.model.service.NewsService;
@@ -32,10 +31,11 @@ public class ReporterScriptSubmitServlet extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
 		// 0. MultipartRequest객체 생성
-		String saveDirectory = getServletContext().getRealPath("/images");
+		String saveDirectory = getServletContext().getRealPath("/upload/newsImage");
 		int maxPostSize = 1024 * 1024 * 10; 
 		String encoding = "utf-8";
 		FileRenamePolicy policy = new GoodogsFileRenamePolicy();
+		
 		MultipartRequest multiReq = 
 			new MultipartRequest(request, saveDirectory, maxPostSize, encoding, policy);
 		
@@ -46,14 +46,16 @@ public class ReporterScriptSubmitServlet extends HttpServlet {
 		String scriptContent = multiReq.getParameter("editordata");
 		String scriptTag = multiReq.getParameter("newsTagList");
 		
-		
 		NewsScript newNewsScript = new NewsScript(0, scriptWriter, scriptTitle, scriptCategory, scriptContent, null, scriptTag, 0);
 		
 		System.out.println("newNewsScript = " +  newNewsScript);
 		
-		int result = newsService.newsScriptSubmit(newNewsScript);
+		int result1 = newsService.newsScriptSubmit(newNewsScript);
 		
-		String newsImage = multiReq.getFilesystemName("newsImage"); // 저장된 파일명 
+		// 첨부파일로 Newsimage 객체 생성
+		String image = multiReq.getFilesystemName("newsImage"); // 저장된 파일명 
+		System.out.println(image);
+		
 		
 		System.out.println("newNewsScript = " +  newNewsScript);
 		// 3. 응답처리 - 비동기식 POST요청은 redirect없이 결과값을 json으로 전송
