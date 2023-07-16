@@ -1,5 +1,6 @@
 package com.sk.goodogs.news.model.vo;
 
+import java.sql.Timestamp;
 import java.util.Date;
 
 public class NewsScript {
@@ -8,7 +9,7 @@ public class NewsScript {
 	private String scriptTitle;
 	private String scriptCategory;
 	private String scriptContent;
-	private Date scriptWriteDate;
+	private Timestamp scriptWriteDate;
 	private String scriptTag;
 	private int scriptState;
 	
@@ -18,7 +19,7 @@ public class NewsScript {
 	}
 
 	public NewsScript(int scriptNo, String scriptWriter, String scriptTitle, String scriptCategory,
-			String scriptContent, Date scriptWriteDate, String scriptTag, int scriptState) {
+			String scriptContent, Timestamp scriptWriteDate, String scriptTag, int scriptState) {
 		super();
 		this.scriptNo = scriptNo;
 		this.scriptWriter = scriptWriter;
@@ -78,13 +79,13 @@ public class NewsScript {
 
 
 
-	public Date getScriptWriteDate() {
+	public Timestamp getScriptWriteDate() {
 		return scriptWriteDate;
 	}
 
 
 
-	public void setScriptWriteDate(Date scriptWriteDate) {
+	public void setScriptWriteDate(Timestamp scriptWriteDate) {
 		this.scriptWriteDate = scriptWriteDate;
 	}
 

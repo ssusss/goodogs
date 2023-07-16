@@ -1,6 +1,8 @@
 package com.sk.goodogs.reporter.controller;
 
 import java.io.IOException;
+import java.sql.Date;
+import java.text.SimpleDateFormat;
 import java.util.List;
 
 import javax.servlet.ServletException;
@@ -30,6 +32,7 @@ public class MyScriptListFindAllServlet extends HttpServlet {
 		
 		List<NewsScript> scripts =  newsService.findAllScriptById(loginMember);
 		
+
 		response.setContentType("application/json; charset=utf-8");
 		
 		new Gson().toJson(scripts,response.getWriter());

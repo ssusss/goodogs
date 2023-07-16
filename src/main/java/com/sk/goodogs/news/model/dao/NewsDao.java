@@ -6,6 +6,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -96,7 +97,7 @@ public class NewsDao {
 			String scriptTitle = rset.getString("script_title");
 			String scriptCategory = rset.getString("script_category");
 			String scriptContent = rset.getString("script_content");
-			Date scriptWriteDate = rset.getDate("script_write_date");
+			Timestamp scriptWriteDate = rset.getTimestamp("script_write_date");
 			String scriptTag = rset.getString("script_tag");
 			int scriptState = rset.getInt("script_state");
 			NewsScript newsScript = new NewsScript(scriptNo, scriptWriter, scriptTitle, scriptCategory, scriptContent, scriptWriteDate, scriptTag, scriptState);
@@ -164,7 +165,7 @@ public class NewsDao {
 						String scriptTitle = rset.getString("script_title");
 						String scriptCategory = rset.getString("script_category");
 						String scriptContent = rset.getString("script_content");
-						Date scriptWriteDate = rset.getDate("script_write_date");
+						Timestamp scriptWriteDate = rset.getTimestamp("script_write_date");
 						String scriptTag = rset.getString("script_tag");
 						int scriptState = rset.getInt("script_state");
 						newsScript = new NewsScript(scriptNo_, scriptWriter, scriptTitle, scriptCategory, scriptContent, scriptWriteDate, scriptTag, scriptState);

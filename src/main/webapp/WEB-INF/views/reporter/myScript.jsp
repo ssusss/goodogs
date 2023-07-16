@@ -1,7 +1,9 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8" 
+<%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
-<%@ include file="/WEB-INF/views/common/header.jsp" %>
-<script src="<%= request.getContextPath() %>/js/jquery-3.7.0.js"></script>
+<%@ include file="/WEB-INF/views/common/header.jsp"%>
+<link rel="stylesheet"
+	href="<%=request.getContextPath()%>/css/reporter.css" />
+<script src="<%=request.getContextPath()%>/js/jquery-3.7.0.js"></script>
 <script>
 	bannerContainerLower = document.querySelector(".bannerContainerLower");
 	bannerContainerLower.style.display = "none";
@@ -10,71 +12,57 @@
 		findAllScriptById();
 	}
 </script>
-<style>
-h1, h3{text-align:center;}
-.script-tbl {
-  border-collapse: collapse;
-  margin:auto;
-}
 
-.script-tbl th,
-.script-tbl td {
-  border: 1px solid black;
-  padding: 3px;
-  text-align: center;
-}
-
-.script-tbl th {
-  background-color: #f2f2f2;
-}
-</style>
 <section>
-<div class="myScriptList">
-	<h1>원고 기사 목록</h1>
-	<h3>반려된 원고</h3>
-	<table id="tbl-script1" class="script-tbl">
-		<thead>
-			<tr>
-				<th>기사번호</th>
-				<th>제목</th>
-				<th>카테고리</th>
-				<th>제출일자</th>
-				<th>상태</th>
-			</tr>
-		</thead>
-		<tbody id="scriptBodyList1">
-		</tbody>
-	</table>
-	<h3>임시저장 원고</h3>
-	<table id="tbl-script2" class="script-tbl">
-		<thead>
-			<tr>
-				<th>기사번호</th>
-				<th>제목</th>
-				<th>카테고리</th>
-				<th>최종수정일</th>
-				<th colspan="3">상태</th>
-			</tr>
-		</thead>
-		<tbody id="scriptBodyList2">
-		</tbody>
-	</table>
+	<div class="myScriptList">
+		<h1>원고 기사 목록</h1>
 
-	<h3>제출한 원고</h3>
-	<table id="tbl-script3" class="script-tbl">
-		<thead>
-			<tr>
-				<th>기사번호</th>
-				<th>제목</th>
-				<th>카테고리</th>
-				<th>제출일자</th>
-				<th>상태</th>
-			</tr>
-		</thead>
-		<tbody id="scriptBodyList3">
-		</tbody>
-	</table>
-</div>
+			<h3>반려된 원고</h3>
+			<table id="tbl-script1" class="script-tbl">
+				<thead>
+					<tr>
+						<th>기사번호</th>
+						<th>제목</th>
+						<th>카테고리</th>
+						<th>제출일자</th>
+						<th>상태</th>
+					</tr>
+				</thead>
+				<tbody id="scriptBodyList1"></tbody>
+			</table>
+
+		<br> <br>
+		<hr>
+		<h3>임시저장 원고</h3>
+		<table id="tbl-script2" class="script-tbl">
+			<thead>
+				<tr>
+					<th>기사번호</th>
+					<th>제목</th>
+					<th>카테고리</th>
+					<th>최종수정일</th>
+					<th colspan="3">상태</th>
+				</tr>
+			</thead>
+			<tbody id="scriptBodyList2"></tbody>
+		</table>
+		<br> <br>
+		<hr>
+		<h3>제출한 원고</h3>
+		<table id="tbl-script3" class="script-tbl">
+			<thead>
+				<tr>
+					<th>기사번호</th>
+					<th>제목</th>
+					<th>카테고리</th>
+					<th>제출일자</th>
+					<th>상태</th>
+				</tr>
+			</thead>
+			<tbody id="scriptBodyList3"></tbody>
+		</table>
+		<br> <br>
+	</div>
 </section>
 <script>
 
@@ -84,7 +72,7 @@ document.addEventListener('click', (e) => {
     const scriptNo = e.target.closest('tr').querySelector('td:first-child').textContent;
     
     $.ajax({
-    	url : "<%= request.getContextPath() %>/reporter/scriptDelete",
+    	url : "<%=request.getContextPath()%>/reporter/scriptDelete",
     	data : {scriptNo},
     	method : "POST",
     	dataType : "json",
@@ -105,7 +93,7 @@ document.addEventListener('click',(e)=>{
 		const scriptNo = e.target.closest('tr').querySelector('td:first-child').textContent;
 		
 		// 동기적으로 서블릿으로 이동하는 코드
-	    window.location.href = `<%= request.getContextPath()%>/reporter/scriptUpdate?scriptNo=\${scriptNo}`;
+	    window.location.href = `<%=request.getContextPath()%>/reporter/scriptUpdate?scriptNo=\${scriptNo}`;
 	}
 });
 
@@ -113,16 +101,20 @@ document.addEventListener('click',(e)=>{
 			
 const findAllScriptById = () => {
   $.ajax({
-    url: "<%= request.getContextPath() %>/reporter/reporterFindAllScript",
+    url: "<%=request.getContextPath()%>/reporter/reporterFindAllScript",
     dataType: "json",
     success(Scripts) {
       const tbody1 = document.getElementById("scriptBodyList1");
       const tbody2 = document.getElementById("scriptBodyList2");
       const tbody3 = document.getElementById("scriptBodyList3");
+      console.log(Scripts);
 
       Scripts.forEach(newsScript => {
         const { scriptNo, scriptTitle, scriptCategory, scriptWriteDate, scriptState } = newsScript;
         let scriptStateText = "";
+        
+        console.log(newsScript);
+        console.log(typeof scriptWriteDate);
 
         if (scriptState === 3) {
           tbody1.innerHTML += `
@@ -167,11 +159,34 @@ const findAllScriptById = () => {
             </tr>
           `;
         }
-      });
-    },
+      });	  
+      
+      if (!tbody1.firstElementChild) {
+    	  tbody1.innerHTML += `
+              <tr>
+                <td colspan=5>반려된 원고가 존재하지 않습니다.</td>
+              </tr>
+            `;
+      }
+      if (!tbody2.firstElementChild) {
+    	  tbody1.innerHTML += `
+              <tr>
+                <td colspan=5>임시저장된 원고가 존재하지 않습니다.</td>
+              </tr>
+            `;
+      }
+      if (!tbody3.firstElementChild) {
+    	  tbody1.innerHTML += `
+              <tr>
+                <td colspan=5>제출한 원고가 존재하지 않습니다.</td>
+              </tr>
+            `;
+      }
+      
+  	},
   });
 };
 
 </script>
 
-<%@ include file="/WEB-INF/views/common/footer.jsp" %>
+<%@ include file="/WEB-INF/views/common/footer.jsp"%>
