@@ -7,19 +7,6 @@
 <link rel="stylesheet" href="<%=request.getContextPath()%>/css/reporter.css" />
 <script src="<%= request.getContextPath() %>/js/jquery-3.7.0.js"></script>
 
-<style>
-h1 {text-align : center;}
-table#tbl-news th { border: 1px solid black; padding: 3px; background-color: #f2f2f2;}
-table#tbl-news td { border: 1px solid black; padding: 3px; }
-table#tbl-news{ 
-  border-collapse: collapse;
-  margin:auto; 
-  }
-
-</style>
-
-
-
 <script>
 	bannerContainerLower = document.querySelector(".bannerContainerLower");
 	bannerContainerLower.style.display = "none";
@@ -47,9 +34,11 @@ table#tbl-news{
 		<tbody>
 		</tbody>
 	</table>
-	
 </div>
+<br>
+<br>
 </section>
+
 <script>
 // 날짜 형식 변환
 function formatDate(date) {
