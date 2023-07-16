@@ -1,6 +1,111 @@
 @charset "UTF-8";
 
-.commontable{
-	
-	
+
+/* 기사 관리 */
+div#search-container 	{width: 80%; margin:5px auto; padding:3px 20px; background-color: rgba(0, 188, 212, 0.3); border-radius: 3px;}
+
+div#search-memberId 	{display: inline-block;}
+div#search-nickName		{display: none}
+div#search-memberRole	{display: none}
+
+.tbl-memberContainer {
+	overflow: hidden;
+	overflow-x: scroll;
+	overflow: overlay;
+}
+h1, h3{text-align:center;}
+
+#tbl-member {
+  	border-collapse: collapse;
+  	margin:auto;
+  	table-layout: fixed;
+}
+
+#tbl-member th,
+#tbl-member td {
+  	border: 1px solid black;
+  	padding: 5px;
+  	text-align: center;
+}
+
+#tbl-member th {
+  	background-color: #B5C99A;
+}
+
+#tbl-member tr th:first-of-type, #tbl-member tr td:first-of-type {
+	min-width: 270px;
+}
+#tbl-member tr th:nth-of-type(2), #tbl-member tr td:nth-of-type(2) {
+	min-width: 180px;
+}
+#tbl-member tr th:nth-of-type(3), #tbl-member tr td:nth-of-type(3) {
+	min-width: 80px;
+}
+#tbl-member tr th:nth-of-type(4), #tbl-member tr td:nth-of-type(4) {
+	min-width: 160px;
+}
+#tbl-member tr th:nth-of-type(5), #tbl-member tr td:nth-of-type(5) {
+	min-width: 45px;
+}
+#tbl-member tr th:nth-of-type(6), #tbl-member tr td:nth-of-type(6) {
+	min-width: 190px;
+}
+#tbl-member tr th:last-of-type, #tbl-member tr td:last-of-type {
+	min-width: 45px;
+}
+
+
+
+/* 기사 관리 */
+div#check-scriptList {width: 80%; margin:5px auto; padding:3px 20px; background-color: rgba(0, 188, 212, 0.3); border-radius: 3px;}
+div#search-container {width: 80%; margin:5px auto; padding:3px 20px; background-color: rgba(0, 188, 212, 0.3); border-radius: 3px;}
+
+
+div#search-title	 	{display: inline-block;}
+div#search-writer		{display: none;}
+div#search-category		{display: none;}
+div#search-date			{display: none;}
+
+.tbl-scriptContainer {
+	overflow: hidden;
+	overflow-x: scroll;
+	overflow: overlay;
+}
+h1, h3{text-align:center;}
+
+#tbl-script {
+  	border-collapse: collapse;
+  	margin:auto;
+  	table-layout: fixed;
+}
+
+#tbl-script th,
+#tbl-script td {
+  	border: 1px solid black;
+  	padding: 5px;
+  	text-align: center;
+}
+
+#tbl-script th {
+  	background-color: #B5C99A;
+}
+
+#tbl-script tr th:first-of-type, #tbl-script tr td:first-of-type {
+	min-width: 70px;
+}
+#tbl-script tr th:nth-of-type(2), #tbl-script tr td:nth-of-type(2) {
+	max-width: 500px;
+	min-width: 500px;
+	white-space: nowrap; /* 텍스트 줄바꿈 방지 */
+	overflow: hidden; /* 넘친 내용 숨김 */
+	text-overflow: ellipsis; /* 텍스트 줄임표 (...) 표시 */
+}
+#tbl-script tr th:nth-of-type(3), #tbl-script tr td:nth-of-type(3) {
+	min-width: 70px;
+}
+#tbl-script tr th:nth-of-type(4), #tbl-script tr td:nth-of-type(4) {
+	min-width: 190px;
+}
+#tbl-script tr th:last-of-type, #tbl-script tr td:last-of-type {
+	min-width: 50px;
 }
