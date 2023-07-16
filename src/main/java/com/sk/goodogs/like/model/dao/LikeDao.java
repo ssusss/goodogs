@@ -30,7 +30,7 @@ public class LikeDao {
 				while(rset.next()) {
 					likeList.setMemberId(memberId);
 					likeList.setNewsNo(rset.getInt("news_no"));
-					likeList.setLikeDate(rset.getDate("like_date"));
+					likeList.setLikeDate(rset.getTimestamp("like_date"));
 					likeList.setNewsTitle("");
 					likes.add(likeList);
 				}

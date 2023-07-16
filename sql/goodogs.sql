@@ -42,7 +42,7 @@ CREATE TABLE member (
 	password varchar2(20)	NOT NULL,
 	nickname varchar2(20)	NOT NULL,
 	phone varchar2(20)	NOT NULL,
-	enroll_date date DEFAULT sysdate,
+	enroll_date Timestamp DEFAULT sysdate,
 	member_role char(1) DEFAULT 'M',
 	member_profile varchar2(200) default null,
 	is_banned number DEFAULT 0,
@@ -58,8 +58,8 @@ CREATE TABLE withdraw_member (
 	gender char(1),
 	nickname varchar2(20),
 	phone varchar2(20),
-	enroll_date date,
-	withdraw_date date DEFAULT sysdate,
+	enroll_date Timestamp,
+	withdraw_date Timestamp DEFAULT sysdate,
 	withdraw_reason varchar2(200) default '-',
     constraints pk_withdraw_member_no primary key(withdraw_member_no)
 );
@@ -69,10 +69,10 @@ create sequence seq_withdraw_member_no;
 CREATE TABLE news_script (
 	script_no number,
 	script_writer varchar2(50) NOT NULL,
-	script_title varchar2(30) NOT NULL,
+	script_title varchar2(300) NOT NULL,
 	script_category varchar2(10)	NOT NULL,
 	script_content clob NOT NULL,
-	script_write_date date DEFAULT sysdate,
+	script_write_date timestamp DEFAULT sysdate,
 	script_tag varchar2(100),
 	script_state number NOT NULL,
     constraints pk_news_script_script_no primary key(script_no)
@@ -83,7 +83,7 @@ CREATE TABLE news_image (
 	script_no number NOT NULL,
 	original_imagename varchar2(255) NOT NULL,
 	renamed_filename varchar2(255) NOT NULL,
-	image_reg_date date DEFAULT sysdate,
+	image_reg_date Timestamp DEFAULT sysdate,
     constraints fk_news_image_script_no foreign key(script_no) references news_script(script_no) on delete cascade
 );
 
@@ -91,10 +91,10 @@ CREATE TABLE news_script_rejected (
 	script_rejected_no number,
 	script_no number,
 	script_writer varchar2(50),
-	script_title varchar2(30),
+	script_title varchar2(300),
 	script_category varchar2(10),
 	script_content clob,
-	script_write_date date,
+	script_write_date timestamp,
 	script_tag varchar2(100),
 	script_rejected_reason varchar2(1000) default '-',
     constraints pk_news_script_rejected_script_no primary key(script_rejected_no)
@@ -104,29 +104,29 @@ create sequence seq_news_script_rejected_no;
 CREATE TABLE news (
 	news_no number	,
 	news_writer varchar2(50),
-	news_title varchar2(30),
+	news_title varchar2(300),
 	news_category varchar2(10),
 	news_content clob,
-	news_write_date date,
+	news_write_date Timestamp,
 	news_tag varchar2(100),
 	news_like_cnt number DEFAULT 0,
 	news_read_cnt number DEFAULT 0,
-	news_confirmed_date date DEFAULT sysdate,
+	news_confirmed_date Timestamp DEFAULT sysdate,
     constraints pk_news_no primary key(news_no)
 );
 
 CREATE TABLE deleted_news (
 	news_no number,
 	news_writer varchar2(50),
-	news_title varchar2(30),
+	news_title varchar2(300),
 	news_category varchar2(10),
 	news_content clob,
 	news_tag varchar2(20),
-	news_write_date date,
+	news_write_date Timestamp,
 	news_like_cnt number,
 	news_read_cnt number	,
-	news_confirmed_date date,
-	news_deleted_date date DEFAULT sysdate,
+	news_confirmed_date Timestamp,
+	news_deleted_date Timestamp DEFAULT sysdate,
     news_deleted_reason varchar2(1000) DEFAULT '-'
 );
 
@@ -138,7 +138,7 @@ CREATE TABLE news_comment (
 	comment_no_ref number, -- null 댓글인경우 | board_comment.no 대댓글인 경우
 	news_comment_nickname varchar2(20) NOT NULL,
 	news_comment_content varchar2(1000) NOT NULL,
-	comment_reg_date date DEFAULT sysdate,
+	comment_reg_date Timestamp DEFAULT sysdate,
 	news_comment_report_cnt number DEFAULT 0,
 	comment_state number DEFAULT 0,
     constraints pk_news_comment_no primary key(comment_no),
@@ -150,7 +150,7 @@ CREATE TABLE bookmark (
 	member_id varchar2(50) NOT NULL,
 	news_no number	 NOT NULL,
 	new_bookmarked_content clob	NOT NULL,
-	bookmark_date date DEFAULT sysdate,
+	bookmark_date Timestamp DEFAULT sysdate,
     constraints fk_bookmark_member_id foreign key(member_id) references member(member_id) on delete cascade,
     constraints fk_bookmark_news_no foreign key(news_no) references news(news_no) on delete cascade
 );
@@ -158,7 +158,7 @@ CREATE TABLE bookmark (
 CREATE TABLE like_list (
 	member_id varchar2(50) NOT NULL,
 	news_no number	 NOT NULL,
-	like_date date	DEFAULT sysdate,
+	like_date Timestamp	DEFAULT sysdate,
     constraints fk_like_list_member_id foreign key(member_id) references member(member_id) on delete cascade,
     constraints fk_like_list_news_no foreign key(news_no) references news(news_no) on delete cascade
 );
@@ -346,7 +346,7 @@ insert into news_comment values (119, 1000, 1,'kdc0526@naver.com', null, '동찬
 --
 --select * from news where news_writer = 'kjh0425@naver.com';
 --
---select * from news_script;
+select * from news_script;
 --select * from news_script where script_writer = ?;
 --
 --delete from news_script where script_no = ?;
@@ -367,5 +367,3 @@ insert into news_comment values (119, 1000, 1,'kdc0526@naver.com', null, '동찬
 --select * from news_script;
 --update news_script set script_state = 3 where script_no = 4;
 --select * from news_script_rejected;
-
-

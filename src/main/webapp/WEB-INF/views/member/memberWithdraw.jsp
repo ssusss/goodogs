@@ -20,7 +20,7 @@ bannerContainerUpper.style.display = "none";
 </script>
 
 	<br><br>
-
+<section>
 <form name="memberWithdrawFrm" action="<%= request.getContextPath() %>/member/memberWithdraw" method="post">
 	<section>
 		<h2 class="withdraw-head-title">회원탈퇴</h2>
@@ -53,7 +53,7 @@ bannerContainerUpper.style.display = "none";
 			<input type="button" style="color rgb(0, 0 , 0); text-decoration: underline;" value="조금 더 이용해볼게요" onclick="location.href='<%= request.getContextPath() %>/member/memberInfo';">
 	</section>
 </form>
-
+</section>
 <script>
 const withdrawMember = () => {
 	if(confirm("정말로 탈퇴하시겠습니까?😥"))
