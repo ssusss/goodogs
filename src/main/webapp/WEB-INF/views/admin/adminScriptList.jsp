@@ -7,7 +7,7 @@
 	bannerContainerLower.style.display = "none";
 	
 	window.onload = () => {
-		findSciptState(1);
+		findScriptState(1);
 	}
 </script>
 
@@ -191,7 +191,7 @@ document.querySelector("form#scriptType").onchange = (e) => {
 	const checkedScript= e.target.value;
 	console.log(checkedScript);
 	
-	findSciptState(checkedScript);
+	findScriptState(checkedScript);
 	searchKeywordReset();
 	
 };
@@ -216,10 +216,10 @@ document.querySelector("select#searchType").onchange = (e) => {
 
 
 
-const findSciptState=(sciptState)=>{
+const findScriptState=(scriptState)=>{
 	$.ajax({
 		url : "<%= request.getContextPath() %>/admin/member/findScriptState",
-		data:{sciptState},
+		data:{scriptState},
 		method :"GET",
 		dataType :"json",
 		success(scripts){
