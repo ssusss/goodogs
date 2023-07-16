@@ -144,6 +144,26 @@ function getDragAfterElement(container, x) {
 </section>
         
 <script>
+//날짜 형식 변환
+function rearrangeDate(formattedDate) {
+	const parts = formattedDate.split('/');
+	return `\${parts[2]}/\${parts[0]}/\${parts[1]}`;
+}
+function formatDate(date) {
+	const options = {
+		year: 'numeric',
+		month: '2-digit',
+		day: '2-digit',
+		hour12: false
+	};
+	
+	const formatter = new Intl.DateTimeFormat('en-US', options);
+	const formattedDate = formatter.format(new Date(date));
+		  
+	return rearrangeDate(formattedDate);
+}
+
+
 document.querySelector("#btn-more").onclick = () => {
 	const cpage = Number(document.querySelector("#cpage").innerHTML); 
 	const nextPage = cpage + 1; 
@@ -166,6 +186,9 @@ const getPage = (cpage) => {
 		
 			news.forEach((news) => {
 				const {newNo, newsTitle, newsConfirmedDate, newsCategory} = news;
+				
+				const formattedDate = formatDate(newsConfirmedDate);
+				
 				container.innerHTML += `
 					<a class="card" href="">
 						<div class="card-inner">
@@ -174,7 +197,7 @@ const getPage = (cpage) => {
 							</figure>
 							<div class="card-body">
 								<h3 class="card-title">\${newsTitle}</h3>
-								<time class="card-date">\${newsConfirmedDate}</time>
+								<time class="card-date">\${formattedDate}</time>
 								<span class="card-category">\${newsCategory}</span>
 							</div>
 						</div>
