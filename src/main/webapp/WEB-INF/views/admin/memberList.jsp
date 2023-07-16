@@ -99,6 +99,23 @@ div#search-memberRole	{display: none}
 </section>
 
 <script>
+//날짜 형식 변환
+function formatDate(date) {
+	const options = {
+		year: 'numeric',
+		month: '2-digit',
+		day: '2-digit',
+		hour: '2-digit',
+		minute: '2-digit',
+		second: '2-digit',
+		hour12: false
+	};
+	
+	console.log(options);
+
+	const formatter = new Intl.DateTimeFormat('ko-KR', options);
+	return formatter.format(new Date(date));
+}
 
 
 document.addEventListener('change',(e)=>{
@@ -150,6 +167,9 @@ function serchMember(frm){
 				const tbody= document.querySelector("#tbl-member tbody");
 				tbody.innerHTML= selectedMembers.reduce((html,member)=>{
 					const{memberId,nickname,memberRole,phone,gender,enrollDate,isBanned}=member;
+					
+					const formattedDate = formatDate(enrollDate);
+					
 					return html +`
 					<tr>
 						<td>\${memberId}</td>
@@ -163,7 +183,7 @@ function serchMember(frm){
 						</td>
 						<td>\${phone}</td>
 						<td>\${gender}</td>
-						<td>\${enrollDate}</td>
+						<td>\${formattedDate}</td>
 						<td>\${isBanned}</td>
 					</tr>
 					`;
@@ -203,6 +223,7 @@ document.querySelector("select#searchType").onchange = (e) => {
 				const tbody= document.querySelector("#tbl-member tbody");
 				tbody.innerHTML= members.reduce((html,member)=>{
 					const{memberId,nickname,memberRole,phone,gender,enrollDate,isBanned}=member;
+					const formattedDate = formatDate(enrollDate);
 					return html +`
 						<tr>
 							<td>\${memberId}</td>
@@ -216,7 +237,7 @@ document.querySelector("select#searchType").onchange = (e) => {
 							</td>
 							<td>\${phone}</td>
 							<td>\${gender}</td>
-							<td>\${enrollDate}</td>
+							<td>\${formattedDate}</td>
 							<td>\${isBanned}</td>
 						</tr>
 					`;

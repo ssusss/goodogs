@@ -3,7 +3,6 @@
 <%@ include file="/WEB-INF/views/common/header.jsp" %>
 <script src="<%= request.getContextPath() %>/js/jquery-3.7.0.js"></script>
 <% int totalPage = (int) request.getAttribute("totalPage"); %>
-
 <!-- 
 	@author 이혜령 
 	- 카테고리
@@ -11,9 +10,9 @@
 -->
 
 <!-- 카테고리 -->
-<section>
-	<nav class="category" role="navigation" aria-label="카테고리">
-	
+
+<nav class="category" role="navigation" aria-label="카테고리">
+	<div class="categoryInner">
 		<div class="category-all">
 		  <a class="draggable" draggable="false" href="https://example.com/page1">전체 &nbsp;&nbsp;&nbsp;</a>
 		</div>
@@ -27,7 +26,9 @@
 		  <a class="draggable" draggable="true" href="https://example.com/page4">🤸🏻‍♀️스포츠 &nbsp;</a>
 		  <a class="draggable" draggable="true" href="https://example.com/page4">👥사회 &nbsp;</a>
 		</div>
-</section>
+	</div>
+</nav>
+
 
 
 <script>
@@ -121,13 +122,11 @@ function getDragAfterElement(container, x) {
 }
 
 </script>
-</nav>
 
 <section>
-
 	<div class="posts">
 		<a class="card" href=""> <!-- a태그 : 전체박스 -->
-			<div class="card-inner"> <!-- 박스 안 내용물 -->
+			<div class="card-inner">
 				<figure class="card-thumbnail"> <!-- 기사 썸네일 -->
 					<img src="<%= request.getContextPath() %>/images/character/goodogs_face.png">
 				</figure>			
@@ -197,9 +196,6 @@ const getPage = (cpage) => {
 }
 
 </script>    
-
-
-
 
 
 <%@ include file="/WEB-INF/views/common/footer.jsp" %>

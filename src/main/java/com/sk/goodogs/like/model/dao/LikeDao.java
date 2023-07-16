@@ -5,6 +5,7 @@ import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
@@ -32,7 +33,7 @@ public class LikeDao {
 				while(rset.next()) {
 					String _memberid = rset.getString("member_id");
 					int newsNo = rset.getInt("news_no");
-					Date likeDate = rset.getDate("like_date");
+					Timestamp likeDate = rset.getTimestamp("like_date");
 					likeList = new LikeList(_memberid, newsNo, likeDate);
 					likes.add(likeList);
 				}
