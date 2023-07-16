@@ -159,7 +159,7 @@ public List<Member> memberFindSelected(String searchType, String searchKeyword, 
 				}
 			}
 		} catch (SQLException e) {
-			throw new MemberException();
+			throw new MemberException(e);
 		}
 	return members;
 }
@@ -214,7 +214,7 @@ public List<NewsScript> scriptFind(int scriptState, Connection conn) {
 			}
 		}
 	} catch (SQLException e) {
-		throw new AdminException();
+		throw new AdminException(e);
 	}
 	return scripts;
 }
@@ -254,7 +254,7 @@ public List<NewsScript> scriptSerch(int scriptState, String searchTypeVal, Strin
 			}
 		}
 	} catch (SQLException e) {
-		throw new AdminException();
+		throw new AdminException(e);
 	}
 	
 	return scripts;
@@ -274,10 +274,28 @@ public NewsScript findOneScript(int no, Connection conn) {
 			}
 		}
 	} catch (SQLException e) {
-		throw new AdminException();
+		throw new AdminException(e);
 	}
 	
 	return script;
+}
+
+
+
+public int scriptUpdate(NewsScript script, Connection conn) {
+	int result=0;
+	String sql=prop.getProperty("scriptUpdate");
+	
+	try(PreparedStatement pstmt=conn.prepareStatement(sql)){
+			pstmt.setInt(1,script.getScriptState());
+			pstmt.setInt(2,script.getScriptNo());
+			
+			result = pstmt.executeUpdate(); 
+	} catch (SQLException e) {
+		throw new AdminException(e);
+	}
+	
+	return result;
 }
 
 
