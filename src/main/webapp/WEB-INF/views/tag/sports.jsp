@@ -1,25 +1,25 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
+	pageEncoding="UTF-8"%>
 <%@ include file="/WEB-INF/views/common/header.jsp" %>
-<script src="<%= request.getContextPath() %>/js/jquery-3.7.0.js"></script>
 <% int totalPage = (int) request.getAttribute("totalPage"); %>
+<script src="<%= request.getContextPath() %>/js/jquery-3.7.0.js"></script>
+<script>
+bannerContainerLower = document.querySelector(".bannerContainerLower");
+bannerContainerLower.style.display = "none";
+</script>
 
 <%@ include file="/WEB-INF/views/common/category.jsp" %>
 
+<style>
+section .posts .card {
+	border-width: 1px 1px 1px 0;
+}
+</style>
+
 <section>
+	<h1 style="font-size: 36px">🤸🏻‍♀️스포츠</h1>	
 	<div class="posts">
-		<a class="card" href=""> <!-- a태그 : 전체박스 -->
-			<div class="card-inner">
-				<figure class="card-thumbnail"> <!-- 기사 썸네일 -->
-					<img src="<%= request.getContextPath() %>/images/character/goodogs_face.png">
-				</figure>			
-				<div class="card-body"><!-- 기사 제목/날짜/카테고리 박스 -->
-					<h3 class="card-title">라면먹고싶다</h3> <!-- 기사 제목 -->
-					<time class="card-date">2023/07/11</time> <!-- 기사 날짜 -->
-					<span class="card-category">학원</span> <!-- 기사 카테고리 -->
-				</div>
-			</div>
-		</a>	
+		
 	</div>
 	<div id='btn-more-container'>
 		<button id="btn-more" value="">더보기(<span id="cpage"></span>/<span id="totalPage"><%= totalPage %></span>)</button>
@@ -57,28 +57,26 @@ window.addEventListener('load', () => {
 	getPage(1);	
 });
 
-
-  // 김준한 테스트용
-
 const getPage = (cpage) => {
 	
 	$.ajax({
-		url : "<%= request.getContextPath() %>/goodogs/more",
+		url : "<%= request.getContextPath() %>/more/sports",
 		data : {cpage},
 		success(news) {
 			console.log(news);
 			
 			const container = document.querySelector(".posts");
 		
-			news.forEach((newsAndImage) => {
-				const {newsNo, newsTitle, newsConfirmedDate, newsCategory, renamedFilename} = newsAndImage;
+			news.forEach((news) => {
+				const {newNo, newsTitle, newsConfirmedDate, newsCategory} = news;
 				
 				const formattedDate = formatDate(newsConfirmedDate);
+				
 				container.innerHTML += `
 					<a class="card" href="">
 						<div class="card-inner">
 							<figure class="card-thumbnail">
-								<img src="<%= request.getContextPath() %>/upload/newsImage/\${renamedFilename}">
+								<img src="<%= request.getContextPath() %>/upload/thumbnail/\${newNo}">
 							</figure>
 							<div class="card-body">
 								<h3 class="card-title">\${newsTitle}</h3>
@@ -97,13 +95,14 @@ const getPage = (cpage) => {
 				const btn = document.querySelector("#btn-more");
 				
 				btn.disabled = true;
-				btn.style.cursor = "not-allowed";
+				btn.style.cursor = "not-alloewed";
 			}
 		}
 	})
 }
 
 </script>    
+
 
 
 <%@ include file="/WEB-INF/views/common/footer.jsp" %>

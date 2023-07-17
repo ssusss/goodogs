@@ -5,14 +5,14 @@ import java.util.List;
 import static com.sk.goodogs.common.JdbcTemplate.*;
 
 import com.sk.goodogs.like.model.dao.LikeDao;
-import com.sk.goodogs.like.model.vo.LikeList;
+import com.sk.goodogs.like.model.vo.LikeListEntity;
 
 public class LikeService {
 	private LikeDao likeDao = new LikeDao();
 
-	public List<LikeList> findLikesByMemberId(String memberId) {
+	public List<LikeListEntity> findLikesByMemberId(String memberId) {
 		Connection conn = getConnection();
-		List<LikeList> likes = likeDao.findLikesByMemberId(conn, memberId);
+		List<LikeListEntity> likes = likeDao.findLikesByMemberId(conn, memberId);
 		close(conn);
 		return likes;
 	}

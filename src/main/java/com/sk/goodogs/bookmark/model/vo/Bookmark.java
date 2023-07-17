@@ -2,64 +2,41 @@ package com.sk.goodogs.bookmark.model.vo;
 
 import java.sql.Timestamp;
 
+import com.sk.goodogs.news.model.vo.News;
+
 /**
  * @author 전수경
- *
+ * - BookmarkEntity 상속 변수
+ * - 북마크한 뉴스정보를 담을 news 변수 추가
  */
-public class Bookmark {
-	private String memberId;
-	private int newsNo;
-	private String newBookmarkedContent;
-	private Timestamp bookmarkDate;
-	
+public class Bookmark extends BookmarkEntity {
+	// 북마크한 뉴스정보 담을 변수
+	private News news;
+
 	public Bookmark() {
 		super();
 	}
-	
+
 	public Bookmark(String memberId, int newsNo, String newBookmarkedContent, Timestamp bookmarkDate) {
-		super();
-		this.memberId = memberId;
-		this.newsNo = newsNo;
-		this.newBookmarkedContent = newBookmarkedContent;
-		this.bookmarkDate = bookmarkDate;
+		super(memberId, newsNo, newBookmarkedContent, bookmarkDate);
 	}
 
-	public String getMemberId() {
-		return memberId;
+	public Bookmark(String memberId, int newsNo, String newBookmarkedContent, Timestamp bookmarkDate, News news) {
+		super(memberId, newsNo, newBookmarkedContent, bookmarkDate);
+		this.news = news;
 	}
 
-	public void setMemberId(String memberId) {
-		this.memberId = memberId;
+	public News getNews() {
+		return news;
 	}
 
-	public int getNewsNo() {
-		return newsNo;
-	}
-
-	public void setNewsNo(int newsNo) {
-		this.newsNo = newsNo;
-	}
-
-	public String getNewBookmarkedContent() {
-		return newBookmarkedContent;
-	}
-
-	public void setNewBookmarkedContent(String newBookmarkedContent) {
-		this.newBookmarkedContent = newBookmarkedContent;
-	}
-
-	public Timestamp getBookmarkDate() {
-		return bookmarkDate;
-	}
-
-	public void setBookmarkDate(Timestamp bookmarkDate) {
-		this.bookmarkDate = bookmarkDate;
+	public void setNews(News news) {
+		this.news = news;
 	}
 
 	@Override
 	public String toString() {
-		return "Bookmark [memberId=" + memberId + ", newsNo=" + newsNo + ", newBookmarkedContent="
-				+ newBookmarkedContent + ", bookmarkDate=" + bookmarkDate + "]";
+		return "Bookmark [news=" + news + "]";
 	}
 	
 }

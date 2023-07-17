@@ -12,14 +12,20 @@ import javax.servlet.http.HttpServletResponse;
 import com.google.gson.Gson;
 import com.sk.goodogs.news.model.service.NewsService;
 import com.sk.goodogs.news.model.vo.News;
-import com.sk.goodogs.news.model.vo.NewsAndImage;
 
-/***
- * @author 이혜령
- * 메인메뉴 더보기 페이지 구현
+/**
+ * Servlet implementation class CategoryMoreServlet
  */
-@WebServlet("/goodogs/more")
-public class MainNewsMoreServlet extends HttpServlet {
+@WebServlet({
+		"/more/politics",
+		"/more/economy",
+		"/more/global",
+		"/more/tech",
+		"/more/environment",
+		"/more/sports",
+		"/more/society"
+		})
+public class CategoryMoreServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	private final NewsService newsService = new NewsService();
 
@@ -27,6 +33,23 @@ public class MainNewsMoreServlet extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		
+		// 현재 URL 가져오기
+        String currentURL = request.getRequestURL().toString();
+        String[] URLarr = currentURL.split("/");
+        System.out.println("tag = " + URLarr[URLarr.length - 1]);
+        
+        String category = "";
+        
+		switch (URLarr[URLarr.length - 1]) {
+			case "politics" : category = "정치"; break;
+			case "economy" : category = "경제"; break;
+			case "global" : category = "세계"; break;
+			case "tech" : category = "테크"; break;
+			case "environment" : category = "환경"; break;
+			case "sports" : category = "스포츠"; break;
+			case "society" : category = "사회"; break;
+		}
 		
 		// 1. 사용자 입력값 처리
 		int limit = 5;
@@ -41,12 +64,12 @@ public class MainNewsMoreServlet extends HttpServlet {
 		int end = cpage * limit;
 		
 		// 2. 업무로직 (
-		List<NewsAndImage> newsAndImages = newsService.findNews(start, end);
-		System.out.println("newsAndImage : " + newsAndImages);
+		List<News> news = newsService.findNewsByCategory(start, end, category);
+		System.out.println("news : " + news);
 		
 		// 3. 응답처리 (json)
 		response.setContentType("application/json; charset=utf-8");
-		new Gson().toJson(newsAndImages, response.getWriter());
+		new Gson().toJson(news, response.getWriter());
 	}
 
 }
