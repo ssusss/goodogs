@@ -322,24 +322,24 @@ insert into news values(11,'kdc0526@naver.com','애국가4절','경제','이 기
 
 
 -- 기사 댓글 
-insert into news_comment values (2, 1000, 1,'admin@naver.com', null, '어드민','바보양ㅋ', to_date('20180425','yyyymmdd'), 8, 0);
-insert into news_comment values (3, 1000, 1,'honggd@naver.com', null, '길동좌','어쩔티비저쩔티비', to_date('20180425','yyyymmdd'), 9, 0);
-insert into news_comment values (4, 1000, 1,'kjh0425@naver.com', null, '준한','쿠루루삥뻥', to_date('20180425','yyyymmdd'), 2, 0);
-insert into news_comment values (5, 1000, 1,'sejong@naver.com', null, '킹세종','어쩔', to_date('20180425','yyyymmdd'), 3, 0);
-insert into news_comment values (6, 1000, 1,'sejong@naver.com', null, '킹세종','배고프다', to_date('20180425','yyyymmdd'), 5, 0);
-insert into news_comment values (7, 1000, 1,'kny0910@naver.com', null, 'na0','마라탕이', to_date('20180425','yyyymmdd'), 2, 1);
-insert into news_comment values (8, 1000, 1,'sejong@naver.com', null, '킹세종','먹고시플지도', to_date('20180425','yyyymmdd'), 1, 2);
-insert into news_comment values (9, 1000, 1,'kdc0526@naver.com', null, '동찬','아닌강.ㅋ', to_date('20180425','yyyymmdd'), 3, 0);
+insert into news_comment values (2, 8, 1,'admin@naver.com', null, '어드민','바보양ㅋ', to_date('20180425','yyyymmdd'), 8, 0);
+insert into news_comment values (3, 8, 1,'honggd@naver.com', null, '길동좌','어쩔티비저쩔티비', to_date('20180425','yyyymmdd'), 9, 0);
+insert into news_comment values (4, 8, 1,'kjh0425@naver.com', null, '준한','쿠루루삥뻥', to_date('20180425','yyyymmdd'), 2, 0);
+insert into news_comment values (5, 8, 1,'sejong@naver.com', null, '킹세종','어쩔', to_date('20180425','yyyymmdd'), 3, 0);
+insert into news_comment values (6, 8, 1,'sejong@naver.com', null, '킹세종','배고프다', to_date('20180425','yyyymmdd'), 5, 0);
+insert into news_comment values (7, 8, 1,'kny0910@naver.com', null, 'na0','마라탕이', to_date('20180425','yyyymmdd'), 2, 1);
+insert into news_comment values (8, 8, 1,'sejong@naver.com', null, '킹세종','먹고시플지도', to_date('20180425','yyyymmdd'), 1, 2);
+insert into news_comment values (9, 8, 1,'kdc0526@naver.com', null, '동찬','아닌강.ㅋ', to_date('20180425','yyyymmdd'), 3, 0);
 
 
-insert into news_comment values (112, 1000, 1,'admin@naver.com', null, '어드민','바보양ㅋ', to_date('20180425','yyyymmdd'), 8, 0);
-insert into news_comment values (113, 1000, 1,'honggd@naver.com', null, '길동좌','어쩔티비저쩔티비', to_date('20180425','yyyymmdd'), 9, 0);
-insert into news_comment values (114, 1000, 1,'kjh0425@naver.com', null, '준한','쿠루루삥뻥', to_date('20180425','yyyymmdd'), 2, 0);
-insert into news_comment values (115, 1000, 1,'sejong@naver.com', null,'킹세종','어쩔', to_date('20180425','yyyymmdd'), 3, 0);
-insert into news_comment values (116, 1000, 1,'sejong@naver.com', null,'킹세종','배고프다', to_date('20180425','yyyymmdd'), 5, 0);
-insert into news_comment values (117, 1000, 1,'kny0910@naver.com', null, 'na0','마라탕이', to_date('20180425','yyyymmdd'), 2, 1);
-insert into news_comment values (118, 1000, 1,'sejong@naver.com', null,'킹세종','먹고시플지도', to_date('20180425','yyyymmdd'), 1, 2);
-insert into news_comment values (119, 1000, 1,'kdc0526@naver.com', null, '동찬','아닌강.ㅋ', to_date('20180425','yyyymmdd'), 3, 0);
+insert into news_comment values (112, 8, 1,'admin@naver.com', null, '어드민','바보양ㅋ', to_date('20180425','yyyymmdd'), 8, 0);
+insert into news_comment values (113, 8, 1,'honggd@naver.com', null, '길동좌','어쩔티비저쩔티비', to_date('20180425','yyyymmdd'), 9, 0);
+insert into news_comment values (114, 8, 1,'kjh0425@naver.com', null, '준한','쿠루루삥뻥', to_date('20180425','yyyymmdd'), 2, 0);
+insert into news_comment values (115, 8, 1,'sejong@naver.com', null,'킹세종','어쩔', to_date('20180425','yyyymmdd'), 3, 0);
+insert into news_comment values (116, 8, 1,'sejong@naver.com', null,'킹세종','배고프다', to_date('20180425','yyyymmdd'), 5, 0);
+insert into news_comment values (117, 8, 1,'kny0910@naver.com', null, 'na0','마라탕이', to_date('20180425','yyyymmdd'), 2, 1);
+insert into news_comment values (118, 8, 1,'sejong@naver.com', null,'킹세종','먹고시플지도', to_date('20180425','yyyymmdd'), 1, 2);
+insert into news_comment values (119, 8, 1,'kdc0526@naver.com', null, '동찬','아닌강.ㅋ', to_date('20180425','yyyymmdd'), 3, 0);
 
 -- 뉴스이미지
 
@@ -349,11 +349,11 @@ insert into news_image values(10,'제목없음.png','20230717_092222567_980.png'
 insert into news_image values(11,'제목없음.png','20230717_093900145_618.png',default);
 
 -- like_list 샘플 데이터
-insert into like_list values('honggd@naver.com', 1000, default);
-insert into like_list values('honggd@naver.com', 1001, default);
-insert into like_list values('honggd@naver.com', 1002, default);
-insert into like_list values('admin@naver.com', 1000, default);
-insert into like_list values('admin@naver.com', 1001, default);
+insert into like_list values('honggd@naver.com', 8, default);
+insert into like_list values('honggd@naver.com', 9, default);
+insert into like_list values('honggd@naver.com', 10, default);
+insert into like_list values('admin@naver.com', 8, default);
+insert into like_list values('admin@naver.com', 9, default);
 --select * from like_list where member_id = 'honggd@naver.com';
 
 
