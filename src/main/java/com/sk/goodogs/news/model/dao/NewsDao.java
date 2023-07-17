@@ -70,7 +70,6 @@ public class NewsDao {
 			int newsLikeCnt = rset.getInt("news_like_cnt");
 			int newsReadCnt = rset.getInt("news_read_cnt");
 			Timestamp newsConfirmedDate = rset.getTimestamp("news_confirmed_date");
-			String renamedFilename = rset.getString("renamed_file_name");
 			
 			return new News(newsNo, newsWriter, newsTitle, newsCategory, newsContent, newsWriteDate, newsTag, newsLikeCnt, newsReadCnt, newsConfirmedDate);
 		}

@@ -13,6 +13,7 @@ import javax.servlet.http.HttpServletResponse;
 import com.google.gson.Gson;
 import com.sk.goodogs.admin.model.service.AdminService;
 import com.sk.goodogs.news.model.vo.NewsScript;
+import com.sk.goodogs.news.model.vo.NewsScriptRejected;
 
 /**
  * Servlet implementation class AdminScriptReject
@@ -48,5 +49,5 @@ public class AdminScriptReject extends HttpServlet {
 		new Gson().toJson(map, response.getWriter());
 		
 	}
-
+	
 }
