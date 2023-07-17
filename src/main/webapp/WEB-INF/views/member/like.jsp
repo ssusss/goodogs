@@ -1,4 +1,4 @@
-<%@page import="com.sk.goodogs.like.model.vo.LikeListEntity"%>
+<%@page import="com.sk.goodogs.like.model.vo.LikeList"%>
 <%@page import="com.sk.goodogs.member.model.vo.Gender"%>
 <%@page import="java.util.Arrays"%>
 <%@page import="java.util.List"%>
@@ -7,8 +7,8 @@
     pageEncoding="UTF-8"%>
 <%@ include file="/WEB-INF/views/common/header.jsp" %>
 <%
-// 전수경 - 좋아요 테이블에서 로그인 회원의 좋아요 기사 조회해오기 GET 요청
-	List<LikeListEntity> likes = (List<LikeListEntity>) request.getAttribute("likes");
+	// 전수경 - 좋아요 테이블에서 로그인 회원의 좋아요 기사 조회해오기 GET 요청
+	List<LikeList> likes = (List<LikeList>) request.getAttribute("likes");
 %>
 <script src="<%= request.getContextPath() %>/js/jquery-3.7.0.js"></script>
 <!-- 
@@ -16,7 +16,6 @@
 	- 좋아요 목록 페이지
 	@author 전수경
 	- 좋아요 목록리스트 갯수, 테이블 작성
-	
 -->
 <script>
 bannerContainerLower = document.querySelector(".bannerContainerLower");

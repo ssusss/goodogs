@@ -250,4 +250,27 @@ public class NewsDao {
 			
 			return result;
 		}
+
+		/**
+		 * @author 전수경
+		 *  - 뉴스번호로 뉴스 조회하기
+		 *  - LikeList에서 newsTitle 설정용
+		 */
+		public News findNewsByNewsNo(Connection conn, int newsNo) {
+			News news = null;
+			String sql = prop.getProperty("findNewsByNewsNo");
+			// select * from news where news_no = ?
+			try(PreparedStatement pstmt = conn.prepareStatement(sql)){
+				pstmt.setInt(1, newsNo);
+				
+				try(ResultSet rset = pstmt.executeQuery()){
+					while(rset.next()) {
+						news = handleNewsResultSet(rset);
+					}
+				}
+			} catch (SQLException e) {
+				throw new NewsException(e);
+			}
+			return news;
+		}
 }
