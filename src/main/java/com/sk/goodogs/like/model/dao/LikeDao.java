@@ -11,7 +11,7 @@ import java.util.List;
 import java.util.Properties;
 
 import com.sk.goodogs.like.model.exception.LikeException;
-import com.sk.goodogs.like.model.vo.LikeList;
+import com.sk.goodogs.like.model.vo.LikeListEntity;
 
 /**
  * @author Sookyeong
@@ -21,9 +21,9 @@ public class LikeDao {
 	
 	private Properties prop = new Properties();
 
-	public List<LikeList> findLikesByMemberId(Connection conn, String memberId) {
-		List<LikeList> likes = new ArrayList<>();
-		LikeList likeList = null;
+	public List<LikeListEntity> findLikesByMemberId(Connection conn, String memberId) {
+		List<LikeListEntity> likes = new ArrayList<>();
+		LikeListEntity likeListEntity = null;
 		// select * from like_list where member_id =?
 		String sql = "select * from like_list where member_id =?";
 		
@@ -34,8 +34,8 @@ public class LikeDao {
 					String _memberid = rset.getString("member_id");
 					int newsNo = rset.getInt("news_no");
 					Timestamp likeDate = rset.getTimestamp("like_date");
-					likeList = new LikeList(_memberid, newsNo, likeDate);
-					likes.add(likeList);
+					likeListEntity = new LikeListEntity(_memberid, newsNo, likeDate);
+					likes.add(likeListEntity);
 				}
 			}
 		} catch (SQLException e) {
