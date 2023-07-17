@@ -9,6 +9,7 @@ import java.util.List;
 import com.sk.goodogs.member.model.vo.Member;
 import com.sk.goodogs.news.model.dao.NewsDao;
 import com.sk.goodogs.news.model.vo.News;
+import com.sk.goodogs.news.model.vo.NewsComment;
 import com.sk.goodogs.news.model.vo.NewsAndImage;
 import com.sk.goodogs.news.model.vo.NewsImage;
 import com.sk.goodogs.news.model.vo.NewsScript;
@@ -178,5 +179,73 @@ public class NewsService {
 		return results;
 	}
 	
+	//----------
+	
+	
+	public int newCommentInsert(NewsComment newsComment) {
+		Connection conn = getConnection();
+		int result = 0;
+		try {
+			result = newsDao.newCommentInsert(conn, newsComment);
+			commit(conn);
+		} catch(Exception e) {
+			rollback(conn);
+			throw e;
+		} finally {
+			close(conn);
+		}
+		return result;
+	}
+	
+	
+	
+	public List<NewsComment> findNewsComment(int no) {
+		Connection conn = getConnection();
+		List<NewsComment> newsComments = newsDao.findNewsComment(conn, no);
+		close(conn);
+		return newsComments;
+	}
+	
+	
+	// 뉴스
+		public News newsDetail(int No) {
+			Connection conn = getConnection();
+			News  news = newsDao.NewsDetail(conn,No);
+			close(conn);
+			return news;
+		}
+
+
+	
+	// 댓글 삭제 ( 업데이트 )
+		public int NewsCommentDelete(int commentNo, int commentState) {
+			int result = 0;
+			Connection conn = getConnection();
+			try {
+				result = newsDao.NewsCommentDelete(commentNo,commentState, conn);
+				commit(conn);
+			} catch (Exception e) {
+				rollback(conn);
+				throw e;
+			}finally {
+				close(conn);
+			}
+			return result;
+		}
+
+		public int newsLikeUpdate(int newsNo) {
+			int result = 0;
+			Connection conn = getConnection();
+			try {
+				result = newsDao.newsLikeUpdate(newsNo, conn);
+				commit(conn);
+			} catch (Exception e) {
+				rollback(conn);
+				throw e;
+			}finally {
+				close(conn);
+			}
+			return result;
+		}
 	
 }
