@@ -6,7 +6,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ include file="/WEB-INF/views/common/header.jsp" %>
-<% int totalPage = (int) request.getAttribute("totalPage"); %>
 <%
 	// 전수경 - 좋아요 테이블에서 로그인 회원의 좋아요 기사 조회해오기 GET 요청
 	List<LikeList> likes = (List<LikeList>) request.getAttribute("likes");
