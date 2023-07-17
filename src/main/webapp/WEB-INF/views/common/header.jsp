@@ -213,6 +213,7 @@
 				console.log(pathArray);
 				return "/" + pathArray[1];
 			}
+			
 			// 특정 페이지 URL인지 확인하는 함수
 			function isSpecificPage() {
 				const specificPageURL = "<%= request.getContextPath() %>";
@@ -221,7 +222,8 @@
 				console.log(getCurrentPageURL());
 				return getCurrentPageURL() === specificPageURL;
 			}
-						
+			
+				
 			if (isSpecificPage()) {
 				document.querySelector(".infoBox").onclick = () => {
 				  <% if (loginMember != null) { %>
