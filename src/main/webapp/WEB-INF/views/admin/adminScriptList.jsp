@@ -1,38 +1,23 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ include file="/WEB-INF/views/common/header.jsp" %>
-
+<link rel="stylesheet" href="<%=request.getContextPath()%>/css/admin.css" />
 <script>
 	const bannerContainerLower = document.querySelector(".bannerContainerLower");
 	bannerContainerLower.style.display = "none";
 	
 	window.onload = () => {
-		findSciptState(1);
+		findScriptState(1);
 	}
 </script>
 
-
-
-
-<style>
-div#check-scriptList 	{width: 100%; margin:0 0 10px 0; padding:3px; background-color: rgba(0, 188, 212, 0.3);}
-div#search-container 	{width: 100%; margin:0 0 10px 0; padding:3px; background-color: rgba(0, 188, 212, 0.3);}
-table#tbl-script th, table#tbl-script td {border:1px solid gray; padding:10px; }
-
-
-div#search-title	 	{display: inline-block;}
-div#search-writer		{display: none;}
-div#search-category		{display: none;}
-div#search-date			{display: none;}
-
-</style>
 <script src="<%= request.getContextPath() %>/js/jquery-3.7.0.js"></script>
 <script>
 	
 </script>
 
 <section id="adminScriptList-container">
-	<h2>원고관리</h2>
+	<h1>원고관리</h1>
 	
 	<div id="check-scriptList" class="check-type">
              <form id="scriptType">
@@ -93,23 +78,45 @@ div#search-date			{display: none;}
         </div> 
        
     </div>
-	
-	<table id="tbl-script">
-		<thead>
-			<tr>
-				<th colspan="2">기자(이메일)</th>
-				<th colspan="3">제목</th>
-				<th colspan="1">카테고리</th>
-				<th colspan="1">날짜</th>
-				<th colspan="1">승인여부</th>
-			</tr>
-		</thead>
-		<tbody>
-		</tbody>
-	</table>
+	<div class="tbl-scriptContainer">
+		<table id="tbl-script">
+			<thead>
+				<tr>
+					<th colspan="2">기자(이메일)</th>
+					<th colspan="3">제목</th>
+					<th colspan="1">카테고리</th>
+					<th colspan="1">날짜</th>
+					<th colspan="1">승인여부</th>
+				</tr>
+			</thead>
+			<tbody>
+			</tbody>
+		</table>
+	</div>
+	<br>
+	<br>
 </section>
 
 <script>
+//날짜 형식 변환
+function formatDate(date) {
+	const options = {
+		year: 'numeric',
+		month: '2-digit',
+		day: '2-digit',
+		hour: '2-digit',
+		minute: '2-digit',
+		second: '2-digit',
+		hour12: false
+	};
+	
+	console.log(options);
+
+	const formatter = new Intl.DateTimeFormat('ko-KR', options);
+	return formatter.format(new Date(date));
+}
+
+
 
 function serchScript(frm){
 	
@@ -150,13 +157,15 @@ function serchScript(frm){
 			              scriptStateText = "상태이상";
 			              break;
 				};
+				
+				const formattedDate = formatDate(scriptWriteDate);
 					
 				return html +`
 				<tr>
 					<td colspan="2">\${scriptWriter}</td>
 					<td colspan="3"><a href="<%= request.getContextPath() %>/admin/scriptDetail?no=\${scriptNo}">\${scriptTitle}</a></td>
 					<td colspan="1">\${scriptCategory}</td>
-					<td colspan="1">\${scriptWriteDate}</td>
+					<td colspan="1">\${formattedDate}</td>
 					<td colspan="1">\${scriptStateText}</td>
 				</tr>
 				`;
@@ -182,7 +191,7 @@ document.querySelector("form#scriptType").onchange = (e) => {
 	const checkedScript= e.target.value;
 	console.log(checkedScript);
 	
-	findSciptState(checkedScript);
+	findScriptState(checkedScript);
 	searchKeywordReset();
 	
 };
@@ -207,10 +216,10 @@ document.querySelector("select#searchType").onchange = (e) => {
 
 
 
-const findSciptState=(sciptState)=>{
+const findScriptState=(scriptState)=>{
 	$.ajax({
 		url : "<%= request.getContextPath() %>/admin/member/findScriptState",
-		data:{sciptState},
+		data:{scriptState},
 		method :"GET",
 		dataType :"json",
 		success(scripts){
@@ -221,6 +230,7 @@ const findSciptState=(sciptState)=>{
 				tbody.innerHTML=scripts.reduce((html,script)=>{
 					const{scriptCategory,scriptContent,scriptNo,scriptState,
 						scriptTag,scriptTitle,scriptWriteDate,scriptWriter}=script;
+						
 					
 						let scriptStateText = "";
 				          switch (scriptState) {
@@ -237,13 +247,14 @@ const findSciptState=(sciptState)=>{
 				              scriptStateText = "상태이상";
 				              break;
 					};
+					const formattedDate = formatDate(scriptWriteDate);
 						
 					return html +`
 					<tr>
 						<td colspan="2">\${scriptWriter}</td>
 						<td colspan="3"><a href="<%= request.getContextPath() %>/admin/scriptDetail?no=\${scriptNo}">\${scriptTitle}</a></td>
 						<td colspan="1">\${scriptCategory}</td>
-						<td colspan="1">\${scriptWriteDate}</td>
+						<td colspan="1">\${formattedDate}</td>
 						<td colspan="1">\${scriptStateText}</td>
 					</tr>
 					`;

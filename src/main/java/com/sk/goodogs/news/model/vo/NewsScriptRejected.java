@@ -1,6 +1,7 @@
 package com.sk.goodogs.news.model.vo;
 
 import java.sql.Date;
+import java.sql.Timestamp;
 
 public class NewsScriptRejected extends NewsScript{
 	
@@ -21,7 +22,7 @@ public class NewsScriptRejected extends NewsScript{
 
 
 	public NewsScriptRejected(int scriptNo, String scriptWriter, String scriptTitle, String scriptCategory,
-			String scriptContent, Date scriptWriteDate, String scriptTag, int scriptState, int rejectedNo,
+			String scriptContent, Timestamp scriptWriteDate, String scriptTag, int scriptState, int rejectedNo,
 			String rejectedReson) {
 		super(scriptNo, scriptWriter, scriptTitle, scriptCategory, scriptContent, scriptWriteDate, scriptTag,
 				scriptState);

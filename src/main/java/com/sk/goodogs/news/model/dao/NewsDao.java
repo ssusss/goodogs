@@ -6,6 +6,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -62,11 +63,11 @@ public class NewsDao {
 			String newsTitle = rset.getString("news_title");
 			String newsCategory = rset.getString("news_category");
 			String newsContent = rset.getString("news_content");
-			Date newsWriteDate = rset.getDate("news_write_date");
+			Timestamp newsWriteDate = rset.getTimestamp("news_write_date");
 			String newsTag = rset.getString("news_tag");
 			int newsLikeCnt = rset.getInt("news_like_cnt");
 			int newsReadCnt = rset.getInt("news_read_cnt");
-			Date newsConfirmedDate = rset.getDate("news_confirmed_date");
+			Timestamp newsConfirmedDate = rset.getTimestamp("news_confirmed_date");
 			
 			return new News(newsNo, newsWriter, newsTitle, newsCategory, newsContent, newsWriteDate, newsTag, newsLikeCnt, newsReadCnt, newsConfirmedDate);
 		}
@@ -96,7 +97,7 @@ public class NewsDao {
 			String scriptTitle = rset.getString("script_title");
 			String scriptCategory = rset.getString("script_category");
 			String scriptContent = rset.getString("script_content");
-			Date scriptWriteDate = rset.getDate("script_write_date");
+			Timestamp scriptWriteDate = rset.getTimestamp("script_write_date");
 			String scriptTag = rset.getString("script_tag");
 			int scriptState = rset.getInt("script_state");
 			NewsScript newsScript = new NewsScript(scriptNo, scriptWriter, scriptTitle, scriptCategory, scriptContent, scriptWriteDate, scriptTag, scriptState);
@@ -164,7 +165,7 @@ public class NewsDao {
 						String scriptTitle = rset.getString("script_title");
 						String scriptCategory = rset.getString("script_category");
 						String scriptContent = rset.getString("script_content");
-						Date scriptWriteDate = rset.getDate("script_write_date");
+						Timestamp scriptWriteDate = rset.getTimestamp("script_write_date");
 						String scriptTag = rset.getString("script_tag");
 						int scriptState = rset.getInt("script_state");
 						newsScript = new NewsScript(scriptNo_, scriptWriter, scriptTitle, scriptCategory, scriptContent, scriptWriteDate, scriptTag, scriptState);
@@ -175,6 +176,77 @@ public class NewsDao {
 			}
 			
 			return newsScript;
+		}
+
+		/***
+		 * @author 이혜령
+		 * 메인메뉴 페이지 구현
+		 */
+		public int getTotalContent(Connection conn) {
+			int totalContent = 0;
+			String sql = prop.getProperty("getTotalContent");
+			try (PreparedStatement pstmt = conn.prepareStatement(sql)){
+				try (ResultSet rset = pstmt.executeQuery()) {
+					if(rset.next())
+						totalContent = rset.getInt(1);
+				}
+			} catch (SQLException e) {
+				throw new NewsException(e);
+			}
+			return totalContent;
+		}
+		
+		
+		public List<News> findNews(Connection conn, int start, int end) {
+			List<News> news = new ArrayList<>();
+			String sql = prop.getProperty("findNews");
+			try(PreparedStatement pstmt = conn.prepareStatement(sql)) {
+				pstmt.setInt(1, start);
+				pstmt.setInt(2, end);
+				
+				try(ResultSet rset = pstmt.executeQuery()) {
+					while(rset.next())
+						news.add(handleNewsResultSet(rset));
+				}
+				
+			} catch (SQLException e) {
+				throw new NewsException(e);
+			}
+			return news;
+		}
+
+		public int getContentByCategory(Connection conn, String category) {
+			int categoryContent = 0;
+			String sql = prop.getProperty("getContentByCategory");
+			try (PreparedStatement pstmt = conn.prepareStatement(sql)){
+				pstmt.setString(1, category);
+				try (ResultSet rset = pstmt.executeQuery()) {
+					if(rset.next())
+						categoryContent = rset.getInt(1);
+				}
+			} catch (SQLException e) {
+				throw new NewsException(e);
+			}
+			return categoryContent;
+		}
+
+		public List<News> findNewsByCategory(Connection conn, int start, int end, String category) {
+			List<News> news = new ArrayList<>();
+			String sql = prop.getProperty("findNewsByCategory");
+			try(PreparedStatement pstmt = conn.prepareStatement(sql)) {
+				pstmt.setString(1, category);
+				pstmt.setInt(2, start);
+				pstmt.setInt(3, end);
+				
+				try(ResultSet rset = pstmt.executeQuery()) {
+					while(rset.next())
+						news.add(handleNewsResultSet(rset));
+				}
+				
+			} catch (SQLException e) {
+				throw new NewsException(e);
+			}
+			return news;
 		}
 
 }

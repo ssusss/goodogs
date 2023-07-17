@@ -93,5 +93,37 @@ public class NewsService {
 		return newsScript;
 	}
 	
+	/***
+	 * @author 이혜령
+	 * 메인메뉴 페이지 구현
+	 */
+	public int getTotalContent() {
+		Connection conn = getConnection();
+		int totalContent = newsDao.getTotalContent(conn);
+		close(conn);
+		return totalContent;
+	}
+	
+	
+	public List<News> findNews(int start, int end) {
+		Connection conn = getConnection();
+		List<News> news = newsDao.findNews(conn, start, end);
+		close(conn);
+		return news;
+	}
+	public int getContentByCategory(String category) {
+		Connection conn = getConnection();
+		int categoryContent = newsDao.getContentByCategory(conn, category);
+		close(conn);
+		return categoryContent;
+	}
+	public List<News> findNewsByCategory(int start, int end, String category) {
+		Connection conn = getConnection();
+		List<News> news = newsDao.findNewsByCategory(conn, start, end, category);
+		close(conn);
+		return news;
+	}
+
+
 	
 }
