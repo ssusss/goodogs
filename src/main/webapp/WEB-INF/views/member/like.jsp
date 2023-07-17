@@ -6,6 +6,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ include file="/WEB-INF/views/common/header.jsp" %>
+<% int totalPage = (int) request.getAttribute("totalPage"); %>
 <%
 	// 전수경 - 좋아요 테이블에서 로그인 회원의 좋아요 기사 조회해오기 GET 요청
 	List<LikeList> likes = (List<LikeList>) request.getAttribute("likes");
@@ -34,7 +35,7 @@ bannerContainerUpper.style.display = "none";
 	<div>
 		<p>이 기사 좋았개</p>
 	</div>
-<% if(likes.isEmpty()|| likes == null) { %>
+<% if(likes.isEmpty() || likes == null) { %>
 	<h1>아직 좋아요한 기사가 없개!</h1>
 <% } else { %>
 	<h1><%= likes.size() %>개의 기사에 좋아요 눌렀개!</h1>
@@ -97,6 +98,8 @@ bannerContainerUpper.style.display = "none";
 	  	} 
 	  %>
 </section>
+
+
 
 
 <%@ include file="/WEB-INF/views/common/footer.jsp" %>
