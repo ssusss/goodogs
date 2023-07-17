@@ -25,7 +25,7 @@ public class AdminScriptStatFind extends HttpServlet {
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
-		int scriptState=Integer.valueOf(request.getParameter("sciptState"));
+		int scriptState=Integer.valueOf(request.getParameter("scriptState"));
 		System.out.println(scriptState);
 		
 		List<NewsScript> scripts=adminService.scriptFind(scriptState);

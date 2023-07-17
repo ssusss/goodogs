@@ -9,26 +9,15 @@ public class NewsScriptRejected extends NewsScript{
 	private String rejectedReson;
 	
 	public NewsScriptRejected() {}
-	
 
-	public NewsScriptRejected(int rejectedNo, String rejectedReson) {
+
+	public NewsScriptRejected(int rejectedNo, int scriptNo, String scriptWriter, String scriptTitle, String scriptCategory,
+			String scriptContent, Timestamp scriptWriteDate, String scriptTag, int scriptState,String rejectedReson) {
 		super();
 		this.rejectedNo = rejectedNo;
 		this.rejectedReson = rejectedReson;
 	}
-	
-	
-	
 
-
-	public NewsScriptRejected(int scriptNo, String scriptWriter, String scriptTitle, String scriptCategory,
-			String scriptContent, Timestamp scriptWriteDate, String scriptTag, int scriptState, int rejectedNo,
-			String rejectedReson) {
-		super(scriptNo, scriptWriter, scriptTitle, scriptCategory, scriptContent, scriptWriteDate, scriptTag,
-				scriptState);
-		this.rejectedNo = rejectedNo;
-		this.rejectedReson = rejectedReson;
-	}
 
 
 	public int getRejectedNo() {
@@ -43,8 +32,16 @@ public class NewsScriptRejected extends NewsScript{
 	public void setRejectedReson(String rejectedReson) {
 		this.rejectedReson = rejectedReson;
 	}
+
+	@Override
+	public String toString() {
+		return "NewsScriptRejected [rejectedNo=" + rejectedNo + ", rejectedReson=" + rejectedReson +
+				", toString()=" + super.toString() + "]";
 	
-	
+	}
+
+
+
 	
 	
 	

@@ -6,6 +6,7 @@ import java.util.List;
 import com.sk.goodogs.admin.model.dao.AdminDao;
 import com.sk.goodogs.news.model.vo.NewsComment;
 import com.sk.goodogs.news.model.vo.NewsScript;
+import com.sk.goodogs.news.model.vo.NewsScriptRejected;
 import com.sk.goodogs.member.model.dao.MemberDao;
 import com.sk.goodogs.member.model.vo.Member;
 
@@ -118,6 +119,15 @@ public class AdminService {
 			close(conn);
 		}
 		return result;
+	}
+
+	public NewsScriptRejected findOneRejectedScript(int no) {
+		 NewsScriptRejected rejectedScript=null;
+		Connection conn = getConnection();
+		rejectedScript=adminDao.findOneRejectedScript(no,conn );
+		close(conn);
+		
+		return rejectedScript;
 	}
 		
 
