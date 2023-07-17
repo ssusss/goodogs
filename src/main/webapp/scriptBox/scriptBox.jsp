@@ -161,7 +161,6 @@
 			
 		});
 		
-		$ajax
 		
 		e.preventDefault();
 		};
