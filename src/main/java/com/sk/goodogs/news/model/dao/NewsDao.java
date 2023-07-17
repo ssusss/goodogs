@@ -216,6 +216,42 @@ public class NewsDao {
 			return news;
 		}
 
+
+		public int getContentByCategory(Connection conn, String category) {
+			int categoryContent = 0;
+			String sql = prop.getProperty("getContentByCategory");
+			try (PreparedStatement pstmt = conn.prepareStatement(sql)){
+				pstmt.setString(1, category);
+				try (ResultSet rset = pstmt.executeQuery()) {
+					if(rset.next())
+						categoryContent = rset.getInt(1);
+				}
+			} catch (SQLException e) {
+				throw new NewsException(e);
+			}
+			return categoryContent;
+		}
+
+		public List<News> findNewsByCategory(Connection conn, int start, int end, String category) {
+			List<News> news = new ArrayList<>();
+			String sql = prop.getProperty("findNewsByCategory");
+			try(PreparedStatement pstmt = conn.prepareStatement(sql)) {
+				pstmt.setString(1, category);
+				pstmt.setInt(2, start);
+				pstmt.setInt(3, end);
+				
+				try(ResultSet rset = pstmt.executeQuery()) {
+					while(rset.next())
+						news.add(handleNewsResultSet(rset));
+				}
+				
+			} catch (SQLException e) {
+				throw new NewsException(e);
+			}
+			return news;
+		}
+
+
 		public int getLastScriptNo(Connection conn) {
 			int lastScriptNo = 0;
 			String sql = prop.getProperty("getLastScriptNo");
@@ -273,4 +309,5 @@ public class NewsDao {
 			}
 			return news;
 		}
+
 }
