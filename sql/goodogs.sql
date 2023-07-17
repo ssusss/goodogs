@@ -337,33 +337,34 @@ insert into news_comment values (118, 1000, 1,'sejong@naver.com', null,'킹세�
 insert into news_comment values (119, 1000, 1,'kdc0526@naver.com', null, '동찬','아닌강.ㅋ', to_date('20180425','yyyymmdd'), 3, 0);
 
 
----- 테스트
---select * from member;
---select * from news_comment;
---update member set is_banned = 0 where member_id = 'honggd@naver.com';
---commit;
---
---
---select * from news where news_writer = 'kjh0425@naver.com';
---
---select * from news_script;
---select * from news_script where script_writer = ?;
---
---delete from news_script where script_no = ?;
---
----- 트리거 테스트
---select * from news_script;
---update news_script set script_state = 2 where script_no = 8;
---select * from news;
---
---select * from news;
---delete from news where news_no = 1003;
---select * from deleted_news;
---
---select * from member;
---delete from member where member_id = 'naga@naver.com';
---select * from withdraw_member;
---
---select * from news_script;
---update news_script set script_state = 3 where script_no = 4;
---select * from news_script_rejected;
+-- 테스트
+select * from member;
+select * from news_comment;
+update member set is_banned = 0 where member_id = 'honggd@naver.com';
+commit;
+
+
+select * from news where news_writer = 'kjh0425@naver.com';
+
+select * from news_script;
+select * from news_script where script_writer = ?;
+
+delete from news_script where script_no = ?;
+
+select * from news_image;
+-- 트리거 테스트
+select * from news_script;
+update news_script set script_state = 2 where script_no = 8;
+select * from news;
+
+select * from news;
+delete from news where news_no = 1003;
+select * from deleted_news;
+
+select * from member;
+delete from member where member_id = 'naga@naver.com';
+select * from withdraw_member;
+
+select * from news_script;
+update news_script set script_state = 3 where script_no = 4;
+select * from news_script_rejected;
