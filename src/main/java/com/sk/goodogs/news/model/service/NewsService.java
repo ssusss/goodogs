@@ -143,6 +143,11 @@ public class NewsService {
 		
 		return result;
 	}
+	public News findNewsByNewsNo(int newsNo) {
+		Connection conn = getConnection();
+		News news = newsDao.findNewsByNewsNo(conn, newsNo);
+		return news;
+	}
 
 	
 }
