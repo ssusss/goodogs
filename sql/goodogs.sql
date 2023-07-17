@@ -279,6 +279,7 @@ BEGIN
 END;
 /
 
+
 --=================================================
 -- sample data 생성
 --=================================================
@@ -349,6 +350,10 @@ insert into news_image values(11,'제목없음.png','20230717_093900145_618.png'
 
 -- like_list 샘플 데이터
 insert into like_list values('honggd@naver.com', 1000, default);
+insert into like_list values('honggd@naver.com', 1001, default);
+insert into like_list values('honggd@naver.com', 1002, default);
+insert into like_list values('admin@naver.com', 1000, default);
+insert into like_list values('admin@naver.com', 1001, default);
 --select * from like_list where member_id = 'honggd@naver.com';
 
 

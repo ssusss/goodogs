@@ -234,6 +234,42 @@ public class NewsDao {
 		    return new NewsAndImage(newsNo, newsWriter, newsTitle, newsCategory, newsContent, newsWriteDate, newsTag, newsLikeCnt, newsReadCnt, newsConfirmedDate, renamedFilename);
 		}
 
+
+		public int getContentByCategory(Connection conn, String category) {
+			int categoryContent = 0;
+			String sql = prop.getProperty("getContentByCategory");
+			try (PreparedStatement pstmt = conn.prepareStatement(sql)){
+				pstmt.setString(1, category);
+				try (ResultSet rset = pstmt.executeQuery()) {
+					if(rset.next())
+						categoryContent = rset.getInt(1);
+				}
+			} catch (SQLException e) {
+				throw new NewsException(e);
+			}
+			return categoryContent;
+		}
+
+		public List<News> findNewsByCategory(Connection conn, int start, int end, String category) {
+			List<News> news = new ArrayList<>();
+			String sql = prop.getProperty("findNewsByCategory");
+			try(PreparedStatement pstmt = conn.prepareStatement(sql)) {
+				pstmt.setString(1, category);
+				pstmt.setInt(2, start);
+				pstmt.setInt(3, end);
+				
+				try(ResultSet rset = pstmt.executeQuery()) {
+					while(rset.next())
+						news.add(handleNewsResultSet(rset));
+				}
+				
+			} catch (SQLException e) {
+				throw new NewsException(e);
+			}
+			return news;
+		}
+
+
 		public int getLastScriptNo(Connection conn) {
 			int lastScriptNo = 0;
 			String sql = prop.getProperty("getLastScriptNo");
@@ -269,25 +305,28 @@ public class NewsDao {
 			return result;
 		}
 
-		public NewsImage findAllImage(Connection conn, int newsNo) {
-			NewsImage newsImage = new NewsImage();
-			String sql = prop.getProperty("findAllImage");
-			try (PreparedStatement pstmt = conn.prepareStatement(sql)){
+
+		/**
+		 * @author 전수경
+		 *  - 뉴스번호로 뉴스 조회하기
+		 *  - LikeList에서 newsTitle 설정용
+		 */
+		public News findNewsByNewsNo(Connection conn, int newsNo) {
+			News news = null;
+			String sql = prop.getProperty("findNewsByNewsNo");
+			// select * from news where news_no = ?
+			try(PreparedStatement pstmt = conn.prepareStatement(sql)){
 				pstmt.setInt(1, newsNo);
-				try (ResultSet rset = pstmt.executeQuery()) {
+				
+				try(ResultSet rset = pstmt.executeQuery()){
 					while(rset.next()) {
-						String originalImagename = rset.getString("original_imagename");
-						String renamedFilename = rset.getString("renamed_filename");
-						Timestamp imageRegDate = rset.getTimestamp("image_reg_date");
-						
-						newsImage = new NewsImage(newsNo, originalImagename, renamedFilename, imageRegDate);
+						news = handleNewsResultSet(rset);
 					}
 				}
 			} catch (SQLException e) {
 				throw new NewsException(e);
 			}
-			return newsImage;
-		
+			return news;
+		}
 
-	}
 }

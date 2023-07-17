@@ -1,55 +1,41 @@
 package com.sk.goodogs.like.model.vo;
 
-import java.sql.Date;
 import java.sql.Timestamp;
 
-/**
- * @author 전수경
- * - 테이블에는 없지만 뉴스 제목을 담는 편의용 변수 newsTitle 추가 
- */
-public class LikeList {
-	private String memberId;
-	private int newsNo;
-	private Timestamp likeDate;
-	
+public class LikeList extends LikeListEntity {
+	// 편의용 변수 추가
+	String newsTitle;
+
 	public LikeList() {
 		super();
 	}
 
-	public LikeList(String memberId, int newsNo, Timestamp likeDate) {
+	public LikeList(String newsTitle) {
 		super();
-		this.memberId = memberId;
-		this.newsNo = newsNo;
-		this.likeDate = likeDate;
+		this.newsTitle = newsTitle;
+	}
+	
+	public LikeList(String memberId, int newsNo, Timestamp likeDate) {
+		super(memberId, newsNo, likeDate);
 	}
 
-	public String getMemberId() {
-		return memberId;
+	public LikeList(String memberId, int newsNo, Timestamp likeDate, String newsTitle) {
+		super(memberId, newsNo, likeDate);
+		this.newsTitle = newsTitle;
 	}
 
-	public void setMemberId(String memberId) {
-		this.memberId = memberId;
+	public String getNewsTitle() {
+		return newsTitle;
 	}
 
-	public int getNewsNo() {
-		return newsNo;
-	}
-
-	public void setNewsNo(int newsNo) {
-		this.newsNo = newsNo;
-	}
-
-	public Timestamp getLikeDate() {
-		return likeDate;
-	}
-
-	public void setLikeDate(Timestamp likeDate) {
-		this.likeDate = likeDate;
+	public void setNewsTitle(String newsTitle) {
+		this.newsTitle = newsTitle;
 	}
 
 	@Override
 	public String toString() {
-		return "LikeList [memberId=" + memberId + ", newsNo=" + newsNo + ", likeDate=" + likeDate + "]";
+		return "LikeList [newsTitle=" + newsTitle + "]";
 	}
+	
 
 }

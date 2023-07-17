@@ -113,6 +113,21 @@ public class NewsService {
 		close(conn);
 		return newsAndImages;
 	}
+
+	public int getContentByCategory(String category) {
+		Connection conn = getConnection();
+		int categoryContent = newsDao.getContentByCategory(conn, category);
+		close(conn);
+		return categoryContent;
+	}
+	public List<News> findNewsByCategory(int start, int end, String category) {
+		Connection conn = getConnection();
+		List<News> news = newsDao.findNewsByCategory(conn, start, end, category);
+		close(conn);
+		return news;
+	}
+
+
 	public int getLastScriptNo() {
 		int lastScriptNo = 0;
 		Connection conn = getConnection();
@@ -144,12 +159,12 @@ public class NewsService {
 		
 		return result;
 	}
-	public NewsImage findAllImage(int newsNo) {
+
+	public News findNewsByNewsNo(int newsNo) {
 		Connection conn = getConnection();
-		NewsImage newsImage = newsDao.findAllImage(conn, newsNo);
-		close(conn);
-		return newsImage;
+		News news = newsDao.findNewsByNewsNo(conn, newsNo);
+		return news;
 	}
-	
+
 	
 }
