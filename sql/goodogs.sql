@@ -279,6 +279,7 @@ BEGIN
 END;
 /
 
+
 --=================================================
 -- sample data 생성
 --=================================================
@@ -338,6 +339,10 @@ insert into news_comment values (119, 1000, 1,'kdc0526@naver.com', null, '동찬
 
 -- like_list 샘플 데이터
 insert into like_list values('honggd@naver.com', 1000, default);
+insert into like_list values('honggd@naver.com', 1001, default);
+insert into like_list values('honggd@naver.com', 1002, default);
+insert into like_list values('admin@naver.com', 1000, default);
+insert into like_list values('admin@naver.com', 1001, default);
 --select * from like_list where member_id = 'honggd@naver.com';
 
 
