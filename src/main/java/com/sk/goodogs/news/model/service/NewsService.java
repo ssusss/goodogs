@@ -3,6 +3,7 @@ package com.sk.goodogs.news.model.service;
 import static com.sk.goodogs.common.JdbcTemplate.*;
 
 import java.sql.Connection;
+import java.util.ArrayList;
 import java.util.List;
 
 import com.sk.goodogs.member.model.vo.Member;
@@ -165,6 +166,17 @@ public class NewsService {
 		News news = newsDao.findNewsByNewsNo(conn, newsNo);
 		return news;
 	}
-
+	public List<News> findByNewsName(String term) {
+		Connection conn = getConnection();
+		List<News> newsnames = newsDao.findAllNewsName(conn);
+		List<News> results = new ArrayList<>();
+		for(News news: newsnames) {
+			if(news.getNewsTitle().indexOf(term)> -1) {
+				results.add(news);
+			}
+		}
+		return results;
+	}
+	
 	
 }

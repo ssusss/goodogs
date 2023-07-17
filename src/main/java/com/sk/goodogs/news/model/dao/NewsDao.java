@@ -329,4 +329,23 @@ public class NewsDao {
 			return news;
 		}
 
+		public List<News> findAllNewsName(Connection conn) {
+			List<News> newsnames = new ArrayList<>();
+			String sql = prop.getProperty("findAllNewsName");
+			try(
+				PreparedStatement pstmt = conn.prepareStatement(sql)) {
+				try(ResultSet rset = pstmt.executeQuery()){
+					while(rset.next()) {
+						newsnames.add(handleNewsResultSet(rset));
+					}
+				}
+			} catch (Exception e) {
+				throw new NewsException(e);
+			}
+			
+			
+			
+			return newsnames;
+		}
+
 }
