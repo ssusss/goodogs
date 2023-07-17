@@ -1,5 +1,7 @@
 package com.sk.goodogs.like.model.dao;
 
+import java.io.FileReader;
+import java.io.IOException;
 import java.sql.Connection;
 import java.sql.Date;
 import java.sql.PreparedStatement;
@@ -20,12 +22,23 @@ import com.sk.goodogs.like.model.vo.LikeListEntity;
 public class LikeDao {
 	
 	private Properties prop = new Properties();
+	
+
+	public LikeDao() {
+		String filename = 
+			LikeDao.class.getResource("/sql/like/like-query.properties").getPath();
+		try {
+			prop.load(new FileReader(filename));
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
 
 	public List<LikeListEntity> findLikesByMemberId(Connection conn, String memberId) {
 		List<LikeListEntity> likes = new ArrayList<>();
 		LikeListEntity likeListEntity = null;
 		// select * from like_list where member_id =?
-		String sql = "select * from like_list where member_id =?";
+		String sql = prop.getProperty("findLikesByMemberId");
 		
 		try (PreparedStatement pstmt = conn.prepareStatement(sql)){
 			pstmt.setString(1, memberId);
