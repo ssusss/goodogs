@@ -354,9 +354,11 @@ insert into like_list values('honggd@naver.com', 9, default);
 insert into like_list values('honggd@naver.com', 10, default);
 insert into like_list values('admin@naver.com', 8, default);
 insert into like_list values('admin@naver.com', 9, default);
---select * from like_list where member_id = 'honggd@naver.com';
-
-
+--북마크 샘플 데이터
+insert into bookmark values('honggd@naver.com',8,'백두산이',DEFAULT );
+insert into bookmark values('honggd@naver.com',9,'소나무',DEFAULT );
+insert into bookmark values('kjh0425@naver.com',9,'소나무',DEFAULT );
+insert into bookmark values('kdc0526@naver.com',9,'소나무',DEFAULT );
 commit;
 
 
@@ -378,11 +380,9 @@ select * from news_image;
 select * from news;
 
 
-select
-    *
-from
-    news n join news_image ni on n.news_no = ni. 
 
+
+select * from bookmark;
 --select * from news_script where script_writer = ?;
 --
 --delete from news_script where script_no = ?;
