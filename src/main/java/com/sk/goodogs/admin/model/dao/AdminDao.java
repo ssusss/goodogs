@@ -15,6 +15,7 @@ import java.util.Properties;
 
 import com.sk.goodogs.news.model.vo.NewsComment;
 import com.sk.goodogs.news.model.vo.NewsScript;
+import com.sk.goodogs.news.model.vo.NewsScriptRejected;
 
 import javax.naming.spi.DirStateFactory.Result;
 import static com.sk.goodogs.common.JdbcTemplate.*;
@@ -296,6 +297,45 @@ public int scriptUpdate(NewsScript script, Connection conn) {
 	}
 	
 	return result;
+}
+
+
+
+public NewsScriptRejected findOneRejectedScript(int no, Connection conn) {
+	NewsScriptRejected rejectedScript=null;
+	String sql=prop.getProperty("findOneRejectedScript");
+	
+	try(PreparedStatement pstmt = conn.prepareStatement(sql)) {
+		pstmt.setInt(1,no);
+		try(ResultSet rset=pstmt.executeQuery()){
+			while(rset.next()) {
+				rejectedScript=handleRejectedScriptResultSet(rset);
+			}
+		}
+	} catch (SQLException e) {
+		throw new AdminException(e);
+	}
+	
+	return rejectedScript;
+}
+
+
+
+private NewsScriptRejected handleRejectedScriptResultSet(ResultSet rset) throws SQLException{
+	
+	NewsScriptRejected scriptRejected = new NewsScriptRejected();
+	
+	scriptRejected.setRejectedNo(rset.getInt("script_rejected_no"));
+	scriptRejected.setScriptNo(rset.getInt("script_no"));
+	scriptRejected.setScriptWriter(rset.getString("script_writer"));
+	scriptRejected.setScriptTitle(rset.getString("script_title"));
+	scriptRejected.setScriptCategory(rset.getString("script_category"));
+	scriptRejected.setScriptContent(rset.getString("script_content"));
+	scriptRejected.setScriptWriteDate(rset.getTimestamp("script_write_date"));
+	scriptRejected.setScriptTag(rset.getString("script_tag"));
+	scriptRejected.setRejectedReson(rset.getString("script_rejected_reason"));
+
+	return scriptRejected;
 }
 
 

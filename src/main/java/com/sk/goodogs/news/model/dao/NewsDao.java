@@ -19,6 +19,7 @@ import com.sk.goodogs.member.model.vo.Member;
 import com.sk.goodogs.news.model.exception.NewsException;
 import com.sk.goodogs.news.model.vo.News;
 import com.sk.goodogs.news.model.vo.NewsComment;
+import com.sk.goodogs.news.model.vo.NewsAndImage;
 import com.sk.goodogs.news.model.vo.NewsImage;
 import com.sk.goodogs.news.model.vo.NewsScript;
 
@@ -199,8 +200,8 @@ public class NewsDao {
 		}
 		
 		
-		public List<News> findNews(Connection conn, int start, int end) {
-			List<News> news = new ArrayList<>();
+		public List<NewsAndImage> findNews(Connection conn, int start, int end) {
+			List<NewsAndImage> newsAndImages = new ArrayList<>();
 			String sql = prop.getProperty("findNews");
 			try(PreparedStatement pstmt = conn.prepareStatement(sql)) {
 				pstmt.setInt(1, start);
@@ -208,13 +209,29 @@ public class NewsDao {
 				
 				try(ResultSet rset = pstmt.executeQuery()) {
 					while(rset.next())
-						news.add(handleNewsResultSet(rset));
+						newsAndImages.add(handleNewsAndImageResultSet(rset));
 				}
 				
 			} catch (SQLException e) {
 				throw new NewsException(e);
 			}
-			return news;
+			return newsAndImages;
+		}
+
+		private NewsAndImage handleNewsAndImageResultSet(ResultSet rset) throws SQLException {
+		    int newsNo = rset.getInt("news_no");
+		    String newsWriter = rset.getString("news_writer");
+		    String newsTitle = rset.getString("news_title");
+		    String newsCategory = rset.getString("news_category");
+		    String newsContent = rset.getString("news_content");
+		    Timestamp newsWriteDate = rset.getTimestamp("news_write_date");
+		    String newsTag = rset.getString("news_tag");
+		    int newsLikeCnt = rset.getInt("news_like_cnt");
+		    int newsReadCnt = rset.getInt("news_read_cnt");
+		    Timestamp newsConfirmedDate = rset.getTimestamp("news_confirmed_date");
+		    String renamedFilename = rset.getString("renamed_filename");
+
+		    return new NewsAndImage(newsNo, newsWriter, newsTitle, newsCategory, newsContent, newsWriteDate, newsTag, newsLikeCnt, newsReadCnt, newsConfirmedDate, renamedFilename);
 		}
 
 
@@ -287,6 +304,7 @@ public class NewsDao {
 			
 			return result;
 		}
+
 
 		/**
 		 * @author 전수경

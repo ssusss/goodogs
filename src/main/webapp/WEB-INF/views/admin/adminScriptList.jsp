@@ -143,27 +143,34 @@ function serchScript(frm){
 					scriptTag,scriptTitle,scriptWriteDate,scriptWriter}=script;
 				
 					let scriptStateText = "";
+					let link="";
+					
+					
 			          switch (scriptState) {
 			            case 1:
-			              scriptStateText = "미확인";
-			              break;
+				              scriptStateText = "미확인";
+				              link=`<a href="<%= request.getContextPath() %>/admin/scriptDetail?no=\${scriptNo}">\${scriptTitle}</a>`;
+			             	 break;
 			            case 2:
 				              scriptStateText = "승인";
+				              link=`<a href="<%= request.getContextPath() %>/admin/scriptDetail?no=\${scriptNo}">\${scriptTitle}</a>`;
 				              break;
 			            case 3:
 				              scriptStateText = "반려";
+				              link=`<a href="<%= request.getContextPath() %>/admin/scriptDetail?no=\${scriptNo}">\${scriptTitle}</a>`;
 				              break;
 			            default:
 			              scriptStateText = "상태이상";
 			              break;
-				};
+					};
 				
+					
 				const formattedDate = formatDate(scriptWriteDate);
 					
 				return html +`
 				<tr>
 					<td colspan="2">\${scriptWriter}</td>
-					<td colspan="3"><a href="<%= request.getContextPath() %>/admin/scriptDetail?no=\${scriptNo}">\${scriptTitle}</a></td>
+					<td colspan="3">\${link}</td>
 					<td colspan="1">\${scriptCategory}</td>
 					<td colspan="1">\${formattedDate}</td>
 					<td colspan="1">\${scriptStateText}</td>
@@ -233,26 +240,35 @@ const findScriptState=(scriptState)=>{
 						
 					
 						let scriptStateText = "";
+						let link="";
+						
+						
+						
 				          switch (scriptState) {
 				            case 1:
-				              scriptStateText = "미확인";
-				              break;
+					              scriptStateText = "미확인";
+					              link=`<a href="<%= request.getContextPath() %>/admin/scriptDetail?no=\${scriptNo}">\${scriptTitle}</a>`;
+				             	 break;
 				            case 2:
 					              scriptStateText = "승인";
+					              link=`<a href="<%= request.getContextPath() %>/admin/scriptDetail?no=\${scriptNo}">\${scriptTitle}</a>`;
 					              break;
 				            case 3:
 					              scriptStateText = "반려";
+					              link=`<a href="<%= request.getContextPath() %>/admin/script/rejectedDetail?no=\${scriptNo}">\${scriptTitle}</a>`;
 					              break;
 				            default:
 				              scriptStateText = "상태이상";
 				              break;
-					};
+						};
 					const formattedDate = formatDate(scriptWriteDate);
+		
 						
+					
 					return html +`
 					<tr>
 						<td colspan="2">\${scriptWriter}</td>
-						<td colspan="3"><a href="<%= request.getContextPath() %>/admin/scriptDetail?no=\${scriptNo}">\${scriptTitle}</a></td>
+						<td colspan="3">\${link}</td>
 						<td colspan="1">\${scriptCategory}</td>
 						<td colspan="1">\${formattedDate}</td>
 						<td colspan="1">\${scriptStateText}</td>
