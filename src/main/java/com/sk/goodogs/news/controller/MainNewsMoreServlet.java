@@ -12,6 +12,7 @@ import javax.servlet.http.HttpServletResponse;
 import com.google.gson.Gson;
 import com.sk.goodogs.news.model.service.NewsService;
 import com.sk.goodogs.news.model.vo.News;
+import com.sk.goodogs.news.model.vo.NewsAndImage;
 
 /***
  * @author 이혜령
@@ -40,12 +41,12 @@ public class MainNewsMoreServlet extends HttpServlet {
 		int end = cpage * limit;
 		
 		// 2. 업무로직 (
-		List<News> news = newsService.findNews(start, end);
-		System.out.println("news : " + news);
+		List<NewsAndImage> newsAndImages = newsService.findNews(start, end);
+		System.out.println("newsAndImage : " + newsAndImages);
 		
 		// 3. 응답처리 (json)
 		response.setContentType("application/json; charset=utf-8");
-		new Gson().toJson(news, response.getWriter());
+		new Gson().toJson(newsAndImages, response.getWriter());
 	}
 
 }

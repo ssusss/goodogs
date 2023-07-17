@@ -2,18 +2,18 @@ package com.sk.goodogs.bookmark.model.vo;
 
 import java.sql.Timestamp;
 
-public class BookMarkEntity {
+public class BookmarkEntity {
 	
 	private String memberId;
 	private int newsNo;
 	private String newBookmarkedContent;
 	private Timestamp bookmarkDate;
 	
-	public BookMarkEntity() {
+	public BookmarkEntity() {
 		super();
 	}
 
-	public BookMarkEntity(String memberId, int newsNo, String newBookmarkedContent, Timestamp bookmarkDate) {
+	public BookmarkEntity(String memberId, int newsNo, String newBookmarkedContent, Timestamp bookmarkDate) {
 		super();
 		this.memberId = memberId;
 		this.newsNo = newsNo;
@@ -55,9 +55,8 @@ public class BookMarkEntity {
 
 	@Override
 	public String toString() {
-		return "BookMarkEntity [memberId=" + memberId + ", newsNo=" + newsNo + ", newBookmarkedContent="
+		return "BookmarkEntity [memberId=" + memberId + ", newsNo=" + newsNo + ", newBookmarkedContent="
 				+ newBookmarkedContent + ", bookmarkDate=" + bookmarkDate + "]";
 	}
-	
-	
+
 }

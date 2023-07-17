@@ -35,8 +35,8 @@ import com.sk.goodogs.news.model.vo.News;
 @WebServlet("/like/likePage")
 public class LikeListServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-	public final LikeService likeService = new LikeService();
-	public final NewsService newsService = new NewsService();
+	private final LikeService likeService = new LikeService();
+	private final NewsService newsService = new NewsService();
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// 로그인회원정보 가져오기
