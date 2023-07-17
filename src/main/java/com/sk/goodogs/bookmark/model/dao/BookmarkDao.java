@@ -1,5 +1,7 @@
 package com.sk.goodogs.bookmark.model.dao;
 
+import java.io.FileReader;
+import java.io.IOException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -19,6 +21,16 @@ import com.sk.goodogs.bookmark.model.vo.Bookmark;
 public class BookmarkDao {
 	private Properties prop = new Properties();
 
+	public BookmarkDao() {
+		String filename = 
+				BookmarkDao.class.getResource("/sql/bookmark/bookmark-query.properties").getPath();
+		try {
+			prop.load(new FileReader(filename));
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+	
 	/**
 	 * @author 전수경
 	 */
