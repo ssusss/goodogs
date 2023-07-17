@@ -10,6 +10,10 @@
 	// 전수경 - 좋아요 테이블에서 로그인 회원의 좋아요 기사 조회해오기 GET 요청
 	List<LikeList> likes = (List<LikeList>) request.getAttribute("likes");
 %>
+<!-- CSS 스타일 시트 -->
+<link rel="stylesheet" href="<%=request.getContextPath()%>/css/style.css" />
+<link rel="stylesheet" href="<%=request.getContextPath()%>/css/member.css" />
+
 <script src="<%= request.getContextPath() %>/js/jquery-3.7.0.js"></script>
 <!-- 
 	@author 이혜령 
@@ -66,5 +70,33 @@ bannerContainerUpper.style.display = "none";
 	  </tbody>
 	</table>
 </div>
+
+<section>
+	  <%
+	  if(!likes.isEmpty()&& likes != null) {
+	  	  for(LikeList like : likes) {
+	  %>
+		<div class="posts">
+		<!-- 뉴스 페이지로 연결 -->
+		<a class="card" href="<%= request.getContextPath()%>/news/newsDetail?no=<%= like.getNewsNo() %>">
+			<div class="card-inner">
+				<figure class="card-thumbnail"> <!-- 기사 썸네일 -->
+					<img src="<%= request.getContextPath() %>/images/character/goodogs_face.png">
+				</figure>			
+				<div class="card-body">
+				<!-- 기사 제목/날짜/카테고리 박스 -->
+					<h3 class="card-title"><%= like.getNewsTitle() %></h3> <!-- 기사 제목 -->
+					<time class="card-date"><%= like.getLikeDate() %></time> <!-- 기사 날짜 -->
+					<span class="card-category">학원</span> <!-- 기사 카테고리 -->
+				</div>
+			</div>
+		</a>	
+	</div>
+	  <% 
+		  }
+	  	} 
+	  %>
+</section>
+
 
 <%@ include file="/WEB-INF/views/common/footer.jsp" %>
