@@ -1,13 +1,14 @@
-<%@page import="com.sk.goodogs.member.model.vo.Gender"%>
+<%@page import="com.sk.goodogs.bookmark.model.vo.Bookmark"%>
 <%@page import="java.util.Arrays"%>
 <%@page import="java.util.List"%>
-<%@page import="java.sql.Date"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ include file="/WEB-INF/views/common/header.jsp" %>
-
+<%
+	List<Bookmark> bookmarks = (List<Bookmark>) request.getAttribute("bookmarks");
+%>
 <!-- 
-	@author 이혜령 
+	@author 이혜령, 전수경
 	- 북마크 목록 페이지
 -->
 <script>
