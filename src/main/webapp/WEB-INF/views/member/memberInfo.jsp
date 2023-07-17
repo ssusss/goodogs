@@ -108,7 +108,6 @@ document.memberUpdateFrm.onsubmit = (e) => {
 	const password = e.target.password;
 	const phone = e.target.phone;
 	
-	// 비밀번호 검사
 	
 }
 </script>

@@ -29,7 +29,11 @@ public class AdminSerchScriptServlet extends HttpServlet {
 		
 		String searchTypeVal=request.getParameter("searchTypeVal");
 		String searchKeywordVal=request.getParameter("searchKeywordVal");
+		
+		
 		int scriptState=Integer.valueOf(request.getParameter("scriptState"));
+		
+		
 		System.out.println(searchTypeVal);
 		System.out.println(searchKeywordVal);
 		System.out.println(scriptState);
