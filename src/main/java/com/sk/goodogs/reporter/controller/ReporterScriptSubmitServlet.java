@@ -1,5 +1,6 @@
 package com.sk.goodogs.reporter.controller;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
@@ -12,9 +13,11 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.google.gson.Gson;
 import com.oreilly.servlet.MultipartRequest;
+import com.oreilly.servlet.multipart.DefaultFileRenamePolicy;
 import com.oreilly.servlet.multipart.FileRenamePolicy;
 import com.sk.goodogs.common.GoodogsFileRenamePolicy;
 import com.sk.goodogs.news.model.service.NewsService;
+import com.sk.goodogs.news.model.vo.NewsImage;
 import com.sk.goodogs.news.model.vo.NewsScript;
 
 /**
@@ -56,6 +59,22 @@ public class ReporterScriptSubmitServlet extends HttpServlet {
 		String image = multiReq.getFilesystemName("newsImage"); // 저장된 파일명 
 		System.out.println(image);
 		
+		
+//		File newsImage = multiReq.getFile("newsImage");
+//		System.out.println(newsImage);
+		
+		// 1. 뉴스이미지 (스크립스 넘버 가져와서) 객체 생성 
+		int lastScriptNo = newsService.getLastScriptNo();
+		
+		System.out.println(lastScriptNo);
+		
+		NewsImage newsImage_ = new NewsImage(lastScriptNo, null, null, null);
+		newsImage_.setOriginalFilename(multiReq.getOriginalFileName("newsImage"));
+		newsImage_.setRenamedFilename(multiReq.getFilesystemName("newsImage"));
+		System.out.println("이거 되는거냐?"+newsImage_);
+		
+		// 2. 업무로직 - db저장
+		int result = newsService.insertnewsImage(newsImage_);
 		
 		System.out.println("newNewsScript = " +  newNewsScript);
 		// 3. 응답처리 - 비동기식 POST요청은 redirect없이 결과값을 json으로 전송

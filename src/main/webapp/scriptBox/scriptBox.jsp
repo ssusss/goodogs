@@ -65,8 +65,8 @@
 			<input type="file" name="newsImage" id="newsImage"/>
 		</div>
 		<br>
-		
-		
+
+
 		<button id="h2Btn">h2</button>
 		<button id="pBtn">p</button>
 		<button id="aBtn">a</button>
@@ -161,7 +161,6 @@
 			
 		});
 		
-		$ajax
 		
 		e.preventDefault();
 		};
