@@ -112,6 +112,21 @@ public class NewsService {
 		close(conn);
 		return news;
 	}
+
+	public int getContentByCategory(String category) {
+		Connection conn = getConnection();
+		int categoryContent = newsDao.getContentByCategory(conn, category);
+		close(conn);
+		return categoryContent;
+	}
+	public List<News> findNewsByCategory(int start, int end, String category) {
+		Connection conn = getConnection();
+		List<News> news = newsDao.findNewsByCategory(conn, start, end, category);
+		close(conn);
+		return news;
+	}
+
+
 	public int getLastScriptNo() {
 		int lastScriptNo = 0;
 		Connection conn = getConnection();
