@@ -11,9 +11,9 @@
 <script>
 	// 클릭후 관리자 메인화면 창 가림
 	const bannerContainerLower = document.querySelector(".bannerContainerLower");
-	bannerContainerLower.style.display = "none";
-	                
+	bannerContainerLower.style.display = "none";         
 </script>
+
 <%
 
 //검색 
@@ -26,30 +26,39 @@ String memberId = (String) request.getAttribute("memberId");
 
 %> 
 
+<!-- 테이블 스타일 / 검색 스타일  -->
 <style>
 section#adminMemberBan-container {text-align:center;}
 section#adminMemberBan-container table#tbl-adminMemberBan {width:100%; border:1px solid black; border-collapse:collapse; }
 table#tbl-adminMemberBan th {border:1px solid black; padding:10px; background-color : rgb(192, 192, 192); }
 table#tbl-adminMemberBan td {border:1px solid black; padding:10px; background-color : white;  }
+
+
+div#search-container 	{width: 100%; margin:0 0 10px 0; padding:3px; background-color: rgba(0, 188, 212, 0.3);}
+div#search-memberId 	{display: <%= searchType == null || "news_comment_writer".equals(searchType) ? "inline-block" : "none" %>;}
+div#search-state	{display: <%= "comment_state".equals(searchType) ? "inline-block" : "none" %>;}
+div#report_cnt	{display: <%= "news_comment_report_cnt".equals(searchType) ? "inline-block" : "none" %>;}
 </style>
 
+<!-- 김나영  -->
 <section id="adminMemberBan-container">
-	<h2>신고 관리</h2>	    
+
+	<h2>댓글 관리</h2>	    
 	
 	
+	  <!--  신고 내용 검색 팡 목록  -->
 	<div id="search-container">
         <label for="searchType">검색타입 :</label> 
         <select id="searchType">
             <option value="memberId" selected>아이디</option>		
-            <option value="news">기사</option>
-            <option value=state>게시 상태</option>
-            <option value="report_cnt">신고 목록</option>
+            <option value= "state">게시 상태</option>
+            <option value="news_comment_report_cnt">신고 목록</option>
         </select>
 
         
         <div id="search-memberId" class="search-type">
-            <form action="<%=request.getContextPath()%>/admin/memberFinder">
-                <input type="hidden" name="searchType" value="member_id"/>
+            <form action="<%=request.getContextPath()%>/admin/Commentfind">
+                <input type="hidden" name="searchType" value="news_comment_writer"/>
                 <input 
                 	type="text" name="searchKeyword"  size="25" placeholder="검색할 아이디를 입력하세요." 
                 	value=""/>
@@ -57,30 +66,45 @@ table#tbl-adminMemberBan td {border:1px solid black; padding:10px; background-co
             </form>	
         </div>
         
-          
-        <div id="search-news" class="search-type">
-            <form action="<%=request.getContextPath()%>/admin/memberFinder">
-                <input type="hidden" name="searchType" value="news"/>
-                <input 
-                	type="text" name="searchKeyword"  size="25" placeholder="검색할 기사를 입력하세요." 
-                	value=""/>
-                <button type="submit">검색</button>			
-            </form>	
-        </div>
         
          <div id="search-state" class="search-type">
-            <form action="<%=request.getContextPath()%>/admin/memberFinder">
-                <input type="hidden" name="searchType" value="enrole"/>
-                <input type="radio" name="searchKeyword" value="0" > 게시됨
-                <input type="radio" name="searchKeyword" value="1"> 회원 삭제
-                <input type="radio" name="searchKeyword" value="2"> 관리자 삭제
+            <form action="<%=request.getContextPath()%>/admin/Commentfind">
+                <input type="hidden" name="searchType" value="comment_state"/>
+	                <input type="radio" name="searchKeyword" value="0" > 게시됨
+	                <input type="radio" name="searchKeyword" value="1"> 회원 삭제
+	                <input type="radio" name="searchKeyword" value="2"> 관리자 삭제
+                <button type="submit">검색</button>
+            </form>
+        </div>
+        
+         <div id="report_cnt" class="search-type">
+            <form action="<%=request.getContextPath()%>/admin/CommentfindReport">
+                <input type="hidden" name="searchType" value="news_comment_report_cnt"/>
+	                <input type="radio" name="searchKeyword"  > 일반 댓글
+	                 <input type="radio" name="searchKeyword" value="3" >  신고 댓글
                 <button type="submit">검색</button>
             </form>
         </div>
         
     </div>
-    
+   
+   <script>
+   document.querySelector("select#searchType").onchange = (e) => {
+		console.log(e.target.value);
+		document.querySelectorAll(".search-type").forEach((elem) => {
+			elem.style.display = "none";
+		});
+		
+		document.querySelector(`#search-\${e.target.value}`).style.display = "inline-block";
+	};
 
+
+   
+   </script>
+
+ <!--  신고 내용 검색 팡 끝  -->
+ 
+ 
   <!--  신고 내용 목록  -->
 	<table id="tbl-adminMemberBan">
 		<thead>		
@@ -114,11 +138,12 @@ table#tbl-adminMemberBan td {border:1px solid black; padding:10px; background-co
 				<td><%= newsComment.getNewsCommentNickname() %></td><!-- 닉네임 -->
 				<td><%= newsComment.getNewsCommentContent() %></td><!-- 신고 내용 -->	
 				<td><%= newsComment.getNewsCommentReportCnt()%>번</td><!-- 신고 횟수-->
-				<td>
-  						<%= newsComment.getCommentState() == 0 ? "게시됨" : "삭제됨" %>
+				<td>	
+					<%= newsComment.getCommentState() == 0 ? "게시됨" : (newsComment.getCommentState() == 1 ? "회원 삭제" : "관리자 삭제") %>		
 				</td>
+  			
 				<td>
-						<a href="<%= request.getContextPath() %>/board/boardDetail?no=<%=newsComment.getNewsNo()%>">기사 가져올것임</a>
+						<a href="<%= request.getContextPath() %>/news/newsDetail?no=<%= newsComment.getNewsNo() %>">기사 가져올것임</a>
 				</td>				
 				<td>
 					<button class="IsBanned" data-news-comment-writer="<%= newsComment.getNewsCommentWriter() %>">벤</button><!-- 벤여부 -->
@@ -129,19 +154,20 @@ table#tbl-adminMemberBan td {border:1px solid black; padding:10px; background-co
 			
 		} %>	
 		</tbody>	
+		<!--  신고 내용 목록  끝-->
+		
+		
 	</table>
 
 
 <!-- 페이징바 가져오기  --> 
-	<div id='pagebar'>
-		<%= request.getAttribute("pagebar") %>
-	</div>
-	
-	
+	<nav id='pagebar'>
+			<%= request.getAttribute("pagebar") %>
+ 	</nav>
+<!--  페이징바 끝 -->	
 </section>
 
-<!--  멤버 벤 처리 -->
-
+<!--  멤버 벤 처리 폼 이동 -->
 <form 
 	name="memberBanForm" 
 	action="<%= request.getContextPath() %>/admin/memberbanUpdate"
@@ -149,9 +175,12 @@ table#tbl-adminMemberBan td {border:1px solid black; padding:10px; background-co
 	<input type="hidden" name="memberId"/>
 </form>
 
+
 <script>
+// 벤 처리 
 
  document.querySelectorAll(".IsBanned").forEach((elem)=>{
+	 // 폼 클릭하면 한번 더 묻고 폼으로 이동 
 	elem.addEventListener("click",(e)=>{
 		  if (confirm("회원 벤 처리 하시겠습니까?")) {
 			  
@@ -172,6 +201,9 @@ table#tbl-adminMemberBan td {border:1px solid black; padding:10px; background-co
 	});
 	 
  });
+ 
+ 
+// 벤 처리 끝 
 
 </script>
 

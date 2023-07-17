@@ -3,6 +3,8 @@
 <%@ include file="/WEB-INF/views/common/header.jsp" %>
 <link rel="stylesheet" href="<%=request.getContextPath()%>/css/reporter.css" />
 <script src="<%= request.getContextPath() %>/js/jquery-3.7.0.js"></script>
+<script src="<%= request.getContextPath() %>/js/jquery-ui.min.js"></script>
+<link rel="stylesheet" href="//code.jquery.com/ui/1.13.2/themes/base/jquery-ui.css">
 <script>
 bannerContainerUpper = document.querySelector(".bannerContainerUpper");
 bannerContainerLower = document.querySelector(".bannerContainerLower");
@@ -60,7 +62,7 @@ table th, table tr, table td {
 		<div class="searchContainer">
 			<form action="">
 				<div class="searchBoxContainer">
-					<input type="text" placeholder="무엇이 알고싶개?">
+					<input type="text" placeholder="무엇이 알고싶개?" id="newsName">
 					<button type="submit">검색!</button>
 				</div>
 			</form>	
@@ -88,7 +90,45 @@ table th, table tr, table td {
 
 
 </section>	
-
+<script>
+	$("#newsName").autocomplete({
+	/*
+	 * 사용자입력값을 받아, 서버에 ajax요청하고, 결과를 jquery-ui쪽으로 값을 반환
+	 */
+	source (request, response){
+		console.log(request);
+		
+		const {term} = request;
+		
+		$.ajax({
+			url : "<%= request.getContextPath()%>/news/csv/autocomplete",
+			method : "GET",
+			dataType : "text",
+			data : {
+				term
+			},
+			success(newsName){
+				if(newsName === '') return;
+				
+				console.log(newsName);
+				
+				const temp = newsName.split("$");
+				const arr = temp.map((newsName) => ({
+					label : newsName,
+					value : newsName
+				}));
+				console.log(arr);
+				response(arr);
+			}
+		});
+	},
+	select(event, selected) {
+  	  console.log(event, selected);
+  	  const {item : {value}} = selected;
+    }
+	
+});
+</script>
 
 
 <%@ include file="/WEB-INF/views/common/footer.jsp" %>

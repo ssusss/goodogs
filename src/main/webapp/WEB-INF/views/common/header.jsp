@@ -62,7 +62,15 @@
 			</div>
 		</nav>
 	</div>	
+	<script>
+    toMain.onclick = () => {
+      location.href = '<%=request.getContextPath()%>/';
+    }
 
+    document.querySelector(".searchBox").onclick = () => {
+      location.href = '<%=request.getContextPath()%>/search';
+    }
+    </script>
 		<!-- 로그인 객체마다 헤더가 다르게 보이게 -->
 		<header>
 			<%
