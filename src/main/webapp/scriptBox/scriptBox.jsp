@@ -68,8 +68,8 @@
 			<input type="file" name="newsImage" id="newsImage"/>
 		</div>
 		<br>
-		
-		
+
+
 		<button id="h2Btn">h2</button>
 		<button id="pBtn">p</button>
 		<button id="aBtn">a</button>
@@ -131,9 +131,45 @@
 		</div>
 	</div>
 </form>
-<script>
-// ==================== 폼 제출 =========================
-submitBtn.onclick = () => {
+
+	<script>
+	// ==================== 폼 제출 =========================
+	submitBtn.onclick = () => {
+		
+		// 내용 안적은 거 있으면 제출 안되도록 함수하나 만들것
+		if (category.value == "none") {
+			alert("카테고리를 선택하세요");
+			return false;
+		}
+		
+		document.scriptWriteFrm.onsubmit = (e) => {
+		const frmData = new FormData(e.target);
+		console.log(frmData);
+		
+		$.ajax({
+			url : "<%= request.getContextPath() %>/reporter/scriptSubmit",
+			data : frmData,
+			processData : false, // 직렬화 처리방지
+			contentType : false, // 기본 Content-Type : application/x-www-form-urlencoded 사용안함. 
+			method : "POST",
+			dataType : "json",
+			success(responseData) {
+				console.log(responseData);
+				const {message} = responseData;
+				alert(message);
+			},
+			complete() {
+				parent.window.location.href = '<%= request.getContextPath() %>/reporter/myScript';
+				console.log(frmData);
+			}
+			
+		});
+		
+		
+		e.preventDefault();
+		};
+	};
+
 	
 	// 내용 안적은 거 있으면 제출 안되도록 함수하나 만들것
 	if (category.value == "none") {

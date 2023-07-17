@@ -16,7 +16,6 @@
 	- 좋아요 목록 페이지
 	@author 전수경
 	- 좋아요 목록리스트 갯수, 테이블 작성
-	
 -->
 <script>
 bannerContainerLower = document.querySelector(".bannerContainerLower");
@@ -37,17 +36,35 @@ bannerContainerUpper.style.display = "none";
 	<h1><%= likes.size() %>개의 기사에 좋아요 눌렀개!</h1>
 <% } %>
 </section>
-<!-- 좋아요목록 테이블 -->
-<table>
-  <thead>
-	  <tr>
-	  	<th>기사 번호</th>
-	  	<th>기사 제목</th>
-	  	<th>좋아요한 날짜</th>
-	  </tr>
-  </thead>
-  <tbody>
-  </tbody>
-</table>
+
+<div class="tbl-likeContainer">
+	<!-- 좋아요목록 테이블 -->
+	<table class="tbl-like" id="tbl-like">
+	  <thead>
+		  <tr>
+		  	<th>기사 번호</th>
+		  	<th>기사 제목</th>
+		  	<th>좋아요한 날짜</th>
+		  </tr>
+	  </thead>
+	  <tbody>
+	  <%
+	  if(!likes.isEmpty()&& likes != null) {
+	  	  for(LikeList like : likes) {
+	  %>
+	  	<tr>
+			<td><%= like.getNewsNo() %></td>
+			<td>
+				<a href="<%= request.getContextPath()%>/news/newsDetail?no=<%= like.getNewsNo() %>"><%= like.getNewsTitle() %></a>
+			</td>
+			<td><%= like.getLikeDate() %></td>
+	  	</tr> 
+	  <% 
+		  }
+	  	} 
+	  %>
+	  </tbody>
+	</table>
+</div>
 
 <%@ include file="/WEB-INF/views/common/footer.jsp" %>

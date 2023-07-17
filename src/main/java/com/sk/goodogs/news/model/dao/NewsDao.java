@@ -18,6 +18,7 @@ import static com.sk.goodogs.common.JdbcTemplate.*;
 import com.sk.goodogs.member.model.vo.Member;
 import com.sk.goodogs.news.model.exception.NewsException;
 import com.sk.goodogs.news.model.vo.News;
+import com.sk.goodogs.news.model.vo.NewsImage;
 import com.sk.goodogs.news.model.vo.NewsScript;
 
 /**
@@ -215,6 +216,7 @@ public class NewsDao {
 			return news;
 		}
 
+
 		public int getContentByCategory(Connection conn, String category) {
 			int categoryContent = 0;
 			String sql = prop.getProperty("getContentByCategory");
@@ -243,6 +245,65 @@ public class NewsDao {
 						news.add(handleNewsResultSet(rset));
 				}
 				
+			} catch (SQLException e) {
+				throw new NewsException(e);
+			}
+			return news;
+		}
+
+
+		public int getLastScriptNo(Connection conn) {
+			int lastScriptNo = 0;
+			String sql = prop.getProperty("getLastScriptNo");
+			try (
+				PreparedStatement pstmt = conn.prepareStatement(sql);
+				ResultSet rset = pstmt.executeQuery();
+			){
+				if(rset.next())
+					lastScriptNo = rset.getInt(1);
+			} catch (Exception e) {
+				throw new NewsException(e);
+			}
+			
+			
+			return lastScriptNo;
+		}
+
+		public int insertnewsImage(Connection conn, NewsImage newsImage_) {
+			int result = 0;
+			String sql = prop.getProperty("insertnewsImage");
+			try (
+				PreparedStatement pstmt = conn.prepareStatement(sql)){
+				pstmt.setInt(1, newsImage_.getScriptNo());
+				pstmt.setString(2, newsImage_.getOriginalFilename());
+				pstmt.setString(3, newsImage_.getRenamedFilename());
+				
+				result = pstmt.executeUpdate();
+				
+			} catch (Exception e) {
+				throw new NewsException(e);
+			}
+			
+			return result;
+		}
+
+		/**
+		 * @author 전수경
+		 *  - 뉴스번호로 뉴스 조회하기
+		 *  - LikeList에서 newsTitle 설정용
+		 */
+		public News findNewsByNewsNo(Connection conn, int newsNo) {
+			News news = null;
+			String sql = prop.getProperty("findNewsByNewsNo");
+			// select * from news where news_no = ?
+			try(PreparedStatement pstmt = conn.prepareStatement(sql)){
+				pstmt.setInt(1, newsNo);
+				
+				try(ResultSet rset = pstmt.executeQuery()){
+					while(rset.next()) {
+						news = handleNewsResultSet(rset);
+					}
+				}
 			} catch (SQLException e) {
 				throw new NewsException(e);
 			}

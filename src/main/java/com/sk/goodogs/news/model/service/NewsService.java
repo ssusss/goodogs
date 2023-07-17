@@ -8,6 +8,7 @@ import java.util.List;
 import com.sk.goodogs.member.model.vo.Member;
 import com.sk.goodogs.news.model.dao.NewsDao;
 import com.sk.goodogs.news.model.vo.News;
+import com.sk.goodogs.news.model.vo.NewsImage;
 import com.sk.goodogs.news.model.vo.NewsScript;
 
 public class NewsService {
@@ -111,6 +112,7 @@ public class NewsService {
 		close(conn);
 		return news;
 	}
+
 	public int getContentByCategory(String category) {
 		Connection conn = getConnection();
 		int categoryContent = newsDao.getContentByCategory(conn, category);
@@ -124,6 +126,43 @@ public class NewsService {
 		return news;
 	}
 
+
+	public int getLastScriptNo() {
+		int lastScriptNo = 0;
+		Connection conn = getConnection();
+		try {
+			lastScriptNo = newsDao.getLastScriptNo(conn);
+			commit(conn);
+		}catch(Exception e) {
+			rollback(conn);
+			throw e;
+		} finally {
+			close(conn);
+		}
+		
+		
+		return lastScriptNo;
+	}
+	public int insertnewsImage(NewsImage newsImage_) {
+		int result = 0;
+		Connection conn = getConnection();
+		try {
+			result = newsDao.insertnewsImage(conn, newsImage_);
+			commit(conn);
+		}catch (Exception e) {
+			rollback(conn);
+			throw e;
+		}finally {
+			close(conn);
+		}
+		
+		return result;
+	}
+	public News findNewsByNewsNo(int newsNo) {
+		Connection conn = getConnection();
+		News news = newsDao.findNewsByNewsNo(conn, newsNo);
+		return news;
+	}
 
 	
 }
