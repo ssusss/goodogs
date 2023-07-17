@@ -20,7 +20,7 @@ bannerContainerUpper.style.display = "none";
 </script>
 
 	<br><br>
-
+<section>
 <form name="memberWithdrawFrm" action="<%= request.getContextPath() %>/member/memberWithdraw" method="post">
 	<section>
 		<h2 class="withdraw-head-title">회원탈퇴</h2>
@@ -44,7 +44,7 @@ bannerContainerUpper.style.display = "none";
 					<input type="radio" name="reason" id="information" value="개인정보 노출 우려"> 개인정보 노출 우려
 					<br>	
 					<input type="radio" name="reason" id="random" value="기타"> 기타
-					<textarea name="reason"rows="10" cols="30" placeholder="탈퇴 사유를 적어주세요"></textarea> <br>
+					<br><textarea name="reason"rows="5" cols="30" placeholder="탈퇴 사유를 적어주세요" id="otherReason" style="display: none;"></textarea> <br>
 					<br>
 					</td>
 				</tbody>			
@@ -53,12 +53,31 @@ bannerContainerUpper.style.display = "none";
 			<input type="button" style="color rgb(0, 0 , 0); text-decoration: underline;" value="조금 더 이용해볼게요" onclick="location.href='<%= request.getContextPath() %>/member/memberInfo';">
 	</section>
 </form>
-
+</section>
+			<br>
 <script>
+// 탈퇴 유효성 검사
 const withdrawMember = () => {
 	if(confirm("정말로 탈퇴하시겠습니까?😥"))
 		document.memberWithdrawFrm.submit();
 };
+
+// textarea 기타창 누르면 나오게 하기
+const radioButtons = document.querySelectorAll('input[name="reason"]');
+const textareaReason = document.getElementById('otherReason');
+
+for (let i = 0; i < radioButtons.length; i++) {
+  radioButtons[i].addEventListener('change', function() {
+    if (this.value === '기타') {
+      textareaReason.style.display = 'block';
+    } else {
+      textareaReason.style.display = 'none';
+    }
+  });
+}
+
+
+
 </script>
 
 <%@ include file="/WEB-INF/views/common/footer.jsp" %>

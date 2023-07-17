@@ -18,7 +18,7 @@ public class Member {
 	private Gender gender; // M, F, N
 	private MemberRole memberRole; // A, R, M
 	
-	private Date enrollDate;
+	private Timestamp enrollDate;
 	private String memberProfile;
 	private int isBanned;
 
@@ -27,7 +27,7 @@ public class Member {
 	}
 
 	public Member(String memberId, String password, String nickname, String phone, Gender gender, MemberRole memberRole,
-			Date enrollDate, String memberProfile, int isBanned) {
+			Timestamp enrollDate, String memberProfile, int isBanned) {
 		super();
 		this.memberId = memberId;
 		this.password = password;
@@ -98,11 +98,11 @@ public class Member {
 		this.memberRole = memberRole;
 	}
 
-	public Date getEnrollDate() {
+	public Timestamp getEnrollDate() {
 		return enrollDate;
 	}
 
-	public void setEnrollDate(Date enrollDate) {
+	public void setEnrollDate(Timestamp enrollDate) {
 		this.enrollDate = enrollDate;
 	}
 

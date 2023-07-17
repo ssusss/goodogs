@@ -37,14 +37,13 @@ public class LikeListServlet extends HttpServlet {
 		HttpSession session = request.getSession();
 		Member loginMember = (Member) session.getAttribute("loginMember");
 		String memberId = loginMember.getMemberId();
-		System.out.println("memberId=" + memberId);
 		
 		// 2. 업무로직 좋아요리스트 가져오기
 		List<LikeList> likes = likeService.findLikesByMemberId(memberId);
-		System.out.println("likes="+likes);
 		
+		// 3. 응답처리
 		request.setAttribute("likes", likes);
-		request.getRequestDispatcher("/WEB-INF/views/member/like.jsp").forward(request, response);
+		request.getRequestDispatcher("/WEB-INF/views/common/like.jsp").forward(request, response);
 	}
 
 }

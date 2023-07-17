@@ -11,7 +11,7 @@ import com.sk.goodogs.member.model.vo.Member;
 
 
 public class AdminService {
-	private final AdminDao adminDao = new AdminDao();
+	private final  AdminDao adminDao = new AdminDao();
 
 	
 	public List<Member> memberFindAll() {
@@ -104,6 +104,20 @@ public class AdminService {
 		close(conn);
 
 		return script;
+	}
+
+	public int scriptUpdate(NewsScript script) {
+		int result =0;
+		Connection conn = getConnection();
+		try {
+			result= adminDao.scriptUpdate(script,conn);
+			commit(conn);
+		}catch (Exception e) {
+			rollback(conn);
+		}finally {
+			close(conn);
+		}
+		return result;
 	}
 		
 
