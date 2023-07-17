@@ -58,7 +58,7 @@ public class LikeListServlet extends HttpServlet {
 		
 		// 3. 응답처리
 		request.setAttribute("likes", likes);
-		request.getRequestDispatcher("/WEB-INF/views/common/like.jsp").forward(request, response);
+		request.getRequestDispatcher("/WEB-INF/views/member/like.jsp").forward(request, response);
 	}
 
 }
