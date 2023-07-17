@@ -27,7 +27,7 @@ public class NewsCommentDeleteServlet extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		int commentNo = Integer.parseInt(request.getParameter("commentNo"));
-		int  commentState  = Integer.parseInt(request.getParameter("commentState"));
+		int commentState = Integer.parseInt(request.getParameter("commentState"));
 	
 		int result = newsService.NewsCommentDelete(commentNo, commentState);
 		

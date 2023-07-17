@@ -10,7 +10,7 @@ import javax.servlet.http.HttpServletResponse;
 /**
  * @author 김나영 / 댓글 신고
  */
-@WebServlet("/NewsCommentReportServlet")
+@WebServlet("/News/NewsCommentReport")
 public class NewsCommentReportServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
