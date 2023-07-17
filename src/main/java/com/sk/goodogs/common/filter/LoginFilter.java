@@ -18,9 +18,18 @@ import com.sk.goodogs.member.model.vo.Member;
 /***
  * @author 이혜령
  * - 로그인 필터
+ * @author 전수경
+ * - member, reporter, admin, like, bookmark URL 추가
  */
 @WebFilter({ 
-
+	"/member/memberInfo", 
+	"/member/memberUpdate", 
+	"/member/memberWithdraw",
+	"/member/memberWithdrawConfirm",
+	"/admin/*",
+	"/reporter/*",
+	"/like/likePage",
+	"/bookmark/bookmarkPage"
 })
 public class LoginFilter extends HttpFilter implements Filter {
        
