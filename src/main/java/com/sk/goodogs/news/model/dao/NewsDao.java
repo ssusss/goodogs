@@ -18,6 +18,7 @@ import static com.sk.goodogs.common.JdbcTemplate.*;
 import com.sk.goodogs.member.model.vo.Member;
 import com.sk.goodogs.news.model.exception.NewsException;
 import com.sk.goodogs.news.model.vo.News;
+import com.sk.goodogs.news.model.vo.NewsImage;
 import com.sk.goodogs.news.model.vo.NewsScript;
 
 /**
@@ -213,5 +214,40 @@ public class NewsDao {
 				throw new NewsException(e);
 			}
 			return news;
+		}
+
+		public int getLastScriptNo(Connection conn) {
+			int lastScriptNo = 0;
+			String sql = prop.getProperty("getLastScriptNo");
+			try (
+				PreparedStatement pstmt = conn.prepareStatement(sql);
+				ResultSet rset = pstmt.executeQuery();
+			){
+				if(rset.next())
+					lastScriptNo = rset.getInt(1);
+			} catch (Exception e) {
+				throw new NewsException(e);
+			}
+			
+			
+			return lastScriptNo;
+		}
+
+		public int insertnewsImage(Connection conn, NewsImage newsImage_) {
+			int result = 0;
+			String sql = prop.getProperty("insertnewsImage");
+			try (
+				PreparedStatement pstmt = conn.prepareStatement(sql)){
+				pstmt.setInt(1, newsImage_.getScriptNo());
+				pstmt.setString(2, newsImage_.getOriginalFilename());
+				pstmt.setString(3, newsImage_.getRenamedFilename());
+				
+				result = pstmt.executeUpdate();
+				
+			} catch (Exception e) {
+				throw new NewsException(e);
+			}
+			
+			return result;
 		}
 }

@@ -65,8 +65,8 @@
 			<input type="file" name="newsImage" id="newsImage"/>
 		</div>
 		<br>
-		
-		
+
+
 		<button id="h2Btn">h2</button>
 		<button id="pBtn">p</button>
 		<button id="aBtn">a</button>
@@ -156,9 +156,11 @@
 			},
 			complete() {
 				parent.window.location.href = '<%= request.getContextPath() %>/reporter/myScript';
+				console.log(frmData);
 			}
 			
 		});
+		
 		
 		e.preventDefault();
 		};
@@ -323,6 +325,15 @@
 		
 	}
 	// ---------------------------------------------------------
+	
+	// -------------------- 자동 이어쓰기 -----------------------
+	/*
+window.addEventListener('beforeunload', function(event) {
+	$.ajax({
+		
+	event.returnValue = '이 페이지를 나가시겠습니까?';
+});
+	*/
 	
 	</script>
 

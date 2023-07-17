@@ -33,3 +33,77 @@
 	font-size : 20px;
 }
 
+.info h1{
+	font-size : 30px;
+}
+
+/* 회원정보 입력값 */
+.memberInfo-transparent {
+	border: none;
+	border-color: transparent; /* 테두리 투명 */
+	background-color: transparent; /* 배경색 투명 */
+}
+
+.memberInfo-tbl {
+  	border-collapse: collapse;
+  	table-layout: fixed;
+}
+
+.memberInfo-tbl th,
+.memberInfo-tbl td {
+  	border: 1px solid black;
+  	padding: 5px;
+  	text-align: center;
+}
+
+.memberInfo-tbl th {
+  	background-color: #B5C99A;
+}
+
+.memberInfo-tbl tr th:first-of-type, .memberInfo-tbl tr td:first-of-type {
+	min-width: 100px;
+}
+
+/* 프로필 변경 입력값 */
+.profile-transparent {
+	border: none;
+	border-color: transparent; /* 테두리 투명 */
+	background-color: transparent; /* 배경색 투명 */
+}
+
+.profileInfo {
+  	border-collapse: collapse;
+  	table-layout: fixed;
+}
+
+.profileInfo th,
+.profileInfo td {
+  	border: 1px solid black;
+  	padding: 5px;
+  	text-align: center;
+}
+
+.profileInfo th {
+  	background-color: #B5C99A;
+}
+
+.profileInfo tr th:first-of-type, .profileInfo tr td:first-of-type {
+	min-width: 100px;
+}
+
+.searchIcon {
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+  margin-top: 8px; /* 가운데 조정할 값 */
+}
+
+.profileInfo td input {
+	margin-top: 20px; /* 원하는 만큼의 위쪽 여백 조정 */
+}
+
+small {
+	display:block; 
+	margin: -0.2rem 0px 0.5rem;
+}
+

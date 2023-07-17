@@ -89,21 +89,16 @@
 
 /* 원고 관리 css */
 .myScriptList {
-	background-color: blue;
-	
+	overflow: hidden;
+	overflow-x: scroll;
+	overflow: overlay;
 }
-
-.tableWrapper {
-	max-width: 1400px;
-	border: 1px solid black;	
-}
-
 h1, h3{text-align:center;}
 
 .script-tbl {
   	border-collapse: collapse;
   	margin:auto;
-  	
+  	table-layout: fixed;
 }
 
 .script-tbl th,
@@ -117,18 +112,70 @@ h1, h3{text-align:center;}
   	background-color: #B5C99A;
 }
 
-tr th:first-of-type {
-	width: 75px;
+.script-tbl tr th:first-of-type, .script-tbl tr td:first-of-type {
+	min-width: 70px;
 }
-tr th:nth-of-type(2) {
-	width: 75px;
+.script-tbl tr th:nth-of-type(2), .script-tbl tr td:nth-of-type(2) {
+	max-width: 500px;
+	min-width: 500px;
+	white-space: nowrap; /* 텍스트 줄바꿈 방지 */
+	overflow: hidden; /* 넘친 내용 숨김 */
+	text-overflow: ellipsis; /* 텍스트 줄임표 (...) 표시 */
 }
-tr th:nth-of-type(3) {
-	width: 75px;
+.script-tbl tr th:nth-of-type(3), .script-tbl tr td:nth-of-type(3) {
+	min-width: 70px;
 }
-tr th:nth-of-type(4) {
-	width: 175px;
+.script-tbl tr th:nth-of-type(4), .script-tbl tr td:nth-of-type(4) {
+	min-width: 190px;
 }
-tr th:last-of-type {
-	width: 75px;
+.script-tbl tr th:last-of-type, .script-tbl tr td:last-of-type {
+	min-width: 130px;
+}
+
+/* 기사 목록 */
+.myPostList {
+	overflow: hidden;
+	overflow-x: scroll;
+	overflow: overlay;
+}
+h1, h3{text-align:center;}
+
+#tbl-news {
+  	border-collapse: collapse;
+  	margin:auto;
+  	table-layout: fixed;
+}
+
+#tbl-news th,
+#tbl-news td {
+  	border: 1px solid black;
+  	padding: 5px;
+  	text-align: center;
+}
+
+#tbl-news th {
+  	background-color: #B5C99A;
+}
+
+#tbl-news tr th:first-of-type, #tbl-news tr td:first-of-type {
+	min-width: 70px;
+}
+#tbl-news tr th:nth-of-type(2), #tbl-news tr td:nth-of-type(2) {
+	max-width: 500px;
+	min-width: 500px;
+	white-space: nowrap; /* 텍스트 줄바꿈 방지 */
+	overflow: hidden; /* 넘친 내용 숨김 */
+	text-overflow: ellipsis; /* 텍스트 줄임표 (...) 표시 */
+}
+#tbl-news tr th:nth-of-type(3), #tbl-news tr td:nth-of-type(3) {
+	min-width: 70px;
+}
+#tbl-news tr th:nth-of-type(4), #tbl-news tr td:nth-of-type(4) {
+	min-width: 50px;
+}
+#tbl-news tr th:nth-of-type(5), #tbl-news tr td:nth-of-type(5) {
+	min-width: 50px;
+}
+#tbl-news tr th:last-of-type, #tbl-news tr td:last-of-type {
+	min-width: 190px;
 }
