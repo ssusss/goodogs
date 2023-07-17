@@ -23,7 +23,7 @@ public class BookmarkDao {
 
 	public BookmarkDao() {
 		String filename = 
-				BookmarkDao.class.getResource("/sql/bookmark/bookmark-query.properties").getPath();
+				BookmarkDao.class.getResource("/bookmark/bookmark-query.properties").getPath();
 		try {
 			prop.load(new FileReader(filename));
 		} catch (IOException e) {
