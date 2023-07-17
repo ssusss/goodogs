@@ -1,4 +1,4 @@
-<%@page import="com.sk.goodogs.like.model.vo.LikeList"%>
+<%@page import="com.sk.goodogs.like.model.vo.LikeListEntity"%>
 <%@page import="com.sk.goodogs.member.model.vo.Gender"%>
 <%@page import="java.util.Arrays"%>
 <%@page import="java.util.List"%>
@@ -6,10 +6,10 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ include file="/WEB-INF/views/common/header.jsp" %>
-<script src="<%= request.getContextPath() %>/js/jquery-3.7.0.js"></script>
+<script src="<%=request.getContextPath()%>/js/jquery-3.7.0.js"></script>
 <%
-	// 전수경 - 좋아요 테이블에서 로그인 회원의 좋아요 기사 조회해오기 GET 요청
-	List<LikeList> likes = (List<LikeList>) request.getAttribute("likes");
+// 전수경 - 좋아요 테이블에서 로그인 회원의 좋아요 기사 조회해오기 GET 요청
+	List<LikeListEntity> likes = (List<LikeListEntity>) request.getAttribute("likes");
 	System.out.println("회원의 좋아요리스트 : " + likes);
 %>
 <!-- 
@@ -31,11 +31,17 @@ bannerContainerUpper.style.display = "none";
 	<div>
 		<p>이 기사 좋았개</p>
 	</div>
-<% if(likes.isEmpty()|| likes == null) { %>
+<%
+if(likes.isEmpty()|| likes == null) {
+%>
 	<h1>아직 좋아요한 기사가 없개!</h1>
-<% } else { %>
-	<h1><%= likes.size() %>개의 기사에 좋아요 눌렀개!</h1>
-<% } %>
+<%
+} else {
+%>
+	<h1><%=likes.size()%>개의 기사에 좋아요 눌렀개!</h1>
+<%
+}
+%>
 </section>
 <!-- 좋아요목록 테이블 -->
 <table>
@@ -48,8 +54,9 @@ bannerContainerUpper.style.display = "none";
 	  </tr>
   </thead>
   <tbody>
-  <% if(!likes.isEmpty()&& likes != null) {
-	  for(LikeList like : likes) {
+  <%
+  if(!likes.isEmpty()&& likes != null) {
+  	  for(LikeListEntity like : likes) {
   %>
   	<tr>
 		<td><%= like.getMemberId() %></td>

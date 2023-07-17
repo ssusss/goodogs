@@ -11,7 +11,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import com.sk.goodogs.like.model.service.LikeService;
-import com.sk.goodogs.like.model.vo.LikeList;
+import com.sk.goodogs.like.model.vo.LikeListEntity;
 import com.sk.goodogs.member.model.dao.MemberDao;
 import com.sk.goodogs.member.model.vo.Member;
 
@@ -39,7 +39,7 @@ public class LikeListServlet extends HttpServlet {
 		String memberId = loginMember.getMemberId();
 		
 		// 2. 업무로직 좋아요리스트 가져오기
-		List<LikeList> likes = likeService.findLikesByMemberId(memberId);
+		List<LikeListEntity> likes = likeService.findLikesByMemberId(memberId);
 		
 		// 3. 응답처리
 		request.setAttribute("likes", likes);
