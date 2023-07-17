@@ -1,25 +1,25 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
+	pageEncoding="UTF-8"%>
 <%@ include file="/WEB-INF/views/common/header.jsp" %>
-<script src="<%= request.getContextPath() %>/js/jquery-3.7.0.js"></script>
 <% int totalPage = (int) request.getAttribute("totalPage"); %>
+<script src="<%= request.getContextPath() %>/js/jquery-3.7.0.js"></script>
+<script>
+bannerContainerLower = document.querySelector(".bannerContainerLower");
+bannerContainerLower.style.display = "none";
+</script>
 
 <%@ include file="/WEB-INF/views/common/category.jsp" %>
 
+<style>
+section .posts .card {
+	border-width: 1px 1px 1px 0;
+}
+</style>
+
 <section>
+	<h1 style="font-size: 36px">⚖️정치</h1>	
 	<div class="posts">
-		<a class="card" href=""> <!-- a태그 : 전체박스 -->
-			<div class="card-inner">
-				<figure class="card-thumbnail"> <!-- 기사 썸네일 -->
-					<img src="<%= request.getContextPath() %>/images/character/goodogs_face.png">
-				</figure>			
-				<div class="card-body"><!-- 기사 제목/날짜/카테고리 박스 -->
-					<h3 class="card-title">라면먹고싶다</h3> <!-- 기사 제목 -->
-					<time class="card-date">2023/07/11</time> <!-- 기사 날짜 -->
-					<span class="card-category">학원</span> <!-- 기사 카테고리 -->
-				</div>
-			</div>
-		</a>	
+		
 	</div>
 	<div id='btn-more-container'>
 		<button id="btn-more" value="">더보기(<span id="cpage"></span>/<span id="totalPage"><%= totalPage %></span>)</button>
@@ -60,7 +60,7 @@ window.addEventListener('load', () => {
 const getPage = (cpage) => {
 	
 	$.ajax({
-		url : "<%= request.getContextPath() %>/goodogs/more",
+		url : "<%= request.getContextPath() %>/more/politics",
 		data : {cpage},
 		success(news) {
 			console.log(news);
@@ -102,6 +102,7 @@ const getPage = (cpage) => {
 }
 
 </script>    
+
 
 
 <%@ include file="/WEB-INF/views/common/footer.jsp" %>

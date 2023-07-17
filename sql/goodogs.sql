@@ -14,24 +14,24 @@
 --==============================
 -- 초기화 블럭
 --==============================
-drop table bookmark;
-drop table like_list;
-drop table news;
-drop table news_image;
-drop table news_script_rejected;
-drop table deleted_news;
-drop table news_script;
-drop table news_comment;
-drop table withdraw_member;
-drop table member;
-drop sequence seq_withdraw_member_no;
-drop sequence seq_news_script_rejected_no;
-drop sequence seq_news_comment_no;
-drop sequence seq_news_script_no;
-drop trigger trg_news_script_to_news;
-drop trigger trg_news_to_deleted_news;
-drop trigger trg_member_to_withdraw_member;
-drop trigger trg_news_script_to_rejected;
+--drop table bookmark;
+--drop table like_list;
+--drop table news;
+--drop table news_image;
+--drop table news_script_rejected;
+--drop table deleted_news;
+--drop table news_script;
+--drop table news_comment;
+--drop table withdraw_member;
+--drop table member;
+--drop sequence seq_withdraw_member_no;
+--drop sequence seq_news_script_rejected_no;
+--drop sequence seq_news_comment_no;
+--drop sequence seq_news_script_no;
+--drop trigger trg_news_script_to_news;
+--drop trigger trg_news_to_deleted_news;
+--drop trigger trg_member_to_withdraw_member;
+--drop trigger trg_news_script_to_rejected;
 
 --==============================
 -- 테이블 생성
@@ -279,6 +279,7 @@ BEGIN
 END;
 /
 
+
 --=================================================
 -- sample data 생성
 --=================================================
@@ -338,7 +339,12 @@ insert into news_comment values (119, 1000, 1,'kdc0526@naver.com', null, '동찬
 
 -- like_list 샘플 데이터
 insert into like_list values('honggd@naver.com', 1000, default);
+insert into like_list values('honggd@naver.com', 1001, default);
+insert into like_list values('honggd@naver.com', 1002, default);
+insert into like_list values('admin@naver.com', 1000, default);
+insert into like_list values('admin@naver.com', 1001, default);
 --select * from like_list where member_id = 'honggd@naver.com';
+
 
 
 ---- 테스트
@@ -346,7 +352,7 @@ insert into like_list values('honggd@naver.com', 1000, default);
 --select * from news_comment;
 --update member set is_banned = 0 where member_id = 'honggd@naver.com';
 --commit;
--- select * from like_list;
+
 --
 --select * from news where news_writer = 'kjh0425@naver.com';
 --
