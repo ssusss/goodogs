@@ -6,6 +6,9 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+
+import com.sk.goodogs.member.model.vo.Member;
 
 // do get VS do POST 차이
 // get, post 같이쓰려면 url 공유
@@ -20,10 +23,17 @@ import javax.servlet.http.HttpServletResponse;
 public class BookmarkPage extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
-	/**
-	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
-	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		
+		// 로그인 회원정보
+		HttpSession session = request.getSession();
+		Member loginMember = (Member) session.getAttribute("loginMember");
+		String memberId = loginMember.getMemberId();
+		
+		// 북마크 리스트
+	
+		
+		
 		request.getRequestDispatcher("/WEB-INF/views/member/bookMark.jsp").forward(request, response);
 	}
 

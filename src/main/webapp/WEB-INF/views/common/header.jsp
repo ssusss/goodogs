@@ -68,18 +68,8 @@
 			</div>
 		</nav>
 	</div>	
-<script>
-	toMain.onclick = () => {
-	  location.href = '<%=request.getContextPath()%>/';
-	}
-	
-	document.querySelector(".searchBox").onclick = () => {
-	  location.href = '<%=request.getContextPath()%>/search';
-	}
-</script>
 
 		<!-- 로그인 객체마다 헤더가 다르게 보이게 -->
-
 		<header>
 			<%
 			if (loginMember == null || (loginMember != null && loginMember.getMemberRole() == MemberRole.M)) {
@@ -118,9 +108,7 @@
 			<%
 			}
 			%>
-			
-			
-			
+
 			<div class="bannerContainerLower">
 				<div class="infoWrapper">
 					<%
@@ -209,6 +197,7 @@
 					<div class="menuContainer"></div>
 				</div>
 			</div>
+
 			
 			<script>
 			// 현재 페이지 URL을 가져오는 함수
