@@ -8,6 +8,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import com.sk.goodogs.news.model.service.NewsService;
 import com.sk.goodogs.news.model.vo.NewsScript;
@@ -22,12 +23,13 @@ public class ScriptUpdateServlet extends HttpServlet {
 	
 	
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		HttpSession session = request.getSession();
 		
 		int scriptNo = Integer.parseInt(request.getParameter("scriptNo"));
 		NewsScript newsScript = newsService.findByScriptNo(scriptNo);
 		
 		
-		request.setAttribute("newsScript", newsScript);
+		session.setAttribute("newsScript", newsScript);
 
 	    // 페이지로 이동
 	    RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/views/reporter/scriptWrite.jsp");

@@ -7,15 +7,19 @@ import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
 
 
 import com.sk.goodogs.news.model.vo.NewsComment;
+import com.sk.goodogs.news.model.vo.NewsScript;
+
 import javax.naming.spi.DirStateFactory.Result;
 import static com.sk.goodogs.common.JdbcTemplate.*;
 import com.sk.goodogs.admin.model.exception.AdminException;
+import com.sk.goodogs.admin.model.exception.AdminScriptException;
 import com.sk.goodogs.member.model.exception.MemberException;
 import com.sk.goodogs.member.model.vo.Gender;
 import com.sk.goodogs.member.model.vo.Member;
@@ -86,7 +90,7 @@ private NewsComment handleCommentrResultSet(ResultSet rset) throws SQLException 
 	 int  commentNoRef  = rset.getInt("comment_no_ref");
 	 String newsCommentNickname  = rset.getString("news_comment_nickname");
 	String  newsCommentContent  = rset.getString("news_comment_content");
-	 Date commentRegDate  = rset.getDate("comment_reg_date");
+	Timestamp commentRegDate  = rset.getTimestamp("comment_reg_date");
 	 int newsCommentReportCnt  = rset.getInt("news_comment_report_cnt");
 	 int commentState  = rset.getInt("comment_state");
 
@@ -129,7 +133,7 @@ private Member handleMemberResultSet(ResultSet rset) throws SQLException{
 			memberRole=MemberRole.valueOf(rset.getString("member_role"));
 		 
 		
-		Date enrollDate= rset.getDate("enroll_date");
+		Timestamp enrollDate= rset.getTimestamp("enroll_date");
 		String memberProfile = rset.getString("member_profile");
 		int isBanned =rset.getInt("is_banned");
 		
@@ -155,7 +159,7 @@ public List<Member> memberFindSelected(String searchType, String searchKeyword, 
 				}
 			}
 		} catch (SQLException e) {
-			throw new MemberException();
+			throw new MemberException(e);
 		}
 	return members;
 }
@@ -194,6 +198,104 @@ public int getTotalContent(Connection conn) {
 		throw new AdminException(e);
 	}
 	return totalContent;
+}
+
+
+
+public List<NewsScript> scriptFind(int scriptState, Connection conn) {
+	List<NewsScript> scripts= new ArrayList<>();
+	String sql=prop.getProperty("scriptFind");
+	try(PreparedStatement pstmt = conn.prepareStatement(sql)) {
+		pstmt.setInt(1, scriptState);
+		try(ResultSet rset=pstmt.executeQuery()){
+			while(rset.next()) {
+				NewsScript script=handleScriptResultSet(rset);
+				scripts.add(script);
+			}
+		}
+	} catch (SQLException e) {
+		throw new AdminException(e);
+	}
+	return scripts;
+}
+
+
+
+private NewsScript handleScriptResultSet(ResultSet rset) throws SQLException{
+	
+	int scriptNo =rset.getInt("script_no");
+	String scriptWriter=rset.getString("script_writer");
+	String scriptTitle=rset.getString("script_title");
+	String scriptCategory=rset.getString("script_category");
+	String scriptContent=rset.getString("script_content");
+	Timestamp scriptWriteDate=rset.getTimestamp("script_write_date");
+	String scriptTag=rset.getString("script_tag");
+	int scriptState=rset.getInt("script_state");
+	
+	NewsScript script=new NewsScript(scriptNo, scriptWriter, scriptTitle, scriptCategory, scriptContent, scriptWriteDate, scriptTag, scriptState);
+	return script;
+}
+
+
+
+public List<NewsScript> scriptSerch(int scriptState, String searchTypeVal, String searchKeywordVal, Connection conn) {
+	List<NewsScript> scripts= new ArrayList<>();
+	String sql=prop.getProperty("scriptSerch");
+	sql=sql.replace("#",searchTypeVal);
+	System.out.println(sql);
+	
+	try(PreparedStatement pstmt= conn.prepareStatement(sql)){
+		pstmt.setString(1, "%"+searchKeywordVal+"%");
+		pstmt.setInt(2, scriptState);
+		try(ResultSet rset=pstmt.executeQuery()){
+			while(rset.next()) {
+				NewsScript script=handleScriptResultSet(rset);
+				scripts.add(script);
+			}
+		}
+	} catch (SQLException e) {
+		throw new AdminException(e);
+	}
+	
+	return scripts;
+}
+
+
+
+public NewsScript findOneScript(int no, Connection conn) {
+	NewsScript script=null;
+	String sql=prop.getProperty("findOneScript");
+	
+	try(PreparedStatement pstmt= conn.prepareStatement(sql)) {
+		pstmt.setInt(1, no);
+		try(ResultSet rset=pstmt.executeQuery()){
+			while(rset.next()) {
+				script=handleScriptResultSet(rset);
+			}
+		}
+	} catch (SQLException e) {
+		throw new AdminException(e);
+	}
+	
+	return script;
+}
+
+
+
+public int scriptUpdate(NewsScript script, Connection conn) {
+	int result=0;
+	String sql=prop.getProperty("scriptUpdate");
+	
+	try(PreparedStatement pstmt=conn.prepareStatement(sql)){
+			pstmt.setInt(1,script.getScriptState());
+			pstmt.setInt(2,script.getScriptNo());
+			
+			result = pstmt.executeUpdate(); 
+	} catch (SQLException e) {
+		throw new AdminException(e);
+	}
+	
+	return result;
 }
 
 

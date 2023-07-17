@@ -1,7 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ include file="/WEB-INF/views/common/header.jsp" %>
-
+<script src="<%= request.getContextPath() %>/js/jquery-3.7.0.js"></script>
+<% int totalPage = (int) request.getAttribute("totalPage"); %>
 <!-- 
 	@author 이혜령 
 	- 카테고리
@@ -9,9 +10,9 @@
 -->
 
 <!-- 카테고리 -->
-<section>
-	<nav class="category" role="navigation" aria-label="카테고리">
-	
+
+<nav class="category" role="navigation" aria-label="카테고리">
+	<div class="categoryInner">
 		<div class="category-all">
 		  <a class="draggable" draggable="false" href="https://example.com/page1">전체 &nbsp;&nbsp;&nbsp;</a>
 		</div>
@@ -25,7 +26,9 @@
 		  <a class="draggable" draggable="true" href="https://example.com/page4">🤸🏻‍♀️스포츠 &nbsp;</a>
 		  <a class="draggable" draggable="true" href="https://example.com/page4">👥사회 &nbsp;</a>
 		</div>
-</section>
+	</div>
+</nav>
+
 
 
 <script>
@@ -58,7 +61,7 @@ draggables.forEach(draggable => {
 
 
 /***
- * dragover : 드래그를 하는 도중 발생하는 이벤트
+ * dragover : 드래그를 하는 도중 발생하는 이벤트  
  * - 드래그 중인 요소가 컨테이너 위로 이동할 때 발생
  * - 이 이벤트가 발생하면 해당 컨테이너의 드래그 영역에 요소를 이동시킨다.
  */
@@ -119,58 +122,103 @@ function getDragAfterElement(container, x) {
 }
 
 </script>
-</nav>
 
 <section>
 	<div class="posts">
-		<a class="card" href="">기사 <!-- a태그 : 전체박스 -->
-			<div class="card-inner"> <!-- 박스 안 내용물 -->
+		<a class="card" href=""> <!-- a태그 : 전체박스 -->
+			<div class="card-inner">
 				<figure class="card-thumbnail"> <!-- 기사 썸네일 -->
-					<img src="" alt>
+					<img src="<%= request.getContextPath() %>/images/character/goodogs_face.png">
 				</figure>			
 				<div class="card-body"><!-- 기사 제목/날짜/카테고리 박스 -->
 					<h3 class="card-title">라면먹고싶다</h3> <!-- 기사 제목 -->
 					<time class="card-date">2023/07/11</time> <!-- 기사 날짜 -->
-					<i class="card-category">학원생활</i> <!-- 기사 카테고리 -->
+					<span class="card-category">학원</span> <!-- 기사 카테고리 -->
 				</div>
 			</div>
-		</a>
-		<a class="card" href="">기사</a>
-		<a class="card" href="">기사</a>
-		<a class="card" href="">기사</a>
-		<a class="card" href="">기사</a>
-		<a class="card" href="">기사</a>
-		<a class="card" href="">기사</a>
-		<a class="card" href="">기사</a>
-		<a class="card" href="">기사</a>
-		<a class="card" href="">기사</a>
-		<a class="card" href="">기사</a>
-		<a class="card" href="">기사</a>
-		<a class="card" href="">기사</a>
-		<a class="card" href="">기사</a>
-		<a class="card" href="">기사</a>
-		<a class="card" href="">기사</a>
+		</a>	
 	</div>
-	<nav class="postsPagination">
-		<button id="btn-more" value="">더보기(<span id="cpage"></span>/<span id="totalPage"></span>)</button>
-	</nav>
+	<div id='btn-more-container'>
+		<button id="btn-more" value="">더보기(<span id="cpage"></span>/<span id="totalPage"><%= totalPage %></span>)</button>
+	</div>
 </section>
-    
+        
 <script>
+//날짜 형식 변환
+function rearrangeDate(formattedDate) {
+	const parts = formattedDate.split('/');
+	return `\${parts[2]}/\${parts[0]}/\${parts[1]}`;
+}
+function formatDate(date) {
+	const options = {
+		year: 'numeric',
+		month: '2-digit',
+		day: '2-digit',
+		hour12: false
+	};
+	
+	const formatter = new Intl.DateTimeFormat('en-US', options);
+	const formattedDate = formatter.format(new Date(date));
+		  
+	return rearrangeDate(formattedDate);
+}
+
+
 document.querySelector("#btn-more").onclick = () => {
-	const cpage = Number(document.querySelector("#cpage").innerHTML);
-	const nextPage = cpage + 1;
-	getPage(nextPage);
+	const cpage = Number(document.querySelector("#cpage").innerHTML); 
+	const nextPage = cpage + 1; 
+	getPage(nextPage); // 다음페이지 요청
 };
 
 window.addEventListener('load', () => {
 	getPage(1);	
 });
 
+const getPage = (cpage) => {
+	
+	$.ajax({
+		url : "<%= request.getContextPath() %>/goodogs/more",
+		data : {cpage},
+		success(news) {
+			console.log(news);
+			
+			const container = document.querySelector(".posts");
+		
+			news.forEach((news) => {
+				const {newNo, newsTitle, newsConfirmedDate, newsCategory} = news;
+				
+				const formattedDate = formatDate(newsConfirmedDate);
+				
+				container.innerHTML += `
+					<a class="card" href="">
+						<div class="card-inner">
+							<figure class="card-thumbnail">
+								<img src="<%= request.getContextPath() %>/upload/thumbnail/\${newNo}">
+							</figure>
+							<div class="card-body">
+								<h3 class="card-title">\${newsTitle}</h3>
+								<time class="card-date">\${formattedDate}</time>
+								<span class="card-category">\${newsCategory}</span>
+							</div>
+						</div>
+					</a>
+				`;
+			})
+		},
+		complete() {
+			document.querySelector("#cpage").innerHTML = cpage;
+			
+			if(cpage === <%= totalPage %>) {
+				const btn = document.querySelector("#btn-more");
+				
+				btn.disabled = true;
+				btn.style.cursor = "not-alloewed";
+			}
+		}
+	})
+}
+
 </script>    
-
-
-
 
 
 <%@ include file="/WEB-INF/views/common/footer.jsp" %>
