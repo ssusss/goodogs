@@ -26,7 +26,7 @@ public class LikeDao {
 
 	public LikeDao() {
 		String filename = 
-			LikeDao.class.getResource("/sql/like/like-query.properties").getPath();
+			LikeDao.class.getResource("/like/like-query.properties").getPath();
 		try {
 			prop.load(new FileReader(filename));
 		} catch (IOException e) {
