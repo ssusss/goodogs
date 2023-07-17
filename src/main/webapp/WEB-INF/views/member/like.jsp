@@ -34,7 +34,7 @@ bannerContainerUpper.style.display = "none";
 	<div>
 		<p>이 기사 좋았개</p>
 	</div>
-<% if(likes.isEmpty()|| likes == null) { %>
+<% if(likes.isEmpty() || likes == null) { %>
 	<h1>아직 좋아요한 기사가 없개!</h1>
 <% } else { %>
 	<h1><%= likes.size() %>개의 기사에 좋아요 눌렀개!</h1>
@@ -97,6 +97,8 @@ bannerContainerUpper.style.display = "none";
 	  	} 
 	  %>
 </section>
+
+
 
 
 <%@ include file="/WEB-INF/views/common/footer.jsp" %>

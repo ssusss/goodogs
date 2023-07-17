@@ -38,15 +38,9 @@
 <% 	} %>
 <!-- 아이콘 링크 -->
 <script src="https://kit.fontawesome.com/d7ccac7be9.js" crossorigin="anonymous"></script>
-<!-- 아이콘 링크 -->
 </head>
 
-<!-- 
-	@author : 김동찬, 이혜령
-	- navBox에서 검색/정보 바로가기
-	- 로그인 안하고 정보누를 시 경고창 + focus
- -->	
- 
+
 <body>
 <span id="notification"></span>	
 	<div id="container">
@@ -207,6 +201,11 @@
 			</div>
 
 			
+			<!-- 
+				@author : 김동찬, 이혜령
+				- navBox에서 검색/정보 바로가기
+				- 로그인 안하고 정보누를 시 경고창 + focus
+			 -->	
 			<script>
 			// 현재 페이지 URL을 가져오는 함수
 			function getCurrentPageURL() {
