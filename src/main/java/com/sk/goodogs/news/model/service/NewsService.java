@@ -8,6 +8,7 @@ import java.util.List;
 import com.sk.goodogs.member.model.vo.Member;
 import com.sk.goodogs.news.model.dao.NewsDao;
 import com.sk.goodogs.news.model.vo.News;
+import com.sk.goodogs.news.model.vo.NewsAndImage;
 import com.sk.goodogs.news.model.vo.NewsImage;
 import com.sk.goodogs.news.model.vo.NewsScript;
 
@@ -106,11 +107,11 @@ public class NewsService {
 	}
 	
 	
-	public List<News> findNews(int start, int end) {
+	public List<NewsAndImage> findNews(int start, int end) {
 		Connection conn = getConnection();
-		List<News> news = newsDao.findNews(conn, start, end);
+		List<NewsAndImage> newsAndImages = newsDao.findNews(conn, start, end);
 		close(conn);
-		return news;
+		return newsAndImages;
 	}
 	public int getLastScriptNo() {
 		int lastScriptNo = 0;
@@ -143,6 +144,12 @@ public class NewsService {
 		
 		return result;
 	}
-
+	public NewsImage findAllImage(int newsNo) {
+		Connection conn = getConnection();
+		NewsImage newsImage = newsDao.findAllImage(conn, newsNo);
+		close(conn);
+		return newsImage;
+	}
+	
 	
 }
