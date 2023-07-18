@@ -122,11 +122,11 @@ public class NewsService {
 		close(conn);
 		return categoryContent;
 	}
-	public List<News> findNewsByCategory(int start, int end, String category) {
+	public List<NewsAndImage> findNewsByCategory(int start, int end, String category) {
 		Connection conn = getConnection();
-		List<News> news = newsDao.findNewsByCategory(conn, start, end, category);
+		List<NewsAndImage> newsAndImages = newsDao.findNewsByCategory(conn, start, end, category);
 		close(conn);
-		return news;
+		return newsAndImages;
 	}
 
 

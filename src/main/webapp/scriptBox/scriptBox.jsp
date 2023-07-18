@@ -45,8 +45,8 @@
 <body>
 <form name="scriptWriteFrm">
 	<div class="myScriptWrite">
-			<label for="scriptWriter">작성자 : </label>
-			<input class="writerId" name="scriptWriter" value="<%= loginMember.getMemberId() %>" readonly/>
+		<label for="scriptWriter">작성자 : </label>
+		<input class="writerId" name="scriptWriter" value="<%= loginMember.getMemberId() %>" readonly/>
 		<div class="titleAreaContanier">
 
 			<label for="titleArea">뉴스 제목 : </label>
@@ -64,8 +64,9 @@
 			<option value="사회" <%=category.equals("사회") ? "selected" : "" %>>사회</option>
 		</select>
 		<div class="fileUploadContainer">
-			<label for="newsImage">뉴스 이미지 첨부 : </label>
+			<label for="newsImage">썸네일 첨부 : </label>
 			<input type="file" name="newsImage" id="newsImage"/>
+			<span> 최대크기 : 10MB</span>
 		</div>
 		<br>
 
