@@ -15,48 +15,104 @@ bannerContainerLower.style.display = "none";
 navBox.style.display = "none";
 </script>
 
-<style>
-section {
-	border: 1px solid black;
-	height: 800px;
-}
-.searchWrapper {
-	border: 1px solid black;
-	width: 90%;
-	margin: 0 auto;
-	height: 800px;
-	display: flex;
-}
+  <style>
+    section {
+      border: 1px solid black;
+      height: 800px;
+    }
 
-.searchContainer {
-	width: 50%;
-	height: 800px;
-}
+    .searchWrapper {
+      border: 1px solid black;
+      width: 90%;
+      margin: 0 auto;
+      height: 800px;
+      display: flex;
+    }
 
-.keywordContainer {
-	border: 1px solid black;
-	width: 50%;
-	height: 800px;
-}
-.searchBoxContainer {
-	border: 1px solid black;
-}
-.searchImageContainer {
-position: absolute;
-	border: 1px solid black;
-	width: 300px;
-	height: 300px;
-	margin: 450px 150px;
-}
-table {
-	border: 1px solid black;
-	border-collapse: collapse;
-}
-table th, table tr, table td {
-	border: 1px solid black;
-}
+    .searchContainer {
+      width: 50%;
+      height: 800px;
+    }
 
-</style>
+    .searchBoxContainer {
+      border: 1px solid black;
+    }
+
+    .tble-newsContainer {
+      margin-top: 20px;
+      border: 1px solid black;
+    }
+
+    #tbl-news {
+      border-collapse: collapse;
+      width: 100%;
+    }
+
+    #tbl-news th,
+    #tbl-news td {
+      border: 1px solid black;
+      padding: 8px;
+      text-align: center;
+    }
+
+    #tbl-news thead tr {
+      background-color: #f2f2f2;
+    }
+
+    #tbl-news tbody tr:nth-child(even) {
+      background-color: #f9f9f9;
+    }
+
+    #tbl-news tbody tr:hover {
+      background-color: #ddd;
+    }
+
+    .searchImageContainer {
+      position: absolute;
+      border: 1px solid black;
+      width: 300px;
+      height: 300px;
+      margin: 384px 150px;
+    }
+
+    .keywordContainer {
+      border: 1px solid black;
+      width: 50%;
+      height: 800px;
+    }
+
+    table {
+      border: 1px solid black;
+      width: 100%;
+    }
+
+    table th,
+    table tr,
+    table td {
+      border: 1px solid black;
+      padding: 8px;
+      text-align: center;
+    }
+
+    table thead tr {
+      background-color: #f2f2f2;
+    }
+
+    table tbody tr:nth-child(even) {
+      background-color: #f9f9f9;
+    }
+
+    table tbody tr:hover {
+      background-color: #ddd;
+    }
+    
+   .imageFile {
+	  display: block; /* Remove any inline spacing */
+	  width: 100%;
+	  max-width: 100%; /* Set the maximum width to 100% of its container */
+	  height: -webkit-fill-available; /* Maintain aspect ratio */
+	}
+  </style>
 
 <section>
 	<div class="searchWrapper">
@@ -84,10 +140,11 @@ table th, table tr, table td {
 			</div>
 			
 			<div class="searchImageContainer">
+				<img src="<%= request.getContextPath() %>/upload/profile/withDraw.jpg" alt="sadImage" class="imageFile"/>
 			</div>			
 		</div>
 		<div class="keywordContainer">
-			<h1>구독이 추천 키워드</h1>
+			<h1>구독이 추천 키워드 Top5</h1>
 			<table>
 				<thead>
 					<tr>
@@ -145,32 +202,34 @@ table th, table tr, table td {
 });
 	
 	$.ajax({
-		url : "<%= request.getContextPath() %>/goodogs/ranking",
-		success(news){
-			console.log(news);
-			
-			const container = document.querySelector(".keywordContainer");
-			
-			let i = 1;
-			news.forEach((news) => {
-				const {newsTitle, newsLikeCnt} = news;
-				container.innerHTML += `
-				<table>
-					<tbody>
-						<tr>
-							<td>\${i}</td>
-							<td>\${newsTitle}</td>
-							<td>\${newsLikeCnt}개</td>
-						</tr>
-					</tbody>
-				</table>
-				
-				`;
-				
-				i++;
-			})
-		}
-	});
+		  url: "<%= request.getContextPath() %>/goodogs/ranking",
+		  success: function (news) {
+		    console.log(news);
+
+		    const tbody = document.querySelector(".keywordContainer tbody");
+		    let i = 1;
+
+		    if (news.length > 0) {
+		      news.forEach((news) => {
+		        const { newsTitle, newsLikeCnt } = news;
+		        const row = document.createElement("tr");
+		        row.innerHTML = `
+		          <td>\${i}</td>
+		          <td>\${newsTitle}</td>
+		          <td>\${newsLikeCnt}개</td>
+		        `;
+		        tbody.appendChild(row);
+
+		        i++;
+		      });
+		    } else {
+		      const row = document.createElement("tr");
+		      row.innerHTML = `<td colspan='3'>조회된 뉴스가 없습니멍.</td>`;
+		      tbody.appendChild(row);
+		    }
+		  },
+		});
+
 	
 	function searchNews() {
 		  const searchKeywordVal = document.getElementById("newsName").value;
