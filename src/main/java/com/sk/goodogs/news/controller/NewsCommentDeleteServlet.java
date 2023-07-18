@@ -28,14 +28,15 @@ public class NewsCommentDeleteServlet extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		int commentNo = Integer.parseInt(request.getParameter("commentNo"));
 		int commentState = Integer.parseInt(request.getParameter("commentState"));
-	
+		int Newsno = Integer.parseInt(request.getParameter("Newsno"));
+		
+		
+		
 		int result = newsService.NewsCommentDelete(commentNo, commentState);
 		
-		response.setContentType("application/json; charset=utf-8");
-		Map<String, Object> map = new HashMap<>();
-		map.put("message", " 삭제 되었습니다..");
-		
-		new Gson().toJson(map, response.getWriter());
+
+		request.getSession().setAttribute("msg", "댓글이 삭제되었습니다.");
+		response.sendRedirect(request.getContextPath() + "/board/boardDetail?no=" + Newsno);
 	}
 
 }
