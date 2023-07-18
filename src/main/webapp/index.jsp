@@ -79,7 +79,7 @@ const getPage = (cpage) => {
 				
 				const formattedDate = formatDate(newsConfirmedDate);
 				container.innerHTML += `
-					<a class="card" href="">
+					<a class="card" href="/goodogs/news/newsDetail?no=\${newsNo}">
 						<div class="card-inner">
 							<figure class="card-thumbnail">
 								<img src="<%= request.getContextPath() %>/upload/newsImage/\${renamedFilename}">
