@@ -253,5 +253,13 @@ public class NewsService {
 			close(conn);
 			return news;
 		}
+		
+		public List<News> searchNewsByTitle(String title) {
+			Connection conn = getConnection();
+			
+			List<News> newsList = newsDao.searchNewsByTitle(conn, title);
+			close(conn);
+			return newsList;
+		}
 	
 }
