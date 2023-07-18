@@ -37,6 +37,8 @@ public class NewsCommentListServlet extends HttpServlet {
 		List<NewsComment> newsComments  = newsService.findNewsComment(No);
 			
 		response.setContentType("application/json; charset=utf-8");
+		request.setAttribute("newsComments", newsComments );
+		
 		
 		new Gson().toJson(newsComments, response.getWriter());			
 		
