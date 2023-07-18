@@ -7,19 +7,21 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-// 뉴스 댓글
 /**
- * Servlet implementation class NewsCommentServlet
+ * @author 김나영 / 댓글 신고
  */
-@WebServlet("/news/newsCommentCreate")
-public class NewsCommentServlet extends HttpServlet {
+@WebServlet("/News/NewsCommentReport")
+public class NewsCommentReportServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
+       
+
 
 	/**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
+		doGet(request, response);
 	}
 
 }

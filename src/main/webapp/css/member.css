@@ -107,49 +107,8 @@ small {
 	margin: -0.2rem 0px 0.5rem;
 }
 
-/* 좋아요 테이블 */
-.tbl-likeContainer {
-	overflow: hidden;
-	overflow-x: scroll;
-	overflow: overlay;
-}
-h1, h3{text-align:center;}
+/* 좋아요 */
 
-#tbl-like {
-  	border-collapse: collapse;
-  	margin:auto;
-  	table-layout: fixed;
-}
 
-#tbl-like th,
-#tbl-like td {
-  	border: 1px solid black;
-  	padding: 5px;
-  	text-align: center;
-}
 
-#tbl-like th {
-  	background-color: #B5C99A;
-}
 
-#tbl-like tr th:first-of-type, #tbl-member tr td:first-of-type {
-	min-width: 270px;
-}
-#tbl-like tr th:nth-of-type(2), #tbl-member tr td:nth-of-type(2) {
-	min-width: 180px;
-}
-#tbl-like tr th:nth-of-type(3), #tbl-member tr td:nth-of-type(3) {
-	min-width: 80px;
-}
-#tbl-like tr th:nth-of-type(4), #tbl-member tr td:nth-of-type(4) {
-	min-width: 160px;
-}
-#tbl-like tr th:nth-of-type(5), #tbl-member tr td:nth-of-type(5) {
-	min-width: 45px;
-}
-#tbl-like tr th:nth-of-type(6), #tbl-member tr td:nth-of-type(6) {
-	min-width: 190px;
-}
-#tbl-like tr th:last-of-type, #tbl-member tr td:last-of-type {
-	min-width: 45px;
-}
