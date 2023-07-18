@@ -34,8 +34,37 @@
 	}
 %>
 
-<!--  간단 css  -->
 <style>
+
+
+#comment-container {
+    border: 2px solid black; /* 검정 테두리 설정 */
+    border-radius: 10px; /* 둥근 네모 처리 */
+    padding: 10px; /* 내용과의 간격 설정 */
+}
+
+table#comment-container tr#level1 td{
+	background-color: pink;
+}
+table#comment-container tr td{
+	background-color: yellow;
+}
+
+table#comment-container { 
+  
+  border-radius: 60px; /* 둥근 처리를 위한 경계 반지름 설정 */
+  border: 2px solid #000; /* 테두리 설정 */
+  padding: 10px; /* 내부 여백 설정 */
+  box-sizing: border-box; }
+  
+/* 좋아요 스타일 */
+#like-heart {
+	color: grey;
+}
+#like-heart.like {
+	color: #e90c4e;
+}
+
 
 #comment-container {
     border: 2px solid black; /* 검정 테두리 설정 */
@@ -67,18 +96,22 @@ table#comment-container {
 
 </style>
 
+<br/><br/><br/>
+<!-- ----------------------------------------------------- -->	
+
+
 
 <!-- ----------------------------------------------------- -->	
 <section id="news-container">
 
 	  <!--  기사 가져오기 ( 완료 )   -->
-	<div><%=newsAndImage.getNewsCategory()%></div> <!--  카테고리  -->
-	
-	<h2><%=newsAndImage.getNewsTitle() %></h2><!--  제목  -->
+	<div id="news-category" name="news-category" ><%=newsAndImage.getNewsCategory()%></div> <!--  카테고리  -->
+
+	<h2 id="news-title" name="news-title" ><%=newsAndImage.getNewsTitle() %></h2><!--  제목  -->
  
-	<img src="<%= request.getContextPath() %>/upload/newsImage/<%=newsAndImage.getRenamedFilename()%>"><!--  이미지  -->
+	<img id="news-img" name="news-img" src="<%= request.getContextPath() %>/upload/newsImage/<%=newsAndImage.getRenamedFilename()%>"><!--  이미지  -->
 							 
-	<div><%=newsAndImage.getNewsContent()%></div><!--  내용  -->
+	<div id="news-content" name="news-content"><%=newsAndImage.getNewsContent()%></div><!--  내용  -->
 	 
 <br/><br/><br/>
 
@@ -671,6 +704,63 @@ document.querySelectorAll(".btn-reply").forEach((button) => {
 
 
 </section>
+
+<!-- ----------------------------------------------------- -->
+<div class="highlight-tooltip" style="display: block;">북마크</div>
+<script>
+// 말풍선을 표시할 위치와 내용 설정
+function showTooltip(x, y) {
+  tooltip.style.display = 'block';
+  tooltip.style.left = x + 'px';
+  tooltip.style.top = y - tooltip.offsetHeight - 10 + 'px';
+}
+
+
+// 말풍선을 숨김
+function hideTooltip() {
+  tooltip.style.display = 'none';
+}
+
+const tooltip = document.querySelector('.highlight-tooltip');
+
+
+// 하이라이트된 내용을 저장
+function saveHighlight() {
+    let highlightedContent = window.getSelection().toString().trim(); // 선택한 텍스트 문자열로 반환하고 앞뒤 공백 제거
+        console.log(highlightedContent); // 선택한 내용을 확인하기 위해 콘솔에 출력
+
+
+    if (highlightedContent !== '') {
+            hideTooltip(); // 말풍선 숨김
+          }
+}
+
+// mouseup 이벤트 발생 시 말풍선 표시
+document.addEventListener('mouseup', function(event) {
+  console.log("mouseup 실행됨")
+  const selection = window.getSelection();
+
+  console.log("selection 실행됨" + selection)
+
+  if (selection.toString().trim() !== '') { // 문자열 앞뒤 공백 제거 후 비어있지 않은지 확인
+      const range = selection.getRangeAt(0);
+      const rect = range.getBoundingClientRect();
+      const x = rect.left + rect.width / 2;
+      const y = rect.top + window.pageYOffset;
+
+    showTooltip(x, y);
+  } else {
+    hideTooltip();
+  }
+});
+
+// 말풍선 클릭 시 하이라이트 저장
+tooltip.addEventListener('click', function() {
+  saveHighlight();
+});
+
+</script>
+
 
 
 <script src="<%= request.getContextPath() %>/js/jquery-3.7.0.js"></script>

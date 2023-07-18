@@ -502,4 +502,33 @@ public class NewsDao {
 			return news;
 		}
 
+			public List<News> searchNewsByTitle(Connection conn, String title) {
+				List<News> newsList = new ArrayList<>();
+				String sql = prop.getProperty("searchNewsByTitle");
+					
+				try (PreparedStatement pstmt = conn.prepareStatement(sql)){
+					pstmt.setString(1, "%"+title+"%");
+					try(ResultSet rset = pstmt.executeQuery()){
+						while(rset.next()) {
+							int newsNo = rset.getInt("news_no");
+							String newsWriter = rset.getString("news_writer");
+							String newsTitle = rset.getString("news_title");
+							String newsCategory = rset.getString("news_category");
+							String newsContent = rset.getString("news_content");
+							Timestamp newsWriteDate = rset.getTimestamp("news_write_date");
+							String newsTag = rset.getString("news_tag");
+							int newsLikeCnt = rset.getInt("news_like_cnt");
+							int newsReadCnt = rset.getInt("news_read_cnt");
+							Timestamp newsConfirmedDate = rset.getTimestamp("news_confirmed_date");
+							
+							News news = new News(newsNo, newsWriter, newsTitle, newsCategory, newsContent, newsWriteDate, newsTag, newsLikeCnt, newsReadCnt, newsConfirmedDate);
+							newsList.add(news);
+						}
+					}
+				} catch (Exception e) {
+					throw new NewsException(e);
+				}
+				return newsList;
+			}
+
 }
