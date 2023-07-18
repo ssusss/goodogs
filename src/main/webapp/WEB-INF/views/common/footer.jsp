@@ -22,5 +22,6 @@
       </nav>
       <div class="footer-address-info"></div>
     </footer>
+    </div>
 </body>
 </html>

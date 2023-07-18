@@ -3,6 +3,8 @@
 <%@ include file="/WEB-INF/views/common/header.jsp" %>
 <link rel="stylesheet" href="<%=request.getContextPath()%>/css/reporter.css" />
 <script src="<%= request.getContextPath() %>/js/jquery-3.7.0.js"></script>
+<script src="<%= request.getContextPath() %>/js/jquery-ui.min.js"></script>
+<link rel="stylesheet" href="//code.jquery.com/ui/1.13.2/themes/base/jquery-ui.css">
 <script>
 bannerContainerUpper = document.querySelector(".bannerContainerUpper");
 bannerContainerLower = document.querySelector(".bannerContainerLower");
@@ -53,6 +55,7 @@ table {
 table th, table tr, table td {
 	border: 1px solid black;
 }
+
 </style>
 
 <section>
@@ -60,12 +63,27 @@ table th, table tr, table td {
 		<div class="searchContainer">
 			<form action="">
 				<div class="searchBoxContainer">
-					<input type="text" placeholder="무엇이 알고싶개?">
-					<button type="submit">검색!</button>
+					<input type="text" name="searchKeyword" placeholder="무엇이 알고싶개?" id="newsName">
+					<button type="button" onclick="searchNews()">검색!</button>
 				</div>
-			</form>	
-			<div class="searchImageContainer">
+			</form>
 			
+			<div class= "tble-newsContainer">
+				<table id="tbl-news">
+					<thead>
+						<tr>
+							<th>뉴스 제목</th>
+							<th>뉴스 작성자</th>
+							<th>뉴스 좋아요 수</th>
+							<th>뉴스 조회 수</th>
+						</tr>
+					</thead>
+					<tbody></tbody>
+				</table>
+			
+			</div>
+			
+			<div class="searchImageContainer">
 			</div>			
 		</div>
 		<div class="keywordContainer">
@@ -79,7 +97,6 @@ table th, table tr, table td {
 					</tr>
 				</thead>
 				<tbody>
-				
 				</tbody>
 			</table>
 		</div>
@@ -88,7 +105,110 @@ table th, table tr, table td {
 
 
 </section>	
-
+<script>
+	$("#newsName").autocomplete({
+	/*
+	 * 사용자입력값을 받아, 서버에 ajax요청하고, 결과를 jquery-ui쪽으로 값을 반환
+	 */
+	source (request, response){
+		console.log(request);
+		
+		const {term} = request;
+		
+		$.ajax({
+			url : "<%= request.getContextPath()%>/news/csv/autocomplete",
+			method : "GET",
+			dataType : "text",
+			data : {
+				term
+			},
+			success(newsName){
+				if(newsName === '') return;
+				
+				console.log(newsName);
+				
+				const temp = newsName.split("$");
+				const arr = temp.map((newsName) => ({
+					label : newsName,
+					value : newsName
+				}));
+				console.log(arr);
+				response(arr);
+			}
+		});
+	},
+	select(event, selected) {
+  	  console.log(event, selected);
+  	  const {item : {value}} = selected;
+    }
+	
+});
+	
+	$.ajax({
+		url : "<%= request.getContextPath() %>/goodogs/ranking",
+		success(news){
+			console.log(news);
+			
+			const container = document.querySelector(".keywordContainer");
+			
+			let i = 1;
+			news.forEach((news) => {
+				const {newsTitle, newsLikeCnt} = news;
+				container.innerHTML += `
+				<table>
+					<tbody>
+						<tr>
+							<td>\${i}</td>
+							<td>\${newsTitle}</td>
+							<td>\${newsLikeCnt}개</td>
+						</tr>
+					</tbody>
+				</table>
+				
+				`;
+				
+				i++;
+			})
+		}
+	});
+	
+	function searchNews() {
+		  const searchKeywordVal = document.getElementById("newsName").value;
+		  $.ajax({
+		    url: "<%= request.getContextPath() %>/news/selectNews", 
+		    data: { searchKeyword: searchKeywordVal },
+		    method: "GET",
+		    dataType: "json",
+		    success:function(newsList) {
+		    	if(newsList.length>0){
+		    		
+		    		const tbody= document.querySelector("#tbl-news tbody");
+		    		tbody.innerHTML= newsList.reduce((html,news)=>{
+						const{newsTitle, newsWriter,newsLikeCnt,newsReadCnt} = news;
+						
+						return html +`
+						<tr>
+							<td>\${newsTitle}</td>
+							<td>\${newsWriter}</td> 
+							<td>\${newsLikeCnt}</td>
+							<td>\${newsReadCnt}</td>
+						</tr>
+						`;
+					},"");
+		    	}else{
+		    		const tbody= document.querySelector("#tbl-news tbody");
+					tbody.innerHTML=`
+						<tr><td colspan='4'>조회된 뉴스가 없습니멍.</td></tr>
+					`;
+		    	}
+		    }
+		  });
+		}
+	
+	
+</script>
 
 
 <%@ include file="/WEB-INF/views/common/footer.jsp" %>
+
+

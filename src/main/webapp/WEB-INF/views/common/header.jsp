@@ -38,15 +38,9 @@
 <% 	} %>
 <!-- 아이콘 링크 -->
 <script src="https://kit.fontawesome.com/d7ccac7be9.js" crossorigin="anonymous"></script>
-<!-- 아이콘 링크 -->
 </head>
 
-<!-- 
-	@author : 김동찬, 이혜령
-	- navBox에서 검색/정보 바로가기
-	- 로그인 안하고 정보누를 시 경고창 + focus
- -->	
- 
+
 <body>
 <span id="notification"></span>	
 	<div id="container">
@@ -68,7 +62,15 @@
 			</div>
 		</nav>
 	</div>	
+	<script>
+    toMain.onclick = () => {
+      location.href = '<%=request.getContextPath()%>/';
+    }
 
+    document.querySelector(".searchBox").onclick = () => {
+      location.href = '<%=request.getContextPath()%>/search';
+    }
+    </script>
 		<!-- 로그인 객체마다 헤더가 다르게 보이게 -->
 		<header>
 			<%
@@ -199,6 +201,11 @@
 			</div>
 
 			
+			<!-- 
+				@author : 김동찬, 이혜령
+				- navBox에서 검색/정보 바로가기
+				- 로그인 안하고 정보누를 시 경고창 + focus
+			 -->	
 			<script>
 			// 현재 페이지 URL을 가져오는 함수
 			function getCurrentPageURL() {
@@ -206,6 +213,7 @@
 				console.log(pathArray);
 				return "/" + pathArray[1];
 			}
+			
 			// 특정 페이지 URL인지 확인하는 함수
 			function isSpecificPage() {
 				const specificPageURL = "<%= request.getContextPath() %>";
@@ -214,7 +222,8 @@
 				console.log(getCurrentPageURL());
 				return getCurrentPageURL() === specificPageURL;
 			}
-						
+			
+				
 			if (isSpecificPage()) {
 				document.querySelector(".infoBox").onclick = () => {
 				  <% if (loginMember != null) { %>

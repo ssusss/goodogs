@@ -45,6 +45,7 @@ public class BookmarkPageServlet extends HttpServlet {
 			int newsNo = bookmark.getNewsNo();
 			bookmark.setNews(newsService.findNewsByNewsNo(newsNo));
 		}
+		System.out.println(bookmarks);
 		
 		request.setAttribute("bookmarks", bookmarks);
 		request.getRequestDispatcher("/WEB-INF/views/member/bookMark.jsp").forward(request, response);

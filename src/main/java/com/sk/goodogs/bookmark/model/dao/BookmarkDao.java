@@ -1,5 +1,7 @@
 package com.sk.goodogs.bookmark.model.dao;
 
+import java.io.FileReader;
+import java.io.IOException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -19,6 +21,16 @@ import com.sk.goodogs.bookmark.model.vo.Bookmark;
 public class BookmarkDao {
 	private Properties prop = new Properties();
 
+	public BookmarkDao() {
+		String filename = 
+				BookmarkDao.class.getResource("/bookmark/bookmark-query.properties").getPath();
+		try {
+			prop.load(new FileReader(filename));
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+	
 	/**
 	 * @author 전수경
 	 */
@@ -50,6 +62,45 @@ public class BookmarkDao {
 		String newBookmarkedContent = rset.getString("new_bookmarked_content");
 		Timestamp bookmarkDate = rset.getTimestamp("bookmark_date");
 		return new Bookmark(memberId, newsNo, newBookmarkedContent, bookmarkDate);
+	}
+
+	/**
+	 * @author 전수경
+	 * - 북마크 데이터 추가
+	 */
+	public int insertBookmark(Connection conn, String memberId, int newsNo, String bookmarkedContent) {
+		int result =0;
+		String sql = prop.getProperty("insertBookmark");
+		// insert into bookmark values( ? , ? , ? , DEFAULT)		
+		try(PreparedStatement pstmt = conn.prepareStatement(sql)){
+			pstmt.setString(1, memberId);
+			pstmt.setInt(2, newsNo);
+			pstmt.setString(3, bookmarkedContent);
+			
+			result = pstmt.executeUpdate();
+		} catch (SQLException e) {
+			throw new BookmarkException(e);
+		}
+		return result;
+	}
+	
+	/**
+	 * @author 전수경
+	 * - 북마크 데이터 삭제
+	 */
+	public int deleteBookmark(Connection conn, String memberId, int newsNo) {
+		int result =0;
+		String sql = prop.getProperty("deleteBookmark");
+		// delete from bookmark where member_id = ? and news_no = ? 
+		try(PreparedStatement pstmt = conn.prepareStatement(sql)){
+			pstmt.setString(1, memberId);
+			pstmt.setInt(2, newsNo);
+			
+			result = pstmt.executeUpdate();
+		} catch (SQLException e) {
+			throw new BookmarkException(e);
+		}
+		return result;
 	}
 
 }
