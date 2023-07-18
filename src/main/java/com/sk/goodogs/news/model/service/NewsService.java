@@ -1,9 +1,5 @@
 package com.sk.goodogs.news.model.service;
 
-import static com.sh.mvc.common.JdbcTemplate.close;
-import static com.sh.mvc.common.JdbcTemplate.commit;
-import static com.sh.mvc.common.JdbcTemplate.getConnection;
-import static com.sh.mvc.common.JdbcTemplate.rollback;
 import static com.sk.goodogs.common.JdbcTemplate.*;
 
 import java.sql.Connection;
@@ -212,11 +208,11 @@ public class NewsService {
 	
 	
 	// 뉴스
-		public News newsDetail(int No) {
+		public  NewsAndImage newsDetail(int No) {
 			Connection conn = getConnection();
-			News  news = newsDao.NewsDetail(conn,No);
+			NewsAndImage newsAndImage = newsDao.NewsDetail(conn,No);
 			close(conn);
-			return news;
+			return newsAndImage;
 		}
 
 

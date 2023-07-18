@@ -16,7 +16,6 @@ import javax.script.ScriptException;
 
 import static com.sk.goodogs.common.JdbcTemplate.*;
 
-import com.sh.mvc.board.model.exception.BoardException;
 import com.sk.goodogs.member.model.vo.Member;
 import com.sk.goodogs.news.model.exception.NewsException;
 import com.sk.goodogs.news.model.vo.News;
@@ -73,9 +72,12 @@ public class NewsDao {
 			int newsLikeCnt = rset.getInt("news_like_cnt");
 			int newsReadCnt = rset.getInt("news_read_cnt");
 			Timestamp newsConfirmedDate = rset.getTimestamp("news_confirmed_date");
-			
+		
 			return new News(newsNo, newsWriter, newsTitle, newsCategory, newsContent, newsWriteDate, newsTag, newsLikeCnt, newsReadCnt, newsConfirmedDate);
 		}
+
+	
+		 
 
 		public List<NewsScript> findAllScriptById(Connection conn, Member loginMember) {
 			List<NewsScript> scripts = new ArrayList<>();
@@ -415,8 +417,8 @@ public class NewsDao {
 				}
 
 
-				public News NewsDetail(Connection conn, int No) {
-					News news = null;
+				public NewsAndImage NewsDetail(Connection conn, int No) {
+					NewsAndImage newsAndImage = null;
 					String sql = prop.getProperty("NewsDetail");
 					
 					try(PreparedStatement pstmt = conn.prepareStatement(sql)){
@@ -425,15 +427,15 @@ public class NewsDao {
 						try(ResultSet rset = pstmt.executeQuery()){
 							
 							while(rset.next()) {
-								news=handleNewsResultSet(rset);
-								  
+								newsAndImage = handleNewsAndImageResultSet(rset);
+								
 								}
 						}
 					} catch (SQLException e) {
 						throw new NewsException(e);
 					}
 					
-					return news;
+					return newsAndImage;
 				}
 
 		// 댓글 삭제(업데이트)

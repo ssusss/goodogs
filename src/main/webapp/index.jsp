@@ -10,9 +10,11 @@
 	<div class="posts">
 		<a class="card" href=""> <!-- a태그 : 전체박스 -->
 			<div class="card-inner">
+			
 				<figure class="card-thumbnail"> <!-- 기사 썸네일 -->
 					<img src="<%= request.getContextPath() %>/images/character/goodogs_face.png">
-				</figure>			
+				</figure>	
+						
 				<div class="card-body"><!-- 기사 제목/날짜/카테고리 박스 -->
 					<h3 class="card-title">라면먹고싶다</h3> <!-- 기사 제목 -->
 					<time class="card-date">2023/07/11</time> <!-- 기사 날짜 -->
@@ -60,7 +62,7 @@ window.addEventListener('load', () => {
 });
 
 
-  // 김준한 테스트용
+ // 김준한 테스트용
 
 const getPage = (cpage) => {
 	

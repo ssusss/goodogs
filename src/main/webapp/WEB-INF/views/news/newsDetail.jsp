@@ -1,3 +1,5 @@
+<%@page import="java.io.Console"%>
+<%@page import="com.sk.goodogs.news.model.vo.NewsAndImage"%>
 <%@page import="com.sk.goodogs.like.model.vo.LikeList"%>
 <%@page import="com.sk.goodogs.news.model.vo.NewsComment"%>
 <%@page import="java.util.List"%>
@@ -7,11 +9,13 @@
 	pageEncoding="UTF-8"%>
 <%@ include file="/WEB-INF/views/common/header.jsp" %>
 <!--  기사 페이지  -->
-<!-- ----------------------------------------------------- -->	
+
 
 <%
-	News news = (News) request.getAttribute("news");
+	NewsAndImage newsAndImage = (NewsAndImage) request.getAttribute("newsAndImage");
+
 	List<NewsComment> newsComments  = (List<NewsComment>)request.getAttribute("newsComments");
+	
 	NewsComment newsComment = (NewsComment)request.getAttribute("NewsComment");
 	
 	Member loginMember2 = (Member) session.getAttribute("loginMember");
@@ -28,57 +32,32 @@
 				saveId = value;
 		}
 	}
-	
 %>
 
-<!-- ----------------------------------------------------- -->	
 
-<script>
-	const bannerContainerLower = document.querySelector(".bannerContainerLower");
-	bannerContainerLower.style.display = "none";
-	
-	window.onload = () => {
-		//newsComment();
-		
-	}
-	
-</script><!-- end -->
 <!-- ----------------------------------------------------- -->	
-
 
 <!-- 임시 스타일 -->
 
 <br/><br/><br/>
 <!-- ----------------------------------------------------- -->	
-
 <section id="news-container">
+
 	  <!--  기사   -->
-	<div><%=news.getNewsTag()%></div> <!--  카테고리  -->
+	<div><%=newsAndImage.getNewsCategory()%></div> <!--  카테고리  -->
 	
-	<h2><%=news.getNewsTitle() %><!--  제목  --></h2>
-	
-	<div> 이미지 </div> <br>
-	 
-	<div><%=news.getNewsContent()%> 
-	
-	기사가 너부 비어보여서 적는 글입니다. 지워주세요 ^^ㅣ	<br/>
-	기사가 너부 비어보여서 적는 글입니다. 지워주세요 ^^ㅣ	<br/>
-	기사가 너부 비어보여서 적는 글입니다. 지워주세요 ^^ㅣ	<br/>
-	기사가 너부 비어보여서 적는 글입니다. 지워주세요 ^^ㅣ	<br/>
-	기사가 너부 비어보여서 적는 글입니다. 지워주세요 ^^ㅣ	<br/>
-	기사가 너부 비어보여서 적는 글입니다. 지워주세요 ^^ㅣ	<br/>
-	기사가 너부 비어보여서 적는 글입니다. 지워주세요 ^^ㅣ	<br/>
-	기사가 너부 비어보여서 적는 글입니다. 지워주세요 ^^ㅣ	<br/>
-	
-	 <!-- 내용  --></div><!-- end -->
-	 
+	<h2><%=newsAndImage.getNewsTitle() %></h2><!--  제목  -->
+ 
+	<img src="<%= request.getContextPath() %>/upload/newsImage/<%=newsAndImage.getRenamedFilename()%>"><!--  이미지  -->
+							 
+	<div><%=newsAndImage.getNewsContent()%></div><!--  내용  -->
 	 
 <br/><br/><br/>
-
 <!-- ----------------------------------------------------- -->	
 
-<!--  댓글창  -->
+<!--  간단 css  -->
 <style>
+
 #comment-container {
     border: 2px solid black; /* 검정 테두리 설정 */
     border-radius: 10px; /* 둥근 네모 처리 */
@@ -112,58 +91,104 @@ table#comment-container {
 				action="<%=request.getContextPath()%>/news/newsCommentCreate" 
 				method="post" 
 				name="NewsCommentFrm">
-				
-                <input type="hidden" name="newsNo" value="<%= news.getNewsNo()%>" />
+                <input type="hidden" name="newsNo" value="<%= newsAndImage.getNewsNo()%>" />
                 <input type="hidden" name="newsCommentWriter" value="<%= loginMember != null ? loginMember.getMemberId() : "" %>" />
-
                 <input type="hidden" name="newsCommentLevel" value="1" />  
                <input type="hidden" name="newsCommentNickname" value="<%= loginMember.getNickname() %>" />
 				<textarea name="newsCommentContent" cols="50" rows="3"></textarea>
                 <button type="submit" id="btn-comment-enroll1">등록</button>
             </form>
-            
  </div><!-- end -->
- 
 		
 <% 	}else {%>
 	
 	<div> 로그인 후 댓글작성이 가능합니다. </div>
 	
 <% } %>
- 
- 
 
 <!-- ----------------------------------------------------- -->	      
   
 <table id="comment">
-
-		
 		
 		<tbody>
-		
 			<!-- 댓글 들어가는 창 -->
-		
 		</tbody>
 		
 		<tfoot>
-		
 			<button id="load-more-btn">더보기</button> <!-- 구현안함 -->
-			
 		</tfoot>
 		
 </table> <!-- end -->
 	
 <br/><br/><br/>
 
+<!--  진행도 ( 삭제 완성 / 오류테스트만 진행하면 끝 )  / 신고는 좋아요 완성후 수정예정   -->
 
-<!-- ----------------------------------------------------- -->	
+	<!-- 삭제 본인 -->
+	<form 
+		action="<%= request.getContextPath() %>/News/NewsCommentDelete" 
+		name="newsCommentDelFrmMember"
+		method="POST">
+		<input type="hidden" name="commentState" value = "1" />
+		<input type="hidden" name="Newsno" value="<%= newsComment != null ? newsComment.getNewsNo() : "" %>" />
+	</form><!--  끝  -->
+	
+	
+	<!-- 삭제 관리자 -->
+	<form 
+		action="<%= request.getContextPath() %>/News/NewsCommentDelete" 
+		name="newsCommentDelFrmAdmin"
+		method="POST">
+		<input type="hidden" name="commentState" value = "2" />
+		<input type="hidden" name="Newsno" value="<%= newsComment != null ? newsComment.getNewsNo() : "" %>"/>
+	</form><!--  끝  -->
+	
+<!-- ----------------------------------------------------- -->
+ 
+<div id="newsNo" style = "display : none" ><%= newsAndImage.getNewsNo() %></div> <!--  넘버값 가져오기위함 -->
 
-<script><!-- start -->
+<!-- ----------------------------------------------------- -->
+
+<!-- 좋아요 --> <!--  진행도 ( 틀 완성후 수경언니가 수정 + 추가 중  -->
+<div id="likeButton">
+  <button id="likeButtonBtn" style="font-size: 30px; border: none; background: none; padding: 0; margin: 0; cursor: pointer;">
+    ❤️좋아요 <%= newsAndImage.getNewsLikeCnt() %>
+  </button>
+</div>
+
+<br/><br/><br/>
+<!-- ----------------------------------------------------- -->
+<!--  관리자에게만 보이는 기사 삭제 버튼 --> <!--  진행도 (쿼리문만 넣으면 끝 ) -->
+  
+  <div id="deletNewsButton">
+	  <button class="deletNewsButtonbtn" style="font-size: 30px; border: none; background: none; padding: 0; margin: 0; cursor: pointer;">
+	    삭제 
+	  </button>
+  </div>
+  
+  <!-- 기사 삭제 --> 
+	<form 
+		action="<%= request.getContextPath() %>/News/NewsDelete" 
+		name="newsDelFrm"
+		method="POST">
+		<input type="hidden" name="newsNo" value="<%= newsAndImage.getNewsNo() %>"/>
+	</form><!--  끝  -->
 
 
+
+<script><!--start-----------start----------------start--------------------start---------start------------------------------------------------------ ----------------------------------------------------- ------------------------------------------------------>
+
+const bannerContainerLower = document.querySelector(".bannerContainerLower");
+bannerContainerLower.style.display = "none";
+
+window.onload = () => {
+	//newsComment();
+	
+}
+<!--------------------------------------------------------->	
 	// 댓글  리스트 ( 시좍 ~~~ )
 	function newsComment(frm){
-		const no = <%= news.getNewsNo()%>;
+		const no = <%= newsAndImage.getNewsNo()%>;
 		console.log(no);
 			$.ajax({
 				url: "<%= request.getContextPath() %>/news/newsCommentList", 
@@ -176,9 +201,8 @@ table#comment-container {
 				//const trdel2 = document.querySelector("#level2 tr");
 				
 				
-				
-				// .length 가 맞는것같은데
-				if (newsComments === null ){ // 작성된 댓글이 없는경우 
+	
+				if (newsComments.length>0 ){ // 작성된 댓글이 없는경우 
 					
 					tbody.innerHTML += `
 			        	<tr class="level1Del">
@@ -187,6 +211,7 @@ table#comment-container {
 			              </td>
 			            </tr>
 			            `;
+			            
 				}else{
 	
 					newsComments.forEach(newsComment => { // 반복 
@@ -225,7 +250,7 @@ table#comment-container {
 				              </td>
 				            </tr>
 				            `;
-						  }
+						  
 			        
 				            //----------------
 				            
@@ -423,7 +448,6 @@ table#comment-container {
 				button.onclick = (e) => {
 					if(confirm("해당 댓글을 삭제 처리 하시겠습니까?")){
 						const frm = document.newsCommentDelFrmAdmin;
-						const frm = document.newsCommentDelFrmMember;
 						
 						 const {value} = e.target; 
 						 const commentState = 2; 
@@ -437,11 +461,13 @@ table#comment-container {
 			});// 끝
 			
 <!------------------------------------------- -->		
+			
 			// 신고 메소드 (  좋아요 만든 후.. 제작예쩡 )
 			
 
 			
 <!-- 대댓글  ------------------------------- -->		
+			
 document.querySelectorAll(".btn-reply").forEach((button) => {
 		button.onclick = (e) => {
 			const {value} = e.target;
@@ -454,7 +480,7 @@ document.querySelectorAll(".btn-reply").forEach((button) => {
 								action="<%=request.getContextPath()%>/news/newsCommentCreate" 
 								method="post" 
 								name="NewsCommentFrm">
-				                <input type="hidden" name="newsNo" value="<%= news.getNewsNo()%>" />
+				                <input type="hidden" name="newsNo" value="<%= newsAndImage.getNewsNo()%>" />
 				                <input type="hidden" name="newsCommentWriter" value="<%= loginMember != null ? loginMember.getMemberId() : "" %>" />
 				                <input type="hidden" name="newsCommentLevel" value="2" />  
 				               <input type="hidden" name="newsCommentNickname" value="<%= loginMember.getNickname() %>" />
@@ -475,151 +501,21 @@ document.querySelectorAll(".btn-reply").forEach((button) => {
 		};
 	});
 	
-
-	
-		</script> <!-- end -->
-
-<!-- ----------------------------------------------------- -->
-
-<!--  진행도 ( 삭제 완성 / 오류테스트만 진행하면 끝 )  / 신고는 좋아요 완성후 수정예정   -->
-
-	<!-- 삭제 본인 -->
-	<form 
-		action="<%= request.getContextPath() %>/News/NewsCommentDelete" 
-		name="newsCommentDelFrmMember"
-		method="POST">
-		<input type="hidden" name="commentState" value = "1" />
-		<input type="hidden" name="Newsno" value="<%= newsComment.getNewsNo() %>" />
-	</form><!--  끝  -->
 	
 	
-	<!-- 삭제 관리자 -->
-	<form 
-		action="<%= request.getContextPath() %>/News/NewsCommentDelete" 
-		name="newsCommentDelFrmAdmin"
-		method="POST">
-		<input type="hidden" name="commentState" value = "2" />
-		<input type="hidden" name="Newsno" value="<%= newsComment.getNewsNo() %>"/>
-		
-	</form><!--  끝  -->
+<!--------------------------------------------->	
+
+	// 기사 삭제 
+	const deleteBoard = () => {
+			if(confirm("뉴스를 삭제하시겠습니까?"))
+				document.boardDeleteFrm.submit();
+		};	
 	
-	
-	<!-- 신고 본인 ( 제작 Xx ) -->
+</script> <!-- end --><!-------------------------------------------------------------------------------------------------------------------------------------------------------------- -->
 
 
-
-<!-- ----------------------------------------------------- -->
- 
-<div id="newsNo" style = "display : none" ><%= news.getNewsNo() %></div> <!--  넘버값 가져오기위함 -->
-
-<!-- ----------------------------------------------------- -->
-
-<!-- 좋아요 --> <!--  진행도 ( 틀 완성후 수경언니가 수정 + 추가 중  -->
-<div id="likeButton">
-  <button id="likeButtonBtn" style="font-size: 30px; border: none; background: none; padding: 0; margin: 0; cursor: pointer;">
-    ❤️좋아요 <%= news.getNewsLikeCnt() %>
-  </button>
-</div>
-
-
-
-<br/><br/><br/>
-
-<script>
-  // 좋아요 이벤트 리스너 추가 (+ 수정해야함...))
-//  document.getElementById("likeButtonBtn").addEventListener('click', (e) => {
-   
-    //  const newsNo = document.getElementById("newsNo").textContent;
-
-    //  $.ajax({
-     //   url: "<%= request.getContextPath() %>/news/newsLikeUpdate",
-      //  data: { newsNo: newsNo },
-      //  method: "POST",
-     //   success: function(response) {
-//location.reload();
-    //    }
-   //   });
-   
-  // });
-  
-  
-  $(function(){
-		// 좋아요 버튼 클릭시( 추가 또는 제거)
-		$("#likeButtonBtn").click(function(){
-			$.ajax({
-				url:  "<%= request.getContextPath() %>/news/newsLikeupdate", 
-              type: "POST",
-              
-              data: { // 로그인 아이디와 뉴스 넘버값을 받아옴 ! 
-            	  const newsNo = document.getElementById("newsNo").textContent; // 뉴스 넘버 
-            	  const newsNo = document.getElementById("newsNo").textContent; // 아이디 
-              },
-              success: function () {
-			        recCount();
-              },
-			})
-		})
-		
-		// 좋아요 수 
-	    function recCount() {
-			
-		}
-			$.ajax({
-				url: "<%= request.getContextPath() %>/news/newsCount",
-              type: "POST",
-              data: {
-                  no: ${content.board_no} // 뉴스 넘버값 
-              },
-              success: function (count) {
-              	$(".rec_count").html(count);
-              },
-			})
-	    };
-	    recCount(); // 처음 시작했을 때 실행되도록 해당 함수 호출
-	    
-	    
-	    
-</script>
-
-
-<!-- ----------------------------------------------------- -->
-
-
-<!--  관리자에게만 보이는 기사 삭제 버튼 --> <!--  진행도 (쿼리문만 넣으면 끝 ) -->
-  
-  <div id="deletNewsButton">
-	  <button class="deletNewsButtonbtn" style="font-size: 30px; border: none; background: none; padding: 0; margin: 0; cursor: pointer;">
-	    삭제 
-	  </button>
-  </div>
-  
-  <!-- 기사 삭제 --> 
-	<form 
-		action="<%= request.getContextPath() %>/News/NewsDelete" 
-		name="newsDelFrm"
-		method="POST">
-		<input type="hidden" name="newsNo" value="<%= news.getNewsNo() %>"/>
-	</form><!--  끝  -->
-	
-	
-  <script>
-  const deleteBoard = () => {
-		if(confirm("뉴스를 삭제하시겠습니까?"))
-			document.boardDeleteFrm.submit();
-	};	
-  </script>
-
-
-<!-- ----------------------------------------------------- -->
-
-<br/><br/><br/>
-  
 
 </section>
-
-<!-- ----------------------------------------------------- -->
-
-
 
 
 <script src="<%= request.getContextPath() %>/js/jquery-3.7.0.js"></script>
