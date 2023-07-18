@@ -1,3 +1,4 @@
+<%@page import="com.sk.goodogs.like.model.vo.LikeList"%>
 <%@page import="com.sk.goodogs.news.model.vo.NewsComment"%>
 <%@page import="java.util.List"%>
 <%@page import="com.sk.goodogs.news.model.vo.News"%>
@@ -12,6 +13,7 @@
 	News news = (News) request.getAttribute("news");
 	List<NewsComment> newsComments  = (List<NewsComment>)request.getAttribute("newsComments");
 	NewsComment newsComment = (NewsComment)request.getAttribute("NewsComment");
+	
 
 %>
 
@@ -108,17 +110,18 @@ table#comment-container {
 <table id="comment">
 		<thead>
 			<tr>
-				<th colspan='3'>댓글창</th>
-				
+				<th colspan='3'>댓글창</th> <!--  지우던가 수정,. 확인할려고 적어놈 -->
 			</tr>
 		</thead>
 		
 		<tbody>
 		
+			<!-- 댓글 들어가는 창 -->
 		
 		</tbody>
+		
 		<tfoot>
-			<button id="load-more-btn">더보기</button>
+			<button id="load-more-btn">더보기</button> <!-- 구현안함 -->
 		</tfoot>
 		
 	</table> 
@@ -184,22 +187,6 @@ table#comment-container {
 				              </td>
 				            </tr>
 				            `;
-				            
-				            
-				           //---버튼처리 -------------
-				      
-						   if (isSelf || isAdmin) {// 관리자일경우 보임
-						        tbody.innerHTML += `
-						        <td>
-							         <button class="report">신고</button>
-							         <button class="reply">답글</button>
-							     </td>
-							  `;
-
-						  }else if () {// 본인일때 보이는 버튼
-							  
-						  }else if() {// 일반 회원일때 보이는 버튼 
-							  
 						  }
 				            //----------------
 				        	
@@ -213,28 +200,8 @@ table#comment-container {
 				              </td>
 				            </tr>
 				            `;
-				            
-				            
-				              //---버튼처리 -------------
-				      
-						   if (isSelf || isAdmin) {// 관리자일경우 보임
-						        tbody.innerHTML += `
-						        <td>
-							         <button class="report">신고</button>
-							         <button class="reply">답글</button>
-							     </td>
-							  `;
-
-						  }else if () {// 본인일때 보이는 버튼
-							  
-						  }else if() {// 일반 회원일때 보이는 버튼 
-							  
-						  }
-				            //----------------
 				        	
-				        }else {// 삭제가 안된 댓글 처리-----------------------------
-
-					    
+				        }else {// 삭제가 안된 댓글 ( 정상 댓글 )  처리-----------------------------
 					          		
 					          tbody.innerHTML += `
 					            <td class="level1">
@@ -245,22 +212,44 @@ table#comment-container {
 					            </tr>
 					          `;
 					          
-					           //---버튼처리 -------------
-				      
-						   if (isSelf || isAdmin) {// 관리자일경우 보임
-						        tbody.innerHTML += `
-						        <td>
-							         <button class="report">신고</button>
-							         <button class="reply">답글</button>
-							     </td>
-							  `;
+					          //---버튼처리 -------------
+						      
+							   if ( ) {// 관리자일경우 보임  (어드민 아이디 == 로그인 회원 아이디)
+							        tbody.innerHTML += `
+							        <td>
+							        	  <button class="reply">답글</butto>
+							        	  <button class="report">신고</button>
+								          <button class="reply">삭제</button>
+								     </td>
+								  `;
 
-						  }else if () {// 본인일때 보이는 버튼
-							  
-						  }else if() {// 일반 회원일때 보이는 버튼 
-							  
-						  }
-				            //----------------
+							  }else if () {// 작성자 본인일때 보이는 버튼 (작성자 아이디 == 로그인 회원 아이디 )
+								  
+								  tbody.innerHTML += `
+								        <td>
+											 <button class="reply">삭제</button>
+									         <button class="reply">답글</button>
+									     </td>
+									  `;
+
+								  
+							  }else if() {// 일반 회원일때 보이는 버튼   (로그인 회원)
+								  
+								  tbody.innerHTML += `
+								        <td>
+									         <button class="report">신고</button>
+									         <button class="reply">답글</button>
+									     </td>
+									  `;
+
+								  
+							  }else{ 
+								  
+								  // 로그인 안한 회원은 아무것도 안보인다. ( 버튼이 ) 
+								  
+							  }// 버튼 끝 -------------
+								
+								  
 				        	
 				        }
 			        
@@ -269,6 +258,7 @@ table#comment-container {
 			          
 			          
 			        } else if (newsCommentLevel === 2) {    // 대댓글인 경우 
+			        	
 
 			        	 if  ( comment_state == 1 ){// 작성자 삭제 글씨 처리-----------------------------
 					        	
@@ -280,24 +270,6 @@ table#comment-container {
 				              </td>
 				            </tr>
 				            `;
-				            
-				            
-				            //---버튼처리 -------------
-				      
-						   if (isSelf || isAdmin) {// 관리자일경우 보임
-						        tbody.innerHTML += `
-						        <td>
-							         <button class="report">신고</button>
-							         <button class="reply">답글</button>
-							     </td>
-							  `;
-
-						  }else if () {// 본인일때 보이는 버튼
-							  
-						  }else if() {// 일반 회원일때 보이는 버튼 
-							  
-						  }
-				            //----------------
 				        	
 				        }else if ( comment_state == 2 ) {// 관리자 삭제 글씨 처리-----------------------------
 
@@ -309,27 +281,9 @@ table#comment-container {
 				              </td>
 				            </tr>
 				            `;
-				              //---버튼처리 -------------
-				      
-						   if (isSelf || isAdmin) {// 관리자일경우 보임
-						        tbody.innerHTML += `
-						        <td>
-							         <button class="report">신고</button>
-							         <button class="reply">답글</button>
-							     </td>
-							  `;
-
-						  }else if () {// 본인일때 보이는 버튼
-							  
-						  }else if() {// 일반 회원일때 보이는 버튼 
-							  
-						  }
-				            //----------------
-				        	
-				        }else {// 삭제가 안된 댓글 처리-----------------------------
-
-					    
-					          		
+				            
+				            
+				        }else {// 삭제가 안된 (정상댓글) 댓글 처리-----------------------------
 					          tbody.innerHTML += `
 					            <td class="level2">
 					              <td>
@@ -339,22 +293,45 @@ table#comment-container {
 					            </tr>
 					          `;
 					          
-					       //---버튼처리 -------------
-				      
-						   if (isSelf || isAdmin) {// 관리자일경우 보임
-						        tbody.innerHTML += `
-						        <td>
-							         <button class="report">신고</button>
-							         <button class="reply">답글</button>
-							     </td>
-							  `;
+					          //---버튼처리 -------------
+						      
+							   if ( ) {// 관리자일경우 보임  ( 어드민 == 로그인 회원)
+							        tbody.innerHTML += `
+							        <td>
+							        	  <button class="reply">답글</butto>
+							        	  <button class="report">신고</button>
+								          <button class="reply">삭제</button>
+								     </td>
+								  `;
 
-						  }else if () {// 본인일때 보이는 버튼
-							  
-						  }else if() {// 일반 회원일때 보이는 버튼 
-							  
-						  }
-				            //----------------
+							  }else if () {// 작성자 본인일때 보이는 버튼 ( 작성자 == 로그인 회원)
+								  
+								  tbody.innerHTML += `
+								        <td>
+											 <button class="reply">삭제</button>
+									         <button class="reply">답글</button>
+									     </td>
+									  `;
+
+								  
+							  }else if() {// 일반 회원일때 보이는 버튼   (로그인 회원)
+								  
+								  tbody.innerHTML += `
+								        <td>
+									         <button class="report">신고</button>
+									         <button class="reply">답글</button>
+									     </td>
+									  `;
+
+								  
+							  }else{ 
+								  
+								  
+								  
+								  // 로그인 안한 회원은 아무것도 안보인다. ( 버튼이 ) 
+							  }// 버튼 끝 -------------
+								
+								  
 				        	
 				        }
 			        
@@ -377,7 +354,14 @@ table#comment-container {
 			return false;
 		 }; // funtion 끝 
 		 
+		 
+		 
+		 
+		 
+		 
 <!--댓글 끝  ----------------------------------------------------- -->		 
+		 
+		 
 		 
 		 // 삭제  ( 본인 )
 			document.querySelectorAll(".btn-Member-delete").forEach((button) => {
@@ -392,6 +376,8 @@ table#comment-container {
 					}
 				}
 			}); // 끝
+			
+			
 		 
 			// 삭제  ( 관리자 )
 			document.querySelectorAll(".btn-Admin-delete").forEach((button) => {
@@ -409,7 +395,9 @@ table#comment-container {
 			});// 끝
 
 			
-			// 신고 메소드
+			
+			
+			// 신고 메소드 (  좋아요 만든 후.. 제작예쩡 )
 			document.querySelectorAll(".btn-report").forEach((button) => {
 				button.onclick = (e) => {
 					if(confirm("신고 하시겠습니까?")){
@@ -434,6 +422,7 @@ table#comment-container {
 		<input type="hidden" name="commentNo" value="<%= newsComment.getCommentNo() %>"/>
 	</form><!--  끝  -->
 	
+	
 	<!-- 삭제 관리자 -->
 	<form 
 		action="<%= request.getContextPath() %>/News/NewsCommentDelete" 
@@ -443,6 +432,7 @@ table#comment-container {
 		<input type="hidden" name="commentNo" value="<%= newsComment.getNewsNo() %>"/>
 	</form><!--  끝  -->
 	
+	
 	<!-- 신고 본인 ( 수정해야함 ) -->
 	<form 
 		action="<%= request.getContextPath() %>/News/NewsCommentReport" 
@@ -451,11 +441,14 @@ table#comment-container {
 		<input type="hidden" name="commentState" value = "2" />
 		<input type="hidden" name="commentNo" value="<%= newsComment.getNewsNo() %>"/>
 	</form><!--  끝  -->
+	
 
 <!-- ----------------------------------------------------- -->
 
  
 <div id="newsNo" style = "display : none" ><%= news.getNewsNo() %></div> <!--  넘버값 가져오기위함 -->
+<div id="newsNo" style = "display : none" ><%= news.getNewsNo() %></div> <!--  넘버값 가져오기위함 -->
+
 
 <!-- ----------------------------------------------------- -->
 <!-- 좋아요 -->
@@ -471,20 +464,58 @@ table#comment-container {
 
 <script>
   // 좋아요 이벤트 리스너 추가 (+ 수정해야함...))
-  document.getElementById("likeButtonBtn").addEventListener('click', (e) => {
+//  document.getElementById("likeButtonBtn").addEventListener('click', (e) => {
    
-      const newsNo = document.getElementById("newsNo").textContent;
+    //  const newsNo = document.getElementById("newsNo").textContent;
 
-      $.ajax({
-        url: "<%= request.getContextPath() %>/news/newsLikeUpdate",
-        data: { newsNo: newsNo },
-        method: "POST",
-        success: function(response) {
-          location.reload();
-        }
-      });
+    //  $.ajax({
+     //   url: "<%= request.getContextPath() %>/news/newsLikeUpdate",
+      //  data: { newsNo: newsNo },
+      //  method: "POST",
+     //   success: function(response) {
+//location.reload();
+    //    }
+   //   });
    
-  });
+  // });
+  
+  
+  $(function(){
+		// 좋아요 버튼 클릭시( 추가 또는 제거)
+		$("#likeButtonBtn").click(function(){
+			$.ajax({
+				url:  "<%= request.getContextPath() %>/news/newsLikeupdate", 
+              type: "POST",
+              
+              data: { // 로그인 아이디와 뉴스 넘버값을 받아옴 ! 
+            	  const newsNo = document.getElementById("newsNo").textContent; // 뉴스 넘버 
+            	  const newsNo = document.getElementById("newsNo").textContent; // 아이디 
+              },
+              success: function () {
+			        recCount();
+              },
+			})
+		})
+		
+		// 좋아요 수 
+	    function recCount() {
+			
+		}
+			$.ajax({
+				url: "<%= request.getContextPath() %>/news/newsCount",
+              type: "POST",
+              data: {
+                  no: ${content.board_no} // 뉴스 넘버값 
+              },
+              success: function (count) {
+              	$(".rec_count").html(count);
+              },
+			})
+	    };
+	    recCount(); // 처음 시작했을 때 실행되도록 해당 함수 호출
+	    
+	    
+	    
 </script>
 
 
