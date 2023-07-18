@@ -113,6 +113,10 @@ table#comment-container {
 
 <table id="comment">
 		
+		<thead>
+			
+		</thead>
+		
 		<tbody>
 			<!-- 댓글 들어가는 창 -->
 		</tbody>
@@ -122,6 +126,11 @@ table#comment-container {
 		</tfoot>
 		
 </table> <!-- end -->
+
+	
+	<div id='btn-more-container'>
+		<button id="btn-more" value="">더보기(<span id="cpage"></span>/<span id="totalPage"></span>)</button>
+	</div>
 	
 <br/><br/><br/>
 
@@ -134,7 +143,7 @@ table#comment-container {
 		name="newsCommentDelFrmMember"
 		method="POST">
 		<input type="hidden" name="commentState" value = "1" />
-		<input type="hidden" name="Newsno" value="<%= newsComment != null ? newsComment.getNewsNo() : "" %>" />
+		<input type="hidden" name="commentNo" value="<%= newsComment != null ? newsComment.getCommentNo() : "" %>" />
 	</form><!--  끝  -->
 
 	<!-- 삭제 관리자 -->
@@ -143,8 +152,9 @@ table#comment-container {
 		name="newsCommentDelFrmAdmin"
 		method="POST">
 		<input type="hidden" name="commentState" value = "2" />
-		<input type="hidden" name="Newsno" value="<%= newsComment != null ? newsComment.getNewsNo() : "" %>"/>
+		<input type="hidden" name="commentNo" value="<%= newsComment != null ? newsComment.getCommentNo() : "" %>"/>
 	</form><!--  끝  -->
+	
 	
 <!-- ----------------------------------------------------- -->
  
@@ -163,9 +173,7 @@ table#comment-container {
 <!--  관리자에게만 보이는 기사 삭제 버튼 --> <!--  진행도 (다 하고 확인중 ) -->
   
   <div id="deletNewsButton">
-	  <button class="deletNewsButtonbtn" style="font-size: 30px; border: none; background: none; padding: 0; margin: 0; cursor: pointer;">
-	    삭제 
-	  </button>
+		<input type="button" value="기사삭제" onclick="deleteBoard()">
   </div>
   
   <!-- 기사 삭제 --> 
@@ -184,18 +192,23 @@ const bannerContainerLower = document.querySelector(".bannerContainerLower");
 bannerContainerLower.style.display = "none";
 
 window.onload = () => {
-	//newsComment();
-	
+	newsComment();
 }
 
 // 기사 삭제 
 const deleteBoard = () => {
 		if(confirm("뉴스를 삭제하시겠습니까?"))
-			document.boardDeleteFrm.submit();
+			document.newsDelFrm.submit();
 	};	
 	
 <!--------------------------------------------------------->	
-	
+
+<!-- 더보기 -->
+
+
+
+
+<!----------------->
 	
 	// 댓글  리스트 ( 시좍 ~~~ )
 	function newsComment(frm){
@@ -207,13 +220,18 @@ const deleteBoard = () => {
 				method :"GET",
 				dataType :"json",
 				success(newsComments) {
+					
+					console.log(" 1 ");
+					
 				const tbody= document.querySelector("#comment tbody");
 				//const trdel1= document.querySelector("#level1 tr");
 				//const trdel2 = document.querySelector("#level2 tr");
 				
-				
+					
 	
-				if (newsComments.length>0 ){ // 작성된 댓글이 없는경우 
+				if (newsComments.length === 0 ){ // 작성된 댓글이 없는경우 
+				
+					console.log(" 3 ");
 					
 					tbody.innerHTML += `
 			        	<tr class="level1Del">
@@ -226,7 +244,7 @@ const deleteBoard = () => {
 				}else{
 	
 					newsComments.forEach(newsComment => { // 반복 
-						
+					
 				        const {
 				        	
 				          commentNo,
@@ -250,13 +268,15 @@ const deleteBoard = () => {
 					
 			        if (newsCommentLevel === 1) {// 댓글인 경우 ---------------------------------------------------------------------------------------
 			        	
-			        	
-			        	 if  ( commentState == 1 ){// 작성자 삭제 글씨 처리-----------------------------
-					        	
+						 
+			        	 if  ( commentState === 1 ){// 작성자 삭제 글씨 처리-----------------------------
+			        			
+			        		 console.log(" 삭제  "); 
+								
 				        	 tbody.innerHTML += `
 				        	<tr class="level1Del">
 				              <td>
-				                <sub class="comment-writer"> ${newsCommentNickname} </sub>
+				                <sub class="comment-writer"> \${newsCommentNickname} </sub>
 				              	  작성자가 삭제한 메세지입니다
 				              </td>
 				            </tr>
@@ -266,12 +286,14 @@ const deleteBoard = () => {
 				            //----------------
 				            
 				        	
-				        }else if ( commentState == 2 ) {// 관리자 삭제 글씨 처리-----------------------------
+				        }else if ( commentState === 2 ) {// 관리자 삭제 글씨 처리-----------------------------
 
+				       	 console.log(" 삭제2  "); 
+				        
 				        	 tbody.innerHTML += `
 				        	<tr class="level1Del">
 				              <td>
-				                <sub class="comment-writer"> ${newsCommentNickname} </sub>
+				                <sub class="comment-writer"> \${newsCommentNickname} </sub>
 				           	     관리자가 삭제한 메세지입니다
 				              </td>
 				            </tr>
@@ -279,53 +301,63 @@ const deleteBoard = () => {
 				        	
 				            
 				        }else {// 삭제가 안된 댓글 ( 정상 댓글 )  처리-----------------------------
-					          		
+			
 					          tbody.innerHTML += `
 					          
-					            <td class="level1">
+					            <tr class="level1">
 					              <td>
-					                <sub class="comment-writer"> ${newsCommentNickname} </sub>
-					                ${newsCommentContent}
-					              </td>
-					            </tr>
-					          
-					            
+					                <sub class="comment-writer"> \${newsCommentNickname} </sub>
+					                \${newsCommentContent}
+					                </td>
 					           `;
 					          
 					          //---버튼처리 -------------
 						      
 							   <% if (loginMember != null && loginMember.getMemberRole() == MemberRole.A) {%> // 관리자일경우 보임  (어드민 아이디 == 로그인 회원 아이디)
-							        tbody.innerHTML += `
-							        
-							        <td>
-							        	  <button class="btn-reply" value="${commentNo}" >답글</butto>
-							        	  <button class="report" value="${commentNo}" >신고</button>
-								          <button class="btn-admin-delete" value="${commentNo}">삭제</button>
-								     </td>
-								  
+							       
+							   console.log(" 관리자일경우2  "); 
+							   tbody.innerHTML += `
+											  <td>
+									        	  <button class="btn-reply" value="\${commentNo}" >답글</butto>
+									        	  <button class="report" value="\${commentNo}" >신고</button>
+										          <button class="btn-admin-delete" value="\${commentNo}">삭제</button>
+										          <button>관리자</button>
+									          </td>
+								            </tr>
 								     `;
 
 							  	  <%  }else if (loginMember == null){%> 
-							  		
+							  	  
+							  	 console.log(" 비회원2  "); 
+							     tbody.innerHTML += `
+							            </tr>
+							     `;
 							  	  // 로그인 안한 회원은 아무것도 안보인다. ( 버튼이 ) 
 								  
 								  <% }else if(loginMember != null && loginMember.getMemberRole() == MemberRole.M ){ %>// 일반 회원일때 보이는 버튼   (로그인 회원)
 								  
+								  console.log(" 회원일때2  "); 
 								  tbody.innerHTML += `
-								        <td>
-									         <button class="report" value="${commentNo}" >신고</button>
-									         <button class="btn-reply" value="${commentNo}" >답글</button>
-									     </td>
+												<td>
+										         <button class="report" value="\${commentNo}" >신고</button>
+										         <button class="btn-reply" value="\${commentNo}" >답글</button>
+										         <button>회원</button>
+										         </td>    	
+									         </tr>
 									  `;
 
 								  
 								  <%  }else if (loginMember != null){ %> // 작성자 본인일때 보이는 버튼 (작성자 아이디 == 로그인 회원 아이디 )
 								  
+								  console.log(" 작성자2  "); 
+								  
 								  tbody.innerHTML += `
-								        <td>
-											 <button class="reply-member" value="${commentNo}" >삭제</button>
-									         <button class="btn-Member-delete" value="${commentNo}" >답글</button>
-									     </td>
+									 		 <td>
+									         <button class="btn-Member-delete" value="\${commentNo}" >답글</button>
+									         <button class="reply-member" value="\${commentNo}" >삭제</button>
+									         <button>작성자</button>
+									         </td>    	  	
+									      </tr>
 									     `;
 								  
 								 
@@ -348,7 +380,7 @@ const deleteBoard = () => {
 				        	 tbody.innerHTML += `
 				        	<tr class="level1De2">
 				              <td>
-				                <sub class="comment-writer"> ${newsCommentNickname} </sub>
+				                <sub class="comment-writer"> \${newsCommentNickname} </sub>
 				              	  작성자가 삭제한 메세지입니다
 				              </td>
 				            </tr>
@@ -359,7 +391,7 @@ const deleteBoard = () => {
 				        	 tbody.innerHTML += `
 				        	<tr class="level1De2">
 				              <td>
-				                <sub class="comment-writer"> ${newsCommentNickname} </sub>
+				                <sub class="comment-writer">\${newsCommentNickname} </sub>
 				           	     관리자가 삭제한 메세지입니다
 				              </td>
 				            </tr>
@@ -370,8 +402,8 @@ const deleteBoard = () => {
 					          tbody.innerHTML += `
 					            <td class="level2">
 					              <td>
-					                <sub class="comment-writer"> ${newsCommentNickname} </sub>
-					                ${newsCommentContent}
+					                <sub class="comment-writer"> \${newsCommentNickname} </sub>
+					                \${newsCommentContent}
 					              </td>
 					           
 					          `;
@@ -381,7 +413,7 @@ const deleteBoard = () => {
 							   <% if (loginMember != null && loginMember.getMemberRole() == MemberRole.A) {%> // 관리자일경우 보임  (어드민 아이디 == 로그인 회원 아이디)
 							        tbody.innerHTML += `
 							        
-							        <td>
+							      
 							        	  <button class="report" value="${commentNo}" >신고</button>
 								          <button class="btn-admin-delete" value="${commentNo}">삭제</button>
 								     </td>
@@ -412,21 +444,24 @@ const deleteBoard = () => {
 								 
 								  
 								  <%  } %> // 버튼 끝 -------------
+								  
+				        	} //else // 삭제가 안된 (정상댓글) 댓글 처리
 				        	
-				        }
+				        } // 대댓글인경우
 			        
 			         
 			          //--------------------------------------------------------------
 			          
 			          
 			          
-			 					       } // 대댓글인 경우 끝  
+			 					    
 			  		      
 			 				     }); // forEach 끝
 					
-							} // if (newsComment == null ){끝 
+							} // if (newsComment == 0  ){끝 
 
-					} // success 끝
+						} // success 끝
+					
 					
 				 }); // ajax 끝
 				 
@@ -434,18 +469,13 @@ const deleteBoard = () => {
 				 
 		 }; // funtion 끝 
 		 
-		 
 <!--댓글 끝  ----------------------------------------------------- -->		
-		 
-		 
-		 
-		 
 		 // 삭제  ( 본인 )
 			document.querySelectorAll(".btn-Member-delete").forEach((button) => {
 				button.onclick = (e) => {
 					if(confirm("해당 댓글을 삭제하시겠습니까?")){
 						const frm = document.newsCommentDelFrmMember;
-						
+						console.log("삭제중")
 						 const {value} = e.target; 
 						 const commentState = 1; 
 						 
@@ -463,7 +493,7 @@ const deleteBoard = () => {
 				button.onclick = (e) => {
 					if(confirm("해당 댓글을 삭제 처리 하시겠습니까?")){
 						const frm = document.newsCommentDelFrmAdmin;
-						
+						console.log("삭제중")
 						 const {value} = e.target; 
 						 const commentState = 2; 
 						 
@@ -474,6 +504,15 @@ const deleteBoard = () => {
 					}
 				}
 			});// 끝
+			
+			// 이벤트버블링을 이용한 textarea focus핸들러
+			// focus, blur 버블링되지 않음. 대신 focusin, focusout 사용.
+			document.addEventListener("click", (e) => {
+				if(e.target.matches("button[class= btn-admin-delete] ")) {
+					console.log("삭제다뿅")	
+				}
+			});
+			
 			
 <!------------------------------------------- -->		
 			
