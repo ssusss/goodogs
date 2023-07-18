@@ -262,6 +262,7 @@ public class NewsService {
 				close(conn);
 			}
 			return result;
+		}
 
 		public List<News> findNewsRanking() {
 			Connection conn = getConnection();
