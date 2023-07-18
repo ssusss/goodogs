@@ -11,14 +11,13 @@ import javax.servlet.http.HttpSession;
 import com.google.gson.Gson;
 import com.sk.goodogs.bookmark.model.service.BookmarkService;
 import com.sk.goodogs.member.model.vo.Member;
-import com.sk.goodogs.news.model.service.NewsService;
 
 /**
  * @author 전수경
- * - 북마크 DB에 추가
+ * - 북마크 DB에서 삭제
  */
-@WebServlet("/bookmark/bookmarkInsert")
-public class InsertBookmarkServlet extends HttpServlet {
+@WebServlet("/bookmark/deleteBookmark")
+public class deleteBookmarkServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	private final BookmarkService bookmarkService = new BookmarkService();
 
@@ -31,10 +30,9 @@ public class InsertBookmarkServlet extends HttpServlet {
 		Member loginMember = (Member) session.getAttribute("loginMember");
 		String memberId = loginMember.getMemberId();
 		int newsNo = Integer.parseInt(request.getParameter("newsNo"));
-		String bookmarkedContent = request.getParameter("bookmarkedContent");
 		
-		// 업무로직 (dml - insert)
-		int result = bookmarkService.insertBookmark(memberId, newsNo, bookmarkedContent);
+		// 업무로직 (dml - delete)
+		int result = bookmarkService.deleteBookmark(memberId, newsNo);
 		
 		// 요청응답 (json)
 		response.setContentType("application/json; charset=utf-8"); // 헤더
