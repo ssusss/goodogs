@@ -44,39 +44,64 @@
 </head>
 <body>
 <form name="scriptWriteFrm">
+	<div class="tbl-container">
+		<table id="tbl123">
+			<tbody>
+				<tr>
+					<td>
+						<label for="scriptWriter">작성자 : </label>
+						<input class="writerId" name="scriptWriter" value="<%= loginMember.getMemberId() %>" readonly/>
+					</td>
+				</tr>
+				<tr>
+					<td>
+						<label for="titleArea">뉴스 제목 : </label>
+						<input type="text" name="titleArea" id="titleArea" value="<%= scriptTitle %>">
+					</td>
+				</tr>
+				<tr>
+					<td>
+						<label for="category">카테고리 : </label>
+						<select name="category" id="category">
+							<option value="-선택-" disabled selected>-선택-</option>
+							<option value="정치" <%=category.equals("정치") ? "selected" : "" %>>정치</option>
+							<option value="경제" <%=category.equals("경제") ? "selected" : "" %>>경제</option>
+							<option value="세계" <%=category.equals("세계") ? "selected" : "" %>>세계</option>
+							<option value="테크" <%=category.equals("테크") ? "selected" : "" %>>테크</option>
+							<option value="환경" <%=category.equals("환경") ? "selected" : "" %>>환경</option>
+							<option value="스포츠" <%=category.equals("스포츠") ? "selected" : "" %>>스포츠</option>
+							<option value="사회" <%=category.equals("사회") ? "selected" : "" %>>사회</option>
+						</select>
+					</td>
+				</tr>
+				<tr>
+					<td class="fileUploadContainer">
+					  <label for="newsImage" style="display: inline-block;">썸네일 첨부 :</label>
+					  <input type="file" name="newsImage" id="newsImage" style="display: inline-block;"/>
+					  <span>최대크기 : 10MB</span>
+					</td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
+	
 	<div class="myScriptWrite">
-		<label for="scriptWriter">작성자 : </label>
-		<input class="writerId" name="scriptWriter" value="<%= loginMember.getMemberId() %>" readonly/>
-		<div class="titleAreaContanier">
 
-			<label for="titleArea">뉴스 제목 : </label>
-			<input type="text" name="titleArea" id="titleArea" value="<%= scriptTitle %>">
-		</div>
-		<span style="font-weight: bold;">카테고리 : </span>
-		<select name="category" id="category">
-			<option value="-선택-" disabled selected>-선택-</option>
-			<option value="정치" <%=category.equals("정치") ? "selected" : "" %>>정치</option>
-			<option value="경제" <%=category.equals("경제") ? "selected" : "" %>>경제</option>
-			<option value="세계" <%=category.equals("세계") ? "selected" : "" %>>세계</option>
-			<option value="테크" <%=category.equals("테크") ? "selected" : "" %>>테크</option>
-			<option value="환경" <%=category.equals("환경") ? "selected" : "" %>>환경</option>
-			<option value="스포츠" <%=category.equals("스포츠") ? "selected" : "" %>>스포츠</option>
-			<option value="사회" <%=category.equals("사회") ? "selected" : "" %>>사회</option>
-		</select>
-		<div class="fileUploadContainer">
-			<label for="newsImage">썸네일 첨부 : </label>
-			<input type="file" name="newsImage" id="newsImage"/>
-			<span> 최대크기 : 10MB</span>
-		</div>
-		<br>
-
-
-		<button id="h2Btn">h2</button>
-		<button id="pBtn">p</button>
-		<button id="aBtn">a</button>
-		<button id="olBtn">ol</button>
-		<button id="ulBtn">ul</button>
-		<button id="colorBtn">color</button>
+		<table id="fontStyleTable">
+			<tbody>
+				<tr>
+					<td><button id="h2Btn">소제목</button></td>
+					<td><button id="pBtn">본문</button></td>
+					<td><button id="aBtn">링크</button></td>
+					<td><button id="bBtn">B</button></td>
+					<td><button id="uBtn">U</button></td>
+					<td><button id="olBtn">ol</button></td>
+					<td><button id="ulBtn">ul</button></td>
+					<td><button id="colorBtn">color</button></td>
+				</tr>
+			</tbody>
+		</table>
+		
 		
 		<fieldset id="linkBox">
 			<legend> 링크 </legend>
@@ -303,6 +328,12 @@ aBtn.onclick= () => {
 	const insertLink = document.querySelector("#linkBox");
 	linkBox.style.display = "block";
 }
+bBtn.onclick= () => {
+	$('#summernote').summernote('bold');
+}
+uBtn.onclick= () => {
+	$('#summernote').summernote('underline');
+}
 insertLink.onclick = () => {
 	$('#summernote').summernote('createLink', {
 		  text: aContent.value,
@@ -334,6 +365,19 @@ colorBtn.onclick = () => {
 
 // -------------------- 자동 이어쓰기 -----------------------
 
+
+// 혜령
+// 버튼 클릭시 색 변경
+// JavaScript 코드
+const buttons = document.querySelectorAll('#fontStyleTable button');
+buttons.forEach(button => {
+  button.addEventListener('click', function() {
+    buttons.forEach(btn => {
+      btn.style.backgroundColor = ''; // 모든 버튼의 백그라운드 컬러 초기화
+    });
+    this.style.backgroundColor = 'red'; // 클릭된 버튼의 백그라운드 컬러 변경
+  });
+});
 
 
 </script>

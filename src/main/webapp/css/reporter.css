@@ -6,18 +6,10 @@
 .myScriptWrite {
 	background-color: #EDEDE1;
 	padding: 50px 15%;
-	height: 1200px
+	height: 900px
 }
 .note-resizebar, .note-statusbar{
 	display: none;
-}
-
-#contentArea {
-	background-color: white;
-	border: 1px solid black;
-	width: 100%;
-	height: 400px;
-	padding: 10px;
 }
 
 #titleArea {
@@ -25,13 +17,7 @@
 	width: 60%;
 }
 
-.titleAreaContanier {
-	display: flex;
-}
 
-.fileUploadContainer {
-	display: flex;
-}
 
 .scriptBtn {
 	width: 100px;
@@ -87,8 +73,48 @@
 }
 
 .note-editable {
-	height: 800px;
+	height: 700px;
 }
+
+.tbl-container {	
+	background-color: #EDEDE1;
+	padding: 50px 15% 0 15%;
+	border-bottom: 1px solid black;
+}
+
+#tbl123 {
+	width: 100%;
+	font-size: 15px;
+}
+#tbl123 td {
+	padding: 5px;
+
+}
+#tbl123
+
+
+
+#fontStyleTable {
+	background-color: #B5C99A
+}
+
+/* 작성자 */
+.writerId {
+	background-color: transparent;
+	border: none;
+	outline: none;
+	border-bottom: 1px solid black;
+}
+
+/* 뉴스 제목 */
+#titleArea {
+	background-color: transparent;
+	border: none;
+	outline: none;
+	border-bottom: 1px solid black;
+}
+
+
 
 /* 원고 관리 css */
 .myScriptList {
