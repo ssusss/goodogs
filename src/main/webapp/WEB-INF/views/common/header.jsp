@@ -173,6 +173,8 @@
 							<input type="button" value="좋아요" onclick="location.href='<%= request.getContextPath() %>/like/likePage';">
 							<input type="button" value="북마크" onclick="location.href='<%= request.getContextPath() %>/bookmark/bookmarkPage';">
 						</div>
+						
+						
 						<% } else if (loginMember.getMemberRole() == MemberRole.R) { %>
 						<p class="welcomeMember2">기자 <%= loginMember.getNickname() %>님, 어서오개!</p>
 						<div class="welcomeBtnWrapper">

@@ -208,11 +208,11 @@ public class NewsService {
 	
 	
 	// 뉴스
-		public News newsDetail(int No) {
+		public  NewsAndImage newsDetail(int No) {
 			Connection conn = getConnection();
-			News  news = newsDao.NewsDetail(conn,No);
+			NewsAndImage newsAndImage = newsDao.NewsDetail(conn,No);
 			close(conn);
-			return news;
+			return newsAndImage;
 		}
 
 
@@ -247,11 +247,29 @@ public class NewsService {
 			}
 			return result;
 		}
+	
+		// 뉴스 삭제 
+		public int NewsAdminDelete(int newsno) {
+			Connection conn = getConnection();
+			int result = 0;
+			try {
+				result = newsDao.NewsAdminDelete(conn, newsno);
+				commit(conn);
+			} catch (Exception e) {
+				rollback(conn);
+				throw e;
+			} finally {
+				close(conn);
+			}
+			return result;
+		}
+
 		public List<News> findNewsRanking() {
 			Connection conn = getConnection();
 			List<News> news = newsDao.findNewsRanking(conn);
 			close(conn);
 			return news;
+
 		}
 		
 		public List<News> searchNewsByTitle(String title) {
