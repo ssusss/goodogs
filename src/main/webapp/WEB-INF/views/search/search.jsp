@@ -55,6 +55,7 @@ table {
 table th, table tr, table td {
 	border: 1px solid black;
 }
+
 </style>
 
 <section>
@@ -81,7 +82,6 @@ table th, table tr, table td {
 					</tr>
 				</thead>
 				<tbody>
-				
 				</tbody>
 			</table>
 		</div>
@@ -128,7 +128,39 @@ table th, table tr, table td {
     }
 	
 });
+	
+	$.ajax({
+		url : "<%= request.getContextPath() %>/goodogs/ranking",
+		success(news){
+			console.log(news);
+			
+			const container = document.querySelector(".keywordContainer");
+			
+			let i = 1;
+			news.forEach((news) => {
+				const {newsTitle, newsLikeCnt} = news;
+				container.innerHTML += `
+				<table>
+					<tbody>
+						<tr>
+							<td>\${i}</td>
+							<td>\${newsTitle}</td>
+							<td>\${newsLikeCnt}개</td>
+						</tr>
+					</tbody>
+				</table>
+				
+				`;
+				
+				i++;
+			})
+		}
+	})
+	
+	
 </script>
 
 
 <%@ include file="/WEB-INF/views/common/footer.jsp" %>
+
+
