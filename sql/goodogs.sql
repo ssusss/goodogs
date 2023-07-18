@@ -362,7 +362,8 @@ select * from news_image;
 select * from news_image;
 select * from news;
 
-
+-- 뉴스 좋아요수 조회 테스트
+--select count(*) from like_list where news_no = 8 and member_id='honggd@naver.com';
 
 
 select * from bookmark;
