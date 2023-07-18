@@ -1,7 +1,6 @@
 package com.sk.goodogs.news.controller;
 
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.util.List;
 
 import javax.servlet.ServletException;
@@ -9,41 +8,36 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 
 import com.google.gson.Gson;
-import com.sk.goodogs.member.model.vo.Member;
 import com.sk.goodogs.news.model.service.NewsService;
 import com.sk.goodogs.news.model.vo.News;
-import com.sk.goodogs.news.model.vo.NewsComment;
 
 /**
- *@author 김나영 / 댓글 가져옴 
+ * Servlet implementation class SelectNewsByTitle
  */
-@WebServlet("/news/newsCommentList")
-public class NewsCommentListServlet extends HttpServlet {
+@WebServlet("/news/selectNews")
+public class SelectNewsByTitle extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	private static final NewsService newsService = new NewsService();
-
-
+	/**
+	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
+	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		System.out.println("댓글  리스트");
+		String title = request.getParameter("searchKeyword");
 		
-		HttpSession session = request.getSession();
+		System.out.println(title);
 		
-		int No = Integer.valueOf(request.getParameter("no"));
-		System.out.println(No);
+		List<News> newsList = newsService.searchNewsByTitle(title);
 		
-		List<NewsComment> newsComments  = newsService.findNewsComment(No);
-			
 		response.setContentType("application/json; charset=utf-8");
-		request.setAttribute("newsComments", newsComments );
 		
+		Gson gson= new Gson();
+		String jsonStr=gson.toJson(newsList);
+		System.out.println("jsonStr = " + jsonStr);
+		response.getWriter().append(jsonStr);
 		
-		new Gson().toJson(newsComments, response.getWriter());			
 		
 	}
-
-
 
 }

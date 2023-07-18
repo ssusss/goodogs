@@ -15,63 +15,136 @@ bannerContainerLower.style.display = "none";
 navBox.style.display = "none";
 </script>
 
-<style>
-section {
-	border: 1px solid black;
-	height: 800px;
-}
-.searchWrapper {
-	border: 1px solid black;
-	width: 90%;
-	margin: 0 auto;
-	height: 800px;
-	display: flex;
-}
+  <style>
+    section {
+      border: 1px solid black;
+      height: 800px;
+    }
 
-.searchContainer {
-	width: 50%;
-	height: 800px;
-}
+    .searchWrapper {
+      border: 1px solid black;
+      width: 90%;
+      margin: 0 auto;
+      height: 800px;
+      display: flex;
+    }
 
-.keywordContainer {
-	border: 1px solid black;
-	width: 50%;
-	height: 800px;
-}
-.searchBoxContainer {
-	border: 1px solid black;
-}
-.searchImageContainer {
-position: absolute;
-	border: 1px solid black;
-	width: 300px;
-	height: 300px;
-	margin: 450px 150px;
-}
-table {
-	border: 1px solid black;
-	border-collapse: collapse;
-}
-table th, table tr, table td {
-	border: 1px solid black;
-}
-</style>
+    .searchContainer {
+      width: 50%;
+      height: 800px;
+    }
+
+    .searchBoxContainer {
+      border: 1px solid black;
+    }
+
+    .tble-newsContainer {
+      margin-top: 20px;
+      border: 1px solid black;
+    }
+
+    #tbl-news {
+      border-collapse: collapse;
+      width: 100%;
+    }
+
+    #tbl-news th,
+    #tbl-news td {
+      border: 1px solid black;
+      padding: 8px;
+      text-align: center;
+    }
+
+    #tbl-news thead tr {
+      background-color: #f2f2f2;
+    }
+
+    #tbl-news tbody tr:nth-child(even) {
+      background-color: #f9f9f9;
+    }
+
+    #tbl-news tbody tr:hover {
+      background-color: #ddd;
+    }
+
+    .searchImageContainer {
+      position: absolute;
+      border: 1px solid black;
+      width: 300px;
+      height: 300px;
+      margin: 384px 150px;
+    }
+
+    .keywordContainer {
+      border: 1px solid black;
+      width: 50%;
+      height: 800px;
+    }
+
+    table {
+      border: 1px solid black;
+      width: 100%;
+    }
+
+    table th,
+    table tr,
+    table td {
+      border: 1px solid black;
+      padding: 8px;
+      text-align: center;
+    }
+
+    table thead tr {
+      background-color: #f2f2f2;
+    }
+
+    table tbody tr:nth-child(even) {
+      background-color: #f9f9f9;
+    }
+
+    table tbody tr:hover {
+      background-color: #ddd;
+    }
+    
+   .imageFile {
+	  display: block; /* Remove any inline spacing */
+	  width: 100%;
+	  max-width: 100%; /* Set the maximum width to 100% of its container */
+	  height: -webkit-fill-available; /* Maintain aspect ratio */
+	}
+  </style>
 
 <section>
 	<div class="searchWrapper">
 		<div class="searchContainer">
 			<form action="">
 				<div class="searchBoxContainer">
-					<input type="text" placeholder="무엇이 알고싶개?" id="newsName">
-					<button type="submit">검색!</button>
+					<input type="text" name="searchKeyword" placeholder="무엇이 알고싶개?" id="newsName">
+					<button type="button" onclick="searchNews()">검색!</button>
 				</div>
-			</form>	
-			<div class="searchImageContainer">
+			</form>
 			
+			<div class= "tble-newsContainer">
+				<table id="tbl-news">
+					<thead>
+						<tr>
+							<th>뉴스 제목</th>
+							<th>뉴스 작성자</th>
+							<th>뉴스 좋아요 수</th>
+							<th>뉴스 조회 수</th>
+						</tr>
+					</thead>
+					<tbody></tbody>
+				</table>
+			
+			</div>
+			
+			<div class="searchImageContainer">
+				<img src="<%= request.getContextPath() %>/upload/profile/withDraw.jpg" alt="sadImage" class="imageFile"/>
 			</div>			
 		</div>
 		<div class="keywordContainer">
-			<h1>구독이 추천 키워드</h1>
+			<h1>구독이 추천 키워드 Top5</h1>
 			<table>
 				<thead>
 					<tr>
@@ -81,7 +154,6 @@ table th, table tr, table td {
 					</tr>
 				</thead>
 				<tbody>
-				
 				</tbody>
 			</table>
 		</div>
@@ -128,7 +200,74 @@ table th, table tr, table td {
     }
 	
 });
+	
+	$.ajax({
+		  url: "<%= request.getContextPath() %>/goodogs/ranking",
+		  success: function (news) {
+		    console.log(news);
+
+		    const tbody = document.querySelector(".keywordContainer tbody");
+		    let i = 1;
+
+		    if (news.length > 0) {
+		      news.forEach((news) => {
+		        const { newsTitle, newsLikeCnt } = news;
+		        const row = document.createElement("tr");
+		        row.innerHTML = `
+		          <td>\${i}</td>
+		          <td>\${newsTitle}</td>
+		          <td>\${newsLikeCnt}개</td>
+		        `;
+		        tbody.appendChild(row);
+
+		        i++;
+		      });
+		    } else {
+		      const row = document.createElement("tr");
+		      row.innerHTML = `<td colspan='3'>조회된 뉴스가 없습니멍.</td>`;
+		      tbody.appendChild(row);
+		    }
+		  },
+		});
+
+	
+	function searchNews() {
+		  const searchKeywordVal = document.getElementById("newsName").value;
+		  $.ajax({
+		    url: "<%= request.getContextPath() %>/news/selectNews", 
+		    data: { searchKeyword: searchKeywordVal },
+		    method: "GET",
+		    dataType: "json",
+		    success:function(newsList) {
+		    	if(newsList.length>0){
+		    		
+		    		const tbody= document.querySelector("#tbl-news tbody");
+		    		tbody.innerHTML= newsList.reduce((html,news)=>{
+						const{newsTitle, newsWriter,newsLikeCnt,newsReadCnt} = news;
+						
+						return html +`
+						<tr>
+							<td>\${newsTitle}</td>
+							<td>\${newsWriter}</td> 
+							<td>\${newsLikeCnt}</td>
+							<td>\${newsReadCnt}</td>
+						</tr>
+						`;
+					},"");
+		    	}else{
+		    		const tbody= document.querySelector("#tbl-news tbody");
+					tbody.innerHTML=`
+						<tr><td colspan='4'>조회된 뉴스가 없습니멍.</td></tr>
+					`;
+		    	}
+		    }
+		  });
+		}
+	
+	
 </script>
 
 
 <%@ include file="/WEB-INF/views/common/footer.jsp" %>
+
+

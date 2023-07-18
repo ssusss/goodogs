@@ -4,10 +4,13 @@
 
 /* 원고 작성 css */
 .myScriptWrite {
-	background-color: orange;
-	padding: 0px 15%;
+	background-color: #EDEDE1;
+	padding: 50px 15%;
+	height: 1200px
 }
-
+.note-resizebar, .note-statusbar{
+	display: none;
+}
 
 #contentArea {
 	background-color: white;
@@ -84,7 +87,7 @@
 }
 
 .note-editable {
-	height: 360px;
+	height: 800px;
 }
 
 /* 원고 관리 css */
