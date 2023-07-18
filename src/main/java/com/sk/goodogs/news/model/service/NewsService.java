@@ -1,5 +1,9 @@
 package com.sk.goodogs.news.model.service;
 
+import static com.sh.mvc.common.JdbcTemplate.close;
+import static com.sh.mvc.common.JdbcTemplate.commit;
+import static com.sh.mvc.common.JdbcTemplate.getConnection;
+import static com.sh.mvc.common.JdbcTemplate.rollback;
 import static com.sk.goodogs.common.JdbcTemplate.*;
 
 import java.sql.Connection;
@@ -243,6 +247,24 @@ public class NewsService {
 				rollback(conn);
 				throw e;
 			}finally {
+				close(conn);
+			}
+			return result;
+		}
+		
+		
+		
+		// 뉴스 삭제 
+		public int NewsAdminDelete(int newsno) {
+			Connection conn = getConnection();
+			int result = 0;
+			try {
+				result = newsDao.NewsAdminDelete(conn, newsno);
+				commit(conn);
+			} catch (Exception e) {
+				rollback(conn);
+				throw e;
+			} finally {
 				close(conn);
 			}
 			return result;

@@ -15,6 +15,8 @@ import java.util.Properties;
 import javax.script.ScriptException;
 
 import static com.sk.goodogs.common.JdbcTemplate.*;
+
+import com.sh.mvc.board.model.exception.BoardException;
 import com.sk.goodogs.member.model.vo.Member;
 import com.sk.goodogs.news.model.exception.NewsException;
 import com.sk.goodogs.news.model.vo.News;
@@ -465,6 +467,21 @@ public class NewsDao {
 					}
 					
 					return result;
+				}
+				
+				
+				// 뉴스 삭제
+				public int NewsAdminDelete(Connection conn, int newsno) {
+					int result = 0;
+					String sql = prop.getProperty("NewsAdminDelete");
+					try (PreparedStatement pstmt = conn.prepareStatement(sql)) {
+						pstmt.setInt(1, newsno);
+						result = pstmt.executeUpdate();
+					} catch (SQLException e) {
+						throw new NewsException(e);
+					}
+					return result;
+				
 				}
 
 }
