@@ -9,6 +9,8 @@
 	pageEncoding="UTF-8"%>
 <%@ include file="/WEB-INF/views/common/header.jsp" %>
 <script src="<%= request.getContextPath() %>/js/jquery-3.7.0.js"></script>
+<script src="https://code.jquery.com/ui/1.13.2/jquery-ui.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 <!--  기사 페이지  -->
 <%
 	NewsAndImage newsAndImage = (NewsAndImage) request.getAttribute("newsAndImage");
@@ -35,7 +37,17 @@
 %>
 
 <style>
-
+/* 혜령 */
+  /* 말풍선 스타일 */
+  .highlight-tooltip {
+    position: absolute;
+    background-color: #fff;
+    border: 1px solid #ccc;
+    padding: 5px;
+    font-size: 12px;
+    border-radius: 4px;
+    z-index: 9999;
+  }
 
 #comment-container {
     border: 2px solid black; /* 검정 테두리 설정 */
@@ -217,9 +229,18 @@ table#comment-container {
 		<input type="hidden" name="newsNo" value="<%= newsAndImage.getNewsNo() %>"/>
 	</form><!--  끝  -->
 
+</section>
+
+<!-- ----------------------------------------------------- -->
+
+<!-- asdasdasdasdsadasdasdasdsasd -->
 
 
-<script><!--start-----------start----------------start--------------------start---------start------------------------------------------------------ ----------------------------------------------------- ------------------------------------------------------>
+<div class="highlight-tooltip" style="display: block;">북마크</div>
+
+
+<script>
+<!--start-----------start----------------start--------------------start---------start------------------------------------------------------ ----------------------------------------------------- ------------------------------------------------------>
 
 const bannerContainerLower = document.querySelector(".bannerContainerLower");
 bannerContainerLower.style.display = "none";
@@ -698,16 +719,12 @@ document.querySelectorAll(".btn-reply").forEach((button) => {
 
 	//----------------------끝    
 	
-</script> <!-- end --><!-------------------------------------------------------------------------------------------------------------------------------------------------------------- -->
 
 
 
+const tooltip = document.querySelector('.highlight-tooltip');
 
-</section>
 
-<!-- ----------------------------------------------------- -->
-<div class="highlight-tooltip" style="display: block;">북마크</div>
-<script>
 // 말풍선을 표시할 위치와 내용 설정
 function showTooltip(x, y) {
   tooltip.style.display = 'block';
@@ -721,48 +738,75 @@ function hideTooltip() {
   tooltip.style.display = 'none';
 }
 
-const tooltip = document.querySelector('.highlight-tooltip');
-
 
 // 하이라이트된 내용을 저장
 function saveHighlight() {
-    let highlightedContent = window.getSelection().toString().trim(); // 선택한 텍스트 문자열로 반환하고 앞뒤 공백 제거
-        console.log(highlightedContent); // 선택한 내용을 확인하기 위해 콘솔에 출력
-
-
-    if (highlightedContent !== '') {
-            hideTooltip(); // 말풍선 숨김
-          }
+	
+	 let highlightedContent = window.getSelection().toString().trim(); // 선택한 텍스트 문자열로 반환하고 앞뒤 공백 제거
+	    console.log("highlightedContent : " + selection2); // 선택한 내용을 확인하기 위해 콘솔에 출력
+	
+	 if (highlightedContent !== '') {
+	    hideTooltip(); // 말풍선 숨김
+	 }
+	 
+	 
 }
+const newsContent = document.querySelector("#news-content");
+
+let selection2 = null;
+	
+
 
 // mouseup 이벤트 발생 시 말풍선 표시
 document.addEventListener('mouseup', function(event) {
-  console.log("mouseup 실행됨")
+  // console.log("mouseup 실행됨")
+  
   const selection = window.getSelection();
-
-  console.log("selection 실행됨" + selection)
-
+  
+  let startNode = selection.anchorNode;
+	let endNode = selection.focusNode;
+	let startOffset = selection.anchorOffset;
+	let endOffset = selection.focusOffset;
+  
+  //console.log("selection 실행됨 : " + selection)
+  
   if (selection.toString().trim() !== '') { // 문자열 앞뒤 공백 제거 후 비어있지 않은지 확인
-      const range = selection.getRangeAt(0);
-      const rect = range.getBoundingClientRect();
-      const x = rect.left + rect.width / 2;
-      const y = rect.top + window.pageYOffset;
-
+		const range = selection.getRangeAt(0);
+		const rect = range.getBoundingClientRect();
+		const x = rect.left + rect.width / 2;
+		const y = rect.top + window.pageYOffset;
+		selection2 = selection.toString(); // 전역에 선언해둔 selection2 에 selection 담기
+  
+		if (startOffset > endOffset) {
+			const tempIndex = startOffset;
+			startOffset = endOffset;
+			endOffset = tempIndex;
+		}
+		// 말풍선 클릭 시 하이라이트 저장
+		tooltip.addEventListener('click', function() {
+			saveHighlight();
+			
+			newsContent.innerHTML = replaceCharAtIndex(startOffset, endOffset);
+		});
+		
     showTooltip(x, y);
+    
   } else {
-    hideTooltip();
+    hideTooltip(); // 말풍선 숨김
   }
 });
 
-// 말풍선 클릭 시 하이라이트 저장
-tooltip.addEventListener('click', function() {
-  saveHighlight();
-});
+
+
+function replaceCharAtIndex(index1, index2) {
+	var oldContent = newsContent.innerHTML;
+	var newContent = oldContent.slice(0, index1) + "<mark>" + selection2 + "</mark>" + oldContent.slice(index2);
+	return newContent;
+}
 
 </script>
 
 
 
-<script src="<%= request.getContextPath() %>/js/jquery-3.7.0.js"></script>
 
 <%@ include file="/WEB-INF/views/common/footer.jsp" %>
