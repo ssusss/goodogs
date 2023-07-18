@@ -38,15 +38,9 @@
 <% 	} %>
 <!-- 아이콘 링크 -->
 <script src="https://kit.fontawesome.com/d7ccac7be9.js" crossorigin="anonymous"></script>
-<!-- 아이콘 링크 -->
 </head>
 
-<!-- 
-	@author : 김동찬, 이혜령
-	- navBox에서 검색/정보 바로가기
-	- 로그인 안하고 정보누를 시 경고창 + focus
- -->	
- 
+
 <body>
 <span id="notification"></span>	
 	<div id="container">
@@ -68,18 +62,16 @@
 			</div>
 		</nav>
 	</div>	
-<script>
-	toMain.onclick = () => {
-	  location.href = '<%=request.getContextPath()%>/';
-	}
-	
-	document.querySelector(".searchBox").onclick = () => {
-	  location.href = '<%=request.getContextPath()%>/search';
-	}
-</script>
+	<script>
+    toMain.onclick = () => {
+      location.href = '<%=request.getContextPath()%>/';
+    }
 
+    document.querySelector(".searchBox").onclick = () => {
+      location.href = '<%=request.getContextPath()%>/search';
+    }
+    </script>
 		<!-- 로그인 객체마다 헤더가 다르게 보이게 -->
-
 		<header>
 			<%
 			if (loginMember == null || (loginMember != null && loginMember.getMemberRole() == MemberRole.M)) {
@@ -118,9 +110,7 @@
 			<%
 			}
 			%>
-			
-			
-			
+
 			<div class="bannerContainerLower">
 				<div class="infoWrapper">
 					<%
@@ -209,26 +199,71 @@
 					<div class="menuContainer"></div>
 				</div>
 			</div>
+
 			
+			<!-- 
+				@author : 김동찬, 이혜령
+				- navBox에서 검색/정보 바로가기
+				- 로그인 안하고 정보누를 시 경고창 + focus
+			 -->	
 			<script>
-			document.querySelector(".infoBox").onclick = () => {
-			  <% if (loginMember != null) { %>
-			    const menuContainer = document.querySelector(".menuContainer");
-			    menuContainer.insertAdjacentHTML('beforeend', `
-			      <div class="accountMenu">
-			        <a class="accountMenuDetail" href="<%=request.getContextPath()%>/member/memberInfo">내정보</a>
-			        <a class="accountMenuDetail" href="<%=request.getContextPath()%>/like/likePage">좋아요</a>
-			        <a class="accountMenuDetail" href="<%=request.getContextPath()%>/bookmark/bookmarkPage">북마크</a>
-			        <a class="accountMenuDetail" href="<%=request.getContextPath()%>/member/logout">로그아웃</a>
-			      </div>
-			    `);
-			  <% } else { %>
-		            alert('로그인이 필요합니다!');
-		          	const memberIdInput = document.querySelector("#memberId"); 
-		          		if(memberIdInput) {
-		            		memberIdInput.focus();
-		            	}
-			  <% } %>
+			// 현재 페이지 URL을 가져오는 함수
+			function getCurrentPageURL() {
+				const pathArray = window.location.pathname.split('/').reverse();
+				console.log(pathArray);
+				return "/" + pathArray[1];
+			}
+			
+			// 특정 페이지 URL인지 확인하는 함수
+			function isSpecificPage() {
+				const specificPageURL = "<%= request.getContextPath() %>";
+				
+				console.log(specificPageURL);
+				console.log(getCurrentPageURL());
+				return getCurrentPageURL() === specificPageURL;
+			}
+			
+				
+			if (isSpecificPage()) {
+				document.querySelector(".infoBox").onclick = () => {
+				  <% if (loginMember != null) { %>
+				    const menuContainer = document.querySelector(".menuContainer");
+				    menuContainer.insertAdjacentHTML('beforeend', `
+				      <div class="accountMenu">
+				        <a class="accountMenuDetail" href="<%=request.getContextPath()%>/member/memberInfo">내정보</a>
+				        <a class="accountMenuDetail" href="<%=request.getContextPath()%>/like/likePage">좋아요</a>
+				        <a class="accountMenuDetail" href="<%=request.getContextPath()%>/bookmark/bookmarkPage">북마크</a>
+				        <a class="accountMenuDetail" href="<%=request.getContextPath()%>/member/logout">로그아웃</a>
+				      </div>
+				    `);
+				  <% } else { %>
+			            alert('로그인이 필요합니다!');
+			          	const memberIdInput = document.querySelector("#memberId"); 
+			          		if(memberIdInput) {
+			            		memberIdInput.focus();
+			            	}
+				  <% } %>
+				}
+			} else {
+				document.querySelector(".infoBox").onclick = () => {
+				  <% if (loginMember != null) { %>
+				    const infoBox = document.querySelector(".infoBox");
+				    infoBox.insertAdjacentHTML('beforeend', `
+				      <div class="accountMenu2">
+				        <a class="accountMenuDetail" href="<%=request.getContextPath()%>/member/memberInfo">내정보</a>
+				        <a class="accountMenuDetail" href="<%=request.getContextPath()%>/like/likePage">좋아요</a>
+				        <a class="accountMenuDetail" href="<%=request.getContextPath()%>/bookmark/bookmarkPage">북마크</a>
+				        <a class="accountMenuDetail" href="<%=request.getContextPath()%>/member/logout">로그아웃</a>
+				      </div>
+				    `);
+				  <% } else { %>
+			            alert('로그인이 필요합니다!');
+			          	const memberIdInput = document.querySelector("#memberId"); 
+			          		if(memberIdInput) {
+			            		memberIdInput.focus();
+			            	}
+				  <% } %>
+				}			
 			}
 		
 			</script>

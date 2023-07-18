@@ -79,7 +79,7 @@ body {
 
 @media (max-width: 1020px) {
 	.accountMenu {
-    	 transform: translate(0px, 0px) !important;
+    	 transform: translate(0px, 18px) !important;
     	 right: 20px;
     	 top: -480px;
 	}
@@ -295,7 +295,17 @@ header .bannerContainerLower {
     border: 1px solid #051619;
     position: absolute;
     z-index: 9999;
-    transform: translate(700px, -480px);
+    transform: translate(700px, -462px);
+}
+.accountMenu2 {
+	width: 280px;
+    box-sizing: border-box;
+    border-radius: 0;
+    background: #fff;
+    border: 1px solid #051619;
+    position: absolute;
+    z-index: 9999;
+	transform: translate(-114px, 129px) !important;
 }
 .accountMenu a {
 	text-decoration: none;
