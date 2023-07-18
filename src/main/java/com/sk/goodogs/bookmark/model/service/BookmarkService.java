@@ -16,4 +16,9 @@ public class BookmarkService {
 		return bookmarks;
 	}
 
+	public int insertBookmark(String memberId, int newsNo, String bookmarkedContent) {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
 }

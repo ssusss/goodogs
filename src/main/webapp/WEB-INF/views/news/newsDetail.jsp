@@ -25,25 +25,17 @@
 
 <section id="news-container">
 	  <!--  기사   -->
-	<div><%=news.getNewsTag()%></div> <!--  카테고리  -->
+	<div id="news-category" name="news-category"><%=news.getNewsTag()%></div> <!--  카테고리  -->
 	
-	<h2><%=news.getNewsTitle() %><!--  제목  --></h2>
+	<h2 id="news-title" name="news-title"><%=news.getNewsTitle() %><!--  제목  --></h2>
 	
-	<div> 이미지 </div> <br>
+	<div id="news-img" name="news-img"> 이미지 </div> <br>
 	 
-	<div><%=news.getNewsContent()%> 
-	
-	기사가 너부 비어보여서 적는 글입니다. 지워주세요 ^^ㅣ	<br/>
-	기사가 너부 비어보여서 적는 글입니다. 지워주세요 ^^ㅣ	<br/>
-	기사가 너부 비어보여서 적는 글입니다. 지워주세요 ^^ㅣ	<br/>
-	기사가 너부 비어보여서 적는 글입니다. 지워주세요 ^^ㅣ	<br/>
-	기사가 너부 비어보여서 적는 글입니다. 지워주세요 ^^ㅣ	<br/>
-	기사가 너부 비어보여서 적는 글입니다. 지워주세요 ^^ㅣ	<br/>
-	기사가 너부 비어보여서 적는 글입니다. 지워주세요 ^^ㅣ	<br/>
-	기사가 너부 비어보여서 적는 글입니다. 지워주세요 ^^ㅣ	<br/>
-	
-	 <!-- 내용  --></div>
-	 
+	<div id="news-content" name="news-content">
+	<%= news.getNewsContent()%> 
+	<br>
+	나를 묶고 가둔다면 뱃길따라 이백리 외로운 섬하나 새들의 고향 그누가 아무리 자기 땅이라 우겨도 독도는 우리땅
+	</div>
 	 
 <br/><br/><br/>
 
@@ -181,6 +173,62 @@
 </section>
 
 <!-- ----------------------------------------------------- -->
+
+<div class="highlight-tooltip" style="display: block;">북마크</div>
+<script>
+// 말풍선을 표시할 위치와 내용 설정
+function showTooltip(x, y) {
+  tooltip.style.display = 'block';
+  tooltip.style.left = x + 'px';
+  tooltip.style.top = y - tooltip.offsetHeight - 10 + 'px';
+}
+
+
+// 말풍선을 숨김
+function hideTooltip() {
+  tooltip.style.display = 'none';
+}
+
+const tooltip = document.querySelector('.highlight-tooltip');
+
+
+// 하이라이트된 내용을 저장
+function saveHighlight() {
+    let highlightedContent = window.getSelection().toString().trim(); // 선택한 텍스트 문자열로 반환하고 앞뒤 공백 제거
+        console.log(highlightedContent); // 선택한 내용을 확인하기 위해 콘솔에 출력
+
+
+    if (highlightedContent !== '') {
+            hideTooltip(); // 말풍선 숨김
+          }
+}
+
+// mouseup 이벤트 발생 시 말풍선 표시
+document.addEventListener('mouseup', function(event) {
+  console.log("mouseup 실행됨")
+  const selection = window.getSelection();
+
+  console.log("selection 실행됨" + selection)
+
+  if (selection.toString().trim() !== '') { // 문자열 앞뒤 공백 제거 후 비어있지 않은지 확인
+      const range = selection.getRangeAt(0);
+      const rect = range.getBoundingClientRect();
+      const x = rect.left + rect.width / 2;
+      const y = rect.top + window.pageYOffset;
+
+    showTooltip(x, y);
+  } else {
+    hideTooltip();
+  }
+});
+
+// 말풍선 클릭 시 하이라이트 저장
+tooltip.addEventListener('click', function() {
+  saveHighlight();
+});
+
+</script>
+
 
 
 
