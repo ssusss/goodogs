@@ -758,8 +758,6 @@ document.addEventListener('mouseup', function(event) {
   
   const selection = window.getSelection();
   
-  selection.style.display = "none";
-  
   let startNode = selection.anchorNode;
 	let endNode = selection.focusNode;
 	let startOffset = selection.anchorOffset;
@@ -795,7 +793,7 @@ document.addEventListener('mouseup', function(event) {
 				method : "POST",
 				dataType : "json",
 				success(responseData) {
-					console.log(responseData);
+					console.log("responseData : " + responseData);
 					
 				}
 			
@@ -807,7 +805,6 @@ document.addEventListener('mouseup', function(event) {
     hideTooltip(); // 말풍선 숨김
   }
 });
-
 
 
 function replaceCharAtIndex(index1, index2) {
