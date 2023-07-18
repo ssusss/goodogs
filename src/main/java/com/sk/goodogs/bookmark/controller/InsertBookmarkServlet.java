@@ -33,6 +33,8 @@ public class InsertBookmarkServlet extends HttpServlet {
 		int newsNo = Integer.parseInt(request.getParameter("newsNo"));
 		String bookmarkedContent = request.getParameter("bookmarkedContent");
 		
+		System.out.println(memberId + "!!" + newsNo + "!!" + bookmarkedContent);
+		
 		// 업무로직 (dml - insert)
 		int result = bookmarkService.insertBookmark(memberId, newsNo, bookmarkedContent);
 		
