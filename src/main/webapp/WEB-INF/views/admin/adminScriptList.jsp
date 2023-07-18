@@ -153,11 +153,11 @@ function serchScript(frm){
 			             	 break;
 			            case 2:
 				              scriptStateText = "승인";
-				              link=`<a href="<%= request.getContextPath() %>/admin/scriptDetail?no=\${scriptNo}">\${scriptTitle}</a>`;
+				              link=`<a href="<%= request.getContextPath() %>/news/adminlink/newsDetail?no=\${scriptNo}">\${scriptTitle}</a>`;
 				              break;
 			            case 3:
 				              scriptStateText = "반려";
-				              link=`<a href="<%= request.getContextPath() %>/admin/scriptDetail?no=\${scriptNo}">\${scriptTitle}</a>`;
+				              link=`<a href="<%= request.getContextPath() %>/admin/script/rejectedDetail?no=\${scriptNo}">\${scriptTitle}</a>`;
 				              break;
 			            default:
 			              scriptStateText = "상태이상";
@@ -251,7 +251,7 @@ const findScriptState=(scriptState)=>{
 				             	 break;
 				            case 2:
 					              scriptStateText = "승인";
-					              link=`<a href="<%= request.getContextPath() %>/admin/scriptDetail?no=\${scriptNo}">\${scriptTitle}</a>`;
+					              link=`<a href="<%= request.getContextPath() %>/news/adminlink/newsDetail?no=\${scriptNo}">\${scriptTitle}</a>`;
 					              break;
 				            case 3:
 					              scriptStateText = "반려";

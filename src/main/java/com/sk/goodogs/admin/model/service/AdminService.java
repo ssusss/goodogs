@@ -3,6 +3,8 @@ package com.sk.goodogs.admin.model.service;
 import static com.sk.goodogs.common.JdbcTemplate.*;
 import java.sql.Connection;
 import java.util.List;
+import java.util.Map;
+
 import com.sk.goodogs.admin.model.dao.AdminDao;
 import com.sk.goodogs.news.model.vo.NewsComment;
 import com.sk.goodogs.news.model.vo.NewsScript;
@@ -128,6 +130,21 @@ public class AdminService {
 		close(conn);
 		
 		return rejectedScript;
+	}
+
+	public int insertAlarm(Map<String, Object> payload) {
+		int result=0;
+		Connection conn= getConnection();
+		try {
+			result=adminDao.insertAlarm(payload,conn);
+			commit(conn);
+		} catch (Exception e) {
+			rollback(conn);
+			throw e;
+		}finally {
+			close(conn);
+		}
+		return result;
 	}
 		
 

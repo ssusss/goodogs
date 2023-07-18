@@ -418,3 +418,26 @@ select * from member;
 commit;
 
 
+-----------------알람 테이블 추가
+insert into member values('3@3', 'M', '123', '상윤유저계정', '01023585522', to_date('20160617','yyyymmdd'), 'R', default, default);
+
+
+CREATE TABLE alarm (
+    alarm_no number,
+    alarm_message_type varchar2(50),
+    alarm_script_no number,
+    alarm_comment varchar2(100),
+    alarm_receiver varchar2(50),
+    alarm_hasRead number,
+    alarm_createdAt Timestamp	DEFAULT sysdate,
+     constraints pk_alarm_no primary key(alarm_no),
+     CONSTRAINT fk_alarm_script_no FOREIGN KEY (alarm_script_no) REFERENCES news_script (script_no)
+);
+create sequence seq_alarm_no;
+----------------------------------------------
+--알람확인
+select * from alarm
+--알람 추가
+insert into alarm values( seq_alarm_no.NEXTVAL,'message',1,'멘트','1@1',0,default );
+insert into alarm values( seq_alarm_no.NEXTVAL,'message',1,'멘트','1@1',0,default );
+------------------
