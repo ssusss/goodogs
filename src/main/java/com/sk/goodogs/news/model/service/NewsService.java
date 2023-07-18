@@ -247,9 +247,7 @@ public class NewsService {
 			}
 			return result;
 		}
-		
-		
-		
+	
 		// 뉴스 삭제 
 		public int NewsAdminDelete(int newsno) {
 			Connection conn = getConnection();
@@ -264,6 +262,13 @@ public class NewsService {
 				close(conn);
 			}
 			return result;
+
+		public List<News> findNewsRanking() {
+			Connection conn = getConnection();
+			List<News> news = newsDao.findNewsRanking(conn);
+			close(conn);
+			return news;
+
 		}
 	
 }
