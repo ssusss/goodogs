@@ -11,6 +11,7 @@
 <script src="<%= request.getContextPath() %>/js/jquery-3.7.0.js"></script>
 <script src="https://code.jquery.com/ui/1.13.2/jquery-ui.js"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+<link rel="stylesheet" href="<%=request.getContextPath()%>/css/news.css" />
 <!--  기사 페이지  -->
 <%
 	NewsAndImage newsAndImage = (NewsAndImage) request.getAttribute("newsAndImage");
@@ -19,105 +20,70 @@
 	List<NewsComment> newsComments  = (List<NewsComment>)request.getAttribute("newsComments");
 	NewsComment newsComment = (NewsComment)request.getAttribute("NewsComment");
 
+	String _category = "";
+    
+	switch (newsAndImage.getNewsCategory()) {
+		case "정치" : _category = "politics"; break;
+		case "경제" : _category = "economy"; break;
+		case "세계" : _category = "global"; break;
+		case "테크" : _category = "tech"; break;
+		case "환경" : _category = "environment"; break;
+		case "스포츠" : _category = "sports"; break;
+		case "사회" : _category = "society"; break;
+	}
 	
 	
 %>
-
-<style>
-/* 혜령 */
-  /* 말풍선 스타일 */
-  .highlight-tooltip {
-    position: absolute;
-    background-color: #fff;
-    border: 1px solid #ccc;
-    padding: 5px;
-    font-size: 12px;
-    border-radius: 4px;
-    z-index: 9999;
-  }
-
-#comment-container {
-    border: 2px solid black; /* 검정 테두리 설정 */
-    border-radius: 10px; /* 둥근 네모 처리 */
-    padding: 10px; /* 내용과의 간격 설정 */
-}
-
-table#comment-container tr#level1 td{
-	background-color: pink;
-}
-table#comment-container tr td{
-	background-color: yellow;
-}
-
-table#comment-container { 
-  
-  border-radius: 60px; /* 둥근 처리를 위한 경계 반지름 설정 */
-  border: 2px solid #000; /* 테두리 설정 */
-  padding: 10px; /* 내부 여백 설정 */
-  box-sizing: border-box; }
-  
-/* 좋아요 스타일 */
-#like-heart {
-	color: grey;
-}
-#like-heart.like {
-	color: #e90c4e;
-}
-
-
-#comment-container {
-    border: 2px solid black; /* 검정 테두리 설정 */
-    border-radius: 10px; /* 둥근 네모 처리 */
-    padding: 10px; /* 내용과의 간격 설정 */
-}
-
-table#comment-container tr#level1 td{
-	background-color: pink;
-}
-table#comment-container tr td{
-	background-color: yellow;
-}
-
-table#comment-container { 
-  
-  border-radius: 60px; /* 둥근 처리를 위한 경계 반지름 설정 */
-  border: 2px solid #000; /* 테두리 설정 */
-  padding: 10px; /* 내부 여백 설정 */
-  box-sizing: border-box; }
-  
-/* 좋아요 스타일 */
-#like-heart {
-	color: grey;
-}
-#like-heart.like {
-	color: #e90c4e;
-}
-
-</style>
-
-<br/><br/><br/>
 <!-- ----------------------------------------------------- -->	
 
 
 
 <!-- ----------------------------------------------------- -->	
+<!--  기사 가져오기 ( 완료 )   -->
+<div id="newHeader">
+	<h4 id="news-category" name="news-category" style="color: #008000">
+		<a href="<%= request.getContextPath() %>/tag/<%= _category %>">
+			<%=newsAndImage.getNewsCategory()%>
+		</a>
+	</h4> <!--  카테고리  -->
+
+	<h1 id="news-title" name="news-title" ><%=newsAndImage.getNewsTitle() %></h1><!--  제목  -->
+ 	
+ 	<h4 id="news-confirmed-date" name="news-confirmed-date" ><%= newsAndImage.getNewsConfirmedDate().toString().split(" ")[0] %></h4>
+</div>  
+
 <section id="news-container">
-
-	  <!--  기사 가져오기 ( 완료 )   -->
-	<div id="news-category" name="news-category" ><%=newsAndImage.getNewsCategory()%></div> <!--  카테고리  -->
-
-	<h2 id="news-title" name="news-title" ><%=newsAndImage.getNewsTitle() %></h2><!--  제목  -->
- 
-	<img id="news-img" name="news-img" src="<%= request.getContextPath() %>/upload/newsImage/<%=newsAndImage.getRenamedFilename()%>"><!--  이미지  -->
+	<div id="img-container">
+		<img id="news-img" name="news-img" src="<%= request.getContextPath() %>/upload/newsImage/<%=newsAndImage.getRenamedFilename()%>"><!--  이미지  -->
+	</div>
 							 
 	<div id="news-content" name="news-content"><%=newsAndImage.getNewsContent()%></div><!--  내용  -->
 	 
-<br/><br/><br/>
+	<br/><br/><br/>
+	<div id="news-tag-container">
+		<div id="news-tag">#<%=newsAndImage.getNewsTag()%></div>
+	</div>
+	<!-- 태그 수정 필요 -->
+	
+	<!-- 좋아요 --> <!--  진행도 ( 완성 )  -->
 
+<br>
+<br>
+<div id="likeButton">
+  <button id="likeButtonBtn" style="font-size: 30px; border: none; background: none; padding: 0; margin: 0; cursor: pointer;">
+    <i class="fa-solid fa-heart" name="like-heart" id="like-heart"></i>
+    좋아요
+    <span id="newsLikeCnt"><%= newsAndImage.getNewsLikeCnt() %></span> 
+  </button>
+</div>
+
+<!-- ----------------------------------------------------- -->
+<br>
 <!-- ----------------------------------------------------- -->	
 <div id="newsNo" style = "display : none" ><%= newsAndImage.getNewsNo() %></div> <!--  넘버값 가져오기위함 -->
 <!--  댓글 작성할수 있는 칸  -->
 
+<div id="comment-container">
 <% 	if(loginMember != null) { %>
 
  <div class="comment-editor">
@@ -129,7 +95,7 @@ table#comment-container {
                 <input type="hidden" name="newsCommentWriter" value="<%= loginMember != null ? loginMember.getMemberId() : "" %>" />
                 <input type="hidden" name="newsCommentLevel" value="1" />  
                <input type="hidden" name="newsCommentNickname" value="<%= loginMember.getNickname() %>" />
-				<textarea name="newsCommentContent" cols="50" rows="3"></textarea>
+				<textarea class="newsCommentContent" name="newsCommentContent" cols="50" rows="3"></textarea>
                 <button type="submit" id="btn-comment-enroll1">등록</button>
             </form>
  </div><!-- end -->
@@ -159,6 +125,7 @@ table#comment-container {
 		
 </table> <!-- end -->
 
+</div>
 	
 	<div id='btn-more-container'>
 		<button id="btn-more" value="">더보기(<span id="cpage"></span>/<span id="totalPage"></span>)</button>
@@ -190,17 +157,7 @@ table#comment-container {
 	
 <!-- ----------------------------------------------------- -->
  
-<!-- 좋아요 --> <!--  진행도 ( 완성 )  -->
 
-<div id="likeButton">
-  <button id="likeButtonBtn" style="font-size: 30px; border: none; background: none; padding: 0; margin: 0; cursor: pointer;">
-    <i class="fa-solid fa-heart" name="like-heart" id="like-heart"></i>
-    좋아요
-    <span id="newsLikeCnt"><%= newsAndImage.getNewsLikeCnt() %></span> 
-  </button>
-</div>
-
-<!-- ----------------------------------------------------- -->
 
 <!--  관리자에게만 보이는 기사 삭제 버튼 --> <!--  진행도 (다 하고 확인중 ) -->
   
@@ -609,6 +566,7 @@ document.querySelectorAll(".btn-reply").forEach((button) => {
 const likeIcon = document.getElementById('like-heart');
 const likeClassList = likeIcon.classList;
 
+
 if (<%= loginMember != null %>) {
 
   /**
@@ -636,6 +594,7 @@ if (<%= loginMember != null %>) {
 			  } else {
 				// 회원이 좋아요 안한 상태
 				  likeClassList.remove("like");
+
 			  }
 		  }
 	  })
@@ -644,8 +603,7 @@ if (<%= loginMember != null %>) {
   /**
   	- 좋아요 바꾸기
   */
-	  
-  
+
   
 	document.querySelector("#likeButtonBtn").onclick = (e) => {
 		console.log(e.target);
@@ -696,6 +654,7 @@ if (<%= loginMember != null %>) {
 				}
 			});
 		}
+
 		
 	};
 	
@@ -788,6 +747,7 @@ if (<%= loginMember != null %>) {
 	  console.log(newContent);
 	  return newContent;
 	}
+
 }
 </script>
 

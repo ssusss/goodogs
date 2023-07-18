@@ -5,6 +5,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@page import="com.sk.goodogs.member.model.vo.Member"%>
+<script src="https://kit.fontawesome.com/d7ccac7be9.js" crossorigin="anonymous"></script>
 <!DOCTYPE html>
 <%
 	Member loginMember = (Member) session.getAttribute("loginMember");
@@ -27,7 +28,7 @@
 		}
 		
 	}
-
+	
 %>
 <html>
 <head>
@@ -42,7 +43,7 @@
 <link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.css" rel="stylesheet">
 <script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.js"></script>
 </head>
-<body>
+<body style="background-color: #EDEDE1">
 <form name="scriptWriteFrm">
 	<div class="tbl-container">
 		<table id="tbl123">
@@ -76,9 +77,9 @@
 				</tr>
 				<tr>
 					<td class="fileUploadContainer">
-						<label for="newsImage">썸네일 첨부 : </label>
-						<input type="file" name="newsImage" id="newsImage"/>
-						<span> 최대크기 : 10MB</span>
+					  <label for="newsImage" style="display: inline-block;">썸네일 첨부 :</label>
+					  <input type="file" name="newsImage" id="newsImage" style="display: inline-block;"/>
+					  <span>최대크기 : 10Mb</span>
 					</td>
 				</tr>
 			</tbody>
@@ -86,41 +87,51 @@
 	</div>
 	
 	<div class="myScriptWrite">
-
-		<table id="fontStyleTable">
-			<tbody>
-				<tr>
-					<td><button id="h2Btn">소제목</button></td>
-					<td><button id="pBtn">본문</button></td>
-					<td><button id="aBtn">링크</button></td>
-					<td><button id="bBtn">B</button></td>
-					<td><button id="uBtn">U</button></td>
-					<td><button id="olBtn">ol</button></td>
-					<td><button id="ulBtn">ul</button></td>
-					<td><button id="colorBtn">color</button></td>
-				</tr>
-			</tbody>
-		</table>
-		
-		
-		<fieldset id="linkBox">
-			<legend> 링크 </legend>
-			<table>
-				<tr>
-					<td>
-						<label for="aContent">내용 : </label>
-						<input type="text" id="aContent"/>
-					</td>
-				</tr>
-				<tr>
-					<td>
-						<label for="aLink">링크 : </label>
-						<input type="text" id="aLink"/>
-					</td>
-				</tr>
+		<div class="fontStyleTableContainer">
+			<table id="fontStyleTable">
+				<tbody>
+					<tr>
+						<td>
+							<button id="h2Btn">소제목</button>
+							<button id="pBtn">본문</button>
+						</td>
+						<td>
+							<button id="bBtn"><i class="fa-solid fa-bold fa-sm" style="color: #000000;"></i></button>
+							<button id="uBtn"><i class="fa-solid fa-underline fa-sm" style="color: #000000;"></i></button>
+							<button id="colorBtn"><i class="fa-solid fa-droplet fa-sm" style="color: #000000;"></i></button>
+						</td>
+						<td>
+							<button id="olBtn"><i class="fa-solid fa-list-ul fa-sm" style="color: #000000;"></i></button>
+							<button id="ulBtn"><i class="fa-solid fa-list-ol fa-sm" style="color: #000000;"></i></button>
+						</td>
+						<td><button id="aBtn"><i class="fa-solid fa-link fa-sm" style="color: #000000;"></i></button></td>
+					</tr>
+				</tbody>
 			</table>
-			<button id="insertLink">insert link</button>
-		</fieldset>
+			<fieldset id="linkBox">
+				<table>
+					<tr>
+						<td>
+							<label for="aLink">링크 : </label>
+							<input type="text" id="aLink"/>
+							
+						</td>
+						<td rowspan="2">
+							<button id="insertLink"><i class="fa-solid fa-check fa-lg" style="color: #566151;"></i></button>
+						</td>
+					</tr>
+					<tr>
+						<td>
+							<label for="aContent">내용 : </label>
+							<input type="text" id="aContent"/>
+						</td>
+					</tr>
+				</table>
+			</fieldset>
+		</div>
+		
+		
+	
 		
 		<textarea id="summernote" name="editordata">
 		<%=content%>
@@ -133,6 +144,7 @@
 			<div class="tag" <%= newsScript == null ? "style='display: none;'" : "" %>> 
 				<div class="inputTag"><%= newsScript == null ? "-선택-" : "#" + scriptTagArr.get(0) %></div>
 				<div class="cancleTagBox" onclick="cancleCategoryAlert();">
+					<i class="fa-solid fa-xmark fa-xl" style="color: #555;"></i>
 				</div>
 			</div>
 		<% if(newsScript != null) {%>
@@ -140,6 +152,7 @@
 			<div class="tag">
 				<div class="inputTag"><%="#"+scriptTagArr.get(i) %></div>
 				<div class="cancleTagBox" onclick="cancleTag(this);">
+					<i class="fa-solid fa-xmark fa-xl" style="color: #555;"></i>
 				</div>
 			</div>
 			<% }%>
@@ -152,8 +165,9 @@
 		<input type="text" id="newsTagList" name="newsTagList" style="display: none;" value=<%= tag %> />
   	
 		<div class="ScriptWriteBtnContainer">
-			<button id="submitBtn" type="submit" class="scriptSubmit scriptBtn">제출</button>
-			<button id="tempSaveBtn" class="scriptTempSave scriptBtn">임시저장</button>
+			<button id="submitBtn" type="submit" class="scriptBtn">제출</button>
+			<button id="tempSaveBtn" class="scriptBtn">임시저장</button>
+			<button id="previewBtn"class="scriptBtn">미리보기</button>
 		</div>
 	</div>
 </form>
@@ -258,6 +272,7 @@ category.onchange = () => {
 			<div class="tag">
 				<div class="inputTag">#\${category.value}</div>
 				<div class="cancleTagBox" onclick="cancleCategoryAlert();">
+					<i class="fa-solid fa-xmark fa-xl" style="color: #555;"></i>
 				</div>
 			</div>`);
 	
@@ -283,6 +298,7 @@ addTagBtn.onclick = () => {
 			<div class="tag">
 				<div class="inputTag">#\${newsTag.value}</div>
 				<div class="cancleTagBox" onclick="cancleTag(this);">
+					<i class="fa-solid fa-xmark fa-xl" style="color: #555;"></i>
 				</div>
 			</div>`);
 	
@@ -320,19 +336,75 @@ $('#summernote').summernote({
 	
 h2Btn.onclick = () => {
 	$('#summernote').summernote('formatH2');
+	h2Btn.classList.add("clicked1");
+	setTimeout(() => {
+		h2Btn.classList.remove("clicked1");
+	}, 2000);
 };
 pBtn.onclick = () => {
 	$('#summernote').summernote('formatPara');
+	pBtn.classList.add("clicked1");
+	setTimeout(() => {
+		pBtn.classList.remove("clicked1");
+	}, 2000);
 };
+
+bBtn.onclick= () => {
+	bBtn.classList.toggle("clicked2");
+	
+	if (bBtn.classList[0] == 'clicked2') {
+		$('#summernote').summernote('bold');
+		bBtn.style.backgroundColor = "#bbb";
+	} else {
+		$('#summernote').summernote('bold');
+		bBtn.style.backgroundColor = "#eee";
+	}
+}
+uBtn.onclick= () => {
+	uBtn.classList.toggle("clicked2");
+	
+	if (uBtn.classList[0] == 'clicked2') {
+		$('#summernote').summernote('underline');
+		uBtn.style.backgroundColor = "#bbb";
+	} else {
+		$('#summernote').summernote('underline');
+		uBtn.style.backgroundColor = "#eee";
+	}
+}
+colorBtn.onclick = () => {
+	colorBtn.classList.toggle("clicked2");
+	
+	if (colorBtn.classList[0] == 'clicked2') {
+		$('#summernote').summernote('foreColor', 'green');
+		colorBtn.style.backgroundColor = "#bbb";
+	} else {
+		$('#summernote').summernote('foreColor', 'black');
+		colorBtn.style.backgroundColor = "#eee";
+	}
+}
+
+olBtn.onclick = () => {
+	$('#summernote').summernote('insertOrderedList');
+	olBtn.classList.add("clicked1");
+	setTimeout(() => {
+		olBtn.classList.remove("clicked1");
+	}, 2000);
+}
+ulBtn.onclick = () => {
+	$('#summernote').summernote('insertUnorderedList');
+	ulBtn.classList.add("clicked1");
+	setTimeout(() => {
+		ulBtn.classList.remove("clicked1");
+	}, 2000);
+}
+
 aBtn.onclick= () => {
 	const insertLink = document.querySelector("#linkBox");
 	linkBox.style.display = "block";
-}
-bBtn.onclick= () => {
-	$('#summernote').summernote('bold');
-}
-uBtn.onclick= () => {
-	$('#summernote').summernote('underline');
+	aBtn.classList.add("clicked1");
+	setTimeout(() => {
+		aBtn.classList.remove("clicked1");
+	}, 2000);
 }
 insertLink.onclick = () => {
 	$('#summernote').summernote('createLink', {
@@ -343,28 +415,15 @@ insertLink.onclick = () => {
 	const insertLink = document.querySelector("#linkBox");
 	linkBox.style.display = "none";
 }
-olBtn.onclick = () => {
-	$('#summernote').summernote('insertOrderedList');
-}
-ulBtn.onclick = () => {
-	$('#summernote').summernote('insertUnorderedList');
-}
-colorBtn.onclick = () => {
-	colorBtn.classList.toggle("colored");
-	
-	console.log(colorBtn.classList[0]);
-	if (colorBtn.classList[0] == 'colored') {
-		$('#summernote').summernote('foreColor', 'green');
-	} else {
-		$('#summernote').summernote('foreColor', 'black');
-	}
-	
-}
 // ---------------------------------------------------------
 
 
 // -------------------- 자동 이어쓰기 -----------------------
 
+
+// 혜령
+// 버튼 클릭시 색 변경
+// JavaScript 코드
 
 
 </script>
