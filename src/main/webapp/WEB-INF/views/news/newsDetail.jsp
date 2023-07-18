@@ -624,7 +624,6 @@ document.querySelectorAll(".btn-reply").forEach((button) => {
 		const likeIcon = document.getElementById('like-heart');
 		const likeClassList = likeIcon.classList;
 
-
 	  /**
 	  	@author 전수경
 	  	 - 로그인회원의 좋아요 유무확인
@@ -664,7 +663,7 @@ document.querySelectorAll(".btn-reply").forEach((button) => {
 			const flag = likeClassList.contains("like");
 			console.log(flag);
 			let newsLikeCnt = document.querySelector('#newsLikeCnt').innerHTML;
-			console.log("newsLikeCnt="+newsLikeCnt);
+			newsLikeCnt = Number(newsLikeCnt);
 
 			if(flag){
 				// like가 있다면 좋아요 취소
@@ -679,11 +678,9 @@ document.querySelectorAll(".btn-reply").forEach((button) => {
 					},
 					success(result){
 						likeClassList.remove("like");
-						console.log("result="+result);
 					},
 					complete(){
-						newsLikeCnt = number(newsLikeCnt) - 1;
-						console.log("newsLikeCnt="+newsLikeCnt);
+						document.querySelector('#newsLikeCnt').innerHTML = newsLikeCnt-1;
 					}
 				});
 			} else {
@@ -699,11 +696,9 @@ document.querySelectorAll(".btn-reply").forEach((button) => {
 					},
 					success(result){
 						likeClassList.add("like");
-						console.log("result="+result);
 					},
 					complete(){
-						newsLikeCnt = number(newsLikeCnt) + 1;
-						console.log("newsLikeCnt="+newsLikeCnt);
+						document.querySelector('#newsLikeCnt').innerHTML = newsLikeCnt+1;
 					}
 				});
 			}
