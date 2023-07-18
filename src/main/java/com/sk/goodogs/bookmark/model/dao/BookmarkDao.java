@@ -64,4 +64,43 @@ public class BookmarkDao {
 		return new Bookmark(memberId, newsNo, newBookmarkedContent, bookmarkDate);
 	}
 
+	/**
+	 * @author 전수경
+	 * - 북마크 데이터 추가
+	 */
+	public int insertBookmark(Connection conn, String memberId, int newsNo, String bookmarkedContent) {
+		int result =0;
+		String sql = prop.getProperty("insertBookmark");
+		// insert into bookmark values( ? , ? , ? , DEFAULT)		
+		try(PreparedStatement pstmt = conn.prepareStatement(sql)){
+			pstmt.setString(1, memberId);
+			pstmt.setInt(2, newsNo);
+			pstmt.setString(3, bookmarkedContent);
+			
+			result = pstmt.executeUpdate();
+		} catch (SQLException e) {
+			throw new BookmarkException(e);
+		}
+		return result;
+	}
+	
+	/**
+	 * @author 전수경
+	 * - 북마크 데이터 삭제
+	 */
+	public int deleteBookmark(Connection conn, String memberId, int newsNo) {
+		int result =0;
+		String sql = prop.getProperty("deleteBookmark");
+		// delete from bookmark where member_id = ? and news_no = ? 
+		try(PreparedStatement pstmt = conn.prepareStatement(sql)){
+			pstmt.setString(1, memberId);
+			pstmt.setInt(2, newsNo);
+			
+			result = pstmt.executeUpdate();
+		} catch (SQLException e) {
+			throw new BookmarkException(e);
+		}
+		return result;
+	}
+
 }
