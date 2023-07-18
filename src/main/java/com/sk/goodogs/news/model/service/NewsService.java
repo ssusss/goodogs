@@ -3,11 +3,15 @@ package com.sk.goodogs.news.model.service;
 import static com.sk.goodogs.common.JdbcTemplate.*;
 
 import java.sql.Connection;
+import java.util.ArrayList;
 import java.util.List;
 
 import com.sk.goodogs.member.model.vo.Member;
 import com.sk.goodogs.news.model.dao.NewsDao;
 import com.sk.goodogs.news.model.vo.News;
+import com.sk.goodogs.news.model.vo.NewsComment;
+import com.sk.goodogs.news.model.vo.NewsAndImage;
+import com.sk.goodogs.news.model.vo.NewsImage;
 import com.sk.goodogs.news.model.vo.NewsScript;
 
 public class NewsService {
@@ -105,12 +109,143 @@ public class NewsService {
 	}
 	
 	
-	public List<News> findNews(int start, int end) {
+	public List<NewsAndImage> findNews(int start, int end) {
 		Connection conn = getConnection();
-		List<News> news = newsDao.findNews(conn, start, end);
+		List<NewsAndImage> newsAndImages = newsDao.findNews(conn, start, end);
+		close(conn);
+		return newsAndImages;
+	}
+
+	public int getContentByCategory(String category) {
+		Connection conn = getConnection();
+		int categoryContent = newsDao.getContentByCategory(conn, category);
+		close(conn);
+		return categoryContent;
+	}
+	public List<News> findNewsByCategory(int start, int end, String category) {
+		Connection conn = getConnection();
+		List<News> news = newsDao.findNewsByCategory(conn, start, end, category);
 		close(conn);
 		return news;
 	}
+
+
+	public int getLastScriptNo() {
+		int lastScriptNo = 0;
+		Connection conn = getConnection();
+		try {
+			lastScriptNo = newsDao.getLastScriptNo(conn);
+			commit(conn);
+		}catch(Exception e) {
+			rollback(conn);
+			throw e;
+		} finally {
+			close(conn);
+		}
+		
+		
+		return lastScriptNo;
+	}
+	public int insertnewsImage(NewsImage newsImage_) {
+		int result = 0;
+		Connection conn = getConnection();
+		try {
+			result = newsDao.insertnewsImage(conn, newsImage_);
+			commit(conn);
+		}catch (Exception e) {
+			rollback(conn);
+			throw e;
+		}finally {
+			close(conn);
+		}
+		
+		return result;
+	}
+
+	public News findNewsByNewsNo(int newsNo) {
+		Connection conn = getConnection();
+		News news = newsDao.findNewsByNewsNo(conn, newsNo);
+		return news;
+	}
+	public List<News> findByNewsName(String term) {
+		Connection conn = getConnection();
+		List<News> newsnames = newsDao.findAllNewsName(conn);
+		List<News> results = new ArrayList<>();
+		for(News news: newsnames) {
+			if(news.getNewsTitle().indexOf(term)> -1) {
+				results.add(news);
+			}
+		}
+		return results;
+	}
 	
+	//----------
+	
+	
+	public int newCommentInsert(NewsComment newsComment) {
+		Connection conn = getConnection();
+		int result = 0;
+		try {
+			result = newsDao.newCommentInsert(conn, newsComment);
+			commit(conn);
+		} catch(Exception e) {
+			rollback(conn);
+			throw e;
+		} finally {
+			close(conn);
+		}
+		return result;
+	}
+	
+	
+	
+	public List<NewsComment> findNewsComment(int no) {
+		Connection conn = getConnection();
+		List<NewsComment> newsComments = newsDao.findNewsComment(conn, no);
+		close(conn);
+		return newsComments;
+	}
+	
+	
+	// 뉴스
+		public News newsDetail(int No) {
+			Connection conn = getConnection();
+			News  news = newsDao.NewsDetail(conn,No);
+			close(conn);
+			return news;
+		}
+
+
+	
+	// 댓글 삭제 ( 업데이트 )
+		public int NewsCommentDelete(int commentNo, int commentState) {
+			int result = 0;
+			Connection conn = getConnection();
+			try {
+				result = newsDao.NewsCommentDelete(commentNo,commentState, conn);
+				commit(conn);
+			} catch (Exception e) {
+				rollback(conn);
+				throw e;
+			}finally {
+				close(conn);
+			}
+			return result;
+		}
+
+		public int newsLikeUpdate(int newsNo) {
+			int result = 0;
+			Connection conn = getConnection();
+			try {
+				result = newsDao.newsLikeUpdate(newsNo, conn);
+				commit(conn);
+			} catch (Exception e) {
+				rollback(conn);
+				throw e;
+			}finally {
+				close(conn);
+			}
+			return result;
+		}
 	
 }

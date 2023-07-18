@@ -9,11 +9,11 @@ bannerContainerLower.style.display = "none";
 </script>
 
 
-	
+<section>
 <iframe name="iframe1" id="iframe1" src="<%= request.getContextPath() %>/scriptBox/scriptBox.jsp" 
        frameborder="0" border="0" cellspacing="0"
        style="border-style: none;width: 100%; height: 700px;"></iframe>
-
+</section>	
 
 
 

@@ -1,21 +1,21 @@
 package com.sk.goodogs.like.model.vo;
 
-import java.sql.Date;
+import java.sql.Timestamp;
 
 /**
  * @author 전수경
- *
+ * - 테이블에는 없지만 뉴스 제목을 담는 편의용 변수 newsTitle 추가 
  */
-public class Like {
+public class LikeListEntity {
 	private String memberId;
 	private int newsNo;
-	private Date likeDate;
+	private Timestamp likeDate;
 	
-	public Like() {
+	public LikeListEntity() {
 		super();
 	}
 
-	public Like(String memberId, int newsNo, Date likeDate) {
+	public LikeListEntity(String memberId, int newsNo, Timestamp likeDate) {
 		super();
 		this.memberId = memberId;
 		this.newsNo = newsNo;
@@ -38,18 +38,17 @@ public class Like {
 		this.newsNo = newsNo;
 	}
 
-	public Date getLikeDate() {
+	public Timestamp getLikeDate() {
 		return likeDate;
 	}
 
-	public void setLikeDate(Date likeDate) {
+	public void setLikeDate(Timestamp likeDate) {
 		this.likeDate = likeDate;
 	}
 
 	@Override
 	public String toString() {
-		return "Like [memberId=" + memberId + ", newsNo=" + newsNo + ", likeDate=" + likeDate + "]";
+		return "LikeList [memberId=" + memberId + ", newsNo=" + newsNo + ", likeDate=" + likeDate + "]";
 	}
-	
 
 }

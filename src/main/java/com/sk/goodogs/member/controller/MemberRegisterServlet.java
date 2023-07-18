@@ -45,8 +45,8 @@ public class MemberRegisterServlet extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		request.setCharacterEncoding("utf-8");
 		// 1. 사용자 입력값 처리
-		String memberId = request.getParameter("memberId");
-		String _password = request.getParameter("password");
+		String memberId = request.getParameter("_memberId");
+		String _password = request.getParameter("_password");
 		// String password = HelloMvcUtils.getEncryptedPassword(request.getParameter("password"), memberId);
 		String nickname = request.getParameter("nickname");
 		String _gender = request.getParameter("gender");

@@ -1,12 +1,96 @@
 @charset "UTF-8";
 
-html {
-	background-color: white;
-	margin: 0px;
-	font-family: 'Noto Sans KR', sans-serif;
+@font-face {
+    font-family: 'GmarketSansMedium';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2001@1.1/GmarketSansMedium.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
 }
 
 
+html {
+	background-color: white;
+	margin: 0px;
+	font-family: 'GmarketSansMedium', sans-serif;
+}
+
+body {
+	min-width: 200px;
+	background-color: #EDEDE1;
+}
+
+@media (max-width: 590px) {
+  /* 600px 이하일 때 적용되는 스타일 */
+	.sloganWrapper {
+		height: 100px !important;
+	}
+	.slogan {
+		justify-content: center;
+	}
+	.loginContainer {
+		display: flex;
+		justify-content: center;
+		flex-wrap: wrap;
+	}
+	.signUpBtn {
+		right: 51%;
+	}
+}
+@media (max-width: 858px) {
+	.slogan {
+		justify-content: center;
+	}
+	.loginContainer {
+		display: flex;
+		justify-content: center;
+		flex-wrap: wrap;
+	}
+	.signUpBtn {
+		right: 51%;
+	}
+	.bannerContainerLower {
+		height: 675px !important;
+	}
+	.goodogsImage{
+		transform: translate(0px, -154px) !important;
+	}
+	.goodogsImageContainer {
+		justify-content: center;
+	}
+}
+
+@media (max-width: 1460px) {
+	.card {
+    	width: 33.3333% !important;
+	}
+}
+
+@media (max-width: 1100px) {
+	.card {
+    	width: 50% !important;
+	}
+}
+
+@media (max-width: 550px) {
+	.card {
+    	width: 100% !important;
+	}
+}
+
+@media (max-width: 1020px) {
+	.accountMenu {
+    	 transform: translate(0px, 18px) !important;
+    	 right: 20px;
+    	 top: -480px;
+	}
+}
+
+@font-face {
+    font-family: 'GmarketSansMedium';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2001@1.1/GmarketSansMedium.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
 
 /*아왜 없어져*/
 
@@ -24,7 +108,7 @@ nav.navBar {
 	height: 80px;
 	margin: 0 auto;
 	text-align: center;
-	border-bottom: 1px solid black;
+	border-bottom: 1px solid #051619;
 }
 
 nav.navBar div.navInner {
@@ -50,48 +134,56 @@ nav.navBar h1 {
 	transform: translateY(-60px);
 }
 
+/* 프로필 아이콘 부모속성 */
+.infoBox {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+
+/* 프로필 아이콘 속성 */
+.profile {
+	display : flex;
+	justify-content: center;
+	align-items: center;
+	width: 100%;
+	font-size: 30px;
+}
+
+/* 비회원 아이콘 위치 조정 */
+.infoIcon {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+  margin-top: 15px; /* 가운데 조정할 값 */
+}
+
 nav.navBar div.searchBox {
 	width: 50px;
 	height: 50px;
-	border: 1px solid black;
+	border: 1px solid #051619;
 	cursor: pointer;
+	border-bottom-left-radius: 3px;
+	border-top-left-radius: 3px;
+}
+.searchIcon:before {
+	position: relative;
+	top: 16px;
+}
+.infoIcon:before {
+	position: relative;
+	top: 16px;
 }
 
 nav.navBar div.infoBox {
 	width: 50px;
 	height: 50px;
-	border: 1px solid black;
+	border: 1px solid #051619;
 	border-left: none;
 	cursor: pointer;
-}
-.accountMenu {
-	width: 280px;
-    box-sizing: border-box;
-    border-radius: 0;
-    background: #fff;
-    border: 1px solid #051619;
-    position: absolute;
-    top: 72px;
-    right: 0;
-    z-index: 4;
-}
-.accountMenu a {
-	text-decoration: none;
-}
-.accountMenuDetail {
-	display: block;
-    padding: 0.75rem 1.5rem;
-    border-bottom: 1px solid #051619;
-    color: #051619;
-    cursor: pointer;
-}
-.accountMenuDetail:last-of-type {
-	border-bottom: none;
-}
-.accountMenu img {
-	width: 278px;
-	height: 278px;
-	margin: 0px;
+	border-bottom-right-radius: 3px;
+	border-top-right-radius: 3px;
 }
 
 /* 슬로건 */
@@ -101,7 +193,7 @@ header .bannerContainerUpper {
 	background-color: #EDEDE1;
 	height: 50px;
 	margin: 0 auto;
-	border-bottom: 1px solid black;
+	border-bottom: 1px solid #051619;
 }
 
 header .bannerContainerUpper nav {
@@ -141,14 +233,93 @@ header .bannerContainerUpper ul{
 	font-size: 30px;
 	font-weight: bold;
 	margin: 0 5%;
+	display: flex;
+	flex-wrap: wrap;
+	align-items: center;
+}
+
+.we {
+	display: flex;
+	width: 265px;
+}
+.world {
+	display: flex;
+	width: 250px;
+}
+
+/* 구독스 이미지 */
+
+.goodogsImageWrapper {
+	max-width: 1100px;
+	height: 0;
+	margin: 0 auto;
+	position: relative;
+	z-index: 1;
+}
+.goodogsImageContainer {
+	display: flex;
+	width: 90%;
+	height: 0;
+	margin: 0;
+	padding: 0 5%;
+	flex-direction: row-reverse;
+}
+.goodogsImage {
+	height: 426px;
+	transform: translate(-20px, -419px);
+}
+
+.speechImage {
+	height: 426px;
+	transform: translate(-20px, -419px);
+}
+
+.menuContainer {
+	max-width: 1000px;
+	height: 30px;
+	margin: 0 auto;
 }
 
 /* 메인화면 로그인창 */
 header .bannerContainerLower {
-	background-color: #B5C99A;
+	background-color: #B5C99A; 
 	height: 400px;
-	border-bottom: 1px solid black;
+	border-bottom: 1px solid #051619;
 	
+}
+.accountMenu {
+	width: 280px;
+    box-sizing: border-box;
+    border-radius: 0;
+    background: #fff;
+    border: 1px solid #051619;
+    position: absolute;
+    z-index: 9999;
+    transform: translate(700px, -462px);
+}
+.accountMenu2 {
+	width: 280px;
+    box-sizing: border-box;
+    border-radius: 0;
+    background: #fff;
+    border: 1px solid #051619;
+    position: absolute;
+    z-index: 9999;
+	transform: translate(-114px, 129px) !important;
+}
+.accountMenu a {
+	text-decoration: none;
+}
+.accountMenuDetail {
+	display: block;
+    padding: 0.75rem 1.5rem;
+    border-bottom: 1px solid #051619;
+    color: #051619;
+    cursor: pointer;
+    position: relative;
+}
+.accountMenuDetail:last-of-type {
+	border-bottom: none;
 }
 
 /* 메인화면 뤠퍼 */
@@ -160,12 +331,79 @@ header .bannerContainerLower {
 
 /* 메인화면 메뉴 박스 */
 .loginContainer {
-	background-color:aqua;
+	position: relative;
 	width: 90%;
 	height: 200px;
 	margin: 0;
 	padding: 0 5%;
 }
+
+.welcomeBox {
+	width: 400px;
+	height: 120px;
+}
+.welcomeBox p {
+	margin: 0;
+}
+.welcomeBox .p1 {
+	padding: 20px 0 10px 10px;
+}
+.welcomeBox .p2 {
+	padding: 10px 0 0 10px;
+}
+.welcomeBox .p3 {
+	padding: 2px 0 10px 10px;
+}
+
+.welcomeMember1 {
+	
+}
+.welcomeMember2 {
+	padding: 10px 0 0 10px;
+	margin: 0;
+	font-size: 40px;
+	font-weight: bold;
+}
+
+.welcomeBtnWrapper {
+	width: 400px;
+	height: 100px;
+}
+
+.infoContainer input:first-of-type {
+	background-color: #EDEDE1;
+	position: absolute;
+	margin: 0 0 0 10px;
+	font-family: 'GmarketSansMedium', sans-serif;
+	font-size: 16px;
+	border: 2px solid darkgray;
+	border-radius: 5px;
+}
+.infoContainer input:nth-of-type(2) {
+	background-color: #EDEDE1;
+	position: absolute;
+	width: 190px;
+	height: 40px;
+	margin: 0;
+	font-family: 'GmarketSansMedium', sans-serif;
+	font-size: 24px;
+	border: 2px solid darkgray;
+	border-radius: 5px;
+	transform: translate(10px, 36px);
+}
+.infoContainer input:last-of-type {
+	background-color: #EDEDE1;
+	position: absolute;
+	width: 190px;
+	height: 40px;
+	margin: 0;
+	font-family: 'GmarketSansMedium', sans-serif;
+	font-size: 24px;
+	border: 2px solid darkgray;
+	border-radius: 5px;
+	transform: translate(206px, 36px);
+}
+
 .registerContainer {
 	width: 90%;
 	height: 50px;
@@ -173,18 +411,9 @@ header .bannerContainerLower {
 	padding: 0 5%;
 }
 
-.infoContainer {
-	width: 90%;
-	margin: 0;
-	padding: 0 5%;
-}
 .loginContainer table {
-	width: 55%;
-	border: 1px solid black;
-}
-.loginContainer table td, .loginContainer table tr {
-	
-	border: 1px solid black;
+	min-width: 410px;
+	width: 410px;
 }
 
 .loginInput {
@@ -198,9 +427,47 @@ header .bannerContainerLower {
 	height: 40px;
 	font-size: 16px;
 	padding-left: 10px;
+	border-radius: 5px;
+	border: 2px solid darkgray;
 }
-
-
+.loginBtn {
+	background-color: #EDEDE1 !important;
+	width: 196px !important;
+	height: 36px !important;
+	font-family: 'GmarketSansMedium', sans-serif;
+	border-radius: 5px;
+}
+.signUpBtn {
+	background-color: #EDEDE1 !important;
+	width: 196px !important;
+	height: 36px !important;
+	font-family: 'GmarketSansMedium', sans-serif;
+	font-size: 16px;
+	border-radius: 5px;
+	position: absolute;
+	transform: translate(200px, 20px);
+	border: 2px solid darkgray;
+}
+.idSaveWrapper {
+	display: flex;
+	align-items: center
+}
+.idSaveBox {
+	appearance: none;
+	display: inline-block;
+	width: 18px !important;
+	height: 18px !important;
+	border: 1px solid darkgray !important;
+	padding-left: 0px !important;
+	margin-left: 0px !important;
+}
+.idSaveBox:checked {
+	appearance: none;
+	background-color: pink;
+}
+.idSaveWrapper label {
+	font-size: 14px;
+}
 
 nav.category {
 	background-color: #F7F7EF;
@@ -211,11 +478,13 @@ nav.category {
 	position: sticky;
 	overflow: hidden;
 	top: 0;
-	border-bottom: 1px solid black;
+	border-bottom: 1px solid #051619;
 	z-index: 1;
+	overflow-x: auto;
+	white-space: nowrap;
 }
 
-nav.categoryInner {
+.categoryInner {
 	display: flex;
 	overflow: auto;
 	white-space: nowrap;
@@ -223,41 +492,85 @@ nav.categoryInner {
 }
 
 section {
-	background-color: royalblue;
 	max-width: 1360px;
 	margin: 0 auto;
 	padding: 0px 5%;
 }
 
 section .posts {
-	background-color: coral;
+	/* background-color: coral; */
 	display: flex;
-	flex-wrap: wrap;
-	justify-content: center;
-	position: relative;
-	border-left: 1px solid black;
+    flex-wrap: wrap;
+    position: relative;
+    border-color: #051619;
+    border-style: solid;
+    border-width: 0 0 0 1px;
+    z-index: 10px;
 }
 
 section .posts .card {
+	box-sizing: border-box;
+    position: relative;
+    
+    text-decoration: none;
 	display: block;
-	width: 24.92%;
-	height: 200px;
-	border: 1px solid black;
-	border-width: 0 1px 1px 0;
-	cursor: pointer;
+    width: 25%;
+    color: #051619;
+    border: 1px solid #051619;
+    border-width: 0 1px 1px 0;
+    cursor: pointer;
 }
 
-section .postsPagination {
-	background-color: darkseagreen;
+.card-thumbnail {
+	box-sizing: border-box;
+    position: relative;
+    
+    margin: 0;
+    padding-bottom: 75%;
+    border-bottom: 1px solid #051619;
+    border-radius: 0;
+    overflow: hidden;
+}
+.card-thumbnail img {
+	position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.card .card-body {
+    padding: 1.5rem 1.75rem;
+    box-sizing: border-box;
+}
+.card .card-body .card-title {
+    margin: 0 0 0.5rem;
+    font-size: 1.25rem;
+}
+.card .card-body .card-date {
+    padding: 0;
+    margin-right: 1em;
+    font-size: 14px;
+}
+.card .card-body .card-category {
+    padding: 0;
+    margin-right: 1em;
+    font-size: 14px;
+}
+
+
+section #btn-more-container {
 	display: flex;
 	justify-content: center;
 }
 
-section .postsPagination button {
+section #btn-more-container button {
 	text-align: center;
 	width: 200px;
 	height: 50px;
 	margin: 10px;
+	font-family: 'GmarketSansMedium', sans-serif;
 }
 
 aside {
@@ -272,12 +585,6 @@ aside figure {
 footer {
 	background-color: khaki;
 	height: 200px;
-}
-
-
-/* 메인화면 메뉴 박스 */
-div.infoContainer {
-	background-color: gray;
 }
 
 /* 카테고리 밑줄 안보이게 하기*/
@@ -299,4 +606,5 @@ div.infoContainer {
     padding: 10px;
     margin-bottom: 10px;
   }
- 
+  
+  
