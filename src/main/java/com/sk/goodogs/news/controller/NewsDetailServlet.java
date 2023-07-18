@@ -14,6 +14,7 @@ import com.google.gson.Gson;import com.sk.goodogs.like.model.service.LikeService
 import com.sk.goodogs.member.model.vo.Member;
 import com.sk.goodogs.news.model.service.NewsService;
 import com.sk.goodogs.news.model.vo.News;
+import com.sk.goodogs.news.model.vo.NewsAndImage;
 import com.sk.goodogs.news.model.vo.NewsComment;
 
 /**
@@ -30,11 +31,14 @@ public class NewsDetailServlet extends HttpServlet {
 		HttpSession session = request.getSession();
 		int No = Integer.valueOf(request.getParameter("no"));
 		System.out.println("기사  리스트");
-		News news = newsService.newsDetail(No);
+
+		NewsAndImage newsAndImage = newsService.newsDetail(No);
+		request.setAttribute("newsAndImage", newsAndImage );
+
 		// 뉴스 좋아요수 세팅 (전수경)
-		news.setNewsLikeCnt(likeService.getNewsLikeCnt(No));
-		request.setAttribute("news", news );
 		
+		newsAndImage.setNewsLikeCnt(likeService.getNewsLikeCnt(No));
+
 		response.setContentType("application/json; charset=utf-8");
 		
 		

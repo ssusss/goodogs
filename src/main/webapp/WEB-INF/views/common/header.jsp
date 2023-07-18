@@ -141,6 +141,7 @@
 		}
 		%>
 
+
 		<div class="bannerContainerLower">
 			<div class="infoWrapper">
 				<%
@@ -155,6 +156,7 @@
 						<p class="p1">✨지금 555,346명이 구독스를 읽고 있어요.</p>
 						<p class="p2">세상 돌아가는 소식, 빠르고 편하게 접해보세요!</p>
 						<p class="p3">아침마다 세상 돌아가는 소식을 메일로 받아보세요.</p>
+
 					</div>
 					<form id="loginFrm" name="loginFrm" action="<%= request.getContextPath() %>/member/memberLogin" method="GET">
 						<table>
