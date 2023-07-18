@@ -247,5 +247,11 @@ public class NewsService {
 			}
 			return result;
 		}
+		public List<News> findNewsRanking() {
+			Connection conn = getConnection();
+			List<News> news = newsDao.findNewsRanking(conn);
+			close(conn);
+			return news;
+		}
 	
 }
