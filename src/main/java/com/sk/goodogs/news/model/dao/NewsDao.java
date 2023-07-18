@@ -254,8 +254,8 @@ public class NewsDao {
 			return categoryContent;
 		}
 
-		public List<News> findNewsByCategory(Connection conn, int start, int end, String category) {
-			List<News> news = new ArrayList<>();
+		public List<NewsAndImage> findNewsByCategory(Connection conn, int start, int end, String category) {
+			List<NewsAndImage> newsAndImages = new ArrayList<>();
 			String sql = prop.getProperty("findNewsByCategory");
 			try(PreparedStatement pstmt = conn.prepareStatement(sql)) {
 				pstmt.setString(1, category);
@@ -264,13 +264,13 @@ public class NewsDao {
 				
 				try(ResultSet rset = pstmt.executeQuery()) {
 					while(rset.next())
-						news.add(handleNewsResultSet(rset));
+						newsAndImages.add(handleNewsAndImageResultSet(rset));
 				}
 				
 			} catch (SQLException e) {
 				throw new NewsException(e);
 			}
-			return news;
+			return newsAndImages;
 		}
 
 

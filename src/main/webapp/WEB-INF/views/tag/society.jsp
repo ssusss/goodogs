@@ -67,16 +67,15 @@ const getPage = (cpage) => {
 			
 			const container = document.querySelector(".posts");
 		
-			news.forEach((news) => {
-				const {newNo, newsTitle, newsConfirmedDate, newsCategory} = news;
+			news.forEach((newsAndImage) => {
+				const {newsNo, newsTitle, newsConfirmedDate, newsCategory, renamedFilename} = newsAndImage;
 				
 				const formattedDate = formatDate(newsConfirmedDate);
-				
 				container.innerHTML += `
-					<a class="card" href="">
+					<a class="card" href="/goodogs/news/newsDetail?no=\${newsNo}">
 						<div class="card-inner">
 							<figure class="card-thumbnail">
-								<img src="<%= request.getContextPath() %>/upload/thumbnail/\${newNo}">
+								<img src="<%= request.getContextPath() %>/upload/newsImage/\${renamedFilename}">
 							</figure>
 							<div class="card-body">
 								<h3 class="card-title">\${newsTitle}</h3>

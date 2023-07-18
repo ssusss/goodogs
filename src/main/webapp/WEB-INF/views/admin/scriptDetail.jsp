@@ -74,8 +74,8 @@
 				success(responseData) {
 					console.log(responseData);
 					alert(responseData.message);
-					window.location.href = "<%=request.getContextPath() %>/admin/adminScriptList";
-					alarm();
+					alarm(3);
+					
 				},
 
 				
@@ -105,8 +105,7 @@
 					console.log(responseData);
 					
 					alert(responseData.message);
-					window.location.href = "<%=request.getContextPath() %>/admin/adminScriptList";
-					alarm();
+					alarm(2);
 				},
 
 				
@@ -128,36 +127,38 @@
 	});
 	
 	
-	function alarm(){
-		function alarm(){
-			
-			let scriptStateText = "";
-	         switch (<%=script.getScriptState() %>) {
-	            case 1:
-	              scriptStateText = "미확인";
-	              break;
-	            case 2:
-		              scriptStateText = "승인";
+	
+		function alarm(state){
+			console.log("알람호출됨");
+				let scriptStateText = "";
+		         switch (state) {
+		            case 1:
+		              scriptStateText = "미확인";
 		              break;
-	            case 3:
-		              scriptStateText = "반려";
+		            case 2:
+			              scriptStateText = "승인";
+			              break;
+		            case 3:
+			              scriptStateText = "반려";
+			              break;
+		            default:
+		              scriptStateText = "상태이상";
 		              break;
-	            default:
-	              scriptStateText = "상태이상";
-	              break;
-			};
-			
-			const payload={
-				messageType : "ALARM_MESSAGE",
-				no:<%=script.getScriptNo() %>,
-				comemt:"원고가 `\${scriptStateText}`처리되었습니다 확인하세요-관리자",
-				receiver:"<%=script.getScriptWriter().replace("@", "\\@") %>",
-				hasRead:0,
-				createdAt :Date.now()
-			}
+				};
+				
+				const payload={
+					messageType : "ALARM_MESSAGE",
+					no:<%=script.getScriptNo() %>,
+					comemt:`원고가 \${scriptStateText}처리되었습니다 확인하세요-관리자`,
+					receiver:"<%=script.getScriptWriter().replace("@", "\\@") %>",
+					hasRead:0,
+					createdAt :Date.now()
+				}
+				console.log("샌드 확인"+JSON.stringify(payload));
+			ws.send(JSON.stringify(payload));
+			window.location.href = "<%=request.getContextPath() %>/admin/adminScriptList";
 		};
-		ws.send(JSON.stringify(payload));
-	};
+
 
 </script>	
 <%@ include file="/WEB-INF/views/common/footer.jsp" %>

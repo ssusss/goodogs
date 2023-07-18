@@ -55,6 +55,7 @@
 						<% } else { %>
 							<div class="profile">
 								<span><%= loginMember.getMemberProfile() %></span>
+								<span id="notification"></span>
 							</div>						
 						<% } %>
 					</div>
