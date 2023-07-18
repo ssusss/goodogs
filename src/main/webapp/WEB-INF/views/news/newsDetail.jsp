@@ -20,20 +20,7 @@
 	NewsComment newsComment = (NewsComment)request.getAttribute("NewsComment");
 
 	
-	Member loginMember2 = (Member) session.getAttribute("loginMember");
-	System.out.println("loginMember = " + loginMember);
-	session.setAttribute("loginMember", loginMember);
-	Cookie[] cookies_ = request.getCookies();
-	String saveId_ = null;
-	if(cookies != null) {
-		for(Cookie cookie : cookies) {
-			String name = cookie.getName();
-			String value = cookie.getValue();
-			// System.out.println("[Cookie] " + name + " = " + value);
-			if ("saveId".equals(name))
-				saveId = value;
-		}
-	}
+	
 %>
 
 <style>
@@ -595,7 +582,7 @@ document.querySelectorAll(".btn-reply").forEach((button) => {
 				                <input type="hidden" name="newsNo" value="<%= newsAndImage.getNewsNo()%>" />
 				                <input type="hidden" name="newsCommentWriter" value="<%= loginMember != null ? loginMember.getMemberId() : "" %>" />
 				                <input type="hidden" name="newsCommentLevel" value="2" />  
-				               <input type="hidden" name="newsCommentNickname" value="<%= loginMember.getNickname() %>" />
+				                <input type="hidden" name="newsCommentNickname" value="<%= loginMember != null ? loginMember.getNickname() : ""%>" />
 								<textarea name="newsCommentContent" cols="50" rows="3"></textarea>
 				                <button type="submit" id="btn-comment-enroll1">등록</button>
 				            </form>
@@ -618,195 +605,191 @@ document.querySelectorAll(".btn-reply").forEach((button) => {
 	
 <!--------------------------------------------->	
 
-
-
 // 좋아요 -----------------------
-		const likeIcon = document.getElementById('like-heart');
-		const likeClassList = likeIcon.classList;
+const likeIcon = document.getElementById('like-heart');
+const likeClassList = likeIcon.classList;
 
+if (<%= loginMember != null %>) {
 
-	  /**
-	  	@author 전수경
-	  	 - 로그인회원의 좋아요 유무확인
-	  	 - 좋아요했으면 빈 하트, 좋아요했으면 빨간하트
-	  */
-	  const loadLike = () => {
-		  // 회원의 뉴스 좋아요 여부 확인
-		  $.ajax({
-			  url: "<%= request.getContextPath() %>/like/checkLikeState",
-			  dataType : "json",
-			  type: "GET",
-			  data: {
-				  newsNo : <%= newsAndImage.getNewsNo() %>,
-				  memberId : "<%= loginMember.getMemberId() %>"
-			  },
-			  success(likeState){
-				  console.log("likeState="+likeState);
-				  
-				  if(likeState === 1){
-					// 회원이 좋아요한 상태 (빨간색)
-					  likeClassList.add("like");
-					
-				  } else {
-					// 회원이 좋아요 안한 상태
-					  likeClassList.remove("like");
-				  }
+  /**
+  	@author 전수경
+  	 - 로그인회원의 좋아요 유무확인
+  	 - 좋아요했으면 빈 하트, 좋아요했으면 빨간하트
+  */
+  const loadLike = () => {
+	  // 회원의 뉴스 좋아요 여부 확인
+	  $.ajax({
+		  url: "<%= request.getContextPath() %>/like/checkLikeState",
+		  dataType : "json",
+		  type: "GET",
+		  data: {
+			  newsNo : <%= newsAndImage.getNewsNo() %>,
+			  memberId : "<%= loginMember != null ? loginMember.getMemberId() : ""%>"
+		  },
+		  success(likeState){
+			  console.log("likeState="+likeState);
+			  
+			  if(likeState === 1){
+				// 회원이 좋아요한 상태 (빨간색)
+				  likeClassList.add("like");
+				
+			  } else {
+				// 회원이 좋아요 안한 상태
+				  likeClassList.remove("like");
 			  }
-		  })
-	  };
+		  }
+	  })
+  };
+  
+  /**
+  	- 좋아요 바꾸기
+  */
 	  
-	  /**
-	  	- 좋아요 바꾸기
-	  */
-		document.querySelector("#likeButtonBtn").onclick = (e) => {
-			console.log(e.target);
-			console.log("likeClassList="+likeClassList);
-			const flag = likeClassList.contains("like");
-			console.log(flag);
-			let newsLikeCnt = document.querySelector('#newsLikeCnt').innerHTML;
-			console.log("newsLikeCnt="+newsLikeCnt);
-
-			if(flag){
-				// like가 있다면 좋아요 취소
-				$.ajax({
-					url: "<%= request.getContextPath() %>/like/updateLike",
-					dataType : "json",
-					type: "POST",
-					data: {
-						method : "delete",
-						newsNo : <%= newsAndImage.getNewsNo() %>,
-						memberId : "<%= loginMember.getMemberId() %>"
-					},
-					success(result){
-						likeClassList.remove("like");
-						console.log("result="+result);
-					},
-					complete(){
-						newsLikeCnt = number(newsLikeCnt) - 1;
-						console.log("newsLikeCnt="+newsLikeCnt);
-					}
-				});
-			} else {
-				// like가 없다면 좋아요 등록	
-				$.ajax({
-					url: "<%= request.getContextPath() %>/like/updateLike",
-					dataType : "json",
-					type: "POST",
-					data: {
-						method : "insert",
-						newsNo : <%= newsAndImage.getNewsNo() %>,
-						memberId : "<%= loginMember.getMemberId() %>"
-					},
-					success(result){
-						likeClassList.add("like");
-						console.log("result="+result);
-					},
-					complete(){
-						newsLikeCnt = number(newsLikeCnt) + 1;
-						console.log("newsLikeCnt="+newsLikeCnt);
-					}
-				});
-			}
-			
-		};
-		
-		  
-	  (()=>{
-		  loadLike();
-	  })();
-	  
-	  
-
-	//----------------------끝    
-	
-
-
-
-const tooltip = document.querySelector('.highlight-tooltip');
-
-
-// 말풍선을 표시할 위치와 내용 설정
-function showTooltip(x, y) {
-  tooltip.style.display = 'block';
-  tooltip.style.left = x + 'px';
-  tooltip.style.top = y - tooltip.offsetHeight - 10 + 'px';
-}
-
-
-// 말풍선을 숨김
-function hideTooltip() {
-  tooltip.style.display = 'none';
-}
-
-
-// 하이라이트된 내용을 저장
-function saveHighlight() {
-	
-	 let highlightedContent = window.getSelection().toString().trim(); // 선택한 텍스트 문자열로 반환하고 앞뒤 공백 제거
-	    console.log("highlightedContent : " + selection2); // 선택한 내용을 확인하기 위해 콘솔에 출력
-	
-	 if (highlightedContent !== '') {
-	    hideTooltip(); // 말풍선 숨김
-	 }
-	 
-	 
-}
-const newsContent = document.querySelector("#news-content");
-
-let selection2 = null;
-	
-
-
-// mouseup 이벤트 발생 시 말풍선 표시
-document.addEventListener('mouseup', function(event) {
-  // console.log("mouseup 실행됨")
   
-  const selection = window.getSelection();
   
-  let startNode = selection.anchorNode;
-	let endNode = selection.focusNode;
-	let startOffset = selection.anchorOffset;
-	let endOffset = selection.focusOffset;
-  
-  //console.log("selection 실행됨 : " + selection)
-  
-  if (selection.toString().trim() !== '') { // 문자열 앞뒤 공백 제거 후 비어있지 않은지 확인
-		const range = selection.getRangeAt(0);
-		const rect = range.getBoundingClientRect();
-		const x = rect.left + rect.width / 2;
-		const y = rect.top + window.pageYOffset;
-		selection2 = selection.toString(); // 전역에 선언해둔 selection2 에 selection 담기
-  
-		if (startOffset > endOffset) {
-			const tempIndex = startOffset;
-			startOffset = endOffset;
-			endOffset = tempIndex;
+	document.querySelector("#likeButtonBtn").onclick = (e) => {
+		console.log(e.target);
+		console.log("likeClassList="+likeClassList);
+		const flag = likeClassList.contains("like");
+		console.log(flag);
+		let newsLikeCnt = document.querySelector('#newsLikeCnt').innerHTML;
+		console.log("newsLikeCnt="+newsLikeCnt);
+
+		if(flag){
+			// like가 있다면 좋아요 취소
+			$.ajax({
+				url: "<%= request.getContextPath() %>/like/updateLike",
+				dataType : "json",
+				type: "POST",
+				data: {
+					method : "delete",
+					newsNo : <%= newsAndImage.getNewsNo() %>,
+					memberId : "<%= loginMember != null ? loginMember.getMemberId() : "" %>"
+				},
+				success(result){
+					likeClassList.remove("like");
+					console.log("result="+result);
+				},
+				complete(){
+					newsLikeCnt = number(newsLikeCnt) - 1;
+					console.log("newsLikeCnt="+newsLikeCnt);
+				}
+			});
+		} else {
+			// like가 없다면 좋아요 등록	
+			$.ajax({
+				url: "<%= request.getContextPath() %>/like/updateLike",
+				dataType : "json",
+				type: "POST",
+				data: {
+					method : "insert",
+					newsNo : <%= newsAndImage.getNewsNo() %>,
+					memberId : "<%= loginMember != null ? loginMember.getMemberId() : "" %>"
+				},
+				success(result){
+					likeClassList.add("like");
+					console.log("result="+result);
+				},
+				complete(){
+					newsLikeCnt = number(newsLikeCnt) + 1;
+					console.log("newsLikeCnt="+newsLikeCnt);
+				}
+			});
 		}
-		// 말풍선 클릭 시 하이라이트 저장
-		tooltip.addEventListener('click', function() {
-			saveHighlight();
-			
-			newsContent.innerHTML = replaceCharAtIndex(startOffset, endOffset);
-		});
 		
-    showTooltip(x, y);
-    
-  } else {
-    hideTooltip(); // 말풍선 숨김
-  }
-});
+	};
+	
+	  
+  (()=>{
+	  loadLike();
+  })();
+  
+
+//----------------------끝    
 
 
+		
+	const tooltip = document.querySelector('.highlight-tooltip');
+	
+	// 말풍선을 표시할 위치와 내용 설정
+	function showTooltip(x, y) {
+	  tooltip.style.display = 'block';
+	  tooltip.style.left = x + 'px';
+	  tooltip.style.top = y - tooltip.offsetHeight - 10 + 'px';
+	}
+	
+	// 말풍선을 숨김
+	function hideTooltip() {
+	  tooltip.style.display = 'none';
+	}
+	
+	
+	
+	const newsContent = document.querySelector("#news-content");
+	console.log(newsContent.innerHTML);
+	let selection2 = null;
+	
+	// mouseup 이벤트 발생 시 말풍선 표시
+	document.addEventListener('mouseup', function(event) {
+	  console.log(event);
+	
+	  const selection = window.getSelection();
+	  let startOffset = selection.anchorOffset;
+	  let endOffset = selection.focusOffset;
+	  
+	  if (selection.toString().trim() !== '') {
+	    const range = selection.getRangeAt(0);
+	    const rect = range.getBoundingClientRect();
+	    const x = rect.left + rect.width / 2;
+	    const y = rect.top + window.pageYOffset;
+	    selection2 = selection.toString();
+	  
+	    if (startOffset > endOffset) {
+	      const tempIndex = startOffset;
+	      startOffset = endOffset;
+	      endOffset = tempIndex;
+	    }
+	    
+	    // 말풍선 클릭 시 하이라이트 저장
+	    tooltip.addEventListener('click', function(e) {
+	      e.preventDefault();
 
-function replaceCharAtIndex(index1, index2) {
-	var oldContent = newsContent.innerHTML;
-	var newContent = oldContent.slice(0, index1) + "<mark>" + selection2 + "</mark>" + oldContent.slice(index2);
-	return newContent;
+	      hideTooltip(); 
+	      
+	      newsContent.innerHTML = replaceCharAtIndex(startOffset, endOffset);
+	      
+	      $.ajax({
+	        url: "<%= request.getContextPath() %>/bookmark/bookmarkInsert",
+	        data: {
+	          newsNo: <%= newsAndImage.getNewsNo() %>,
+	          memberId: "<%= loginMember != null ? loginMember.getMemberId() : "" %>",
+	          bookmarkedContent: newsContent.innerHTML
+	        },
+	        method: "POST",
+	        dataType: "json",
+	        success(responseData) {
+	          console.log(responseData);
+	        }
+	      });
+	    });
+	    
+	    showTooltip(x, y);
+	  } else {
+	    hideTooltip();
+	  }
+	});
+	
+	function replaceCharAtIndex(index1, index2) {
+	  var oldContent = newsContent.innerHTML;
+	  
+	  
+	  
+	  var newContent = oldContent.slice(0, index1) + "<mark>" + selection2 + "</mark>" + oldContent.slice(index2);
+	  console.log(newContent);
+	  return newContent;
+	}
 }
-
 </script>
-
-
 
 
 <%@ include file="/WEB-INF/views/common/footer.jsp" %>
