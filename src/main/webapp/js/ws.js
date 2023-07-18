@@ -6,6 +6,8 @@ ws.addEventListener('open', (e) => {
 	console.log('open : ', e);
 });
 
+
+
 ws.addEventListener('message', (e) => {
 	console.log('message : ', e);
 	
@@ -13,16 +15,7 @@ ws.addEventListener('message', (e) => {
 	console.log(no, comemt, receiver, hasRead);
 	
 	switch(messageType) {
-		case 'CHAT_MESSAGE' : 
-			const ul = document.querySelector("#chat-container ul");
-			ul.insertAdjacentHTML('beforeend', `
-				<li class="left">
-					<span class="badge">${sender}</span>
-					${message}
-				</li>
-			`);
-			
-			break;
+	
 		case 'ALARM_MESSAGE' : 
 			const wrapper = document.querySelector("#notification");
 			const i = document.createElement("i");

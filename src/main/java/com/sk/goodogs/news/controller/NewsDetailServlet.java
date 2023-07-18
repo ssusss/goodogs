@@ -19,7 +19,7 @@ import com.sk.goodogs.news.model.vo.NewsComment;
 /**
  *@author  김나영 뉴스 페이지
  */
-@WebServlet( "/news/newsDetail")
+@WebServlet( {"/news/newsDetail" , "/news/adminlink/newsDetail"})
 public class NewsDetailServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	private static final NewsService newsService = new NewsService();
