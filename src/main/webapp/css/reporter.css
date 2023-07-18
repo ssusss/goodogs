@@ -98,6 +98,23 @@
 	background-color: #B5C99A
 }
 
+/* 작성자 */
+.writerId {
+	background-color: transparent;
+	border: none;
+	outline: none;
+	border-bottom: 1px solid black;
+}
+
+/* 뉴스 제목 */
+#titleArea {
+	background-color: transparent;
+	border: none;
+	outline: none;
+	border-bottom: 1px solid black;
+}
+
+
 
 /* 원고 관리 css */
 .myScriptList {

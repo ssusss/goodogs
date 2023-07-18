@@ -76,9 +76,9 @@
 				</tr>
 				<tr>
 					<td class="fileUploadContainer">
-						<label for="newsImage">썸네일 첨부 : </label>
-						<input type="file" name="newsImage" id="newsImage"/>
-						<span> 최대크기 : 10MB</span>
+					  <label for="newsImage" style="display: inline-block;">썸네일 첨부 :</label>
+					  <input type="file" name="newsImage" id="newsImage" style="display: inline-block;"/>
+					  <span>최대크기 : 10MB</span>
 					</td>
 				</tr>
 			</tbody>
@@ -365,6 +365,19 @@ colorBtn.onclick = () => {
 
 // -------------------- 자동 이어쓰기 -----------------------
 
+
+// 혜령
+// 버튼 클릭시 색 변경
+// JavaScript 코드
+const buttons = document.querySelectorAll('#fontStyleTable button');
+buttons.forEach(button => {
+  button.addEventListener('click', function() {
+    buttons.forEach(btn => {
+      btn.style.backgroundColor = ''; // 모든 버튼의 백그라운드 컬러 초기화
+    });
+    this.style.backgroundColor = 'red'; // 클릭된 버튼의 백그라운드 컬러 변경
+  });
+});
 
 
 </script>

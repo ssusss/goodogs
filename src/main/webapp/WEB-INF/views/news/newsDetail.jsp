@@ -782,8 +782,23 @@ document.addEventListener('mouseup', function(event) {
 			saveHighlight();
 			
 			newsContent.innerHTML = replaceCharAtIndex(startOffset, endOffset);
+			
+			$.ajax({
+				url : "<%= request.getContextPath() %>/bookmark/bookmarkInsert",
+				data : {
+					newsNo : <%= newsAndImage.getNewsNo() %>,
+					memberId : "<%= loginMember.getMemberId() %>",
+					bookmarkedContent : newsContent.innerHTML
+					},
+				method : "POST",
+				dataType : "json",
+				success(responseData) {
+					console.log("responseData : " + responseData);
+					
+				}
+			
+			})
 		});
-		
     showTooltip(x, y);
     
   } else {
@@ -792,10 +807,10 @@ document.addEventListener('mouseup', function(event) {
 });
 
 
-
 function replaceCharAtIndex(index1, index2) {
 	var oldContent = newsContent.innerHTML;
 	var newContent = oldContent.slice(0, index1) + "<mark>" + selection2 + "</mark>" + oldContent.slice(index2);
+	console.log(newContent);
 	return newContent;
 }
 
