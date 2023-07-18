@@ -467,4 +467,20 @@ public class NewsDao {
 					return result;
 				}
 
+				public List<News> findNewsRanking(Connection conn) {
+					List<News> news = new ArrayList<>();
+					String sql = prop.getProperty("findNewsRanking");
+					try(
+						PreparedStatement pstmt = conn.prepareStatement(sql)) {
+						try(ResultSet rset = pstmt.executeQuery()){
+							while(rset.next()) {
+								news.add(handleNewsResultSet(rset));
+							}
+						}
+					} catch (Exception e) {
+						throw new NewsException(e);
+				}
+			return news;
+		}
+
 }
