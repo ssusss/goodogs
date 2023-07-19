@@ -1,5 +1,6 @@
 package com.sk.goodogs.news.controller;
 
+import java.io.Console;
 import java.io.IOException;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -27,9 +28,11 @@ public class NewsCommentReportServlet extends HttpServlet {
 		// 사용자 입력값 처리
 		 int commentNo  = Integer.parseInt( request.getParameter("commentNo"));
 		String memberId = request.getParameter("memberId");
+		System.out.println( " 확인하깅"  );
 		
 		// 
 		int result = newsService.checkReport(memberId, commentNo);
+		System.out.println( " 신고 여부 " + result );
 		
 		// 요청응답
 		response.setContentType("application/json; charset=utf-8"); // 헤더

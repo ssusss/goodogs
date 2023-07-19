@@ -42,7 +42,7 @@ public class NewsCommentDeleteServlet extends HttpServlet {
 		int result = newsService.NewsCommentDelete(commentNo, commentState);
 		
 
-		request.getSession().setAttribute("msg", "댓글이 삭제되었습니다.");
+		request.getSession().setAttribute("msg", "댓글이 삭제되었개..🦴 ");
 		response.sendRedirect(request.getContextPath() + "/news/newsDetail?no=" + Newsno);
 	}
 

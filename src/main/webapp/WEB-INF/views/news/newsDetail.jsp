@@ -20,7 +20,6 @@
 	int isLiked = (int) request.getAttribute("isLiked"); // 0: 좋아요안함, 1: 좋아요함
 	int newsLikeCnt = newsAndImage.getNewsLikeCnt();
 	
-	// 신고 상태 확인용 
 	
 	List<NewsComment> newsComments  = (List<NewsComment>)request.getAttribute("newsComments");
 	NewsComment newsComment = (NewsComment)request.getAttribute("NewsComment");
@@ -82,10 +81,8 @@
 <br>
 
 <div id="likeButton">
-
   <button id="likeButtonBtn">
     <i class="fa-solid fa-heart fa-lg" name="like-heart" id="like-heart"></i>
-
     좋아요
     <span id="newsLikeCnt"><%= newsLikeCnt %></span> 
   </button>
@@ -97,7 +94,7 @@
 <% if (loginMember != null && loginMember.getMemberRole() == MemberRole.A) {%>
 	<!--  관리자에게만 보이는 기사 삭제 버튼 --> <!--  진행도 (다 하고 확인중 ) -->
   <div id="deletNewsButton">
-		<input type="button" value="기사 삭제" onclick="deleteBoard()">
+		<input id="deletNewsButtonMre" type="button" value="기사 삭제" onclick="deleteBoard()">
   </div>
 <% } %>
   <!-- 기사 삭제 --> 
@@ -546,8 +543,51 @@ document.addEventListener("click", (e) => {
 						    			button.onclick = null; // 이벤트핸들러 제거 (1회용)
 						    			
 						    }else if(e.target.matches("  button[class='report'] ")) {
+						    	// 신고하기...!!!!!!!!
 						    	
-						    		    
+							  			  		  const {value} = e.target;
+							  				    console.log(value);
+			    		    		
+			    		   					 // 삭제 여부 확인 
+			    		    				$.ajax({
+			    		    					url: "<%= request.getContextPath() %>/news/newsCommentReport",
+			    		    					dataType : "json",
+			    		    					type: "GET",
+			    		    					data: {
+			    		    						commentNo : value,
+			    		    						memberId : "<%= loginMember != null ? loginMember.getMemberId() : "" %>"
+			    		    					},
+			    		    					
+			    		    					success(reportCnt){
+			    		    						  console.log(reportCnt);
+			    				    		    		
+			    		    					
+			    		    						if(reportCnt  === 1 ){
+						    		    				// 	신고처리가 이미 있다면 이미 신고된 댓글입니다 라고 경고창 띄어짐 
+						    
+						    		    				alert("이미 신고된 댓글이개..");
+						    		    				
+						    		    		
+						    		    			}else if (reportCnt === 0) {
+						    		    				// 신고한 이력이 없어야만 신고가 가능 / 신고를 이미 했다면 작동안됨 
+						    		    				$.ajax({
+						    		    					url: "<%= request.getContextPath() %>/news/newsCommentReportUpdate",
+						    		    					dataType : "json",
+						    		    					type: "POST",
+						    		    					data: {
+						    		    						commentNo : value,
+						    		    						memberId : "<%= loginMember != null ? loginMember.getMemberId() : "" %>"
+						    		    					},
+						    		    					success(result){
+						    		    						alert("신고 완료되었개!🦴");
+						    		    					}
+						    		    				});
+						    		    			}
+			    		    					}
+			    		    					
+			    		    				});
+			    		    			
+								    		    			
 					
 						  
 							 } //  if 문 끝 esle

@@ -13,7 +13,7 @@ import com.sk.goodogs.news.model.service.NewsService;
 /**
  * @author 나영 / 신고 하는 메소드
  */
-@WebServlet("/NewsCommentReportUpdate")
+@WebServlet("/news/newsCommentReportUpdate")
 public class NewsCommentReportUpdate extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	private static final NewsService newsService = new NewsService();
@@ -29,6 +29,9 @@ public class NewsCommentReportUpdate extends HttpServlet {
 		
 		// method : insert / delete
 		int result = newsService.updateReport( memberId, commentNo);
+		
+		System.out.println( " 신고 처리 " + result + "완료된거임" );
+		
 		
 		// 요청응답
 		response.setContentType("application/json; charset=utf-8"); 
