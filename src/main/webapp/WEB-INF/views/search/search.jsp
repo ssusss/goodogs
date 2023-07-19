@@ -116,12 +116,10 @@ navBox.style.display = "none";
 <section>
 	<div class="searchWrapper">
 		<div class="searchContainer">
-			<form action="">
 				<div class="searchBoxContainer">
 					<input type="text" name="searchKeyword" placeholder="무엇이 알고싶개?" id="newsName">
 					<button type="button" onclick="searchNews()">검색!</button>
 				</div>
-			</form>
 			
 			<div class= "tble-newsContainer">
 				<table id="tbl-news">
@@ -232,6 +230,8 @@ navBox.style.display = "none";
 	
 	function searchNews() {
 		  const searchKeywordVal = document.getElementById("newsName").value;
+		  
+		  console.log(searchKeywordVal);
 		  
 		  location.href = '<%=request.getContextPath()%>/search/news/?keyword=' + searchKeywordVal;
 		  

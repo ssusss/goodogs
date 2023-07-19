@@ -52,14 +52,19 @@ document.querySelector("#btn-more").onclick = () => {
 };
 
 window.addEventListener('load', () => {
-	getPage(1);	
+	const currentURL = decodeURIComponent(window.location.href);
+	  console.log(currentURL.split("=")[1]);
+	  const keyword = currentURL.split("=")[1];
+	  
+	getPage(1,keyword);	
+	  
 });
 
-const getPage = (cpage) => {
+const getPage = (cpage,keyword) => {
 	
 	$.ajax({
 		url : "<%= request.getContextPath() %>/more/keyword",
-		data : {cpage},
+		data : {cpage,keyword},
 		success(news) {
 			console.log(news);
 			

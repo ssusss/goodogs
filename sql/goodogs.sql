@@ -14,24 +14,25 @@
 --==============================
 -- 초기화 블럭
 --==============================
---drop table bookmark;
---drop table like_list;
---drop table news;
---drop table news_image;
---drop table news_script_rejected;
---drop table deleted_news;
---drop table news_script;
---drop table news_comment;
---drop table withdraw_member;
---drop table member;
---drop sequence seq_withdraw_member_no;
---drop sequence seq_news_script_rejected_no;
---drop sequence seq_news_comment_no;
---drop sequence seq_news_script_no;
---drop trigger trg_news_script_to_news;
---drop trigger trg_news_to_deleted_news;
---drop trigger trg_member_to_withdraw_member;
---drop trigger trg_news_script_to_rejected;
+drop table alarm;
+drop table bookmark;
+drop table like_list;
+drop table news;
+drop table news_image;
+drop table news_script_rejected;
+drop table deleted_news;
+drop table news_script;
+drop table news_comment;
+drop table withdraw_member;
+drop table member;
+drop sequence seq_withdraw_member_no;
+drop sequence seq_news_script_rejected_no;
+drop sequence seq_news_comment_no;
+drop sequence seq_news_script_no;
+drop trigger trg_news_script_to_news;
+drop trigger trg_news_to_deleted_news;
+drop trigger trg_member_to_withdraw_member;
+drop trigger trg_news_script_to_rejected;
 
 --==============================
 -- 테이블 생성
@@ -296,7 +297,7 @@ insert into member values('kny0910@naver.com', 'F', 'qwe123!', 'na0', '010333322
 -- 기자
 insert into member values('kjh0425@naver.com', 'M', 'qwe123!', '준한', '01055552222', to_date('20180425','yyyymmdd'), 'R', default, default);
 insert into member values('kdc0526@naver.com', 'M', 'qwe123!', '동찬', '01044442222', to_date('20190526','yyyymmdd'), 'R', default, default);
-insert into member values('qwe@naver.com',M','qwe123!',김찬호','01011112222',to_date('20180425','yyyymmdd'),'R',default,default);
+
 
 -- 원고
 insert into news_script values(seq_news_script_no.NEXTVAL,'kjh0425@naver.com','만 나이 통일법 시행','사회','오늘(28일)부터 1~2살 어려지는걸 알고계신가요? 나이세는 방식이 만 나이로 바뀌기 때문입니다. 아 집가고싶다',default,'사회',1);
@@ -415,6 +416,10 @@ select * from member;
 --select * from news_script_rejected;
 
 
+select n.*, i.renamed_filename from (select row_number() over(order by news_no desc) rnum, n.* from news n where n.news_title like '%응%') || n.news_category like '%응%') n join news_image i on n.news_no = i.script_no where rnum between 1 and 10;
+select n.*, i.renamed_filename from (select row_number() over(order by news_no desc) rnum, n.* from news n where n.news_category like '%사회%' ) n join news_image i on n.news_no = i.script_no where rnum between 1 and 4;
+
+SELECT n.*, i.renamed_filename FROM (SELECT row_number() over(order by news_no desc) rnum, n.* FROM news n WHERE n.news_title LIKE ? OR n.news_category LIKE ?) n JOIN news_image i ON n.news_no = i.script_no WHERE rnum BETWEEN ? AND ? 
 
 
 commit;
