@@ -71,10 +71,12 @@ const findAllNewsById = () => {
 				
 				const formattedDate = formatDate(newsConfirmedDate);
 				
+				const newsLink = `<a href="/goodogs/news/newsDetail?no=\${newsNo}">\${newsTitle}</a>`;
+				
 				return html + `
 					<tr>
 						<td>\${newsNo}</td>
-						<td>\${newsTitle}</td>
+						<td>\${newsLink}</td>
 						<td>\${newsCategory}</td>
 						<td>\${newsLikeCnt}</td>
 						<td>\${newsReadCnt}</td>

@@ -10,6 +10,7 @@ import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.Properties;
 
 
@@ -336,6 +337,28 @@ private NewsScriptRejected handleRejectedScriptResultSet(ResultSet rset) throws 
 	scriptRejected.setRejectedReson(rset.getString("script_rejected_reason"));
 
 	return scriptRejected;
+}
+
+
+
+public int insertAlarm(Map<String, Object> payload, Connection conn) {
+	int result=0;
+	String sql=prop.getProperty("insertAlarm");
+	//insert into alarm values( seq_alarm_no.NEXTVAL,'message',1,'\uBA58\uD2B8','1@1',0,default )
+	
+	try(PreparedStatement pstmt=conn.prepareStatement(sql)){
+		pstmt.setString(1,(String)payload.get("messageType"));
+		pstmt.setInt(2,(int)payload.get("no"));
+		pstmt.setString(3,(String)payload.get("comemt"));
+		pstmt.setString(4,(String)payload.get("receiver"));
+		
+		
+	}catch (Exception e) {
+		// TODO: handle exception
+	}
+	
+	
+	return result;
 }
 
 

@@ -15,6 +15,7 @@ import java.util.Properties;
 import javax.script.ScriptException;
 
 import static com.sk.goodogs.common.JdbcTemplate.*;
+
 import com.sk.goodogs.member.model.vo.Member;
 import com.sk.goodogs.news.model.exception.NewsException;
 import com.sk.goodogs.news.model.vo.News;
@@ -71,9 +72,12 @@ public class NewsDao {
 			int newsLikeCnt = rset.getInt("news_like_cnt");
 			int newsReadCnt = rset.getInt("news_read_cnt");
 			Timestamp newsConfirmedDate = rset.getTimestamp("news_confirmed_date");
-			
+		
 			return new News(newsNo, newsWriter, newsTitle, newsCategory, newsContent, newsWriteDate, newsTag, newsLikeCnt, newsReadCnt, newsConfirmedDate);
 		}
+
+	
+		 
 
 		public List<NewsScript> findAllScriptById(Connection conn, Member loginMember) {
 			List<NewsScript> scripts = new ArrayList<>();
@@ -250,8 +254,8 @@ public class NewsDao {
 			return categoryContent;
 		}
 
-		public List<News> findNewsByCategory(Connection conn, int start, int end, String category) {
-			List<News> news = new ArrayList<>();
+		public List<NewsAndImage> findNewsByCategory(Connection conn, int start, int end, String category) {
+			List<NewsAndImage> newsAndImages = new ArrayList<>();
 			String sql = prop.getProperty("findNewsByCategory");
 			try(PreparedStatement pstmt = conn.prepareStatement(sql)) {
 				pstmt.setString(1, category);
@@ -260,13 +264,13 @@ public class NewsDao {
 				
 				try(ResultSet rset = pstmt.executeQuery()) {
 					while(rset.next())
-						news.add(handleNewsResultSet(rset));
+						newsAndImages.add(handleNewsAndImageResultSet(rset));
 				}
 				
 			} catch (SQLException e) {
 				throw new NewsException(e);
 			}
-			return news;
+			return newsAndImages;
 		}
 
 
@@ -413,8 +417,8 @@ public class NewsDao {
 				}
 
 
-				public News NewsDetail(Connection conn, int No) {
-					News news = null;
+				public NewsAndImage NewsDetail(Connection conn, int No) {
+					NewsAndImage newsAndImage = null;
 					String sql = prop.getProperty("NewsDetail");
 					
 					try(PreparedStatement pstmt = conn.prepareStatement(sql)){
@@ -423,15 +427,15 @@ public class NewsDao {
 						try(ResultSet rset = pstmt.executeQuery()){
 							
 							while(rset.next()) {
-								news=handleNewsResultSet(rset);
-								  
+								newsAndImage = handleNewsAndImageResultSet(rset);
+								
 								}
 						}
 					} catch (SQLException e) {
 						throw new NewsException(e);
 					}
 					
-					return news;
+					return newsAndImage;
 				}
 
 		// 댓글 삭제(업데이트)
@@ -466,5 +470,65 @@ public class NewsDao {
 					
 					return result;
 				}
+				
+				
+				// 뉴스 삭제
+				public int NewsAdminDelete(Connection conn, int newsno) {
+					int result = 0;
+					String sql = prop.getProperty("NewsAdminDelete");
+					try (PreparedStatement pstmt = conn.prepareStatement(sql)) {
+						pstmt.setInt(1, newsno);
+						result = pstmt.executeUpdate();
+					} catch (SQLException e) {
+						throw new NewsException(e);
+					}
+					return result;
+				
+				}
+
+				public List<News> findNewsRanking(Connection conn) {
+					List<News> news = new ArrayList<>();
+					String sql = prop.getProperty("findNewsRanking");
+					try(
+						PreparedStatement pstmt = conn.prepareStatement(sql)) {
+						try(ResultSet rset = pstmt.executeQuery()){
+							while(rset.next()) {
+								news.add(handleNewsResultSet(rset));
+							}
+						}
+					} catch (Exception e) {
+						throw new NewsException(e);
+				}
+			return news;
+		}
+
+			public List<News> searchNewsByTitle(Connection conn, String title) {
+				List<News> newsList = new ArrayList<>();
+				String sql = prop.getProperty("searchNewsByTitle");
+					
+				try (PreparedStatement pstmt = conn.prepareStatement(sql)){
+					pstmt.setString(1, "%"+title+"%");
+					try(ResultSet rset = pstmt.executeQuery()){
+						while(rset.next()) {
+							int newsNo = rset.getInt("news_no");
+							String newsWriter = rset.getString("news_writer");
+							String newsTitle = rset.getString("news_title");
+							String newsCategory = rset.getString("news_category");
+							String newsContent = rset.getString("news_content");
+							Timestamp newsWriteDate = rset.getTimestamp("news_write_date");
+							String newsTag = rset.getString("news_tag");
+							int newsLikeCnt = rset.getInt("news_like_cnt");
+							int newsReadCnt = rset.getInt("news_read_cnt");
+							Timestamp newsConfirmedDate = rset.getTimestamp("news_confirmed_date");
+							
+							News news = new News(newsNo, newsWriter, newsTitle, newsCategory, newsContent, newsWriteDate, newsTag, newsLikeCnt, newsReadCnt, newsConfirmedDate);
+							newsList.add(news);
+						}
+					}
+				} catch (Exception e) {
+					throw new NewsException(e);
+				}
+				return newsList;
+			}
 
 }
