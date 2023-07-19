@@ -180,6 +180,7 @@
 <!-- asdasdasdasdsadasdasdasdsasd -->
 
 
+<!-- 북마크 말풍선 -->
 <div class="highlight-tooltip" style="display: block;">북마크</div>
 
 
@@ -666,89 +667,69 @@ if (<%= loginMember != null %>) {
 
 //----------------------끝    
 
+  let selection2 = null;
 
-		
+	//말풍선을 표시할 위치와 내용 설정
+	function showTooltip(x, y) {
+	 tooltip.style.display = 'block';
+	 tooltip.style.left = x + 'px';
+	 tooltip.style.top = y - tooltip.offsetHeight - 10 + 'px';
+	}
+	
+	//말풍선을 숨김
+	function hideTooltip() {
+	 tooltip.style.display = 'none';
+	}
+	
+	//북마크 말풍선 찾아냄
 	const tooltip = document.querySelector('.highlight-tooltip');
 	
-	// 말풍선을 표시할 위치와 내용 설정
-	function showTooltip(x, y) {
-	  tooltip.style.display = 'block';
-	  tooltip.style.left = x + 'px';
-	  tooltip.style.top = y - tooltip.offsetHeight - 10 + 'px';
+	//말풍선 클릭 시 하이라이트 저장
+	function handleTooltipClick(e) {
+	 $.ajax({
+	   url: "<%= request.getContextPath() %>/bookmark/bookmarkInsert",
+	   data: {
+	     memberId: "<%= loginMember != null ? loginMember.getMemberId() : "" %>",
+	     newsNo: <%= newsAndImage.getNewsNo() %>,
+	     newsTitle: "<%= newsAndImage.getNewsTitle() %>",
+	     bookmarkedContent: selection2
+	   },
+	   method: "POST",
+	   dataType: "json",
+	   success(responseData) {
+	     console.log(responseData);
+	     //console.log(newsTitle);
+	   }
+	 });
+	 e.preventDefault();
 	}
 	
-	// 말풍선을 숨김
-	function hideTooltip() {
-	  tooltip.style.display = 'none';
-	}
-	
-	
-	
-	const newsContent = document.querySelector("#news-content");
-	console.log(newsContent.innerHTML);
-	let selection2 = null;
-	
-	// mouseup 이벤트 발생 시 말풍선 표시
+	//mouseup 이벤트 발생 시 말풍선 표시
 	document.addEventListener('mouseup', function(event) {
-	  console.log(event);
+	 const selection = window.getSelection();
 	
-	  const selection = window.getSelection();
-	  let startOffset = selection.anchorOffset;
-	  let endOffset = selection.focusOffset;
-	  
-	  if (selection.toString().trim() !== '') {
-	    const range = selection.getRangeAt(0);
-	    const rect = range.getBoundingClientRect();
-	    const x = rect.left + rect.width / 2;
-	    const y = rect.top + window.pageYOffset;
-	    selection2 = selection.toString();
-	  
-	    if (startOffset > endOffset) {
-	      const tempIndex = startOffset;
-	      startOffset = endOffset;
-	      endOffset = tempIndex;
-	    }
-	    
-	    // 말풍선 클릭 시 하이라이트 저장
-	    tooltip.addEventListener('click', function(e) {
-	      e.preventDefault();
-
-	      hideTooltip(); 
-	      
-	      newsContent.innerHTML = replaceCharAtIndex(startOffset, endOffset);
-	      
-	      $.ajax({
-	        url: "<%= request.getContextPath() %>/bookmark/bookmarkInsert",
-	        data: {
-	          newsNo: <%= newsAndImage.getNewsNo() %>,
-	          memberId: "<%= loginMember != null ? loginMember.getMemberId() : "" %>",
-	          bookmarkedContent: newsContent.innerHTML
-	        },
-	        method: "POST",
-	        dataType: "json",
-	        success(responseData) {
-	          console.log(responseData);
-	        }
-	      });
-	    });
-	    
-	    showTooltip(x, y);
-	  } else {
-	    hideTooltip();
-	  }
+	 if (selection.toString().trim() !== '') {
+	   const range = selection.getRangeAt(0);
+	   const rect = range.getBoundingClientRect();
+	   const x = rect.left + rect.width / 2;
+	   const y = rect.top + window.pageYOffset;
+	   selection2 = selection.toString();
+	
+	   // 말풍선 클릭 이벤트 핸들러 등록
+	   tooltip.addEventListener('click', handleTooltipClick);
+	
+	   showTooltip(x, y);
+	 } else {
+	   hideTooltip();
+	 }
 	});
-	
-	function replaceCharAtIndex(index1, index2) {
-	  var oldContent = newsContent.innerHTML;
-	  
-	  
-	  
-	  var newContent = oldContent.slice(0, index1) + "<mark>" + selection2 + "</mark>" + oldContent.slice(index2);
-	  console.log(newContent);
-	  return newContent;
-	}
+
+
+
 
 }
+
+
 </script>
 
 

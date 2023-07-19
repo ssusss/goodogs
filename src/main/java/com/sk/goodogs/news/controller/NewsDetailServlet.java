@@ -30,6 +30,7 @@ public class NewsDetailServlet extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		HttpSession session = request.getSession();
 		int No = Integer.valueOf(request.getParameter("no"));
+		
 		System.out.println("기사  리스트");
 
 		NewsAndImage newsAndImage = newsService.newsDetail(No);
@@ -38,9 +39,8 @@ public class NewsDetailServlet extends HttpServlet {
 		// 뉴스 좋아요수 세팅 (전수경)
 		
 		newsAndImage.setNewsLikeCnt(likeService.getNewsLikeCnt(No));
-
-		response.setContentType("application/json; charset=utf-8");
 		
+		response.setContentType("application/json; charset=utf-8");
 		
 //		List<NewsComment> newsComments  = newsService.findNewsComment(No);
 //		request.setAttribute("newsComments", newsComments);
