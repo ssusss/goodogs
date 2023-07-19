@@ -8,6 +8,7 @@ import java.util.List;
 
 import com.sk.goodogs.member.model.vo.Member;
 import com.sk.goodogs.news.model.dao.NewsDao;
+import com.sk.goodogs.news.model.exception.NewsException;
 import com.sk.goodogs.news.model.vo.News;
 import com.sk.goodogs.news.model.vo.NewsComment;
 import com.sk.goodogs.news.model.vo.NewsAndImage;
@@ -45,6 +46,7 @@ public class NewsService {
 		close(conn);
 		return scripts;
 	}
+	
 	public int newsScriptSubmit(NewsScript newNewsScript) {
 		Connection conn = getConnection();
 		int result = 0;
@@ -53,12 +55,13 @@ public class NewsService {
 			commit(conn);
 		} catch(Exception e) {
 			rollback(conn);
-			throw e;
+			throw new NewsException(e);
 		} finally {
 			close(conn);
 		}
 		return result;
 	}
+	
 	public int newsScriptTempSave(NewsScript tempNewsScript) {
 		Connection conn = getConnection();
 		int result = 0;
@@ -278,6 +281,12 @@ public class NewsService {
 			List<News> newsList = newsDao.searchNewsByTitle(conn, title);
 			close(conn);
 			return newsList;
+		}
+		public List<NewsAndImage> findNewsByKeyword(int start, int end, String keyword) {
+			Connection conn = getConnection();
+			List<NewsAndImage> newsAndImages = newsDao.findNewsByKeyword(conn, start, end, keyword);
+			close(conn);
+			return newsAndImages;
 		}
 	
 }

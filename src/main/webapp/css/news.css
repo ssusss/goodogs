@@ -19,7 +19,15 @@
 #like-heart.like {
 	color: #e90c4e;
 }
-
+#likeButtonBtn {
+	font-size: 20px;
+	font-family: 'GmarketSansMedium';
+	border: none; 
+	background: none; 
+	padding: 0; 
+	margin: 0; 
+	cursor: pointer;
+}
 
 #news-container p {
 	padding: 0;
@@ -42,8 +50,21 @@
 	display: flex;
 	justify-content: center;
 }
-#news-content, #news-tag-container {
+#news-content {
 	padding: 0 20%;
+}
+#news-tag-container {
+	padding: 0 20%;
+	display: flex;
+	flex-wrap: wrap;
+}
+.news-tag {
+	margin-right: 20px;
+}
+
+.news-tag a {
+	text-decoration: none;
+	color: inherit;
 }
 
 #likeButton {

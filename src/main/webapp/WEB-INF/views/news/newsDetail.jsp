@@ -32,7 +32,7 @@
 		case "사회" : _category = "society"; break;
 	}
 	
-	
+	String tagArr[] = newsAndImage.getNewsTag().split(",");
 %>
 <!-- ----------------------------------------------------- -->	
 
@@ -61,7 +61,14 @@
 	 
 	<br/><br/><br/>
 	<div id="news-tag-container">
-		<div id="news-tag">#<%=newsAndImage.getNewsTag()%></div>
+		<div class="news-tag">
+			<a href="<%= request.getContextPath() %>/tag/<%= _category %>">#<%= tagArr[0] %></a>
+		</div>
+		<% for (int i = 1; i < tagArr.length; i++) { %>
+		<div class="news-tag">
+			<a href="">#<%= tagArr[i] %></a>
+		</div>
+		<% } %>
 	</div>
 	<!-- 태그 수정 필요 -->
 	
@@ -70,8 +77,10 @@
 <br>
 <br>
 <div id="likeButton">
-  <button id="likeButtonBtn" style="font-size: 30px; border: none; background: none; padding: 0; margin: 0; cursor: pointer;">
-    <i class="fa-solid fa-heart <%= isLiked==1 ? "like" : "" %>" name="like-heart" id="like-heart"></i>
+
+  <button id="likeButtonBtn">
+    <i class="fa-solid fa-heart fa-lg" name="like-heart" id="like-heart"></i>
+
     좋아요
     <span id="newsLikeCnt"><%= newsLikeCnt %></span> 
   </button>
@@ -470,7 +479,10 @@ const deleteBoard = () => {
 		 
 <!--댓글 끝  ----------------------------------------------------- -->		
 		 // 삭제  ( 본인 )
+		 console.log(document.querySelectorAll(".btn-Member-delete"));
 			document.querySelectorAll(".btn-Member-delete").forEach((button) => {
+				console.log("asdasd");	
+			
 				button.onclick = (e) => {
 					if(confirm("해당 댓글을 삭제하시겠습니까?")){
 						const frm = document.newsCommentDelFrmMember;

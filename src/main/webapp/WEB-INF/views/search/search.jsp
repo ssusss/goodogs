@@ -232,35 +232,9 @@ navBox.style.display = "none";
 	
 	function searchNews() {
 		  const searchKeywordVal = document.getElementById("newsName").value;
-		  $.ajax({
-		    url: "<%= request.getContextPath() %>/news/selectNews", 
-		    data: { searchKeyword: searchKeywordVal },
-		    method: "GET",
-		    dataType: "json",
-		    success:function(newsList) {
-		    	if(newsList.length>0){
-		    		
-		    		const tbody= document.querySelector("#tbl-news tbody");
-		    		tbody.innerHTML= newsList.reduce((html,news)=>{
-						const{newsTitle, newsWriter,newsLikeCnt,newsReadCnt} = news;
-						
-						return html +`
-						<tr>
-							<td>\${newsTitle}</td>
-							<td>\${newsWriter}</td> 
-							<td>\${newsLikeCnt}</td>
-							<td>\${newsReadCnt}</td>
-						</tr>
-						`;
-					},"");
-		    	}else{
-		    		const tbody= document.querySelector("#tbl-news tbody");
-					tbody.innerHTML=`
-						<tr><td colspan='4'>조회된 뉴스가 없습니멍.</td></tr>
-					`;
-		    	}
-		    }
-		  });
+		  
+		  location.href = '<%=request.getContextPath()%>/search/news/?keyword=' + searchKeywordVal;
+		  
 		}
 	
 	
