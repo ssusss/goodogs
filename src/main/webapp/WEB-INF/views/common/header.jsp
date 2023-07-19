@@ -26,6 +26,11 @@
 <title>goodogs</title>
 
 <link rel="stylesheet" href="<%=request.getContextPath()%>/css/style.css" />
+<style>
+.alarmMenu{
+	display : none;
+}
+</style>
 <!-- 웹소켓 객체생성 (상윤) -->
 <% 	if(loginMember != null) { %>
 	<script src="<%= request.getContextPath() %>/js/ws.js"></script>		
@@ -43,6 +48,7 @@
 				<div class="navBox">
 					<div id="notification-container">
 						<span id="notification"></span>
+						
 					</div>	
 					
 					
@@ -293,8 +299,16 @@ function alarmCheck(memberId){
 document.addEventListener("click",(e)=>{
 
 	if(e.target.matches(".bell")){
-
-		const alarmBox= document.querySelector(".alarmMenu");
+		const bell = document.querySelector(".bell");
+		const alarmMenu= document.querySelector(".alarmMenu");
+		if (bell.classList.length == 3) {
+			alarmMenu.style.display="block";
+			bell.classList.add("bellClicked");			
+		} else {
+			bell.classList.remove("bellClicked");
+			alarmMenu.style.display="none";
+		}
+		
 		
 	}
 
@@ -303,7 +317,7 @@ document.addEventListener("click",(e)=>{
 
 		$.ajax({
 				url : "<%= request.getContextPath() %>/admin/alarmChecked",
-				data : {memberRoleVal,memberIdVal},	
+				data : {,},	
 				method : "POST",
 				dataType : "json",
 				success(updateRole) {
