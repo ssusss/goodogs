@@ -39,11 +39,9 @@
 	
 	String tagArr[] = newsAndImage.getNewsTag().split(",");
 %>
-<!-- ----------------------------------------------------- -->	
-
-
 
 <!-- ----------------------------------------------------- -->	
+
 <!--  기사 가져오기 ( 완료 )   -->
 <div id="newHeader">
 	<h4 id="news-category" name="news-category" style="color: #008000">
@@ -76,8 +74,9 @@
 		<% } %>
 	</div>
 	<!-- 태그 수정 필요 -->
-	
-	<!-- 좋아요 --> <!--  진행도 ( 완성 )  -->
+
+
+<!-- 좋아요 --> <!--  진행도 ( 완성 )  -->
 
 <br>
 <br>
@@ -93,11 +92,25 @@
 </div>
 
 <!-- ----------------------------------------------------- -->
+
 <br>
+<% if (loginMember != null && loginMember.getMemberRole() == MemberRole.A) {%>
+	<!--  관리자에게만 보이는 기사 삭제 버튼 --> <!--  진행도 (다 하고 확인중 ) -->
+  <div id="deletNewsButton">
+		<input type="button" value="기사 삭제" onclick="deleteBoard()">
+  </div>
+<% } %>
+  <!-- 기사 삭제 --> 
+	<form 
+		action="<%= request.getContextPath() %>/News/NewsDelete" 
+		name="newsDelFrm"
+		method="POST">
+		<input type="hidden" name="newsNo" value="<%= newsAndImage.getNewsNo() %>"/>
+	</form><!--  끝  -->
+	
 <!-- ----------------------------------------------------- -->	
 <div id="newsNo" style = "display : none" ><%= newsAndImage.getNewsNo() %></div> <!--  넘버값 가져오기위함 -->
 <!--  댓글 작성할수 있는 칸  -->
-
 <div id="comment-container">
 <% 	if(loginMember != null) { %>
 
@@ -115,38 +128,22 @@
                 <button type="submit" id="btn-comment-enroll1">등록</button>
             </form>
  </div><!-- end -->
-		
 <% 	}else {%>
-	
 	<div> 로그인 후 댓글작성이 가능합니다. </div>
-	
 <% } %>
 
 <!--------------------------------------------------------->	      
- 
-
 <table id="comment">
 		
 		<thead>
 			
 		</thead>
 		
-		<tbody>
-			<!-- 댓글 들어가는 창 -->
-		</tbody>
-		
-		<tfoot>
-			<button id="load-more-btn">더보기</button> <!-- 구현안함 -->
-		</tfoot>
-		
+			<tbody>
+				<!-- 댓글 들어가는 창 -->
+			</tbody>
 </table> <!-- end -->
 
-</div>
-	
-	<div id='btn-more-container'>
-		<button id="btn-more" value="">더보기(<span id="cpage"></span>/<span id="totalPage"></span>)</button>
-	</div>
-	
 <br/><br/><br/>
 
 <!--------------------------------------------------------->
@@ -173,39 +170,13 @@
 
 </form><!--  끝  -->
 	
-	
-<!-- ----------------------------------------------------- -->
- 
-<% if (loginMember != null && loginMember.getMemberRole() == MemberRole.A) {%>
-	
-	<!--  관리자에게만 보이는 기사 삭제 버튼 --> <!--  진행도 (다 하고 확인중 ) -->
-  
-  <div id="deletNewsButton">
-		<input type="button" value="기사 삭제" onclick="deleteBoard()">
-  </div>
-  
-<% } %>
 
 
-  
-  <!-- 기사 삭제 --> 
-	<form 
-		action="<%= request.getContextPath() %>/News/NewsDelete" 
-		name="newsDelFrm"
-		method="POST">
-		<input type="hidden" name="newsNo" value="<%= newsAndImage.getNewsNo() %>"/>
-	</form><!--  끝  -->
 
 </section>
 
-<!-- ----------------------------------------------------- -->
-
-<!-- asdasdasdasdsadasdasdasdsasd -->
-
-
 <!-- 북마크 말풍선 -->
 <div class="highlight-tooltip" style="display: block;">북마크</div>
-
 
 <script>
 <!--start-----------start----------------start--------------------start---------start------------------------------------------------------ ----------------------------------------------------- ------------------------------------------------------>
