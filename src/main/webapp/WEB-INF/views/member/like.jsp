@@ -10,7 +10,6 @@
 	// 전수경 - 좋아요 테이블에서 로그인 회원의 좋아요 기사 조회해오기 GET 요청
 	List<LikeList> likes = (List<LikeList>) request.getAttribute("likes");
 %>
-
 <script src="<%= request.getContextPath() %>/js/jquery-3.7.0.js"></script>
 <!-- 
 	@author 이혜령 
@@ -53,6 +52,7 @@ bannerContainerUpper.style.display = "none";
           <!-- 기사 제목/날짜/카테고리 박스 -->
           <h3 class="card-title"><%= like.getNewsTitle() %></h3> <!-- 기사 제목 -->
           <time class="card-date"><%= like.getLikeDate() %></time> <!-- 기사 날짜 -->
+          <time class="card-date"><%= like.getLikeDate() %></time> <!-- 좋아요 날짜 -->
           <span class="card-category">학원</span> <!-- 기사 카테고리 -->
         </div>
       </a>

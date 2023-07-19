@@ -580,7 +580,7 @@ if (<%= loginMember != null %>) {
 		console.log("likeClassList="+likeClassList);
 		const flag = likeClassList.contains("like");
 		console.log(flag);
-		let newsLikeCnt = Number( <%= newsLikeCnt %> );
+		const newsLikeCnt = <%= newsLikeCnt %>;
 
 		if(flag){
 			// like가 있다면 좋아요 취소
@@ -593,11 +593,10 @@ if (<%= loginMember != null %>) {
 					newsNo : <%= newsAndImage.getNewsNo() %>,
 					memberId : "<%= loginMember != null ? loginMember.getMemberId() : "" %>"
 				},
-				success(result){
+				success(updatedLikeCnt){
 					likeClassList.remove("like");
-				},
-				complete(){
-					document.querySelector('#newsLikeCnt').innerHTML = newsLikeCnt - 1;
+					document.querySelector('#newsLikeCnt').innerHTML = updatedLikeCnt;
+					console.log("좋아요 취소 성공!");
 				}
 			});
 		} else {
@@ -611,11 +610,10 @@ if (<%= loginMember != null %>) {
 					newsNo : <%= newsAndImage.getNewsNo() %>,
 					memberId : "<%= loginMember != null ? loginMember.getMemberId() : "" %>"
 				},
-				success(result){
+				success(updatedLikeCnt){
 					likeClassList.add("like");
-				},
-				complete(){
-					document.querySelector('#newsLikeCnt').innerHTML = newsLikeCnt + 1;
+					document.querySelector('#newsLikeCnt').innerHTML = updatedLikeCnt;
+					console.log("좋아요 등록 성공!");
 				}
 			});
 		}
