@@ -108,11 +108,9 @@ public class LikeDao {
 		if("insert".equals(method)) {
 			// insert into like_list values( ? , ? , default)
 			sql = prop.getProperty("insertLike");
-			System.out.println("sql="+sql);
 		} else if("delete".equals(method)) {
 			// delete from like_list where news_no = ? and member_id = ?
 			sql = prop.getProperty("deleteLike");
-			System.out.println("sql="+sql);
 		}
 
 		try(PreparedStatement pstmt = conn.prepareStatement(sql)){

@@ -31,7 +31,8 @@ public class NewsDetailServlet extends HttpServlet {
 		HttpSession session = request.getSession();
 		int No = Integer.valueOf(request.getParameter("no"));
 		Member loginMember = (Member) session.getAttribute("loginMember");
-		String memberId = loginMember.getMemberId();
+		String memberId = loginMember != null ? loginMember.getMemberId() : "";			
+		
 		System.out.println("기사  리스트");
 
 		NewsAndImage newsAndImage = newsService.newsDetail(No);

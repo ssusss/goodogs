@@ -591,7 +591,7 @@ if (<%= loginMember != null %>) {
 				data: {
 					method : "delete",
 					newsNo : <%= newsAndImage.getNewsNo() %>,
-					memberId : "<%= loginMember.getMemberId() %>"
+					memberId : "<%= loginMember != null ? loginMember.getMemberId() : "" %>"
 				},
 				success(result){
 					likeClassList.remove("like");
@@ -609,7 +609,7 @@ if (<%= loginMember != null %>) {
 				data: {
 					method : "insert",
 					newsNo : <%= newsAndImage.getNewsNo() %>,
-					memberId : "<%= loginMember.getMemberId() %>"
+					memberId : "<%= loginMember != null ? loginMember.getMemberId() : "" %>"
 				},
 				success(result){
 					likeClassList.add("like");
