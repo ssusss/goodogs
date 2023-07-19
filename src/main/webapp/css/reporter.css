@@ -5,55 +5,47 @@
 /* 원고 작성 css */
 .myScriptWrite {
 	background-color: #EDEDE1;
-	padding: 50px 15%;
-	height: 1200px
+	padding: 10px 15% 50px 15%;
+	height: 900px
 }
 .note-resizebar, .note-statusbar{
 	display: none;
 }
 
-#contentArea {
-	background-color: white;
-	border: 1px solid black;
-	width: 100%;
-	height: 400px;
-	padding: 10px;
-}
-
-#titleArea {
-	margin-left: 10px;
-	width: 60%;
-}
-
-.titleAreaContanier {
-	display: flex;
-}
-
-.fileUploadContainer {
-	display: flex;
-}
-
 .scriptBtn {
+	font-size: 16px;
 	width: 100px;
-	height: 50px;
+	height: 40px;
+	margin-left: 10px;
+	border: 1px solid #888;
 }
 
 
 .addTagBox {
-	background-color: yellow;
+	padding: 0 0 10px 0;
+}
+
+#newsTag {
+	background-color: transparent;
+	width: 140px;
+	border-width: 0 0 1px 0;
+}
+#addTagBtn {
+	border: 1px solid #888;
 }
 
 .tagContainer {
-	background-color : lightgray;
+	background-color : #B5C99A;
+	border-radius: 3px;
 	display: flex;
 	flex-wrap: wrap;
 }
 
 .tag {
-	background-color : lime;
+	background-color : #eee;
+	border-radius: 4px;
 	margin: 10px;
-
-	height: 40px;
+	height: 36px;
 	display: flex;
 	flex-wrap: wrap;
 	align-content: center;
@@ -62,22 +54,23 @@
 }
 
 .inputTag {
-	margin-left: 10px;
-	margin-right: 40px;
+	margin-left: 8px;
+	margin-right: 33px;
 }
 
 .cancleTagBox {
-	background-color: red;
 	width: 20px;
 	height: 20px;
 	position: absolute;
-	top: 10px;
-	right: 10px;
+	top: 9px;
+	right: 5px;
 	cursor: pointer;
+	display: flex;
+	align-items: center;
 }
 
 .ScriptWriteBtnContainer {
-	background-color : green;
+	margin: 12px 0;
 	display: flex;
 	flex-direction: row-reverse;
 }
@@ -87,8 +80,142 @@
 }
 
 .note-editable {
-	height: 800px;
+	height: 700px;
 }
+.note-editable p {
+	padding: 0;
+	margin: 0;
+}
+
+.tbl-container {	
+	background-color: #EDEDE1;
+	padding: 50px 15% 20px 15%;
+	border-bottom: 1px solid #051619;
+}
+
+#tbl123 {
+	width: 100%;
+	font-size: 15px;
+}
+#tbl123 td {
+	padding: 5px;
+}
+
+button {
+	border-radius : 3px;
+}
+#fontStyleTable {
+	height : 37px;
+	background-color: #B5C99A;
+	align-content: center;
+	border-radius : 3px;
+	margin: 10px 0;
+}
+#fontStyleTable td:first-of-type {
+	border-right: 1px solid lightgray;
+	padding: 0 7px;
+}	
+#fontStyleTable td:nth-of-type(2) {
+	border-right: 1px solid lightgray;
+	padding: 0 7px;
+}	
+#fontStyleTable td:nth-of-type(3) {
+	border-right: 1px solid lightgray;
+	padding: 0 7px;
+}	
+#fontStyleTable td:last-of-type {
+	padding: 0 7px;
+}	
+#fontStyleTable td button{ 
+	margin : 0;
+	border: none;
+}	
+#fontStyleTable td:first-of-type button:first-of-type {
+	width : 60px;
+	height : 25px;
+}
+#fontStyleTable td:first-of-type button:last-of-type {
+	width : 45px;
+	height : 25px;
+}
+#fontStyleTable td:nth-of-type(2) button {
+	width : 28px;
+	height : 25px;
+}
+#fontStyleTable td:nth-of-type(3) button {
+	width : 28px;
+	height : 25px;
+}
+#fontStyleTable td:last-of-type button {
+	width : 28px;
+	height : 25px;
+}
+
+.clicked1 {
+	animation-name : btnClicked1;
+	animation-duration : 2s;
+	animation-fill-mode: forward;
+}
+
+@keyframes btnClicked1 {
+	0% {
+		background-color: #bbb;
+	}
+	100% {
+		background-color: #eee;
+	}
+}
+
+
+
+#linkBox {
+	background-color : #EDEDE1;
+	position: absolute;
+	padding : 10px 0 10px 10px;
+	border: 2px solid lightgray;
+	border-radius: 3px;
+	transform: translate(356px, -47px);
+	z-index: 2;
+}
+#linkBox button {
+	background-color : #EDEDE1;
+	width: 30px;
+	height: 30px;
+	margin: 10px;
+	border: none;
+}
+#linkBox button:hover {
+	background-color: #B5C99A; 
+}
+
+
+
+
+/* 작성자 */
+.writerId {
+	background-color: transparent;
+	border: none;
+	outline: none;
+	border-bottom: 1px solid black;
+	margin-left: 10px;
+}
+
+/* 뉴스 제목 */
+#titleArea {
+	background-color: transparent;
+	border: none;
+	outline: none;
+	border-bottom: 1px solid black;
+	margin-left: 10px;
+	width: 60%;
+}
+#category {
+	margin-left: 10px;
+}
+#newsImage {
+	margin-left: 10px;
+}
+
 
 /* 원고 관리 css */
 .myScriptList {
