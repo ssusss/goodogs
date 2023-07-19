@@ -59,23 +59,25 @@ public class BookmarkDao {
 		// Bookmark(memberId, newsNo, newBookmarkedContent, bookmarkDate)
 		String memberId = rset.getString("member_id");
 		int newsNo = rset.getInt("news_no");
+		String newsTitle = rset.getString("news_title");
 		String newBookmarkedContent = rset.getString("new_bookmarked_content");
 		Timestamp bookmarkDate = rset.getTimestamp("bookmark_date");
-		return new Bookmark(memberId, newsNo, newBookmarkedContent, bookmarkDate);
+		return new Bookmark(memberId, newsNo, newsTitle, newBookmarkedContent, bookmarkDate);
 	}
 
 	/**
 	 * @author 전수경
 	 * - 북마크 데이터 추가
 	 */
-	public int insertBookmark(Connection conn, String memberId, int newsNo, String bookmarkedContent) {
+	public int insertBookmark(Connection conn, String memberId, int newsNo, String newsTitle, String bookmarkedContent) {
 		int result =0;
 		String sql = prop.getProperty("insertBookmark");
-		// insert into bookmark values( ? , ? , ? , DEFAULT)		
+		// insert into bookmark values( ? , ? , ? , ?, DEFAULT)		
 		try(PreparedStatement pstmt = conn.prepareStatement(sql)){
 			pstmt.setString(1, memberId);
 			pstmt.setInt(2, newsNo);
-			pstmt.setString(3, bookmarkedContent);
+			pstmt.setString(3, newsTitle);
+			pstmt.setString(4, bookmarkedContent);
 			
 			result = pstmt.executeUpdate();
 		} catch (SQLException e) {
@@ -102,5 +104,7 @@ public class BookmarkDao {
 		}
 		return result;
 	}
+
+
 
 }
