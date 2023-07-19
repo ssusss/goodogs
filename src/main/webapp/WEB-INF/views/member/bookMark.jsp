@@ -31,31 +31,76 @@ bannerContainerUpper.style.display = "none";
 	<% } %>
 </section>
 
-<section class="posts-container">
-	<div class="posts">
-	  <%
-	  if(!bookmarks.isEmpty()&& bookmarks != null) {
-	  	  for(Bookmark bookmark : bookmarks) {
-	  %>
-		<div class="card">
-		<!-- 뉴스 페이지로 연결 -->
-		<a href="<%= request.getContextPath()%>/news/newsDetail?no=<%= bookmark.getNewsNo() %>">
-			<figure class="card-thumbnail"> <!-- 기사 썸네일 -->
-				<img src="<%= request.getContextPath() %>/images/character/goodogs_face.png">
-			</figure>			
-			<div class="card-body">
-				<!-- 기사 제목/날짜/카테고리 박스 -->
-				<h3 class="card-title"><%= bookmark.getNews().getNewsTitle() %></h3> 
-				<time class="card-date"><%= bookmark.getNews().getNewsConfirmedDate() %></time> 
-				<span class="card-category"><%= bookmark.getNews().getNewsCategory() %></span> 
-			</div>
-		</a>	
-	</div>
-	  <% 
-		  }
-	  	} 
-	  %>
-	</div>
+<style>
+#tbl-script {
+    border-collapse: collapse;
+    margin: auto;
+    table-layout: fixed;
+}
+
+#tbl-script th,
+#tbl-script td {
+    border: 1px solid black;
+    padding: 5px;
+    text-align: center;
+}
+
+#tbl-script th {
+    background-color: #B5C99A;
+}
+
+#tbl-script tbody {
+    background-color: #FFFFFF; /* 하얀색 배경 설정 */
+}
+
+#tbl-script tr th:first-of-type,
+#tbl-script tr td:first-of-type {
+    min-width: 70px;
+}
+#tbl-script tr th:nth-of-type(2),
+#tbl-script tr td:nth-of-type(2) {
+    max-width: 500px;
+    min-width: 500px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+#tbl-script tr th:nth-of-type(3),
+#tbl-script tr td:nth-of-type(3) {
+    min-width: 70px;
+}
+#tbl-script tr th:nth-of-type(4),
+#tbl-script tr td:nth-of-type(4) {
+    min-width: 190px;
+}
+#tbl-script tr th:last-of-type,
+#tbl-script tr td:last-of-type {
+    min-width: 50px;
+}
+</style>
+<section class="bookmark-container">
+    <div class="bookmark">
+        <% if (!bookmarks.isEmpty() && bookmarks != null) { %>
+            <table id="tbl-script">
+                <thead>
+                    <tr>
+                        <th>뉴스번호</th>
+                        <th>뉴스제목</th>
+                        <th>북마크내용</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <% for (Bookmark bookmark : bookmarks) { %>
+                        <tr>
+                            <td style="background-color: #FFFFFF;"><%= bookmark.getNewsNo() %></td>
+                            <td style="background-color: #FFFFFF;"><%= bookmark.getNewsTitle() %></td>
+                            <td style="background-color: #FFFFFF;"><%= bookmark.getNewBookmarkedContent() %></td>
+                        </tr>
+                    <% } %>
+                </tbody>
+            </table>
+        <% } %>
+    </div>
 </section>
 
 
