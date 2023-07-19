@@ -437,7 +437,8 @@ commit;
 --update news_script set script_state = 3 where script_no = 4;
 --select * from news_script_rejected;
 
-
+--select * from news_comment;
+select * from report_list;
 ----------------------------------------------
 --알람확인
 select * from alarm
