@@ -3,11 +3,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%
-	// 전수경 로그인 성공 메세지
-	String message = (String) session.getAttribute("message");
-	if(message != null) session.removeAttribute("message"); // 1회용
-
-	// 전수경 로그인멤버
+	// 세션으로 로그인멤버 가져오기
 	Member loginMember = (Member) session.getAttribute("loginMember");
 	System.out.println("loginMember = " + loginMember);
 	session.setAttribute("loginMember", loginMember);
@@ -17,12 +13,10 @@
 		for(Cookie cookie : cookies) {
 			String name = cookie.getName();
 			String value = cookie.getValue();
-			// System.out.println("[Cookie] " + name + " = " + value);
 			if ("saveId".equals(name))
 				saveId = value;
 		}
 	}
-	
 %>
 
 <!DOCTYPE html>
@@ -69,10 +63,10 @@
       location.href = '<%=request.getContextPath()%>/';
     }
 
-
     document.querySelector(".searchBox").onclick = () => {
       location.href = '<%=request.getContextPath()%>/search';
     }
+    
 	document.querySelector(".infoBox").onclick = () => {
 		const infoBox = document.querySelector(".infoBox");
 		if (infoBox.classList.length == 1) {
@@ -148,17 +142,15 @@
 				<%
 				if (loginMember == null) {
 				%>	
-				<!-- 
-					@author 전수경
-					로그인 컨테이너 시작
-				-->
+				<!-- 로그인 컨테이너 시작 -->
 				<div class="loginContainer">
+					<!-- 환영메세지 -->
 					<div class="welcomeBox">
 						<p class="p1">✨지금 555,346명이 구독스를 읽고 있어요.</p>
 						<p class="p2">세상 돌아가는 소식, 빠르고 편하게 접해보세요!</p>
 						<p class="p3">아침마다 세상 돌아가는 소식을 메일로 받아보세요.</p>
-
 					</div>
+					<!-- 로그인폼 -->
 					<form id="loginFrm" name="loginFrm" action="<%= request.getContextPath() %>/member/memberLogin" method="GET">
 						<table>
 							<tr>
@@ -179,11 +171,10 @@
 						</table>
 					</form>
 				</div> <!-- 로그인 컨테이너 종료 -->
-				<!-- 
-					@author 전수경
-					회원가입 컨테이너 시작
-				 -->
+				
+				<!-- 회원가입 컨테이너 시작 -->
 				<div class="registerContainer">
+				<!-- 회원가입 폼 -->
 					<form id="RegisterFrm" name="RegisterFrm" action="<%= request.getContextPath() %>/member/memberRegister" method="GET">
 						<table>
 							<td rowspan="2"><input class="signUpBtn" type="button" value="회원가입"
@@ -191,6 +182,7 @@
 						</table>					
 					</form>
 				</div> <!-- 회원가입 컨테이너 종료 -->
+				
 				<% } else if (loginMember != null) { %>
 				<div class="loginContainer infoContainer">
 					<div class="welcomeBox">

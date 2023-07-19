@@ -1,11 +1,44 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ include file="/WEB-INF/views/common/header.jsp" %>
+<link rel="stylesheet" href="<%=request.getContextPath()%>/css/member.css" />
+<script>
+	bannerContainerLower = document.querySelector(".bannerContainerLower");
+	bannerContainerLower.style.display = "none";
+	bannerContainerUpper = document.querySelector(".bannerContainerUpper");
+	bannerContainerUpper.style.display = "none";
+</script>
+<style>
+#register-container {
+	margin : 70px auto;
+}
+#register-container #tbl-register{
+	border : 1px solid black;
+	margin : 0 auto;
+	padding : 5px;
+}
+#tbl-register {
+	border-spacing : 0;
+}
 
-<section id=enroll-container>
+#tbl-register tr {
+	magin : 0;
+	padding : 0;
+}
+#tbl-register th {
+	magin : 0;
+	padding : 5px;
+	background-color : #B5C99A;
+	border-right: 2px solid black;
+}
+#tbl-register td {
+	padding : 5px;
+} 
+</style>
+<section id=register-container>
 
-	<form name="memberRegisterFrm" action="" method="POST">
-		<table>
+	<form name="memberRegisterFrm" id="memberRegisterFrm" action="" method="POST">
+		<table name="tbl-register" id="tbl-register">
 			<tr>
 				<th>아이디<sup>*</sup></th>
 				<td>

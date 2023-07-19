@@ -339,7 +339,6 @@ insert into news values(18,'kdc0526@naver.com','마지막이네 벌써 ㅋ','사
 
 
 
-
 -- 기사 댓글 
 
 
@@ -415,7 +414,7 @@ select * from member;
 --update news_script set script_state = 3 where script_no = 4;
 --select * from news_script_rejected;
 
-select script_content from news_script where script_no = (select seq_news_script_no.currval from dual) FOR update;
+
 
 commit;
 
