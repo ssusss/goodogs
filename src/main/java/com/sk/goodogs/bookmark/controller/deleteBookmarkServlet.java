@@ -1,6 +1,8 @@
 package com.sk.goodogs.bookmark.controller;
 
 import java.io.IOException;
+import java.sql.Timestamp;
+
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;

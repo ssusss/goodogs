@@ -26,9 +26,9 @@ public class keywordMoreServlet extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// 현재 URL 가져오기
-        String currentURL = request.getRequestURL().toString();
-        String[] URLarr = currentURL.split("goodogs/search/news/?keyword=");
-        String keyword = URLarr[URLarr.length - 1];
+		String keyword = request.getParameter("keyword");
+		System.out.println(keyword);
+		
         System.out.println("keyword = " + keyword);
         
         
