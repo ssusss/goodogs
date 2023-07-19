@@ -18,7 +18,7 @@ import com.sk.goodogs.admin.model.vo.Alarm;
 /**
  * Servlet implementation class AdminAlarmCheckServlet
  */
-@WebServlet("/admin/alarm/check")
+@WebServlet("/alarm/check")
 public class AdminAlarmCheckServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	private static final AdminService adminService = new AdminService();

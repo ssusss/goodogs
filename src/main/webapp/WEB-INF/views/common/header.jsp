@@ -291,9 +291,9 @@ window.addEventListener('load', function() {
 <script>
 function alarmCheck(memberId){
 	console.log(memberId);
-	console.log("check");
+
 	$.ajax({
-	url : "<%= request.getContextPath() %>/admin/alarm/check",
+	url : "<%= request.getContextPath() %>/alarm/check",
 	data : {memberId},	
 	method : "GET",
 	dataType : "json",
@@ -351,7 +351,7 @@ document.addEventListener("click",(e)=>{
 
 		$.ajax({
 				url : "<%= request.getContextPath() %>/admin/alarmChecked",
-				data : {,},	
+				data : "데이터연결해야함",	
 				method : "POST",
 				dataType : "json",
 				success(updateRole) {
