@@ -123,7 +123,7 @@
 					<tr>
 						<td>
 							<label for="aContent">내용 : </label>
-							<input type="text" id="aContent"/>
+							<input type="text" id="aContent">
 						</td>
 					</tr>
 				</table>
@@ -136,6 +136,7 @@
 		<textarea id="summernote" name="editordata">
 		<%=content%>
 		</textarea>
+		
 		<div class="addTagBox">
 			<input type="text" id="newsTag" name="newTag"/>
 			<button id="addTagBtn">태그 추가</button>
@@ -175,12 +176,27 @@
 <script>
 // ==================== 폼 제출 =========================
 submitBtn.onclick = () => {
+	const title = document.getElementById('titleArea').value;
+	const content = document.getElementById('summernote').value;
 	
-	// 내용 안적은 거 있으면 제출 안되도록 함수하나 만들것
-	if (category.value == "none") {
-		alert("카테고리를 선택하세요");
+	if(title.trim() === ''){
+		alert('제목을 입력하세멍');
 		return false;
 	}
+	if ((/^\s*$/).test(content)) {
+	    alert('내용을 입력하세요.');
+	    return false;
+	}
+	if (document.getElementById('category').value === "-선택-") {
+		alert('카테고리를 선택하세요.');
+		return false;
+	}
+	if (document.getElementById('newsImage').files.length === 0) {
+	    alert('파일을 첨부해주세요.');
+	      return false;
+    }
+	// 내용 안적은 거 있으면 제출 안되도록 함수하나 만들것
+	
 	
 	document.scriptWriteFrm.onsubmit = (e) => {
 	const frmData = new FormData(e.target);
@@ -239,7 +255,9 @@ tempSaveBtn.onclick = () => {
 	e.preventDefault();
 	};
 };
-
+const cancleCategoryAlert = () => {
+	alert('태그는 한개이상 추가해야합니다.');
+}
 
 const tagList = ['-선택-'];
 
