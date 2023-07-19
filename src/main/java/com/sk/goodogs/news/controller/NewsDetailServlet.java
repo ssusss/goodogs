@@ -28,29 +28,27 @@ public class NewsDetailServlet extends HttpServlet {
 
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		HttpSession session = request.getSession();
-		int No = Integer.valueOf(request.getParameter("no"));
-		Member loginMember = (Member) session.getAttribute("loginMember");
-		String memberId = loginMember != null ? loginMember.getMemberId() : "";			
-		
-		System.out.println("기사  리스트");
+        HttpSession session = request.getSession();
+        int No = Integer.valueOf(request.getParameter("no"));
+        Member loginMember = (Member) session.getAttribute("loginMember");
+        String memberId = loginMember != null ? loginMember.getMemberId() : "";
 
-		NewsAndImage newsAndImage = newsService.newsDetail(No);
-		request.setAttribute("newsAndImage", newsAndImage );
+        System.out.println("기사  리스트");
 
-		// 뉴스 좋아요수 세팅 (전수경)
-		System.out.println(newsAndImage);
+        NewsAndImage newsAndImage = newsService.newsDetail(No);
+        request.setAttribute("newsAndImage", newsAndImage );
+        
+        // 뉴스 좋아요수 세팅 (전수경)
+        newsAndImage.setNewsLikeCnt(likeService.getNewsLikeCnt(No));
 
-		newsAndImage.setNewsLikeCnt(likeService.getNewsLikeCnt(No));
+        // 로그인회원의 해당 뉴스 좋아요 여부 ( 0: 좋아요안함, 1: 좋아요함)
+        int isLiked = likeService.checkLikeState(memberId, No);
+        request.setAttribute("isLiked", isLiked);
 
-		// 로그인회원의 해당 뉴스 좋아요 여부 ( 0: 좋아요안함, 1: 좋아요함)
-		int isLiked = likeService.checkLikeState(memberId, No);
-		request.setAttribute("isLiked", isLiked);
-		
-		response.setContentType("application/json; charset=utf-8");
-		request.getRequestDispatcher("/WEB-INF/views/news/newsDetail.jsp")
-		.forward(request, response);
-	}
+        response.setContentType("application/json; charset=utf-8");
+        request.getRequestDispatcher("/WEB-INF/views/news/newsDetail.jsp")
+        .forward(request, response);
+    }
 
 
 }
