@@ -611,7 +611,7 @@ if (<%= loginMember != null %>) {
 		const flag = likeClassList.contains("like");
 		console.log(flag);
 		let newsLikeCnt = document.querySelector('#newsLikeCnt').innerHTML;
-		console.log("newsLikeCnt="+newsLikeCnt);
+		newsLikeCnt = Number(newsLikeCnt);
 
 		if(flag){
 			// like가 있다면 좋아요 취소
@@ -629,8 +629,7 @@ if (<%= loginMember != null %>) {
 					console.log("result="+result);
 				},
 				complete(){
-					newsLikeCnt = number(newsLikeCnt) - 1;
-					console.log("newsLikeCnt="+newsLikeCnt);
+					document.querySelector('#newsLikeCnt').innerHTML = newsLikeCnt - 1;
 				}
 			});
 		} else {
@@ -650,7 +649,7 @@ if (<%= loginMember != null %>) {
 				},
 				complete(){
 					newsLikeCnt = number(newsLikeCnt) + 1;
-					console.log("newsLikeCnt="+newsLikeCnt);
+					document.querySelector('#newsLikeCnt').innerHTML = newsLikeCnt + 1;
 				}
 			});
 		}
