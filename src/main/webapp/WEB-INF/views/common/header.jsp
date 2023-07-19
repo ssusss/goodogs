@@ -3,6 +3,10 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%
+	String msg = (String) session.getAttribute("msg");
+	if(msg != null) session.removeAttribute("msg"); // 1회용
+	System.out.println("msg = " + msg);
+
 	// 세션으로 로그인멤버 가져오기
 	Member loginMember = (Member) session.getAttribute("loginMember");
 	System.out.println("loginMember = " + loginMember);
@@ -37,6 +41,34 @@
 <% 	} %>
 <!-- 아이콘 링크 -->
 <script src="https://kit.fontawesome.com/d7ccac7be9.js" crossorigin="anonymous"></script>
+<script>
+window.addEventListener('load', function() {
+	  <% if(msg != null) { %>
+	    alert('<%= msg %>');
+	  <% } %>
+
+	  <% if(loginMember == null) { %>
+	    document.loginFrm.onsubmit = function(e) {
+	      // 아이디
+	      const memberId = e.target.memberId.value;
+	      console.log(memberId);
+	      if(!/^\w{4,}$/.test(memberId.value)) {
+	        alert("아이디는 4글자 이상 입력하세요.");
+	        e.preventDefault();
+	        return;
+	      }
+	      
+	      // 비밀번호
+	      const password = e.target.password;
+	      if(!/^.{4,}$/.test(password.value)) {
+	        alert("비밀번호는 8글자 이상 입력하세요.");
+	        e.preventDefault();
+	        return;
+	      }
+	    };
+	  <% } %>
+	});
+</script>
 </head>
 
 
@@ -69,6 +101,8 @@
 		
 
 	<script>
+	
+	
     toMain1.onclick = () => {
       location.href = '<%=request.getContextPath()%>/';
     }

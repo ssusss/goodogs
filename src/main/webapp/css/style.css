@@ -588,6 +588,7 @@ footer {
 .footerAddress {
 	width: 50%;
 	height: 100px;
+	display: flex;
 }
 .footerAddress h1 {
 	cursor: pointer;

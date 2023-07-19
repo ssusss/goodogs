@@ -42,7 +42,7 @@ public class MainNewsMoreServlet extends HttpServlet {
       
       // 2. 업무로직 (
       List<NewsAndImage> newsAndImages = newsService.findNews(start, end);
-      System.out.println("newsAndImage : " + newsAndImages);
+//      System.out.println("newsAndImage : " + newsAndImages);
       
       // 3. 응답처리 (json)
       response.setContentType("application/json; charset=utf-8");

@@ -85,7 +85,6 @@ div#report_cnt	{display: <%= "news_comment_report_cnt".equals(searchType) ? "inl
                 <button type="submit">검색</button>
             </form>
         </div>
-        
     </div>
    
    <script>
@@ -94,17 +93,10 @@ div#report_cnt	{display: <%= "news_comment_report_cnt".equals(searchType) ? "inl
 		document.querySelectorAll(".search-type").forEach((elem) => {
 			elem.style.display = "none";
 		});
-		
 		document.querySelector(`#search-\${e.target.value}`).style.display = "inline-block";
 	};
-
-
-   
    </script>
-
  <!--  신고 내용 검색 팡 끝  -->
- 
- 
   <!--  신고 내용 목록  -->
 	<table id="tbl-adminMemberBan">
 		<thead>		
@@ -125,14 +117,11 @@ div#report_cnt	{display: <%= "news_comment_report_cnt".equals(searchType) ? "inl
 			<tr>
 				<td colspan="8">신고 내용이 없습니다.</td>
 			</tr>
-			
 		<%
 		}else{
 			for(NewsComment newsComment : newsComments) {
 			%>
-			
 			<tr>	
-					
 				<td><%= newsComment.getCommentNo()%></td> <!-- 넘버 -->				
 				<td><%= newsComment.getNewsCommentWriter()%></td><!-- 아이디 -->			
 				<td><%= newsComment.getNewsCommentNickname() %></td><!-- 닉네임 -->
@@ -141,14 +130,12 @@ div#report_cnt	{display: <%= "news_comment_report_cnt".equals(searchType) ? "inl
 				<td>	
 					<%= newsComment.getCommentState() == 0 ? "게시됨" : (newsComment.getCommentState() == 1 ? "회원 삭제" : "관리자 삭제") %>		
 				</td>
-  			
 				<td>
 						<a href="<%= request.getContextPath() %>/news/newsDetail?no=<%= newsComment.getNewsNo() %>">기사 가져올것임</a>
 				</td>				
 				<td>
 					<button class="IsBanned" data-news-comment-writer="<%= newsComment.getNewsCommentWriter() %>">벤</button><!-- 벤여부 -->
 				</td>
-				
 			</tr>			
 		<% }
 			
