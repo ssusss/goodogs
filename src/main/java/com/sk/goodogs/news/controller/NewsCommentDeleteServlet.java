@@ -26,17 +26,24 @@ public class NewsCommentDeleteServlet extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		int commentNo = Integer.parseInt(request.getParameter("commentNo"));
-		int commentState = Integer.parseInt(request.getParameter("commentState"));
-		int Newsno = Integer.parseInt(request.getParameter("Newsno"));
 		
+		System.err.println( "삭제!!!!!!!!" );
 		
+
+		 int commentState  = Integer.parseInt( request.getParameter("commentState"));
+			System.err.println( "commentState!!!!!!!!" + commentState);
+			
+			 int Newsno  = Integer.parseInt( request.getParameter("newsNo"));
+				System.err.println( "Newsno!!!!!!!!" + Newsno);
+		 int commentNo  = Integer.parseInt( request.getParameter("commentNo"));
+			System.err.println( "commentNo!!!!!!!!" + commentNo);
+
 		
 		int result = newsService.NewsCommentDelete(commentNo, commentState);
 		
 
 		request.getSession().setAttribute("msg", "댓글이 삭제되었습니다.");
-		response.sendRedirect(request.getContextPath() + "/board/boardDetail?no=" + Newsno);
+		response.sendRedirect(request.getContextPath() + "/news/newsDetail?no=" + Newsno);
 	}
 
 }

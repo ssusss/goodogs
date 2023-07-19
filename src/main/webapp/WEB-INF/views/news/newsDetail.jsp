@@ -137,33 +137,40 @@
 
 <!--   form  진행도 ( 삭제 완성 / 오류테스트만 진행하면 끝 )  / 신고는 좋아요 완성후 수정예정   -->
 	<!-- 삭제 본인 -->
-	<form 
-		action="<%= request.getContextPath() %>/News/NewsCommentDelete" 
-		name="newsCommentDelFrmMember"
-		method="POST">
-		<input type="hidden" name="commentState" value = "1" />
-		<input type="hidden" name="commentNo" value="<%= newsComment != null ? newsComment.getCommentNo() : "" %>" />
-	</form><!--  끝  -->
+<form 
+  action="<%= request.getContextPath() %>/News/NewsCommentDelete" 
+  id="newsCommentDelFrmMember"
+  method="POST">
+  <input type="hidden" name="commentState" value="1" />
+  <input type="hidden" name="commentNo" />
+  <input type="hidden" name="newsNo"  value="<%= newsAndImage.getNewsNo() %>" />
+</form><!--  끝  -->
 
 	<!-- 삭제 관리자 -->
-	<form 
-		action="<%= request.getContextPath() %>/News/NewsCommentDelete" 
-		name="newsCommentDelFrmAdmin"
-		method="POST">
-		<input type="hidden" name="commentState" value = "2" />
-		<input type="hidden" name="commentNo" value="<%= newsComment != null ? newsComment.getCommentNo() : "" %>"/>
-	</form><!--  끝  -->
+<form 
+  action="<%= request.getContextPath() %>/News/NewsCommentDelete" 
+  id="newsCommentDelFrmAdmin"
+  method="POST">
+  <input type="hidden" name="commentState" value="2" />
+  <input type="hidden" name="commentNo"  />
+   <input type="hidden" name="newsNo"  value="<%= newsAndImage.getNewsNo() %>" />
+
+</form><!--  끝  -->
 	
 	
 <!-- ----------------------------------------------------- -->
  
-
-
-<!--  관리자에게만 보이는 기사 삭제 버튼 --> <!--  진행도 (다 하고 확인중 ) -->
+<% if (loginMember != null && loginMember.getMemberRole() == MemberRole.A) {%>
+	
+	<!--  관리자에게만 보이는 기사 삭제 버튼 --> <!--  진행도 (다 하고 확인중 ) -->
   
   <div id="deletNewsButton">
-		<input type="button" value="기사삭제" onclick="deleteBoard()">
+		<input type="button" value="기사 삭제" onclick="deleteBoard()">
   </div>
+  
+<% } %>
+
+
   
   <!-- 기사 삭제 --> 
 	<form 
@@ -258,11 +265,7 @@ const deleteBoard = () => {
 				          
 				        } = newsComment;
 			        
-			        
-				
-			        //--------------------------------------------------------------
-			         
-			       
+			   
 					
 			        if (newsCommentLevel === 1) {// 댓글인 경우 ---------------------------------------------------------------------------------------
 			        	
@@ -317,8 +320,7 @@ const deleteBoard = () => {
 							   tbody.innerHTML += `
 											  <td>
 									        	  <button class="btn-reply" value="\${commentNo}" >답글</butto>
-									        	  <button class="report" value="\${commentNo}" >신고</button>
-										          <button class="btn-admin-delete" value="\${commentNo}">삭제</button>
+									        	  <button class="btn-member-delete" value="\${commentNo}">삭제</button>
 										          <button>관리자</button>
 									          </td>
 								            </tr>
@@ -335,10 +337,12 @@ const deleteBoard = () => {
 								  <% }else if(loginMember != null && loginMember.getMemberRole() == MemberRole.M ){ %>// 일반 회원일때 보이는 버튼   (로그인 회원)
 								  
 								  console.log(" 회원일때2  "); 
+								  
 								  tbody.innerHTML += `
 												<td>
 										         <button class="report" value="\${commentNo}" >신고</button>
 										         <button class="btn-reply" value="\${commentNo}" >답글</button>
+										         <button class="btn-member-delete" value="\${commentNo}">삭제</button>
 										         <button>회원</button>
 										         </td>    	
 									         </tr>
@@ -351,8 +355,8 @@ const deleteBoard = () => {
 								  
 								  tbody.innerHTML += `
 									 		 <td>
-									         <button class="btn-Member-delete" value="\${commentNo}" >답글</button>
-									         <button class="reply-member" value="\${commentNo}" >삭제</button>
+									         <button class="btn-reply" value="\${commentNo}" >답글</button>
+									         <button class="btn-member-delete" value="\${commentNo}">삭제</button>
 									         <button>작성자</button>
 									         </td>    	  	
 									      </tr>
@@ -412,8 +416,8 @@ const deleteBoard = () => {
 							        tbody.innerHTML += `
 							        
 							      
-							        	  <button class="report" value="${commentNo}" >신고</button>
-								          <button class="btn-admin-delete" value="${commentNo}">삭제</button>
+							        	  <button class="report" value="\${commentNo}" >신고</button>
+								          <button class="btn-admin-delete" value="\${commentNo}">삭제</button>
 								     </td>
 								  
 								     `;
@@ -426,7 +430,7 @@ const deleteBoard = () => {
 								  
 								  tbody.innerHTML += `
 								        <td>
-									         <button class="report" value="${commentNo}" >신고</button>
+									         <button class="report" value="\${commentNo}" >신고</button>
 									     </td>
 									  `;
 
@@ -435,7 +439,7 @@ const deleteBoard = () => {
 								  
 								  tbody.innerHTML += `
 								        <td>
-											 <button class="reply-member" value="${commentNo}" >삭제</button>
+											 <button class="reply-member" value="\${commentNo}" >삭제</button>
 									     </td>
 									     `;
 								  
@@ -468,48 +472,80 @@ const deleteBoard = () => {
 		 }; // funtion 끝 
 		 
 <!--댓글 끝  ----------------------------------------------------- -->		
-		 // 삭제  ( 본인 )
-			document.querySelectorAll(".btn-Member-delete").forEach((button) => {
-				button.onclick = (e) => {
-					if(confirm("해당 댓글을 삭제하시겠습니까?")){
-						const frm = document.newsCommentDelFrmMember;
-						console.log("삭제중")
-						 const {value} = e.target; 
-						 const commentState = 1; 
-						 
-						 frm.Commentno.value = value;
-					     frm.commentState.value = commentState;
-					     
-						frm.submit();
-					}
-				}
-			}); // 끝
+		 
+
 			
-			
-			// 삭제  ( 관리자 )
-			document.querySelectorAll(".btn-Admin-delete").forEach((button) => {
-				button.onclick = (e) => {
-					if(confirm("해당 댓글을 삭제 처리 하시겠습니까?")){
-						const frm = document.newsCommentDelFrmAdmin;
-						console.log("삭제중")
-						 const {value} = e.target; 
-						 const commentState = 2; 
-						 
-						 frm.Commentno.value = value;
-					     frm.commentState.value = commentState; 
-					     
-						frm.submit();
-					}
-				}
-			});// 끝
-			
-			// 이벤트버블링을 이용한 textarea focus핸들러
-			// focus, blur 버블링되지 않음. 대신 focusin, focusout 사용.
-			document.addEventListener("click", (e) => {
-				if(e.target.matches("button[class= btn-admin-delete] ")) {
-					console.log("삭제다뿅")	
-				}
-			});
+document.addEventListener("click", (e) => {
+	
+	  if (e.target.matches("button[class='btn-member-delete']")) { 
+		  
+	    if (confirm("해당 댓글을 삭제하시겠습니까?")) {
+	      const frm = document.getElementById("newsCommentDelFrmMember");
+	      const {value} = e.target;
+	      frm.commentNo.value = value;
+	      frm.submit();
+	      
+	    }
+	    
+	  } else if (e.target.matches("button[class='btn-admin-delete']")) {
+		  
+	    if (confirm("해당 댓글을 삭제 처리 하시겠습니까?")) {
+	      const frm = document.getElementById("newsCommentDelFrmAdmin");
+	      const {value} = e.target;
+	      frm.commentNo.value = value;
+	      frm.submit();
+		    }
+	    
+	    }else if (e.target.matches("  button[class='btn-reply'] ")) {
+	    		  
+	    	  
+	    			const {value} = e.target;
+	    			
+	    			const parentTr = e.target.parentElement.parentElement; //  클릭된 버튼의 부모 요소의 부모 요소를 parentTr 변수에 할당
+	    			console.log(parentTr);
+	    			const tr = `
+	    				<div id="comment-container">
+		    				 <div class="comment-editor">
+		    				
+	    				<tr>
+	    					<td colspan="2">
+	    				            <form
+	    								action="<%=request.getContextPath()%>/news/newsCommentCreate" 
+	    								method="post" 
+	    								name="NewsCommentFrm">
+	    				                <input type="hidden" name="newsNo" value="<%= newsAndImage.getNewsNo()%>" />
+	    				                <input type="hidden" name="newsCommentWriter" value="<%= loginMember != null ? loginMember.getMemberId() : "" %>" />
+	    				                <input type="hidden" name="newsCommentLevel" value="2" />  
+	    				                <input type="hidden" name="newsCommentNickname" value="<%= loginMember != null ? loginMember.getNickname() : ""%>" />
+	    								<textarea name="newsCommentContent" cols="50" rows="3"></textarea>
+	    				                <button type="submit" id="btn-comment-enroll1">등록</button>
+	    				            </form>
+	    				       </td>
+	    					</tr>
+	    				
+	    				 </div>
+	    			</div>
+	    			
+	    			
+	    			`;
+	    			
+	    			// beforebegin 시작태그전 - 이전형제요소로 추가
+	    			// afterbegin 시작태그후 - 첫자식요소로 추가
+	    			// beforeend 종료태그전 - 마지막요소로 추가
+	    			// afterend 종료태그후 - 다음형제요소로 추가
+	    			parentTr.insertAdjacentHTML('afterend', tr);
+	    			
+	    			button.onclick = null; // 이벤트핸들러 제거 (1회용)
+	    	  
+	    	  
+	    
+	    }
+
+	  
+	    
+	    
+	    
+	});
 			
 			
 <!------------------------------------------- -->		
@@ -521,43 +557,6 @@ const deleteBoard = () => {
 			
 			
 
-			
-<!-- 대댓글  ------------------------------- -->		
-			
-document.querySelectorAll(".btn-reply").forEach((button) => {
-		button.onclick = (e) => {
-			const {value} = e.target;
-			const parentTr = e.target.parentElement.parentElement; //  클릭된 버튼의 부모 요소의 부모 요소를 parentTr 변수에 할당
-			console.log(parentTr);
-			const tr = `
-				<tr>
-					<td colspan="2">
-				            <form
-								action="<%=request.getContextPath()%>/news/newsCommentCreate" 
-								method="post" 
-								name="NewsCommentFrm">
-				                <input type="hidden" name="newsNo" value="<%= newsAndImage.getNewsNo()%>" />
-				                <input type="hidden" name="newsCommentWriter" value="<%= loginMember != null ? loginMember.getMemberId() : "" %>" />
-				                <input type="hidden" name="newsCommentLevel" value="2" />  
-				                <input type="hidden" name="newsCommentNickname" value="<%= loginMember != null ? loginMember.getNickname() : ""%>" />
-								<textarea name="newsCommentContent" cols="50" rows="3"></textarea>
-				                <button type="submit" id="btn-comment-enroll1">등록</button>
-				            </form>
-				        	</td>
-				</tr>
-			`;
-			
-			// beforebegin 시작태그전 - 이전형제요소로 추가
-			// afterbegin 시작태그후 - 첫자식요소로 추가
-			// beforeend 종료태그전 - 마지막요소로 추가
-			// afterend 종료태그후 - 다음형제요소로 추가
-			parentTr.insertAdjacentHTML('afterend', tr);
-			
-			button.onclick = null; // 이벤트핸들러 제거 (1회용)
-			
-		};
-	});
-	
 	
 	
 <!--------------------------------------------->	
