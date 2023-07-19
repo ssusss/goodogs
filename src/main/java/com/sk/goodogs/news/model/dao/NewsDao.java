@@ -1,20 +1,18 @@
 package com.sk.goodogs.news.model.dao;
 
+import java.io.CharArrayReader;
 import java.io.FileReader;
 import java.io.IOException;
+import java.io.Reader;
+import java.io.Writer;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import java.util.Properties;
-
-import javax.script.ScriptException;
-
-import static com.sk.goodogs.common.JdbcTemplate.*;
 
 import com.sk.goodogs.member.model.vo.Member;
 import com.sk.goodogs.news.model.exception.NewsException;
@@ -23,6 +21,9 @@ import com.sk.goodogs.news.model.vo.NewsComment;
 import com.sk.goodogs.news.model.vo.NewsAndImage;
 import com.sk.goodogs.news.model.vo.NewsImage;
 import com.sk.goodogs.news.model.vo.NewsScript;
+
+import oracle.jdbc.OracleResultSet;
+import oracle.sql.CLOB;
 
 /**
  * @author 김준한
@@ -112,22 +113,59 @@ public class NewsDao {
 			return newsScript;
 		}
 
+//		public int newsScriptSubmit(Connection conn, NewsScript newNewsScript) throws SQLException, IOException {
+//			int result = 0;
+//			String sql1 = prop.getProperty("newsScriptSubmit");
+//			String sql2 = prop.getProperty("scriptClob");
+//			PreparedStatement pstmt = conn.prepareStatement(sql1);
+//			pstmt.setString(1, newNewsScript.getScriptWriter());
+//			pstmt.setString(2, newNewsScript.getScriptTitle());
+//			pstmt.setString(3, newNewsScript.getScriptCategory());
+//			pstmt.setString(4, newNewsScript.getScriptTag());
+//			result = pstmt.executeUpdate();
+//			pstmt.close();
+//			if (result == 1) {
+//				pstmt = conn.prepareStatement(sql2);
+//				
+//				pstmt.setInt(1, getLastScriptNo(conn));	
+//				ResultSet rset = pstmt.executeQuery();
+//				
+//				String strCLOB = newNewsScript.getScriptContent();
+//				if (rset.next()) {
+//					CLOB clob = ((OracleResultSet)rset).getCLOB("script_content");
+//					Writer writer = clob.getCharacterOutputStream();
+//					Reader reader = new CharArrayReader(strCLOB.toCharArray());
+//					char[] buffer = new char[1024];
+//					int read = 0;
+//					
+//					while ((read = reader.read(buffer, 0, 1024)) != -1) {
+//						writer.write(buffer, 0, read);
+//					}
+//					reader.close();
+//					writer.close();
+//				}
+//			}
+//
+//			return result;
+//		}
+		
+		
 		public int newsScriptSubmit(Connection conn, NewsScript newNewsScript) {
-			int result = 0;
-			String sql = prop.getProperty("newsScriptSubmit");
-			try (PreparedStatement pstmt = conn.prepareStatement(sql)) {
-				pstmt.setString(1, newNewsScript.getScriptWriter());
-				pstmt.setString(2, newNewsScript.getScriptTitle());
-				pstmt.setString(3, newNewsScript.getScriptCategory());
-				pstmt.setString(4, newNewsScript.getScriptContent());
-				pstmt.setString(5, newNewsScript.getScriptTag());
-				result = pstmt.executeUpdate();
-			} catch (SQLException e) {
-				throw new NewsException(e);
-			}
-			
-			return result;
-		}
+            int result = 0;
+            String sql = prop.getProperty("newsScriptSubmit");
+            try (PreparedStatement pstmt = conn.prepareStatement(sql)) {
+                pstmt.setString(1, newNewsScript.getScriptWriter());
+                pstmt.setString(2, newNewsScript.getScriptTitle());
+                pstmt.setString(3, newNewsScript.getScriptCategory());
+                pstmt.setString(4, newNewsScript.getScriptContent());
+                pstmt.setString(5, newNewsScript.getScriptTag());
+                result = pstmt.executeUpdate();
+            } catch (SQLException e) {
+                throw new NewsException(e);
+            }
+
+            return result;
+        }
 
 		public int newsScriptTempSave(Connection conn, NewsScript tempNewsScript) {
 			int result = 0;
@@ -529,6 +567,26 @@ public class NewsDao {
 					throw new NewsException(e);
 				}
 				return newsList;
+			}
+
+			public List<NewsAndImage> findNewsByKeyword(Connection conn, int start, int end, String keyword) {
+				List<NewsAndImage> newsAndImages = new ArrayList<>();
+				String sql = prop.getProperty("findNewsByKeyword");
+				try(PreparedStatement pstmt = conn.prepareStatement(sql)) {
+					pstmt.setString(1, "%"+keyword+"%");
+					pstmt.setString(2, "%"+keyword+"%");
+					pstmt.setInt(3, start);
+					pstmt.setInt(4, end);
+					
+					try(ResultSet rset = pstmt.executeQuery()) {
+						while(rset.next())
+							newsAndImages.add(handleNewsAndImageResultSet(rset));
+					}
+					
+				} catch (SQLException e) {
+					throw new NewsException(e);
+				}
+				return newsAndImages;
 			}
 
 }

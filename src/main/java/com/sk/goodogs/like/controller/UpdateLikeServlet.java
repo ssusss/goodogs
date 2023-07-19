@@ -27,12 +27,17 @@ public class UpdateLikeServlet extends HttpServlet {
 		int newsNo = Integer.parseInt(request.getParameter("newsNo"));
 		String memberId = request.getParameter("memberId");
 		
-		// method : insert / delete
+		// method : insert / delete (성공하면 1 반환)
 		int result = likeService.updateLike(method, memberId, newsNo);
+		System.out.println("result : "+result);
+		
+		// 좋아요수 다시 조회 
+		int updatedLikeCnt = likeService.getNewsLikeCnt(newsNo);
+		
 		
 		// 요청응답
 		response.setContentType("application/json; charset=utf-8"); // 헤더
-		new Gson().toJson(result, response.getWriter()); // 바디
+		new Gson().toJson(updatedLikeCnt, response.getWriter()); // 바디
 	}
 
 }

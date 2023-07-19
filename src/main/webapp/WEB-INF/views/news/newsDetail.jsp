@@ -9,116 +9,90 @@
 	pageEncoding="UTF-8"%>
 <%@ include file="/WEB-INF/views/common/header.jsp" %>
 <script src="<%= request.getContextPath() %>/js/jquery-3.7.0.js"></script>
+<script src="https://code.jquery.com/ui/1.13.2/jquery-ui.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+<link rel="stylesheet" href="<%=request.getContextPath()%>/css/news.css" />
 <!--  기사 페이지  -->
 <%
 	NewsAndImage newsAndImage = (NewsAndImage) request.getAttribute("newsAndImage");
-
-
+	int isLiked = (int) request.getAttribute("isLiked"); // 0: 좋아요안함, 1: 좋아요함
+	int newsLikeCnt = newsAndImage.getNewsLikeCnt();
 	List<NewsComment> newsComments  = (List<NewsComment>)request.getAttribute("newsComments");
 	NewsComment newsComment = (NewsComment)request.getAttribute("NewsComment");
 
-	
-	Member loginMember2 = (Member) session.getAttribute("loginMember");
-	System.out.println("loginMember = " + loginMember);
-	session.setAttribute("loginMember", loginMember);
-	Cookie[] cookies_ = request.getCookies();
-	String saveId_ = null;
-	if(cookies != null) {
-		for(Cookie cookie : cookies) {
-			String name = cookie.getName();
-			String value = cookie.getValue();
-			// System.out.println("[Cookie] " + name + " = " + value);
-			if ("saveId".equals(name))
-				saveId = value;
-		}
+	String _category = "";
+    
+	switch (newsAndImage.getNewsCategory()) {
+		case "정치" : _category = "politics"; break;
+		case "경제" : _category = "economy"; break;
+		case "세계" : _category = "global"; break;
+		case "테크" : _category = "tech"; break;
+		case "환경" : _category = "environment"; break;
+		case "스포츠" : _category = "sports"; break;
+		case "사회" : _category = "society"; break;
 	}
+	
+	String tagArr[] = newsAndImage.getNewsTag().split(",");
 %>
-
-<style>
-
-
-#comment-container {
-    border: 2px solid black; /* 검정 테두리 설정 */
-    border-radius: 10px; /* 둥근 네모 처리 */
-    padding: 10px; /* 내용과의 간격 설정 */
-}
-
-table#comment-container tr#level1 td{
-	background-color: pink;
-}
-table#comment-container tr td{
-	background-color: yellow;
-}
-
-table#comment-container { 
-  
-  border-radius: 60px; /* 둥근 처리를 위한 경계 반지름 설정 */
-  border: 2px solid #000; /* 테두리 설정 */
-  padding: 10px; /* 내부 여백 설정 */
-  box-sizing: border-box; }
-  
-/* 좋아요 스타일 */
-#like-heart {
-	color: grey;
-}
-#like-heart.like {
-	color: #e90c4e;
-}
-
-
-#comment-container {
-    border: 2px solid black; /* 검정 테두리 설정 */
-    border-radius: 10px; /* 둥근 네모 처리 */
-    padding: 10px; /* 내용과의 간격 설정 */
-}
-
-table#comment-container tr#level1 td{
-	background-color: pink;
-}
-table#comment-container tr td{
-	background-color: yellow;
-}
-
-table#comment-container { 
-  
-  border-radius: 60px; /* 둥근 처리를 위한 경계 반지름 설정 */
-  border: 2px solid #000; /* 테두리 설정 */
-  padding: 10px; /* 내부 여백 설정 */
-  box-sizing: border-box; }
-  
-/* 좋아요 스타일 */
-#like-heart {
-	color: grey;
-}
-#like-heart.like {
-	color: #e90c4e;
-}
-
-</style>
-
-<br/><br/><br/>
 <!-- ----------------------------------------------------- -->	
 
 
 
 <!-- ----------------------------------------------------- -->	
+<!--  기사 가져오기 ( 완료 )   -->
+<div id="newHeader">
+	<h4 id="news-category" name="news-category" style="color: #008000">
+		<a href="<%= request.getContextPath() %>/tag/<%= _category %>">
+			<%=newsAndImage.getNewsCategory()%>
+		</a>
+	</h4> <!--  카테고리  -->
+
+	<h1 id="news-title" name="news-title" ><%=newsAndImage.getNewsTitle() %></h1><!--  제목  -->
+ 	
+ 	<h4 id="news-confirmed-date" name="news-confirmed-date" ><%= newsAndImage.getNewsConfirmedDate().toString().split(" ")[0] %></h4>
+</div>  
+
 <section id="news-container">
-
-	  <!--  기사 가져오기 ( 완료 )   -->
-	<div id="news-category" name="news-category" ><%=newsAndImage.getNewsCategory()%></div> <!--  카테고리  -->
-
-	<h2 id="news-title" name="news-title" ><%=newsAndImage.getNewsTitle() %></h2><!--  제목  -->
- 
-	<img id="news-img" name="news-img" src="<%= request.getContextPath() %>/upload/newsImage/<%=newsAndImage.getRenamedFilename()%>"><!--  이미지  -->
+	<div id="img-container">
+		<img id="news-img" name="news-img" src="<%= request.getContextPath() %>/upload/newsImage/<%=newsAndImage.getRenamedFilename()%>"><!--  이미지  -->
+	</div>
 							 
 	<div id="news-content" name="news-content"><%=newsAndImage.getNewsContent()%></div><!--  내용  -->
 	 
-<br/><br/><br/>
+	<br/><br/><br/>
+	<div id="news-tag-container">
+		<div class="news-tag">
+			<a href="<%= request.getContextPath() %>/tag/<%= _category %>">#<%= tagArr[0] %></a>
+		</div>
+		<% for (int i = 1; i < tagArr.length; i++) { %>
+		<div class="news-tag">
+			<a href="">#<%= tagArr[i] %></a>
+		</div>
+		<% } %>
+	</div>
+	<!-- 태그 수정 필요 -->
+	
+	<!-- 좋아요 --> <!--  진행도 ( 완성 )  -->
 
+<br>
+<br>
+<div id="likeButton">
+
+  <button id="likeButtonBtn">
+    <i class="fa-solid fa-heart fa-lg" name="like-heart" id="like-heart"></i>
+
+    좋아요
+    <span id="newsLikeCnt"><%= newsLikeCnt %></span> 
+  </button>
+</div>
+
+<!-- ----------------------------------------------------- -->
+<br>
 <!-- ----------------------------------------------------- -->	
 <div id="newsNo" style = "display : none" ><%= newsAndImage.getNewsNo() %></div> <!--  넘버값 가져오기위함 -->
 <!--  댓글 작성할수 있는 칸  -->
 
+<div id="comment-container">
 <% 	if(loginMember != null) { %>
 
  <div class="comment-editor">
@@ -130,7 +104,7 @@ table#comment-container {
                 <input type="hidden" name="newsCommentWriter" value="<%= loginMember != null ? loginMember.getMemberId() : "" %>" />
                 <input type="hidden" name="newsCommentLevel" value="1" />  
                <input type="hidden" name="newsCommentNickname" value="<%= loginMember.getNickname() %>" />
-				<textarea name="newsCommentContent" cols="50" rows="3"></textarea>
+				<textarea class="newsCommentContent" name="newsCommentContent" cols="50" rows="3"></textarea>
                 <button type="submit" id="btn-comment-enroll1">등록</button>
             </form>
  </div><!-- end -->
@@ -160,6 +134,7 @@ table#comment-container {
 		
 </table> <!-- end -->
 
+</div>
 	
 	<div id='btn-more-container'>
 		<button id="btn-more" value="">더보기(<span id="cpage"></span>/<span id="totalPage"></span>)</button>
@@ -191,17 +166,7 @@ table#comment-container {
 	
 <!-- ----------------------------------------------------- -->
  
-<!-- 좋아요 --> <!--  진행도 ( 완성 )  -->
 
-<div id="likeButton">
-  <button id="likeButtonBtn" style="font-size: 30px; border: none; background: none; padding: 0; margin: 0; cursor: pointer;">
-    <i class="fa-solid fa-heart" name="like-heart" id="like-heart"></i>
-    좋아요
-    <span id="newsLikeCnt"><%= newsAndImage.getNewsLikeCnt() %></span> 
-  </button>
-</div>
-
-<!-- ----------------------------------------------------- -->
 
 <!--  관리자에게만 보이는 기사 삭제 버튼 --> <!--  진행도 (다 하고 확인중 ) -->
   
@@ -217,9 +182,19 @@ table#comment-container {
 		<input type="hidden" name="newsNo" value="<%= newsAndImage.getNewsNo() %>"/>
 	</form><!--  끝  -->
 
+</section>
+
+<!-- ----------------------------------------------------- -->
+
+<!-- asdasdasdasdsadasdasdasdsasd -->
 
 
-<script><!--start-----------start----------------start--------------------start---------start------------------------------------------------------ ----------------------------------------------------- ------------------------------------------------------>
+<!-- 북마크 말풍선 -->
+<div class="highlight-tooltip" style="display: block;">북마크</div>
+
+
+<script>
+<!--start-----------start----------------start--------------------start---------start------------------------------------------------------ ----------------------------------------------------- ------------------------------------------------------>
 
 const bannerContainerLower = document.querySelector(".bannerContainerLower");
 bannerContainerLower.style.display = "none";
@@ -504,7 +479,10 @@ const deleteBoard = () => {
 		 
 <!--댓글 끝  ----------------------------------------------------- -->		
 		 // 삭제  ( 본인 )
+		 console.log(document.querySelectorAll(".btn-Member-delete"));
 			document.querySelectorAll(".btn-Member-delete").forEach((button) => {
+				console.log("asdasd");	
+			
 				button.onclick = (e) => {
 					if(confirm("해당 댓글을 삭제하시겠습니까?")){
 						const frm = document.newsCommentDelFrmMember;
@@ -574,7 +552,7 @@ document.querySelectorAll(".btn-reply").forEach((button) => {
 				                <input type="hidden" name="newsNo" value="<%= newsAndImage.getNewsNo()%>" />
 				                <input type="hidden" name="newsCommentWriter" value="<%= loginMember != null ? loginMember.getMemberId() : "" %>" />
 				                <input type="hidden" name="newsCommentLevel" value="2" />  
-				               <input type="hidden" name="newsCommentNickname" value="<%= loginMember.getNickname() %>" />
+				                <input type="hidden" name="newsCommentNickname" value="<%= loginMember != null ? loginMember.getNickname() : ""%>" />
 								<textarea name="newsCommentContent" cols="50" rows="3"></textarea>
 				                <button type="submit" id="btn-comment-enroll1">등록</button>
 				            </form>
@@ -596,173 +574,134 @@ document.querySelectorAll(".btn-reply").forEach((button) => {
 	
 	
 <!--------------------------------------------->	
+/**
+ *  @author 전수경
+ *  - 좋아요 기능
+ **/
+const likeIcon = document.getElementById('like-heart'); // 하트 아이콘
+const likeClassList = likeIcon.classList; // 하트 아이콘의 클래스 리스트
 
+/**
+ * - 로그인회원의 좋아요 유무확인
+ * - 좋아요했으면 빈 하트, 좋아요했으면 빨간하트
+ */
+if (<%= loginMember != null %>) {
 
+	// 좋아요 수정   
+	document.querySelector("#likeButtonBtn").onclick = (e) => {
+		console.log(e.target);
+		console.log("likeClassList="+likeClassList);
+		const flag = likeClassList.contains("like");
+		console.log(flag);
+		const newsLikeCnt = <%= newsLikeCnt %>;
 
-// 좋아요 -----------------------
-		const likeIcon = document.getElementById('like-heart');
-		const likeClassList = likeIcon.classList;
+		if(flag){
+			// like가 있다면 좋아요 취소
+			$.ajax({
+				url: "<%= request.getContextPath() %>/like/updateLike",
+				dataType : "json",
+				type: "POST",
+				data: {
+					method : "delete",
+					newsNo : <%= newsAndImage.getNewsNo() %>,
+					memberId : "<%= loginMember != null ? loginMember.getMemberId() : "" %>"
+				},
+				success(updatedLikeCnt){
+					likeClassList.remove("like");
+					document.querySelector('#newsLikeCnt').innerHTML = updatedLikeCnt;
+					console.log("좋아요 취소 성공!");
+				}
+			});
+		} else {
+			// like가 없다면 좋아요 등록	
+			$.ajax({
+				url: "<%= request.getContextPath() %>/like/updateLike",
+				dataType : "json",
+				type: "POST",
+				data: {
+					method : "insert",
+					newsNo : <%= newsAndImage.getNewsNo() %>,
+					memberId : "<%= loginMember != null ? loginMember.getMemberId() : "" %>"
+				},
+				success(updatedLikeCnt){
+					likeClassList.add("like");
+					document.querySelector('#newsLikeCnt').innerHTML = updatedLikeCnt;
+					console.log("좋아요 등록 성공!");
+				}
+			});
+		}
 
-
-	  /**
-	  	@author 전수경
-	  	 - 로그인회원의 좋아요 유무확인
-	  	 - 좋아요했으면 빈 하트, 좋아요했으면 빨간하트
-	  */
-	  const loadLike = () => {
-		  // 회원의 뉴스 좋아요 여부 확인
-		  $.ajax({
-			  url: "<%= request.getContextPath() %>/like/checkLikeState",
-			  dataType : "json",
-			  type: "GET",
-			  data: {
-				  newsNo : <%= newsAndImage.getNewsNo() %>,
-				  memberId : "<%= loginMember.getMemberId() %>"
-			  },
-			  success(likeState){
-				  console.log("likeState="+likeState);
-				  
-				  if(likeState === 1){
-					// 회원이 좋아요한 상태 (빨간색)
-					  likeClassList.add("like");
-					
-				  } else {
-					// 회원이 좋아요 안한 상태
-					  likeClassList.remove("like");
-				  }
-			  }
-		  })
-	  };
-	  
-	  /**
-	  	- 좋아요 바꾸기
-	  */
-		document.querySelector("#likeButtonBtn").onclick = (e) => {
-			console.log(e.target);
-			console.log("likeClassList="+likeClassList);
-			const flag = likeClassList.contains("like");
-			console.log(flag);
-			let newsLikeCnt = document.querySelector('#newsLikeCnt').innerHTML;
-			console.log("newsLikeCnt="+newsLikeCnt);
-
-			if(flag){
-				// like가 있다면 좋아요 취소
-				$.ajax({
-					url: "<%= request.getContextPath() %>/like/updateLike",
-					dataType : "json",
-					type: "POST",
-					data: {
-						method : "delete",
-						newsNo : <%= newsAndImage.getNewsNo() %>,
-						memberId : "<%= loginMember.getMemberId() %>"
-					},
-					success(result){
-						likeClassList.remove("like");
-						console.log("result="+result);
-					},
-					complete(){
-						newsLikeCnt = number(newsLikeCnt) - 1;
-						console.log("newsLikeCnt="+newsLikeCnt);
-					}
-				});
-			} else {
-				// like가 없다면 좋아요 등록	
-				$.ajax({
-					url: "<%= request.getContextPath() %>/like/updateLike",
-					dataType : "json",
-					type: "POST",
-					data: {
-						method : "insert",
-						newsNo : <%= newsAndImage.getNewsNo() %>,
-						memberId : "<%= loginMember.getMemberId() %>"
-					},
-					success(result){
-						likeClassList.add("like");
-						console.log("result="+result);
-					},
-					complete(){
-						newsLikeCnt = number(newsLikeCnt) + 1;
-						console.log("newsLikeCnt="+newsLikeCnt);
-					}
-				});
-			}
-			
-		};
 		
-		  
-	  (()=>{
-		  loadLike();
-	  })();
-	  
-	  
+	};
 
-	//----------------------끝    
 	
-</script> <!-- end --><!-------------------------------------------------------------------------------------------------------------------------------------------------------------- -->
+	
+//----------------------끝    
+
+  let selection2 = null;
+
+	//말풍선을 표시할 위치와 내용 설정
+	function showTooltip(x, y) {
+	 tooltip.style.display = 'block';
+	 tooltip.style.left = x + 'px';
+	 tooltip.style.top = y - tooltip.offsetHeight - 10 + 'px';
+	}
+	
+	//말풍선을 숨김
+	function hideTooltip() {
+	 tooltip.style.display = 'none';
+	}
+	
+	//북마크 말풍선 찾아냄
+	const tooltip = document.querySelector('.highlight-tooltip');
+	
+	//말풍선 클릭 시 하이라이트 저장
+	function handleTooltipClick(e) {
+	 $.ajax({
+	   url: "<%= request.getContextPath() %>/bookmark/bookmarkInsert",
+	   data: {
+	     memberId: "<%= loginMember != null ? loginMember.getMemberId() : "" %>",
+	     newsNo: <%= newsAndImage.getNewsNo() %>,
+	     newsTitle: "<%= newsAndImage.getNewsTitle() %>",
+	     bookmarkedContent: selection2
+	   },
+	   method: "POST",
+	   dataType: "json",
+	   success(responseData) {
+	     console.log(responseData);
+	     //console.log(newsTitle);
+	   }
+	 });
+	 e.preventDefault();
+	}
+	
+	//mouseup 이벤트 발생 시 말풍선 표시
+	document.addEventListener('mouseup', function(event) {
+	 const selection = window.getSelection();
+	
+	 if (selection.toString().trim() !== '') {
+	   const range = selection.getRangeAt(0);
+	   const rect = range.getBoundingClientRect();
+	   const x = rect.left + rect.width / 2;
+	   const y = rect.top + window.pageYOffset;
+	   selection2 = selection.toString();
+	
+	   // 말풍선 클릭 이벤트 핸들러 등록
+	   tooltip.addEventListener('click', handleTooltipClick);
+	
+	   showTooltip(x, y);
+	 } else {
+	   hideTooltip();
+	 }
+	});
 
 
 
 
-</section>
-
-<!-- ----------------------------------------------------- -->
-<div class="highlight-tooltip" style="display: block;">북마크</div>
-<script>
-// 말풍선을 표시할 위치와 내용 설정
-function showTooltip(x, y) {
-  tooltip.style.display = 'block';
-  tooltip.style.left = x + 'px';
-  tooltip.style.top = y - tooltip.offsetHeight - 10 + 'px';
 }
 
-
-// 말풍선을 숨김
-function hideTooltip() {
-  tooltip.style.display = 'none';
-}
-
-const tooltip = document.querySelector('.highlight-tooltip');
-
-
-// 하이라이트된 내용을 저장
-function saveHighlight() {
-    let highlightedContent = window.getSelection().toString().trim(); // 선택한 텍스트 문자열로 반환하고 앞뒤 공백 제거
-        console.log(highlightedContent); // 선택한 내용을 확인하기 위해 콘솔에 출력
-
-
-    if (highlightedContent !== '') {
-            hideTooltip(); // 말풍선 숨김
-          }
-}
-
-// mouseup 이벤트 발생 시 말풍선 표시
-document.addEventListener('mouseup', function(event) {
-  console.log("mouseup 실행됨")
-  const selection = window.getSelection();
-
-  console.log("selection 실행됨" + selection)
-
-  if (selection.toString().trim() !== '') { // 문자열 앞뒤 공백 제거 후 비어있지 않은지 확인
-      const range = selection.getRangeAt(0);
-      const rect = range.getBoundingClientRect();
-      const x = rect.left + rect.width / 2;
-      const y = rect.top + window.pageYOffset;
-
-    showTooltip(x, y);
-  } else {
-    hideTooltip();
-  }
-});
-
-// 말풍선 클릭 시 하이라이트 저장
-tooltip.addEventListener('click', function() {
-  saveHighlight();
-});
 
 </script>
 
-
-
-<script src="<%= request.getContextPath() %>/js/jquery-3.7.0.js"></script>
 
 <%@ include file="/WEB-INF/views/common/footer.jsp" %>
