@@ -32,7 +32,7 @@
 		case "사회" : _category = "society"; break;
 	}
 	
-	
+	String tagArr[] = newsAndImage.getNewsTag().split(",");
 %>
 <!-- ----------------------------------------------------- -->	
 
@@ -61,7 +61,14 @@
 	 
 	<br/><br/><br/>
 	<div id="news-tag-container">
-		<div id="news-tag">#<%=newsAndImage.getNewsTag()%></div>
+		<div class="news-tag">
+			<a href="<%= request.getContextPath() %>/tag/<%= _category %>">#<%= tagArr[0] %></a>
+		</div>
+		<% for (int i = 1; i < tagArr.length; i++) { %>
+		<div class="news-tag">
+			<a href="">#<%= tagArr[i] %></a>
+		</div>
+		<% } %>
 	</div>
 	<!-- 태그 수정 필요 -->
 	
@@ -70,8 +77,10 @@
 <br>
 <br>
 <div id="likeButton">
-  <button id="likeButtonBtn" style="font-size: 30px; border: none; background: none; padding: 0; margin: 0; cursor: pointer;">
-    <i class="fa-solid fa-heart <%= isLiked==1 ? "like" : "" %>" name="like-heart" id="like-heart"></i>
+
+  <button id="likeButtonBtn">
+    <i class="fa-solid fa-heart fa-lg" name="like-heart" id="like-heart"></i>
+
     좋아요
     <span id="newsLikeCnt"><%= newsLikeCnt %></span> 
   </button>
@@ -180,6 +189,7 @@
 <!-- asdasdasdasdsadasdasdasdsasd -->
 
 
+<!-- 북마크 말풍선 -->
 <div class="highlight-tooltip" style="display: block;">북마크</div>
 
 
@@ -469,7 +479,10 @@ const deleteBoard = () => {
 		 
 <!--댓글 끝  ----------------------------------------------------- -->		
 		 // 삭제  ( 본인 )
+		 console.log(document.querySelectorAll(".btn-Member-delete"));
 			document.querySelectorAll(".btn-Member-delete").forEach((button) => {
+				console.log("asdasd");	
+			
 				button.onclick = (e) => {
 					if(confirm("해당 댓글을 삭제하시겠습니까?")){
 						const frm = document.newsCommentDelFrmMember;
@@ -625,89 +638,69 @@ if (<%= loginMember != null %>) {
 	
 //----------------------끝    
 
+  let selection2 = null;
 
-		
+	//말풍선을 표시할 위치와 내용 설정
+	function showTooltip(x, y) {
+	 tooltip.style.display = 'block';
+	 tooltip.style.left = x + 'px';
+	 tooltip.style.top = y - tooltip.offsetHeight - 10 + 'px';
+	}
+	
+	//말풍선을 숨김
+	function hideTooltip() {
+	 tooltip.style.display = 'none';
+	}
+	
+	//북마크 말풍선 찾아냄
 	const tooltip = document.querySelector('.highlight-tooltip');
 	
-	// 말풍선을 표시할 위치와 내용 설정
-	function showTooltip(x, y) {
-	  tooltip.style.display = 'block';
-	  tooltip.style.left = x + 'px';
-	  tooltip.style.top = y - tooltip.offsetHeight - 10 + 'px';
+	//말풍선 클릭 시 하이라이트 저장
+	function handleTooltipClick(e) {
+	 $.ajax({
+	   url: "<%= request.getContextPath() %>/bookmark/bookmarkInsert",
+	   data: {
+	     memberId: "<%= loginMember != null ? loginMember.getMemberId() : "" %>",
+	     newsNo: <%= newsAndImage.getNewsNo() %>,
+	     newsTitle: "<%= newsAndImage.getNewsTitle() %>",
+	     bookmarkedContent: selection2
+	   },
+	   method: "POST",
+	   dataType: "json",
+	   success(responseData) {
+	     console.log(responseData);
+	     //console.log(newsTitle);
+	   }
+	 });
+	 e.preventDefault();
 	}
 	
-	// 말풍선을 숨김
-	function hideTooltip() {
-	  tooltip.style.display = 'none';
-	}
-	
-	
-	
-	const newsContent = document.querySelector("#news-content");
-	console.log(newsContent.innerHTML);
-	let selection2 = null;
-	
-	// mouseup 이벤트 발생 시 말풍선 표시
+	//mouseup 이벤트 발생 시 말풍선 표시
 	document.addEventListener('mouseup', function(event) {
-	  console.log(event);
+	 const selection = window.getSelection();
 	
-	  const selection = window.getSelection();
-	  let startOffset = selection.anchorOffset;
-	  let endOffset = selection.focusOffset;
-	  
-	  if (selection.toString().trim() !== '') {
-	    const range = selection.getRangeAt(0);
-	    const rect = range.getBoundingClientRect();
-	    const x = rect.left + rect.width / 2;
-	    const y = rect.top + window.pageYOffset;
-	    selection2 = selection.toString();
-	  
-	    if (startOffset > endOffset) {
-	      const tempIndex = startOffset;
-	      startOffset = endOffset;
-	      endOffset = tempIndex;
-	    }
-	    
-	    // 말풍선 클릭 시 하이라이트 저장
-	    tooltip.addEventListener('click', function(e) {
-	      e.preventDefault();
-
-	      hideTooltip(); 
-	      
-	      newsContent.innerHTML = replaceCharAtIndex(startOffset, endOffset);
-	      
-	      $.ajax({
-	        url: "<%= request.getContextPath() %>/bookmark/bookmarkInsert",
-	        data: {
-	          newsNo: <%= newsAndImage.getNewsNo() %>,
-	          memberId: "<%= loginMember != null ? loginMember.getMemberId() : "" %>",
-	          bookmarkedContent: newsContent.innerHTML
-	        },
-	        method: "POST",
-	        dataType: "json",
-	        success(responseData) {
-	          console.log(responseData);
-	        }
-	      });
-	    });
-	    
-	    showTooltip(x, y);
-	  } else {
-	    hideTooltip();
-	  }
+	 if (selection.toString().trim() !== '') {
+	   const range = selection.getRangeAt(0);
+	   const rect = range.getBoundingClientRect();
+	   const x = rect.left + rect.width / 2;
+	   const y = rect.top + window.pageYOffset;
+	   selection2 = selection.toString();
+	
+	   // 말풍선 클릭 이벤트 핸들러 등록
+	   tooltip.addEventListener('click', handleTooltipClick);
+	
+	   showTooltip(x, y);
+	 } else {
+	   hideTooltip();
+	 }
 	});
-	
-	function replaceCharAtIndex(index1, index2) {
-	  var oldContent = newsContent.innerHTML;
-	  
-	  
-	  
-	  var newContent = oldContent.slice(0, index1) + "<mark>" + selection2 + "</mark>" + oldContent.slice(index2);
-	  console.log(newContent);
-	  return newContent;
-	}
+
+
+
 
 }
+
+
 </script>
 
 
