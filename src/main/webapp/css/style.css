@@ -631,3 +631,22 @@ footer {
   }
   
   
+  /* 알람 종*/
+ .bell {
+  transform-origin: top;
+  animation: bell 3s infinite linear;
+   font-size : 30px;
+   color: yellow;
+}
+  
+@keyframes bell{
+  0%, 50%{
+	transform: rotate(0deg);
+	}
+  5%, 15%, 25%, 35%, 45% {
+	transform: rotate(13deg);
+  }
+  10%, 20%, 30%, 40% {
+	transform: rotate(-13deg);
+  }
+}

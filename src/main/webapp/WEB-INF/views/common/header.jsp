@@ -41,7 +41,11 @@
 			<div class="navInner">
 				<h1 id="toMain1">goodogs</h1>
 				<div class="navBox">
-					<span id="notification"></span>	
+					<div id="notification-container">
+						<span id="notification"></span>
+					</div>	
+					
+					
 					<div class="searchBox"><i class="fa-solid fa-magnifying-glass fa-2xl searchIcon" style="color: ##051619;"></i></div>
 					<div class="infoBox">
 						<% if (loginMember == null || loginMember.getMemberProfile() == null) { %>
@@ -246,7 +250,7 @@
 <% 	} %>
 <script>
 function alarmCheck(memberId){
-	
+	console.log(memberId);
 	console.log("check");
 	$.ajax({
 	url : "<%= request.getContextPath() %>/admin/alarm/check",
@@ -256,12 +260,26 @@ function alarmCheck(memberId){
 	success(alarms) {
 		console.log(alarms);
 		if(alarms.length>0){
-	
-			const alarmSpace =document.querySelector("#notification");
-				if(!alarmSpace.hasChildNodes()){
-					alarmSpace.innerHTML=`<i class="fa-solid fa-bell bell"></i>`;
-				}
 			
+				const alarmSpace =document.querySelector("#notification");
+					if(!alarmSpace.hasChildNodes()) {
+						alarmSpace.innerHTML=`<i class="fa-solid fa-bell bell"></i>`;
+					}
+				const notificationContainer = document.querySelector("#notification-container");
+				notificationContainer.insertAdjacentHTML('beforeend', `
+					<div class="alarmMenu">
+						
+		 			</div>	
+				`);
+				const alarmMenuBox=document.querySelector(".alarmMenu");
+				alarmMenuBox.innerHTML=alarms.reduce((html,alarm)=>{
+					const{alarmNo,alarmReceiver,alarmScriptNo,alarmComment}=alarm;
+						
+					return html +`
+						<p id="\${alarmNo}">\${alarmComment}</P>
+					`;
+				},"");
+				
 			}
 		
 
@@ -269,4 +287,30 @@ function alarmCheck(memberId){
 	
 	});
 };
+
+
+
+document.addEventListener("click",(e)=>{
+
+	if(e.target.matches(".bell")){
+
+		const alarmBox= document.querySelector(".alarmMenu");
+		
+	}
+
+
+	if(e.target.matches(".bell")){
+
+		$.ajax({
+				url : "<%= request.getContextPath() %>/admin/alarmChecked",
+				data : {memberRoleVal,memberIdVal},	
+				method : "POST",
+				dataType : "json",
+				success(updateRole) {
+					console.log(updateRole)
+					alert(updateRole.message);
+				}
+			});
+	}
+});
 </script>

@@ -23,15 +23,18 @@
 --drop table news_script;
 --drop table news_comment;
 --drop table withdraw_member;
+--drop table alarm;
 --drop table member;
 --drop sequence seq_withdraw_member_no;
 --drop sequence seq_news_script_rejected_no;
 --drop sequence seq_news_comment_no;
+--drop sequence seq_alarm_no;
 --drop sequence seq_news_script_no;
 --drop trigger trg_news_script_to_news;
 --drop trigger trg_news_to_deleted_news;
 --drop trigger trg_member_to_withdraw_member;
 --drop trigger trg_news_script_to_rejected;
+
 
 --==============================
 -- 테이블 생성
@@ -420,8 +423,8 @@ commit;
 
 
 -----------------알람 테이블 추가
-insert into member values('3@3', 'M', '123', '상윤유저계정', '01023585522', to_date('20160617','yyyymmdd'), 'R', default, default);
-
+insert into member values('1@1', 'M', '123', '상윤기자', '01012312344', to_date('20160617','yyyymmdd'), 'R', default, default);
+insert into member values('2@2', 'M', '123', '상윤관리자', '01012312355', to_date('20160617','yyyymmdd'), 'A', default, default);
 
 CREATE TABLE alarm (
     alarm_no number,

@@ -11,7 +11,6 @@ public class Alarm {
 	private String alarmComment;
 	private String alarmReceiver;
 	private int alarmHasRead;
-	private Timestamp alarmCreatedAt;
 	
 	
 	public Alarm(int alarmNo, String alarmMessageType, int alarmScriptNo, String alarmComment, String alarmReceiver,
@@ -23,7 +22,6 @@ public class Alarm {
 		this.alarmComment = alarmComment;
 		this.alarmReceiver = alarmReceiver;
 		this.alarmHasRead = alarmHasRead;
-		this.alarmCreatedAt = alarmCreatedAt;
 	}
 
 
@@ -87,21 +85,14 @@ public class Alarm {
 	}
 
 
-	public Timestamp getAlarmCreatedAt() {
-		return alarmCreatedAt;
-	}
-
-
-	public void setAlarmCreatedAt(Timestamp alarmCreatedAt) {
-		this.alarmCreatedAt = alarmCreatedAt;
-	}
+	
 
 
 	@Override
 	public String toString() {
 		return "Alarm [alarmNo=" + alarmNo + ", alarmMessageType=" + alarmMessageType + ", alarmScriptNo="
 				+ alarmScriptNo + ", alarmComment=" + alarmComment + ", alarmReceiver=" + alarmReceiver
-				+ ", alarmHasRead=" + alarmHasRead + ", alarmCreatedAt=" + alarmCreatedAt + "]";
+				+ ", alarmHasRead=" + alarmHasRead + ", alarmCreatedAt=" + "]";
 	}
 	
 	
