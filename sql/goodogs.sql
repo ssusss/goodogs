@@ -162,6 +162,24 @@ CREATE TABLE like_list (
     constraints fk_like_list_member_id foreign key(member_id) references member(member_id) on delete cascade,
     constraints fk_like_list_news_no foreign key(news_no) references news(news_no) on delete cascade
 );
+
+CREATE TABLE like_list (
+	member_id varchar2(50) NOT NULL,
+	news_no number	 NOT NULL,
+	like_date Timestamp	DEFAULT sysdate,
+    constraints fk_like_list_member_id foreign key(member_id) references member(member_id) on delete cascade,
+    constraints fk_like_list_news_no foreign key(news_no) references news(news_no) on delete cascade
+);
+
+CREATE TABLE report_list (
+	member_id varchar2(50) NOT NULL,
+	comment_no number	 NOT NULL,
+	like_date Timestamp	DEFAULT sysdate,
+    constraints fk_report_list_member_id foreign key(member_id) references member(member_id) on delete cascade,
+    constraints fk_report_list_comment_no foreign key(comment_no) references news_comment(comment_no) on delete cascade
+);
+
+
 --=================================================
 -- trigger 생성
 --=================================================
