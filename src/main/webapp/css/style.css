@@ -77,13 +77,7 @@ body {
 	}
 }
 
-@media (max-width: 1020px) {
-	.accountMenu {
-    	 transform: translate(0px, 18px) !important;
-    	 right: 20px;
-    	 top: -480px;
-	}
-}
+
 
 @font-face {
     font-family: 'GmarketSansMedium';
@@ -100,8 +94,9 @@ html, body {
 }
 
 div#container {
-	background-color: antiquewhite;
+	background-color: #EDEDE1;
 }
+
 
 nav.navBar {
 	background-color: #EDEDE1;
@@ -109,6 +104,8 @@ nav.navBar {
 	margin: 0 auto;
 	text-align: center;
 	border-bottom: 1px solid #051619;
+	z-index: 10;
+    position: relative;
 }
 
 nav.navBar div.navInner {
@@ -295,20 +292,12 @@ header .bannerContainerLower {
     border: 1px solid #051619;
     position: absolute;
     z-index: 9999;
-    transform: translate(700px, -462px);
+    transform: translate(-115px, 128px);
 }
-.accountMenu2 {
-	width: 280px;
-    box-sizing: border-box;
-    border-radius: 0;
-    background: #fff;
-    border: 1px solid #051619;
-    position: absolute;
-    z-index: 9999;
-	transform: translate(-114px, 129px) !important;
-}
+
 .accountMenu a {
 	text-decoration: none;
+	text-align: center;
 }
 .accountMenuDetail {
 	display: block;
@@ -573,19 +562,53 @@ section #btn-more-container button {
 	font-family: 'GmarketSansMedium', sans-serif;
 }
 
+
+
 aside {
-	background-color: darkgoldenrod;
-	height: 100px;
+	height: 360px;
+	border-bottom: 1px solid #051619;
 }
 
 aside figure {
 	margin: 0;
+	display: flex;
+}
+
+aside figure img {
+	margin: 60px auto 0 auto;
+	width: 300px;
+	height: 300px;
 }
 
 footer {
-	background-color: khaki;
 	height: 200px;
+	padding: 0 5%;
+	display: flex;
 }
+.footerAddress {
+	width: 50%;
+	height: 100px;
+}
+.footerAddress h1 {
+	cursor: pointer;
+}
+
+.footer-sitemap {
+	width: 50%;
+	height: 100px;
+	display: flex;
+	justify-content: flex-end;
+}
+.footer-sitemap-item {
+	margin-top: 10px;
+	display: flex;
+	flex-direction: column;
+}
+.footer-sitemap-item-link {
+	margin-top: 10px;
+	cursor: pointer;
+}
+
 
 /* 카테고리 밑줄 안보이게 하기*/
 .draggable {

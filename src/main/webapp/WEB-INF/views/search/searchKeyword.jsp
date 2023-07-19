@@ -8,8 +8,6 @@ bannerContainerLower = document.querySelector(".bannerContainerLower");
 bannerContainerLower.style.display = "none";
 </script>
 
-<%@ include file="/WEB-INF/views/common/category.jsp" %>
-
 <style>
 section .posts .card {
 	border-width: 1px 1px 1px 0;
@@ -17,7 +15,7 @@ section .posts .card {
 </style>
 
 <section>
-	<h1 style="font-size: 36px">💰경제</h1>
+	<h1 style="font-size: 36px">뭔데</h1>
 	<div class="posts">
 		
 	</div>
@@ -60,7 +58,7 @@ window.addEventListener('load', () => {
 const getPage = (cpage) => {
 	
 	$.ajax({
-		url : "<%= request.getContextPath() %>/more/economy",
+		url : "<%= request.getContextPath() %>/more/keyword",
 		data : {cpage},
 		success(news) {
 			console.log(news);

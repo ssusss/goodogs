@@ -5,6 +5,8 @@ import java.util.List;
 
 import com.sk.goodogs.bookmark.model.dao.BookmarkDao;
 import com.sk.goodogs.bookmark.model.vo.Bookmark;
+import com.sk.goodogs.news.model.vo.News;
+
 import static com.sk.goodogs.common.JdbcTemplate.*;
 
 /**
@@ -22,11 +24,11 @@ public class BookmarkService {
 	}
 
 	// 북마크 추가
-	public int insertBookmark(String memberId, int newsNo, String bookmarkedContent) {
+	public int insertBookmark(String memberId, int newsNo, String newsTitle, String bookmarkedContent) {
 		int result =0;
 		Connection conn = getConnection();
 		try {
-			result = bookmarkDao.insertBookmark(conn, memberId, newsNo, bookmarkedContent);
+			result = bookmarkDao.insertBookmark(conn, memberId, newsNo, newsTitle, bookmarkedContent);
 			commit(conn);
 		} catch (Exception e) {
 			rollback(conn);
@@ -50,4 +52,7 @@ public class BookmarkService {
 		}
 		return result;
 	}
+
+
+
 }

@@ -8,6 +8,7 @@ import java.util.List;
 
 import com.sk.goodogs.member.model.vo.Member;
 import com.sk.goodogs.news.model.dao.NewsDao;
+import com.sk.goodogs.news.model.exception.NewsException;
 import com.sk.goodogs.news.model.vo.News;
 import com.sk.goodogs.news.model.vo.NewsComment;
 import com.sk.goodogs.news.model.vo.NewsAndImage;
@@ -45,6 +46,7 @@ public class NewsService {
 		close(conn);
 		return scripts;
 	}
+	
 	public int newsScriptSubmit(NewsScript newNewsScript) {
 		Connection conn = getConnection();
 		int result = 0;
@@ -53,12 +55,13 @@ public class NewsService {
 			commit(conn);
 		} catch(Exception e) {
 			rollback(conn);
-			throw e;
+			throw new NewsException(e);
 		} finally {
 			close(conn);
 		}
 		return result;
 	}
+	
 	public int newsScriptTempSave(NewsScript tempNewsScript) {
 		Connection conn = getConnection();
 		int result = 0;
@@ -122,11 +125,11 @@ public class NewsService {
 		close(conn);
 		return categoryContent;
 	}
-	public List<News> findNewsByCategory(int start, int end, String category) {
+	public List<NewsAndImage> findNewsByCategory(int start, int end, String category) {
 		Connection conn = getConnection();
-		List<News> news = newsDao.findNewsByCategory(conn, start, end, category);
+		List<NewsAndImage> newsAndImages = newsDao.findNewsByCategory(conn, start, end, category);
 		close(conn);
-		return news;
+		return newsAndImages;
 	}
 
 
@@ -279,5 +282,38 @@ public class NewsService {
 			close(conn);
 			return newsList;
 		}
+
+		
+		// 신고여부 체크
+		public int checkReport(String memberId, int commentNo) {
+			Connection conn = getConnection();
+			int result = newsDao.checkReport(conn, memberId, commentNo);
+			close(conn);
+			return result;
+		}
+		
+		// 신고 체크
+		public int updateReport(String memberId, int commentNo) {
+			int result =0;
+			Connection conn = getConnection();
+			try {
+				result = newsDao.updateReport(conn,  memberId,commentNo );
+				commit(conn);
+			}catch (Exception e) {
+				rollback(conn);
+			} finally {
+				close(conn);			
+			}
+			return result;
+		}
+		
+
+		public List<NewsAndImage> findNewsByKeyword(int start, int end, String keyword) {
+			Connection conn = getConnection();
+			List<NewsAndImage> newsAndImages = newsDao.findNewsByKeyword(conn, start, end, keyword);
+			close(conn);
+			return newsAndImages;
+		}
+
 	
 }

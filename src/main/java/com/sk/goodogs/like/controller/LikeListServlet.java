@@ -19,6 +19,7 @@ import com.sk.goodogs.member.model.dao.MemberDao;
 import com.sk.goodogs.member.model.vo.Member;
 import com.sk.goodogs.news.model.service.NewsService;
 import com.sk.goodogs.news.model.vo.News;
+import com.sk.goodogs.news.model.vo.NewsAndImage;
 
 
 //do get VS do POST 차이
@@ -47,17 +48,24 @@ public class LikeListServlet extends HttpServlet {
 		// 2. 업무로직 좋아요리스트 가져오기
 		List<LikeListEntity> _likes = likeService.findLikesByMemberId(memberId);
 		List<LikeList> likes = new ArrayList<>();
+		List<NewsAndImage> newsAndImages = new ArrayList<>();
 		for(LikeListEntity entity : _likes) {
 			// 기사 넘버로 기사 가져오기
 			int newsNo = entity.getNewsNo();
 			Timestamp likeDate = entity.getLikeDate();
 			News news = newsService.findNewsByNewsNo(newsNo);
 			String newsTitle = news.getNewsTitle();
+			
+			// 기사 넘버로 이미지 가져오기
+			NewsAndImage newsAndImage = newsService.newsDetail(newsNo);
+
+			newsAndImages.add(newsAndImage);
 			likes.add(new LikeList(memberId, newsNo, likeDate, newsTitle));
 		}
 		
 		// 3. 응답처리
 		request.setAttribute("likes", likes);
+		request.setAttribute("newsAndImages", newsAndImages);
 		request.getRequestDispatcher("/WEB-INF/views/member/like.jsp").forward(request, response);
 	}
 

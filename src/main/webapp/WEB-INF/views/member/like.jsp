@@ -1,5 +1,6 @@
 <%@page import="com.sk.goodogs.like.model.vo.LikeList"%>
 <%@page import="com.sk.goodogs.member.model.vo.Gender"%>
+<%@page import="com.sk.goodogs.news.model.vo.NewsAndImage"%>
 <%@page import="java.util.Arrays"%>
 <%@page import="java.util.List"%>
 <%@page import="java.sql.Date"%>
@@ -8,9 +9,9 @@
 <%@ include file="/WEB-INF/views/common/header.jsp" %>
 <%
 	// 전수경 - 좋아요 테이블에서 로그인 회원의 좋아요 기사 조회해오기 GET 요청
+	List<NewsAndImage> newsAndImages = (List<NewsAndImage>) request.getAttribute("newsAndImages");
 	List<LikeList> likes = (List<LikeList>) request.getAttribute("likes");
 %>
-
 <script src="<%= request.getContextPath() %>/js/jquery-3.7.0.js"></script>
 <!-- 
 	@author 이혜령 
@@ -47,12 +48,13 @@ bannerContainerUpper.style.display = "none";
       <!-- 뉴스 페이지로 연결 -->
       <a href="<%= request.getContextPath()%>/news/newsDetail?no=<%= like.getNewsNo() %>">
         <figure class="card-thumbnail"> <!-- 기사 썸네일 -->
-          <img src="<%= request.getContextPath() %>/images/character/goodogs_face.png">
+          <img src="<%= request.getContextPath() %>/upload/newsImage/<%= newsAndImages.get(likes.indexOf(like)).getRenamedFilename() %>">
         </figure>     
         <div class="card-body">
           <!-- 기사 제목/날짜/카테고리 박스 -->
           <h3 class="card-title"><%= like.getNewsTitle() %></h3> <!-- 기사 제목 -->
           <time class="card-date"><%= like.getLikeDate() %></time> <!-- 기사 날짜 -->
+          <time class="card-date"><%= like.getLikeDate() %></time> <!-- 좋아요 날짜 -->
           <span class="card-category">학원</span> <!-- 기사 카테고리 -->
         </div>
       </a>

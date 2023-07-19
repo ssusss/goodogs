@@ -31,10 +31,13 @@ public class InsertBookmarkServlet extends HttpServlet {
 		Member loginMember = (Member) session.getAttribute("loginMember");
 		String memberId = loginMember.getMemberId();
 		int newsNo = Integer.parseInt(request.getParameter("newsNo"));
+		String newsTitle = request.getParameter("newsTitle");
 		String bookmarkedContent = request.getParameter("bookmarkedContent");
 		
+		// System.out.println("bookmarkedContent" + bookmarkedContent);
+		
 		// 업무로직 (dml - insert)
-		int result = bookmarkService.insertBookmark(memberId, newsNo, bookmarkedContent);
+		int result = bookmarkService.insertBookmark(memberId, newsNo, newsTitle, bookmarkedContent);
 		
 		// 요청응답 (json)
 		response.setContentType("application/json; charset=utf-8"); // 헤더
