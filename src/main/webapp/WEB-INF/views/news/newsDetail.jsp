@@ -15,8 +15,8 @@
 <!--  기사 페이지  -->
 <%
 	NewsAndImage newsAndImage = (NewsAndImage) request.getAttribute("newsAndImage");
-
-
+	int isLiked = (int) request.getAttribute("isLiked"); // 0: 좋아요안함, 1: 좋아요함
+	int newsLikeCnt = newsAndImage.getNewsLikeCnt();
 	List<NewsComment> newsComments  = (List<NewsComment>)request.getAttribute("newsComments");
 	NewsComment newsComment = (NewsComment)request.getAttribute("NewsComment");
 
@@ -32,7 +32,7 @@
 		case "사회" : _category = "society"; break;
 	}
 	
-	
+	String tagArr[] = newsAndImage.getNewsTag().split(",");
 %>
 <!-- ----------------------------------------------------- -->	
 
@@ -61,7 +61,14 @@
 	 
 	<br/><br/><br/>
 	<div id="news-tag-container">
-		<div id="news-tag">#<%=newsAndImage.getNewsTag()%></div>
+		<div class="news-tag">
+			<a href="<%= request.getContextPath() %>/tag/<%= _category %>">#<%= tagArr[0] %></a>
+		</div>
+		<% for (int i = 1; i < tagArr.length; i++) { %>
+		<div class="news-tag">
+			<a href="">#<%= tagArr[i] %></a>
+		</div>
+		<% } %>
 	</div>
 	<!-- 태그 수정 필요 -->
 	
@@ -70,10 +77,12 @@
 <br>
 <br>
 <div id="likeButton">
-  <button id="likeButtonBtn" style="font-size: 30px; border: none; background: none; padding: 0; margin: 0; cursor: pointer;">
-    <i class="fa-solid fa-heart" name="like-heart" id="like-heart"></i>
+
+  <button id="likeButtonBtn">
+    <i class="fa-solid fa-heart fa-lg" name="like-heart" id="like-heart"></i>
+
     좋아요
-    <span id="newsLikeCnt"><%= newsAndImage.getNewsLikeCnt() %></span> 
+    <span id="newsLikeCnt"><%= newsLikeCnt %></span> 
   </button>
 </div>
 
@@ -180,6 +189,7 @@
 <!-- asdasdasdasdsadasdasdasdsasd -->
 
 
+<!-- 북마크 말풍선 -->
 <div class="highlight-tooltip" style="display: block;">북마크</div>
 
 
@@ -469,7 +479,10 @@ const deleteBoard = () => {
 		 
 <!--댓글 끝  ----------------------------------------------------- -->		
 		 // 삭제  ( 본인 )
+		 console.log(document.querySelectorAll(".btn-Member-delete"));
 			document.querySelectorAll(".btn-Member-delete").forEach((button) => {
+				console.log("asdasd");	
+			
 				button.onclick = (e) => {
 					if(confirm("해당 댓글을 삭제하시겠습니까?")){
 						const frm = document.newsCommentDelFrmMember;
@@ -561,57 +574,26 @@ document.querySelectorAll(".btn-reply").forEach((button) => {
 	
 	
 <!--------------------------------------------->	
+/**
+ *  @author 전수경
+ *  - 좋아요 기능
+ **/
+const likeIcon = document.getElementById('like-heart'); // 하트 아이콘
+const likeClassList = likeIcon.classList; // 하트 아이콘의 클래스 리스트
 
-// 좋아요 -----------------------
-const likeIcon = document.getElementById('like-heart');
-const likeClassList = likeIcon.classList;
-
-
+/**
+ * - 로그인회원의 좋아요 유무확인
+ * - 좋아요했으면 빈 하트, 좋아요했으면 빨간하트
+ */
 if (<%= loginMember != null %>) {
 
-  /**
-  	@author 전수경
-  	 - 로그인회원의 좋아요 유무확인
-  	 - 좋아요했으면 빈 하트, 좋아요했으면 빨간하트
-  */
-  const loadLike = () => {
-	  // 회원의 뉴스 좋아요 여부 확인
-	  $.ajax({
-		  url: "<%= request.getContextPath() %>/like/checkLikeState",
-		  dataType : "json",
-		  type: "GET",
-		  data: {
-			  newsNo : <%= newsAndImage.getNewsNo() %>,
-			  memberId : "<%= loginMember != null ? loginMember.getMemberId() : ""%>"
-		  },
-		  success(likeState){
-			  console.log("likeState="+likeState);
-			  
-			  if(likeState === 1){
-				// 회원이 좋아요한 상태 (빨간색)
-				  likeClassList.add("like");
-				
-			  } else {
-				// 회원이 좋아요 안한 상태
-				  likeClassList.remove("like");
-
-			  }
-		  }
-	  })
-  };
-  
-  /**
-  	- 좋아요 바꾸기
-  */
-
-  
+	// 좋아요 수정   
 	document.querySelector("#likeButtonBtn").onclick = (e) => {
 		console.log(e.target);
 		console.log("likeClassList="+likeClassList);
 		const flag = likeClassList.contains("like");
 		console.log(flag);
-		let newsLikeCnt = document.querySelector('#newsLikeCnt').innerHTML;
-		console.log("newsLikeCnt="+newsLikeCnt);
+		const newsLikeCnt = <%= newsLikeCnt %>;
 
 		if(flag){
 			// like가 있다면 좋아요 취소
@@ -624,13 +606,10 @@ if (<%= loginMember != null %>) {
 					newsNo : <%= newsAndImage.getNewsNo() %>,
 					memberId : "<%= loginMember != null ? loginMember.getMemberId() : "" %>"
 				},
-				success(result){
+				success(updatedLikeCnt){
 					likeClassList.remove("like");
-					console.log("result="+result);
-				},
-				complete(){
-					newsLikeCnt = number(newsLikeCnt) - 1;
-					console.log("newsLikeCnt="+newsLikeCnt);
+					document.querySelector('#newsLikeCnt').innerHTML = updatedLikeCnt;
+					console.log("좋아요 취소 성공!");
 				}
 			});
 		} else {
@@ -644,111 +623,84 @@ if (<%= loginMember != null %>) {
 					newsNo : <%= newsAndImage.getNewsNo() %>,
 					memberId : "<%= loginMember != null ? loginMember.getMemberId() : "" %>"
 				},
-				success(result){
+				success(updatedLikeCnt){
 					likeClassList.add("like");
-					console.log("result="+result);
-				},
-				complete(){
-					newsLikeCnt = number(newsLikeCnt) + 1;
-					console.log("newsLikeCnt="+newsLikeCnt);
+					document.querySelector('#newsLikeCnt').innerHTML = updatedLikeCnt;
+					console.log("좋아요 등록 성공!");
 				}
 			});
 		}
 
 		
 	};
-	
-	  
-  (()=>{
-	  loadLike();
-  })();
-  
 
+	
+	
 //----------------------끝    
 
+  let selection2 = null;
 
-		
+	//말풍선을 표시할 위치와 내용 설정
+	function showTooltip(x, y) {
+	 tooltip.style.display = 'block';
+	 tooltip.style.left = x + 'px';
+	 tooltip.style.top = y - tooltip.offsetHeight - 10 + 'px';
+	}
+	
+	//말풍선을 숨김
+	function hideTooltip() {
+	 tooltip.style.display = 'none';
+	}
+	
+	//북마크 말풍선 찾아냄
 	const tooltip = document.querySelector('.highlight-tooltip');
 	
-	// 말풍선을 표시할 위치와 내용 설정
-	function showTooltip(x, y) {
-	  tooltip.style.display = 'block';
-	  tooltip.style.left = x + 'px';
-	  tooltip.style.top = y - tooltip.offsetHeight - 10 + 'px';
+	//말풍선 클릭 시 하이라이트 저장
+	function handleTooltipClick(e) {
+	 $.ajax({
+	   url: "<%= request.getContextPath() %>/bookmark/bookmarkInsert",
+	   data: {
+	     memberId: "<%= loginMember != null ? loginMember.getMemberId() : "" %>",
+	     newsNo: <%= newsAndImage.getNewsNo() %>,
+	     newsTitle: "<%= newsAndImage.getNewsTitle() %>",
+	     bookmarkedContent: selection2
+	   },
+	   method: "POST",
+	   dataType: "json",
+	   success(responseData) {
+	     console.log(responseData);
+	     //console.log(newsTitle);
+	   }
+	 });
+	 e.preventDefault();
 	}
 	
-	// 말풍선을 숨김
-	function hideTooltip() {
-	  tooltip.style.display = 'none';
-	}
-	
-	
-	
-	const newsContent = document.querySelector("#news-content");
-	console.log(newsContent.innerHTML);
-	let selection2 = null;
-	
-	// mouseup 이벤트 발생 시 말풍선 표시
+	//mouseup 이벤트 발생 시 말풍선 표시
 	document.addEventListener('mouseup', function(event) {
-	  console.log(event);
+	 const selection = window.getSelection();
 	
-	  const selection = window.getSelection();
-	  let startOffset = selection.anchorOffset;
-	  let endOffset = selection.focusOffset;
-	  
-	  if (selection.toString().trim() !== '') {
-	    const range = selection.getRangeAt(0);
-	    const rect = range.getBoundingClientRect();
-	    const x = rect.left + rect.width / 2;
-	    const y = rect.top + window.pageYOffset;
-	    selection2 = selection.toString();
-	  
-	    if (startOffset > endOffset) {
-	      const tempIndex = startOffset;
-	      startOffset = endOffset;
-	      endOffset = tempIndex;
-	    }
-	    
-	    // 말풍선 클릭 시 하이라이트 저장
-	    tooltip.addEventListener('click', function(e) {
-	      e.preventDefault();
-
-	      hideTooltip(); 
-	      
-	      newsContent.innerHTML = replaceCharAtIndex(startOffset, endOffset);
-	      
-	      $.ajax({
-	        url: "<%= request.getContextPath() %>/bookmark/bookmarkInsert",
-	        data: {
-	          newsNo: <%= newsAndImage.getNewsNo() %>,
-	          memberId: "<%= loginMember != null ? loginMember.getMemberId() : "" %>",
-	          bookmarkedContent: newsContent.innerHTML
-	        },
-	        method: "POST",
-	        dataType: "json",
-	        success(responseData) {
-	          console.log(responseData);
-	        }
-	      });
-	    });
-	    
-	    showTooltip(x, y);
-	  } else {
-	    hideTooltip();
-	  }
+	 if (selection.toString().trim() !== '') {
+	   const range = selection.getRangeAt(0);
+	   const rect = range.getBoundingClientRect();
+	   const x = rect.left + rect.width / 2;
+	   const y = rect.top + window.pageYOffset;
+	   selection2 = selection.toString();
+	
+	   // 말풍선 클릭 이벤트 핸들러 등록
+	   tooltip.addEventListener('click', handleTooltipClick);
+	
+	   showTooltip(x, y);
+	 } else {
+	   hideTooltip();
+	 }
 	});
-	
-	function replaceCharAtIndex(index1, index2) {
-	  var oldContent = newsContent.innerHTML;
-	  
-	  
-	  
-	  var newContent = oldContent.slice(0, index1) + "<mark>" + selection2 + "</mark>" + oldContent.slice(index2);
-	  console.log(newContent);
-	  return newContent;
-	}
+
+
+
 
 }
+
+
 </script>
 
 

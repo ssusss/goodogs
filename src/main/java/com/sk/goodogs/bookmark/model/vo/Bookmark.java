@@ -16,19 +16,23 @@ public class Bookmark extends BookmarkEntity {
 	public Bookmark() {
 		super();
 	}
-
-	public Bookmark(String memberId, int newsNo, String newBookmarkedContent, Timestamp bookmarkDate) {
-		super(memberId, newsNo, newBookmarkedContent, bookmarkDate);
+	
+	public Bookmark(String memberId, int newsNo, String newsTitle, String newBookmarkedContent,
+			Timestamp bookmarkDate) {
+		super(memberId, newsNo, newsTitle, newBookmarkedContent, bookmarkDate);
 	}
-
-	public Bookmark(String memberId, int newsNo, String newBookmarkedContent, Timestamp bookmarkDate, News news) {
-		super(memberId, newsNo, newBookmarkedContent, bookmarkDate);
+	
+	public Bookmark(String memberId, int newsNo, String newsTitle, String newBookmarkedContent,
+			Timestamp bookmarkDate, News news) {
+		super(memberId, newsNo, newsTitle, newBookmarkedContent, bookmarkDate);
 		this.news = news;
 	}
+	
 
 	public News getNews() {
 		return news;
 	}
+
 
 	public void setNews(News news) {
 		this.news = news;
