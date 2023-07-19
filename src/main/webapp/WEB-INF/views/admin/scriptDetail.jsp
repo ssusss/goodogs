@@ -148,10 +148,10 @@
 				
 				const payload={
 					messageType : "ALARM_MESSAGE",
-					no:<%=script.getScriptNo() %>,
+					no:"<%=script.getScriptNo() %>",
 					comemt:`원고가 \${scriptStateText}처리되었습니다 확인하세요-관리자`,
 					receiver:"<%=script.getScriptWriter().replace("@", "\\@") %>",
-					hasRead:0,
+					hasRead:"0",
 					createdAt :Date.now()
 				}
 				console.log("샌드 확인"+JSON.stringify(payload));

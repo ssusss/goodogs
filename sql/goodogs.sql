@@ -436,8 +436,12 @@ CREATE TABLE alarm (
 create sequence seq_alarm_no;
 ----------------------------------------------
 --알람확인
-select * from alarm
+select * from alarm;
 --알람 추가
 insert into alarm values( seq_alarm_no.NEXTVAL,'message',1,'멘트','1@1',0,default );
 insert into alarm values( seq_alarm_no.NEXTVAL,'message',1,'멘트','1@1',0,default );
 ------------------
+select * from alarm where alarm_receiver= '1@1' and alarm_hasread =0;
+
+-----------
+

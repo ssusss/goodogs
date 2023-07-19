@@ -42,12 +42,12 @@
 
 
 <body>
-<span id="notification"></span>	
 	<div id="container">
 		<nav class="navBar">
 			<div class="navInner">
 				<h1 id="toMain">goodogs</h1>
 				<div class="navBox">
+					<span id="notification"></span>	
 					<div class="searchBox"><i class="fa-solid fa-magnifying-glass fa-2xl searchIcon" style="color: ##051619;"></i></div>
 					<div class="infoBox">
 						<% if (loginMember == null || loginMember.getMemberProfile() == null) { %>
@@ -241,3 +241,40 @@
 		 -->	
 	
 	</header>
+	
+<% 	if(loginMember != null) { %>
+	<script>
+	
+	window.onload=()=>{
+		alarmCheck("<%=loginMember.getMemberId() %>");
+	}
+	
+
+	</script>
+<% 	} %>
+<script>
+function alarmCheck(memberId){
+	
+	console.log("check");
+	$.ajax({
+	url : "<%= request.getContextPath() %>/admin/alarm/check",
+	data : {memberId},	
+	method : "GET",
+	dataType : "json",
+	success(alarms) {
+		console.log(alarms);
+		if(alarms.length>0){
+	
+			const alarmSpace =document.querySelector("#notification");
+				if(!alarmSpace.hasChildNodes()){
+					alarmSpace.innerHTML=`<i class="fa-solid fa-bell bell"></i>`;
+				}
+			
+			}
+		
+
+		}
+	
+	});
+};
+</script>
