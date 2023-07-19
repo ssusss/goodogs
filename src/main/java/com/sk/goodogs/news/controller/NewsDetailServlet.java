@@ -37,7 +37,7 @@ public class NewsDetailServlet extends HttpServlet {
 
         NewsAndImage newsAndImage = newsService.newsDetail(No);
         request.setAttribute("newsAndImage", newsAndImage );
-
+        
         // 뉴스 좋아요수 세팅 (전수경)
         newsAndImage.setNewsLikeCnt(likeService.getNewsLikeCnt(No));
 

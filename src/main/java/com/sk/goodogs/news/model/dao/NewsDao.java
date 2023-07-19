@@ -13,7 +13,9 @@ import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
-
+import javax.script.ScriptException;
+import static com.sk.goodogs.common.JdbcTemplate.*;
+import com.sk.goodogs.like.model.exception.LikeException;
 import com.sk.goodogs.member.model.vo.Member;
 import com.sk.goodogs.news.model.exception.NewsException;
 import com.sk.goodogs.news.model.vo.News;
@@ -419,11 +421,12 @@ public class NewsDao {
 				        pstmt.setInt(1, newsComment.getNewsNo());
 				        pstmt.setInt(2, newsComment.getNewsCommentLevel());
 				        pstmt.setString(3, newsComment.getNewsCommentWriter());
-				        pstmt.setString(4, newsComment.getNewsCommentNickname());
-				        pstmt.setString(5, newsComment.getNewsCommentContent());
+				        pstmt.setObject(4, newsComment.getCommentNoRef () !=  0 ? newsComment.getCommentNoRef() : null);
+				        pstmt.setString(5, newsComment.getNewsCommentNickname());
+				        pstmt.setString(6, newsComment.getNewsCommentContent());
 				        
 				        
-				        //insert into news_comment values (seq_news_comment_no.NEXTVAL, ? , ? , ? , null , ? , ? , default, default, default)
+				        //insert into news_comment values (seq_news_comment_no.NEXTVAL, ? , ? , ? , ? , ? , ? , default, default, default)
 
 				        result = pstmt.executeUpdate();
 				    } catch (SQLException e) {
@@ -568,6 +571,47 @@ public class NewsDao {
 				}
 				return newsList;
 			}
+			
+			
+			// 신고 확인
+			public int checkReport(Connection conn, String memberId, int commentNo) {
+				int result =0;
+				String sql = prop.getProperty("checkReport");
+				// select count(*) from like_list where news_no = ? and member_id = ?
+				try(PreparedStatement pstmt = conn.prepareStatement(sql)){
+					pstmt.setInt(1, commentNo);
+					pstmt.setString(2, memberId);
+					
+					try(ResultSet rset = pstmt.executeQuery()){
+						if(rset.next()) {
+							result = rset.getInt(1);
+							//SQL 쿼리 결과에서 첫 번째 열의 값을 result 변수에 할당하는 코드이다.
+						}
+					}
+				} catch (SQLException e) {
+					throw new NewsException(e);
+				}
+				return result;
+			}
+			
+			// 신고 체크
+			public int updateReport(Connection conn, String memberId, int commentNo) {
+				int result =0;
+				String sql =  prop.getProperty("checkUpdate");
+				
+				try(PreparedStatement pstmt = conn.prepareStatement(sql)){
+					pstmt.setString(1, memberId);
+					pstmt.setInt(2, commentNo);
+					
+					result = pstmt.executeUpdate();
+					
+				} catch (SQLException e) {
+					throw new LikeException(e);
+				}
+				return result;
+			}
+
+		
 
 			public List<NewsAndImage> findNewsByKeyword(Connection conn, int start, int end, String keyword) {
 				List<NewsAndImage> newsAndImages = new ArrayList<>();
