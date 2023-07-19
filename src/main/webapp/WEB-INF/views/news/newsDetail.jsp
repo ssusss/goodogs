@@ -15,8 +15,8 @@
 <!--  기사 페이지  -->
 <%
 	NewsAndImage newsAndImage = (NewsAndImage) request.getAttribute("newsAndImage");
-
-
+	int isLiked = (int) request.getAttribute("isLiked"); // 0: 좋아요안함, 1: 좋아요함
+	int newsLikeCnt = newsAndImage.getNewsLikeCnt();
 	List<NewsComment> newsComments  = (List<NewsComment>)request.getAttribute("newsComments");
 	NewsComment newsComment = (NewsComment)request.getAttribute("NewsComment");
 
@@ -71,9 +71,9 @@
 <br>
 <div id="likeButton">
   <button id="likeButtonBtn" style="font-size: 30px; border: none; background: none; padding: 0; margin: 0; cursor: pointer;">
-    <i class="fa-solid fa-heart" name="like-heart" id="like-heart"></i>
+    <i class="fa-solid fa-heart <%= isLiked==1 ? "like" : "" %>" name="like-heart" id="like-heart"></i>
     좋아요
-    <span id="newsLikeCnt"><%= newsAndImage.getNewsLikeCnt() %></span> 
+    <span id="newsLikeCnt"><%= newsLikeCnt %></span> 
   </button>
 </div>
 
@@ -560,57 +560,26 @@ document.addEventListener("click", (e) => {
 	
 	
 <!--------------------------------------------->	
+/**
+ *  @author 전수경
+ *  - 좋아요 기능
+ **/
+const likeIcon = document.getElementById('like-heart'); // 하트 아이콘
+const likeClassList = likeIcon.classList; // 하트 아이콘의 클래스 리스트
 
-// 좋아요 -----------------------
-const likeIcon = document.getElementById('like-heart');
-const likeClassList = likeIcon.classList;
-
-
+/**
+ * - 로그인회원의 좋아요 유무확인
+ * - 좋아요했으면 빈 하트, 좋아요했으면 빨간하트
+ */
 if (<%= loginMember != null %>) {
 
-  /**
-  	@author 전수경
-  	 - 로그인회원의 좋아요 유무확인
-  	 - 좋아요했으면 빈 하트, 좋아요했으면 빨간하트
-  */
-  const loadLike = () => {
-	  // 회원의 뉴스 좋아요 여부 확인
-	  $.ajax({
-		  url: "<%= request.getContextPath() %>/like/checkLikeState",
-		  dataType : "json",
-		  type: "GET",
-		  data: {
-			  newsNo : <%= newsAndImage.getNewsNo() %>,
-			  memberId : "<%= loginMember != null ? loginMember.getMemberId() : ""%>"
-		  },
-		  success(likeState){
-			  console.log("likeState="+likeState);
-			  
-			  if(likeState === 1){
-				// 회원이 좋아요한 상태 (빨간색)
-				  likeClassList.add("like");
-				
-			  } else {
-				// 회원이 좋아요 안한 상태
-				  likeClassList.remove("like");
-
-			  }
-		  }
-	  })
-  };
-  
-  /**
-  	- 좋아요 바꾸기
-  */
-
-  
+	// 좋아요 수정   
 	document.querySelector("#likeButtonBtn").onclick = (e) => {
 		console.log(e.target);
 		console.log("likeClassList="+likeClassList);
 		const flag = likeClassList.contains("like");
 		console.log(flag);
-		let newsLikeCnt = document.querySelector('#newsLikeCnt').innerHTML;
-		console.log("newsLikeCnt="+newsLikeCnt);
+		let newsLikeCnt = Number( <%= newsLikeCnt %> );
 
 		if(flag){
 			// like가 있다면 좋아요 취소
@@ -625,11 +594,9 @@ if (<%= loginMember != null %>) {
 				},
 				success(result){
 					likeClassList.remove("like");
-					console.log("result="+result);
 				},
 				complete(){
-					newsLikeCnt = number(newsLikeCnt) - 1;
-					console.log("newsLikeCnt="+newsLikeCnt);
+					document.querySelector('#newsLikeCnt').innerHTML = newsLikeCnt - 1;
 				}
 			});
 		} else {
@@ -645,24 +612,18 @@ if (<%= loginMember != null %>) {
 				},
 				success(result){
 					likeClassList.add("like");
-					console.log("result="+result);
 				},
 				complete(){
-					newsLikeCnt = number(newsLikeCnt) + 1;
-					console.log("newsLikeCnt="+newsLikeCnt);
+					document.querySelector('#newsLikeCnt').innerHTML = newsLikeCnt + 1;
 				}
 			});
 		}
 
 		
 	};
-	
-	  
-  (()=>{
-	  loadLike();
-  })();
-  
 
+	
+	
 //----------------------끝    
 
 
