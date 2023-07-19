@@ -87,6 +87,7 @@ bannerContainerUpper.style.display = "none";
                         <th>뉴스번호</th>
                         <th>뉴스제목</th>
                         <th>북마크내용</th>
+                        <th>시간</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -95,6 +96,7 @@ bannerContainerUpper.style.display = "none";
                             <td style="background-color: #FFFFFF;"><%= bookmark.getNewsNo() %></td>
                             <td style="background-color: #FFFFFF;"><%= bookmark.getNewsTitle() %></td>
                             <td style="background-color: #FFFFFF;"><%= bookmark.getNewBookmarkedContent() %></td>
+                            <td><%= bookmark.getBookmarkDate() %></td>
                         </tr>
                     <% } %>
                 </tbody>
@@ -102,6 +104,7 @@ bannerContainerUpper.style.display = "none";
         <% } %>
     </div>
 </section>
+<br>
 
 
 
