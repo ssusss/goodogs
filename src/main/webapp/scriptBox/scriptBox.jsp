@@ -443,6 +443,11 @@ insertLink.onclick = () => {
 // 버튼 클릭시 색 변경
 // JavaScript 코드
 
+// ------------------- 미리보기 ------------------------
+previewBtn.onclick = () => {
+	
+};
+
 
 </script>
 

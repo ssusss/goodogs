@@ -53,7 +53,7 @@ public class NewsCommentCreateServlet extends HttpServlet {
 		
 		int result = newsService.newCommentInsert(newsComment);
 		
-		System.out.println("newNewsScript = " +  newsComment);
+//		System.out.println("newNewsScript = " +  newsComment);
 		
 		// 댓글 등록 실시간 알림
 		response.sendRedirect(request.getContextPath() + "/news/newsDetail?no=" + newsNo);

@@ -54,7 +54,7 @@
 
 <section id="news-container">
 	<div id="img-container">
-		<img id="news-img" name="news-img" src="<%= request.getContextPath() %>/upload/newsImage/<%=newsAndImage.getRenamedFilename()%>"><!--  이미지  -->
+		<img id="news-img" name="news-img" style="width: 600px;" src="<%= request.getContextPath() %>/upload/newsImage/<%=newsAndImage.getRenamedFilename()%>"><!--  이미지  -->
 	</div>
 							 
 	<div id="news-content" name="news-content"><%=newsAndImage.getNewsContent()%></div><!--  내용  -->

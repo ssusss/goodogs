@@ -28,7 +28,6 @@ import com.sk.goodogs.news.model.service.NewsService;
 public class BookmarkPageServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	private final BookmarkService bookmarkService = new BookmarkService();
-	private final NewsService newsService = new NewsService();
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
