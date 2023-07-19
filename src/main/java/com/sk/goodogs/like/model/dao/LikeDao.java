@@ -111,7 +111,7 @@ public class LikeDao {
 			System.out.println("sql="+sql);
 		} else if("delete".equals(method)) {
 			// delete from like_list where news_no = ? and member_id = ?
-			sql = prop.getProperty("checkLikeState");
+			sql = prop.getProperty("deleteLike");
 			System.out.println("sql="+sql);
 		}
 
