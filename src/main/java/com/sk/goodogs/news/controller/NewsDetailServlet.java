@@ -39,6 +39,8 @@ public class NewsDetailServlet extends HttpServlet {
 		request.setAttribute("newsAndImage", newsAndImage );
 
 		// 뉴스 좋아요수 세팅 (전수경)
+		System.out.println(newsAndImage);
+
 		newsAndImage.setNewsLikeCnt(likeService.getNewsLikeCnt(No));
 
 		// 로그인회원의 해당 뉴스 좋아요 여부 ( 0: 좋아요안함, 1: 좋아요함)

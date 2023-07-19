@@ -15,8 +15,13 @@
 <!--  기사 페이지  -->
 <%
 	NewsAndImage newsAndImage = (NewsAndImage) request.getAttribute("newsAndImage");
+	News news = (News)request.getAttribute("News");
+	
 	int isLiked = (int) request.getAttribute("isLiked"); // 0: 좋아요안함, 1: 좋아요함
 	int newsLikeCnt = newsAndImage.getNewsLikeCnt();
+	
+	// 신고 상태 확인용 
+	
 	List<NewsComment> newsComments  = (List<NewsComment>)request.getAttribute("newsComments");
 	NewsComment newsComment = (NewsComment)request.getAttribute("NewsComment");
 
@@ -69,6 +74,7 @@
 
 <br>
 <br>
+
 <div id="likeButton">
   <button id="likeButtonBtn" style="font-size: 30px; border: none; background: none; padding: 0; margin: 0; cursor: pointer;">
     <i class="fa-solid fa-heart <%= isLiked==1 ? "like" : "" %>" name="like-heart" id="like-heart"></i>
@@ -95,6 +101,7 @@
                 <input type="hidden" name="newsCommentWriter" value="<%= loginMember != null ? loginMember.getMemberId() : "" %>" />
                 <input type="hidden" name="newsCommentLevel" value="1" />  
                <input type="hidden" name="newsCommentNickname" value="<%= loginMember.getNickname() %>" />
+               <input type="hidden" name="commentNoRef" value="0" />
 				<textarea class="newsCommentContent" name="newsCommentContent" cols="50" rows="3"></textarea>
                 <button type="submit" id="btn-comment-enroll1">등록</button>
             </form>
@@ -321,6 +328,8 @@ const deleteBoard = () => {
 											  <td>
 									        	  <button class="btn-reply" value="\${commentNo}" >답글</butto>
 									        	  <button class="btn-member-delete" value="\${commentNo}">삭제</button>
+									        	  <button class="report" value="\${commentNo}" >신고</button>
+											        
 										          <button>관리자</button>
 									          </td>
 								            </tr>
@@ -357,6 +366,8 @@ const deleteBoard = () => {
 									 		 <td>
 									         <button class="btn-reply" value="\${commentNo}" >답글</button>
 									         <button class="btn-member-delete" value="\${commentNo}">삭제</button>
+									         <button class="report" value="\${commentNo}" >신고</button>
+										        
 									         <button>작성자</button>
 									         </td>    	  	
 									      </tr>
@@ -377,77 +388,100 @@ const deleteBoard = () => {
 			        } else if (newsCommentLevel === 2) {    // 대댓글인 경우 
 			        	
 
-			        	 if  ( comment_state == 1 ){// 작성자 삭제 글씨 처리-----------------------------
-					        	
+			        	 if  ( commentState === 1 ){// 작성자 삭제 글씨 처리-----------------------------
+			        			
+			        		 console.log(" 삭제  "); 
+								
 				        	 tbody.innerHTML += `
-				        	<tr class="level1De2">
+				        	<tr class="level1Del">
 				              <td>
 				                <sub class="comment-writer"> \${newsCommentNickname} </sub>
 				              	  작성자가 삭제한 메세지입니다
 				              </td>
 				            </tr>
 				            `;
+						  
+			        
+				            //----------------
+				            
 				        	
-				        }else if ( comment_state == 2 ) {// 관리자 삭제 글씨 처리-----------------------------
+				        }else if ( commentState === 2 ) {// 관리자 삭제 글씨 처리-----------------------------
 
+				       	 console.log(" 삭제2  "); 
+				        
 				        	 tbody.innerHTML += `
-				        	<tr class="level1De2">
+				        	<tr class="level1Del">
 				              <td>
-				                <sub class="comment-writer">\${newsCommentNickname} </sub>
+				                <sub class="comment-writer"> \${newsCommentNickname} </sub>
 				           	     관리자가 삭제한 메세지입니다
 				              </td>
 				            </tr>
 				            `;
+				        	
 				            
-				            
-				        }else {// 삭제가 안된 (정상댓글) 댓글 처리-----------------------------
+				        }else {// 삭제가 안된 댓글 ( 정상 댓글 )  처리-----------------------------
+			
 					          tbody.innerHTML += `
-					            <td class="level2">
+					          
+					            <tr class="level2">
 					              <td>
 					                <sub class="comment-writer"> \${newsCommentNickname} </sub>
 					                \${newsCommentContent}
-					              </td>
-					           
-					          `;
+					                </td>
+					           `;
 					          
 					          //---버튼처리 -------------
 						      
 							   <% if (loginMember != null && loginMember.getMemberRole() == MemberRole.A) {%> // 관리자일경우 보임  (어드민 아이디 == 로그인 회원 아이디)
-							        tbody.innerHTML += `
-							        
-							      
-							        	  <button class="report" value="\${commentNo}" >신고</button>
-								          <button class="btn-admin-delete" value="\${commentNo}">삭제</button>
-								     </td>
-								  
+							       
+							   console.log(" 관리자일경우2  "); 
+							   tbody.innerHTML += `
+											  <td>
+									        	  <button class="btn-member-delete" value="\${commentNo}">삭제</button>
+										          <button>관리자</button>
+									          </td>
+								            </tr>
 								     `;
 
-							  	  <%  }else if (loginMember == null){%> // 작성자 본인일때 보이는 버튼 (작성자 아이디 == 로그인 회원 아이디 )
-							  		
+							  	  <%  }else if (loginMember == null){%> 
+							  	  
+							  	 console.log(" 비회원2  "); 
+							     tbody.innerHTML += `
+							            </tr>
+							     `;
 							  	  // 로그인 안한 회원은 아무것도 안보인다. ( 버튼이 ) 
 								  
 								  <% }else if(loginMember != null && loginMember.getMemberRole() == MemberRole.M ){ %>// 일반 회원일때 보이는 버튼   (로그인 회원)
 								  
+								  console.log(" 회원일때2  "); 
+								  
 								  tbody.innerHTML += `
-								        <td>
-									         <button class="report" value="\${commentNo}" >신고</button>
-									     </td>
+												<td>
+										         <button class="report" value="\${commentNo}" >신고</button>
+										         <button class="btn-member-delete" value="\${commentNo}">삭제</button>
+										         <button>회원</button>
+										         </td>    	
+									         </tr>
 									  `;
 
 								  
-								  <%  }else if (loginMember != null){ %> 
+								  <%  }else if (loginMember != null){ %> // 작성자 본인일때 보이는 버튼 (작성자 아이디 == 로그인 회원 아이디 )
+								  
+								  console.log(" 작성자2  "); 
 								  
 								  tbody.innerHTML += `
-								        <td>
-											 <button class="reply-member" value="\${commentNo}" >삭제</button>
-									     </td>
+									 		 <td>
+									         <button class="btn-member-delete" value="\${commentNo}">삭제</button>
+									         <button>작성자</button>
+									         </td>    	  	
+									      </tr>
 									     `;
 								  
 								 
 								  
 								  <%  } %> // 버튼 끝 -------------
 								  
-				        	} //else // 삭제가 안된 (정상댓글) 댓글 처리
+				     	   } // 정상댓글인경우 끝 
 				        	
 				        } // 대댓글인경우
 			        
@@ -477,82 +511,76 @@ const deleteBoard = () => {
 			
 document.addEventListener("click", (e) => {
 	
-	  if (e.target.matches("button[class='btn-member-delete']")) { 
-		  
-	    if (confirm("해당 댓글을 삭제하시겠습니까?")) {
-	      const frm = document.getElementById("newsCommentDelFrmMember");
-	      const {value} = e.target;
-	      frm.commentNo.value = value;
-	      frm.submit();
+						  if (e.target.matches("button[class='btn-member-delete']")) { 
+							  
+						    if (confirm("해당 댓글을 삭제하시겠습니까?")) {
+						      const frm = document.getElementById("newsCommentDelFrmMember");
+						      const {value} = e.target;
+						      frm.commentNo.value = value;
+						      frm.submit();
+						      
+						    }
+						    
+						  }else if (e.target.matches("button[class='btn-admin-delete']")) {
+							  
+						    if (confirm("해당 댓글을 삭제 처리 하시겠습니까?")) {
+						      const frm = document.getElementById("newsCommentDelFrmAdmin");
+						      const {value} = e.target;
+						      frm.commentNo.value = value;
+						      frm.submit();
+							    }
+						    
+						    }else if (e.target.matches("  button[class='btn-reply'] ")) {
+						    			const {value} = e.target;
+						    			
+						    			const parentTr = e.target.parentElement.parentElement; //  클릭된 버튼의 부모 요소의 부모 요소를 parentTr 변수에 할당
+						    			console.log(parentTr);
+						    			const tr = `
+						    				<div id="comment-container">
+							    				 <div class="comment-editor">
+						    				<tr>
+						    					<td colspan="2">
+						    				            <form
+						    								action="<%=request.getContextPath()%>/news/newsCommentCreate" 
+						    								method="post" 
+						    								name="NewsCommentFrm">
+						    				                <input type="hidden" name="newsNo" value="<%= newsAndImage.getNewsNo()%>" />
+						    				                <input type="hidden" name="newsCommentWriter" value="<%= loginMember != null ? loginMember.getMemberId() : "" %>" />
+						    				                <input type="hidden" name="newsCommentLevel" value="2" />  
+						    				                <input type="hidden" name="newsCommentNickname" value="<%= loginMember != null ? loginMember.getNickname() : ""%>" />
+						    				                <input type="hidden" name="commentNoRef" value="\${value}" />
+						    								<textarea name="newsCommentContent" cols="50" rows="3"></textarea>
+						    				                <button type="submit" id="btn-comment-enroll1">등록</button>
+						    				            </form>
+						    				       </td>
+						    					</tr>
+						    				
+						    				 </div>
+						    			</div>
+						    			`;
+						    			// beforebegin 시작태그전 - 이전형제요소로 추가
+						    			// afterbegin 시작태그후 - 첫자식요소로 추가
+						    			// beforeend 종료태그전 - 마지막요소로 추가
+						    			// afterend 종료태그후 - 다음형제요소로 추가
+						    			parentTr.insertAdjacentHTML('afterend', tr);
+						    			button.onclick = null; // 이벤트핸들러 제거 (1회용)
+						    			
+						    }else if(e.target.matches("  button[class='report'] ")) {
+						    	
+						    		    
+					
+						  
+							 } //  if 문 끝 esle
+		    
 	      
-	    }
-	    
-	  } else if (e.target.matches("button[class='btn-admin-delete']")) {
-		  
-	    if (confirm("해당 댓글을 삭제 처리 하시겠습니까?")) {
-	      const frm = document.getElementById("newsCommentDelFrmAdmin");
-	      const {value} = e.target;
-	      frm.commentNo.value = value;
-	      frm.submit();
-		    }
-	    
-	    }else if (e.target.matches("  button[class='btn-reply'] ")) {
-	    		  
-	    	  
-	    			const {value} = e.target;
-	    			
-	    			const parentTr = e.target.parentElement.parentElement; //  클릭된 버튼의 부모 요소의 부모 요소를 parentTr 변수에 할당
-	    			console.log(parentTr);
-	    			const tr = `
-	    				<div id="comment-container">
-		    				 <div class="comment-editor">
-		    				
-	    				<tr>
-	    					<td colspan="2">
-	    				            <form
-	    								action="<%=request.getContextPath()%>/news/newsCommentCreate" 
-	    								method="post" 
-	    								name="NewsCommentFrm">
-	    				                <input type="hidden" name="newsNo" value="<%= newsAndImage.getNewsNo()%>" />
-	    				                <input type="hidden" name="newsCommentWriter" value="<%= loginMember != null ? loginMember.getMemberId() : "" %>" />
-	    				                <input type="hidden" name="newsCommentLevel" value="2" />  
-	    				                <input type="hidden" name="newsCommentNickname" value="<%= loginMember != null ? loginMember.getNickname() : ""%>" />
-	    								<textarea name="newsCommentContent" cols="50" rows="3"></textarea>
-	    				                <button type="submit" id="btn-comment-enroll1">등록</button>
-	    				            </form>
-	    				       </td>
-	    					</tr>
-	    				
-	    				 </div>
-	    			</div>
-	    			
-	    			
-	    			`;
-	    			
-	    			// beforebegin 시작태그전 - 이전형제요소로 추가
-	    			// afterbegin 시작태그후 - 첫자식요소로 추가
-	    			// beforeend 종료태그전 - 마지막요소로 추가
-	    			// afterend 종료태그후 - 다음형제요소로 추가
-	    			parentTr.insertAdjacentHTML('afterend', tr);
-	    			
-	    			button.onclick = null; // 이벤트핸들러 제거 (1회용)
-	    	  
-	    	  
-	    
-	    }
-
-	  
-	    
-	    
-	    
-	});
+	});// event 끝
 			
 			
 <!------------------------------------------- -->		
 			
-			// 신고 메소드 (  좋아요 만든 후.. 제작예쩡 )
-			
-			
+	
+
+				
 			
 			
 			
@@ -621,7 +649,7 @@ if (<%= loginMember != null %>) {
 
 		
 	};
-
+}
 	
 	
 //----------------------끝    
@@ -708,7 +736,9 @@ if (<%= loginMember != null %>) {
 	  return newContent;
 	}
 
-}
+
+
+
 </script>
 
 

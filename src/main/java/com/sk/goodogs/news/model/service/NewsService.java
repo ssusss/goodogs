@@ -279,5 +279,29 @@ public class NewsService {
 			close(conn);
 			return newsList;
 		}
+		
+		// 신고여부 체크
+		public int checkReport(String memberId, int commentNo) {
+			Connection conn = getConnection();
+			int result = newsDao.checkReport(conn, memberId, commentNo);
+			close(conn);
+			return result;
+		}
+		
+		// 신고 체크
+		public int updateReport(String memberId, int commentNo) {
+			int result =0;
+			Connection conn = getConnection();
+			try {
+				result = newsDao.updateReport(conn,  memberId,commentNo );
+				commit(conn);
+			}catch (Exception e) {
+				rollback(conn);
+			} finally {
+				close(conn);			
+			}
+			return result;
+		}
+		
 	
 }

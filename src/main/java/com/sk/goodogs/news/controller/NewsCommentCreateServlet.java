@@ -44,9 +44,10 @@ public class NewsCommentCreateServlet extends HttpServlet {
 		 String newsCommentWriter  = request.getParameter("newsCommentWriter");
 		 String newsCommentNickname  = request.getParameter("newsCommentNickname");
 		 String newsCommentContent  = request.getParameter("newsCommentContent");
+		 int  commentNoRef  = Integer.parseInt(request.getParameter("commentNoRef"));
 	
 		NewsComment newsComment = new NewsComment( 0 , newsCommentLevel, newsNo, 
-				newsCommentWriter, 0, 
+				newsCommentWriter, commentNoRef, 
 				newsCommentNickname, newsCommentContent, null, 0, 0);
 		
 		System.out.println("newsComment = " +  newsComment);
