@@ -1,6 +1,8 @@
 package com.sk.goodogs.bookmark.controller;
 
 import java.io.IOException;
+import java.sql.Timestamp;
+
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -30,6 +32,11 @@ public class deleteBookmarkServlet extends HttpServlet {
 		Member loginMember = (Member) session.getAttribute("loginMember");
 		String memberId = loginMember.getMemberId();
 		int newsNo = Integer.parseInt(request.getParameter("newsNo"));
+		
+		
+		String newsTitle = request.getParameter("newsTitle");
+		String newBookmarkedContent = request.getParameter("newBookmarkedContent");
+		// Timestamp bookmarkDate = request.getTimestamp("bookmarkDate");
 		
 		// 업무로직 (dml - delete)
 		int result = bookmarkService.deleteBookmark(memberId, newsNo);
