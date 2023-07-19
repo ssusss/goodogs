@@ -46,7 +46,7 @@
 	<div id="container">
 		<nav class="navBar">
 			<div class="navInner">
-				<h1 id="toMain">goodogs</h1>
+				<h1 id="toMain1">goodogs</h1>
 				<div class="navBox">
 					<div class="searchBox"><i class="fa-solid fa-magnifying-glass fa-2xl searchIcon" style="color: ##051619;"></i></div>
 					<div class="infoBox">
@@ -65,7 +65,7 @@
 		
 
 	<script>
-    toMain.onclick = () => {
+    toMain1.onclick = () => {
       location.href = '<%=request.getContextPath()%>/';
     }
 
