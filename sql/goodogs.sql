@@ -29,25 +29,7 @@ drop sequence seq_withdraw_member_no;
 drop sequence seq_news_script_rejected_no;
 drop sequence seq_news_comment_no;
 drop sequence seq_news_script_no;
-drop trigger trg_news_script_to_news;
-drop trigger trg_news_to_deleted_news;
-drop trigger trg_member_to_withdraw_member;
-drop trigger trg_news_script_to_rejected;
-
-drop table bookmark;
-drop table like_list;
-drop table news;
-drop table news_image;
-drop table news_script_rejected;
-drop table deleted_news;
-drop table news_script;
-drop table news_comment;
-drop table withdraw_member;
-drop table member;
-drop sequence seq_withdraw_member_no;
-drop sequence seq_news_script_rejected_no;
-drop sequence seq_news_comment_no;
-drop sequence seq_news_script_no;
+drop sequence seq_alarm_no;
 drop trigger trg_news_script_to_news;
 drop trigger trg_news_to_deleted_news;
 drop trigger trg_member_to_withdraw_member;
@@ -194,9 +176,6 @@ CREATE TABLE report_list (
     CONSTRAINT fk_report_list_comment_no_new FOREIGN KEY(report_comment_no) REFERENCES news_comment(comment_no) ON DELETE CASCADE
 );
 
------------------알람 테이블 추가
-insert into member values('3@3', 'M', '123', '상윤유저계정', '01023585522', to_date('20160617','yyyymmdd'), 'R', default, default);
-
 
 CREATE TABLE alarm (
     alarm_no number,
@@ -210,6 +189,7 @@ CREATE TABLE alarm (
      CONSTRAINT fk_alarm_script_no FOREIGN KEY (alarm_script_no) REFERENCES news_script (script_no)
 );
 create sequence seq_alarm_no;
+
 
 --=================================================
 -- trigger 생성
@@ -382,14 +362,6 @@ insert into news values(17,'kdc0526@naver.com','자자 2개 남았다 샘플추�
 insert into news values(18,'kdc0526@naver.com','마지막이네 벌써 ㅋ','사회','지금은 7시 46분 배고픈 시간 다들 저녁 드셨나요? ㅎㅎ 저는 안먹었습니다 그래서 집에가서 진짜 맛있는거 먹을거에요 지금은 7시 46분 배고픈 시간 다들 저녁 드셨나요? ㅎㅎ 저는 안먹었습니다 그래서 집에가서 진짜 맛있는거 먹을거에요지금은 7시 46분 배고픈 시간 다들 저녁 드셨나요? ㅎㅎ 저는 안먹었습니다 그래서 집에가서 진짜 맛있는거 먹을거에요지금은 7시 46분 배고픈 시간 다들 저녁 드셨나요? ㅎㅎ 저는 안먹었습니다 그래서 집에가서 진짜 맛있는거 먹을거에요지금은 7시 46분 배고픈 시간 다들 저녁 드셨나요? ㅎㅎ 저는 안먹었습니다 그래서 집에가서 진짜 맛있는거 먹을거에요지금은 7시 46분 배고픈 시간 다들 저녁 드셨나요? ㅎㅎ 저는 안먹었습니다 그래서 집에가서 진짜 맛있는거 먹을거에요지금은 7시 46분 배고픈 시간 다들 저녁 드셨나요? ㅎㅎ 저는 안먹었습니다 그래서 집에가서 진짜 맛있는거 먹을거에요지금은 7시 46분 배고픈 시간 다들 저녁 드셨나요? ㅎㅎ 저는 안먹었습니다 그래서 집에가서 진짜 ',to_date('20210903','yyyymmdd'),'사회,추억은,만남보다,이별에,남아',3,4,'23-07-11');
 
 
-<<<<<<< HEAD
-
-
--- 기사 댓글 
-
-
-=======
->>>>>>> branch 'master' of https://github.com/ssusss/goodogs
 -- 뉴스이미지
 insert into news_image values(8,'제목없음.png','20230717_091648367_729.png',default);
 insert into news_image values(9,'제목없음.png','20230717_092040407_043.png',default);
@@ -415,84 +387,8 @@ insert into like_list values('admin@naver.com', 9, default);
 --북마크 샘플 데이터
 insert into bookmark values('kdc0526@naver.com',18,'마지막이네 벌써ㅋ','7시 46분',DEFAULT );
 
-commit;
-
----- 테스트
---select * from member;
---select * from news_comment;
---update member set is_banned = 0 where member_id = 'honggd@naver.com';
---commit;
---select * from news where news_writer = 'kjh0425@naver.com';
---select n.*, i.renamed_filename from (select row_number() over(order by news_no desc) rnum, n.* from news n) n join news_image i on n.news_no = i.script_no where rnum between ? and ?
-
-<<<<<<< HEAD
-
-select * from news_image;
-select * from news;
-
-
-select * from news_script;
-
-select * from bookmark;
-=======
->>>>>>> branch 'master' of https://github.com/ssusss/goodogs
---select * from news_script where script_writer = ?;
---
---delete from news_script where script_no = ?;
---
----- 트리거 테스트
---update news_script set script_state = 2 where script_no = 8;
---select * from news;
---
---select * from news;
---delete from news where news_no = 1003;
---select * from deleted_news;
---
---select * from member;
---delete from member where member_id = 'naga@naver.com';
---select * from withdraw_member;
---
---select * from news_script;
---update news_script set script_state = 3 where script_no = 4;
---select * from news_script_rejected;
-
-<<<<<<< HEAD
-
-select n.*, i.renamed_filename from (select row_number() over(order by news_no desc) rnum, n.* from news n where n.news_title like '%응%') || n.news_category like '%응%') n join news_image i on n.news_no = i.script_no where rnum between 1 and 10;
-select n.*, i.renamed_filename from (select row_number() over(order by news_no desc) rnum, n.* from news n where n.news_category like '%사회%' ) n join news_image i on n.news_no = i.script_no where rnum between 1 and 4;
-
-SELECT n.*, i.renamed_filename FROM (SELECT row_number() over(order by news_no desc) rnum, n.* FROM news n WHERE n.news_title LIKE ? OR n.news_category LIKE ?) n JOIN news_image i ON n.news_no = i.script_no WHERE rnum BETWEEN ? AND ? 
-
+--알람 테이블 추가
+insert into member values('1@1', 'M', '123', '상윤기자', '01012312344', to_date('20160617','yyyymmdd'), 'R', default, default);
+insert into member values('2@2', 'M', '123', '상윤관리자', '01012312355', to_date('20160617','yyyymmdd'), 'A', default, default);
 
 commit;
-
-
------------------알람 테이블 추가
-insert into member values('3@3', 'M', '123', '상윤유저계정', '01023585522', to_date('20160617','yyyymmdd'), 'R', default, default);
-
-
-CREATE TABLE alarm (
-    alarm_no number,
-    alarm_message_type varchar2(50),
-    alarm_script_no number,
-    alarm_comment varchar2(100),
-    alarm_receiver varchar2(50),
-    alarm_hasRead number,
-    alarm_createdAt Timestamp	DEFAULT sysdate,
-     constraints pk_alarm_no primary key(alarm_no),
-     CONSTRAINT fk_alarm_script_no FOREIGN KEY (alarm_script_no) REFERENCES news_script (script_no)
-);
-create sequence seq_alarm_no;
-=======
---select * from news_comment;
-select * from report_list;
->>>>>>> branch 'master' of https://github.com/ssusss/goodogs
-----------------------------------------------
---알람확인
-select * from alarm
---알람 추가
-insert into alarm values( seq_alarm_no.NEXTVAL,'message',1,'멘트','1@1',0,default );
-insert into alarm values( seq_alarm_no.NEXTVAL,'message',1,'멘트','1@1',0,default );
-------------------
-
-

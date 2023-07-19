@@ -30,6 +30,11 @@
 <title>goodogs</title>
 
 <link rel="stylesheet" href="<%=request.getContextPath()%>/css/style.css" />
+<style>
+.alarmMenu{
+	display : none;
+}
+</style>
 <!-- 웹소켓 객체생성 (상윤) -->
 <% 	if(loginMember != null) { %>
 	<script src="<%= request.getContextPath() %>/js/ws.js"></script>		
@@ -68,12 +73,17 @@ window.addEventListener('load', function() {
 
 
 <body>
-<span id="notification"></span>	
 	<div id="container">
 		<nav class="navBar">
 			<div class="navInner">
 				<h1 id="toMain1">goodogs</h1>
 				<div class="navBox">
+					<div id="notification-container">
+						<span id="notification"></span>
+						
+					</div>	
+					
+					
 					<div class="searchBox"><i class="fa-solid fa-magnifying-glass fa-2xl searchIcon" style="color: ##051619;"></i></div>
 					<div class="infoBox">
 						<% if (loginMember == null || loginMember.getMemberProfile() == null) { %>
@@ -267,3 +277,88 @@ window.addEventListener('load', function() {
 		 -->	
 	
 	</header>
+	
+<% 	if(loginMember != null) { %>
+	<script>
+	
+	window.onload=()=>{
+		alarmCheck("<%=loginMember.getMemberId() %>");
+	}
+	
+
+	</script>
+<% 	} %>
+<script>
+function alarmCheck(memberId){
+	console.log(memberId);
+	console.log("check");
+	$.ajax({
+	url : "<%= request.getContextPath() %>/admin/alarm/check",
+	data : {memberId},	
+	method : "GET",
+	dataType : "json",
+	success(alarms) {
+		console.log(alarms);
+		if(alarms.length>0){
+			
+				const alarmSpace =document.querySelector("#notification");
+					if(!alarmSpace.hasChildNodes()) {
+						alarmSpace.innerHTML=`<i class="fa-solid fa-bell bell"></i>`;
+					}
+				const notificationContainer = document.querySelector("#notification-container");
+				notificationContainer.insertAdjacentHTML('beforeend', `
+					<div class="alarmMenu">
+						
+		 			</div>	
+				`);
+				const alarmMenuBox=document.querySelector(".alarmMenu");
+				alarmMenuBox.innerHTML=alarms.reduce((html,alarm)=>{
+					const{alarmNo,alarmReceiver,alarmScriptNo,alarmComment}=alarm;
+						
+					return html +`
+						<p id="\${alarmNo}">\${alarmComment}</P>
+					`;
+				},"");
+				
+			}
+		
+
+		}
+	
+	});
+};
+
+
+
+document.addEventListener("click",(e)=>{
+
+	if(e.target.matches(".bell")){
+		const bell = document.querySelector(".bell");
+		const alarmMenu= document.querySelector(".alarmMenu");
+		if (bell.classList.length == 3) {
+			alarmMenu.style.display="block";
+			bell.classList.add("bellClicked");			
+		} else {
+			bell.classList.remove("bellClicked");
+			alarmMenu.style.display="none";
+		}
+		
+		
+	}
+
+
+	if(e.target.matches(".bell")){
+
+		$.ajax({
+				url : "<%= request.getContextPath() %>/admin/alarmChecked",
+				data : {,},	
+				method : "POST",
+				dataType : "json",
+				success(updateRole) {
+					console.log(updateRole)
+					alert(updateRole.message);
+				}
+			});
+	}
+});
+</script>

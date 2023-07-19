@@ -18,16 +18,23 @@ ws.addEventListener('message', (e) => {
 	
 		case 'ALARM_MESSAGE' : 
 			const wrapper = document.querySelector("#notification");
-			const i = document.createElement("i");
-			i.classList.add("fa-solid", "fa-bell", "bell");
-			i.onclick = () => {
-				alert(comemt);
-				i.remove();
-			};
-			wrapper.append(i);
+			if(!wrapper.hasChildNodes()){
+
+				const i = document.createElement("i");
+				i.classList.add("fa-solid", "fa-bell", "bell");
+				i.onclick = () => {
+					alert(comemt);
+					i.remove();
+				};
+				wrapper.append(i);
+				
+			}
 			break;
+				
+			
+				
+				
 	}
-	
 	
 	
 	

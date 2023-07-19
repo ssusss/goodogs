@@ -29,8 +29,12 @@ public class WebSocket{
 			Collections.synchronizedMap(new HashMap<>());
 	public static Map<String, Session> notLoginClientMap = 
 			Collections.synchronizedMap(new HashMap<>());
+	public static Map<String, Object> alarmList = 
+			Collections.synchronizedMap(new HashMap<>());
+	
 	private static void log() {
 		System.out.println("[현재 접속자수 : " + clientMap.size() + "명] " + clientMap);
+	
 	}
 	
 //	@Override
@@ -41,6 +45,11 @@ public class WebSocket{
 		Map<String, Object> configProperties = config.getUserProperties();
 		String memberId = (String) configProperties.get("memberId");
 		
+		if(alarmList.containsKey(memberId)) {
+			alarmList.remove(memberId);
+			alarmList.put(memberId, session);
+		}
+			
 		clientMap.put(memberId, session);
 		
 		Map<String, Object> sessionProperties = session.getUserProperties();
@@ -58,7 +67,10 @@ public class WebSocket{
 		System.out.println("message : " + message);
 		Map<String, Object> payload = new Gson().fromJson(message, Map.class);
 		System.out.println("payload from message : " + payload);
+		
 		String receiver =(String)payload.get("receiver");
+		
+		
 		System.out.println(receiver);
 		
 		
@@ -67,6 +79,7 @@ public class WebSocket{
 		System.out.println(result);
 		
 		try {
+			
 			Session wsSession = clientMap.get(receiver);
 			
 			if(wsSession != null && wsSession.isOpen()) {
@@ -74,6 +87,8 @@ public class WebSocket{
 				basic.sendText(message);
 			}else {
 				
+				notLoginClientMap.put(receiver,null);
+				alarmList.put(receiver, payload);
 			}
 		
 		} catch (IOException e) {
