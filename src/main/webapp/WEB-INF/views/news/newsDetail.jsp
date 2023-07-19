@@ -594,7 +594,6 @@ if (<%= loginMember != null %>) {
 			  } else {
 				// 회원이 좋아요 안한 상태
 				  likeClassList.remove("like");
-
 			  }
 		  }
 	  })
@@ -648,7 +647,6 @@ if (<%= loginMember != null %>) {
 					console.log("result="+result);
 				},
 				complete(){
-					newsLikeCnt = number(newsLikeCnt) + 1;
 					document.querySelector('#newsLikeCnt').innerHTML = newsLikeCnt + 1;
 				}
 			});
