@@ -41,15 +41,15 @@ public class AdminMemberBanListServlet extends HttpServlet {
 		
 		// 2, 업무로직
 		List<NewsComment> newsComments  = adminService.findBanComment(start, end);
-		System.out.println("newsComments = " + newsComments);
+//		System.out.println("newsComments = " + newsComments);
 		request.setAttribute("newsComments", newsComments);
 		
 
 		int totalContent = adminService.getTotalContent();
-		System.out.println("totalContent = " + totalContent);
+//		System.out.println("totalContent = " + totalContent);
 		String url = request.getRequestURI(); // /mvc/board/boardList
 		String pagebar = AdminMvcUtils.getPagebar(cpage, LIMIT, totalContent, url);
-		System.out.println("pagebar = " + pagebar);
+//		System.out.println("pagebar = " + pagebar);
 		
 		request.setAttribute("pagebar", pagebar);
 		

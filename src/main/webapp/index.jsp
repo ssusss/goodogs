@@ -2,6 +2,7 @@
     pageEncoding="UTF-8"%>
 <%@ include file="/WEB-INF/views/common/header.jsp" %>
 <script src="<%= request.getContextPath() %>/js/jquery-3.7.0.js"></script>
+
 <% int totalPage = (int) request.getAttribute("totalPage"); %>
 
 <%@ include file="/WEB-INF/views/common/category.jsp" %>
@@ -92,6 +93,12 @@ const getPage = (cpage) => {
       }
    })
 }
+
+
+
+
+
+
 
 </script>    
 

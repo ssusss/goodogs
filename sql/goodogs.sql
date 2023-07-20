@@ -14,6 +14,7 @@
 --==============================
 -- 초기화 블럭
 --==============================
+--drop table alarm;
 --drop table bookmark;
 --drop table like_list;
 --drop table news;
@@ -21,6 +22,10 @@
 --drop table news_script_rejected;
 --drop table deleted_news;
 --drop table news_script;
+--drop table report_list;
+--drop table news_comment;
+--drop table member;
+--drop table withdraw_member;
 --drop table news_comment;
 --drop table withdraw_member;
 --drop table member;
@@ -28,6 +33,7 @@
 --drop sequence seq_news_script_rejected_no;
 --drop sequence seq_news_comment_no;
 --drop sequence seq_news_script_no;
+--drop sequence seq_alarm_no;
 --drop trigger trg_news_script_to_news;
 --drop trigger trg_news_to_deleted_news;
 --drop trigger trg_member_to_withdraw_member;
@@ -146,9 +152,11 @@ CREATE TABLE news_comment (
 );
 create sequence seq_news_comment_no;
 
+
 CREATE TABLE bookmark (
 	member_id varchar2(50) NOT NULL,
 	news_no number	 NOT NULL,
+    news_title varchar2(300) NOT NULL,
 	new_bookmarked_content clob	NOT NULL,
 	bookmark_date Timestamp DEFAULT sysdate,
     constraints fk_bookmark_member_id foreign key(member_id) references member(member_id) on delete cascade,
@@ -162,6 +170,31 @@ CREATE TABLE like_list (
     constraints fk_like_list_member_id foreign key(member_id) references member(member_id) on delete cascade,
     constraints fk_like_list_news_no foreign key(news_no) references news(news_no) on delete cascade
 );
+
+CREATE TABLE report_list (
+	report_member_id varchar2(50) NOT NULL,
+	report_comment_no number NOT NULL,
+	report_comment_date Timestamp DEFAULT sysdate,
+    report_comment_content varchar2(100),
+    CONSTRAINT fk_report_list_member_id_new FOREIGN KEY(report_member_id) REFERENCES member(member_id) ON DELETE CASCADE,
+    CONSTRAINT fk_report_list_comment_no_new FOREIGN KEY(report_comment_no) REFERENCES news_comment(comment_no) ON DELETE CASCADE
+);
+
+
+CREATE TABLE alarm (
+    alarm_no number,
+    alarm_message_type varchar2(50),
+    alarm_script_no number,
+    alarm_comment varchar2(100),
+    alarm_receiver varchar2(50),
+    alarm_hasRead number,
+    alarm_createdAt Timestamp	DEFAULT sysdate,
+     constraints pk_alarm_no primary key(alarm_no),
+     CONSTRAINT fk_alarm_script_no FOREIGN KEY (alarm_script_no) REFERENCES news_script (script_no)
+);
+create sequence seq_alarm_no;
+
+
 --=================================================
 -- trigger 생성
 --=================================================
@@ -287,8 +320,6 @@ insert into member values('honggd@naver.com', 'M', 'qwe123!', '길동좌', '0101
 insert into member values('sinsa@naver.com', 'F', 'qwe123!', '신사임당', '01011113333', to_date('20191111','yyyymmdd'), 'M', default, default);
 insert into member values('sejong@naver.com', 'N', 'qwe123!', '킹세종', '01011114444', to_date('20160307','yyyymmdd'), 'M', default, default);
 insert into member values('naga@naver.com', 'N', 'qwe123!', 'naga', '0101111568', to_date('20160617','yyyymmdd'), 'M', default, default);
-
-
 -- 관리자
 insert into member values('admin@naver.com', 'M', 'qwe123!', '어드민', '01033332222', to_date('20131024','yyyymmdd'), 'A', default, default);
 insert into member values('kny0910@naver.com', 'F', 'qwe123!', 'na0', '01033332222', to_date('20150910','yyyymmdd'), 'A', default, default);
@@ -296,6 +327,7 @@ insert into member values('kny0910@naver.com', 'F', 'qwe123!', 'na0', '010333322
 -- 기자
 insert into member values('kjh0425@naver.com', 'M', 'qwe123!', '준한', '01055552222', to_date('20180425','yyyymmdd'), 'R', default, default);
 insert into member values('kdc0526@naver.com', 'M', 'qwe123!', '동찬', '01044442222', to_date('20190526','yyyymmdd'), 'R', default, default);
+
 
 -- 원고
 insert into news_script values(seq_news_script_no.NEXTVAL,'kjh0425@naver.com','만 나이 통일법 시행','사회','오늘(28일)부터 1~2살 어려지는걸 알고계신가요? 나이세는 방식이 만 나이로 바뀌기 때문입니다. 아 집가고싶다',default,'사회',1);
@@ -309,7 +341,6 @@ insert into news_script values(seq_news_script_no.NEXTVAL,'kjh0425@naver.com','�
 insert into news_script values(seq_news_script_no.NEXTVAL,'kjh0425@naver.com','애국가2절','세계','남산위에 저 소나무 철갑을 두른듯 바람서리 불변함은 우리기상일세 무궁화 삼천리 화려강산 대한사람 대한으로 길이 보전하세',to_date('20220622','yyyymmdd'),'세계',2);
 insert into news_script values(seq_news_script_no.NEXTVAL,'kdc0526@naver.com','애국가3절','스포츠','가을 하늘 공활한데 높고 구름없이 밝은달은 우리가슴 일편 단심일세 무궁화 삼천리 화려강산 대한사람 대한으로 길이 보전하세',to_date('20230210','yyyymmdd'),'스포츠',2);
 insert into news_script values(seq_news_script_no.NEXTVAL,'kdc0526@naver.com','애국가4절','경제','이 기상과 이 맘으로 충성을 다하여 괴로우나 즐거우나 나라 사랑하세 무궁화 삼천리 화려강산 대한사람 대한으로 길이 보전하세',to_date('20210903','yyyymmdd'),'경제',2);
-
 insert into news_script values(seq_news_script_no.NEXTVAL,'kjh0425@naver.com','이거 진짜 언제 끝남?','스포츠','진짜 이거 언제까지 해야돼? 진짜 이거 언제까지 해야돼? 진짜 이거 언제까지 해야돼? 진짜 이거 언제까지 해야돼? 진짜 이거 언제까지 해야돼? 진짜 이거 언제까지 해야돼? 진짜 이거 언제까지 해야돼? 진짜 이거 언제까지 해야돼? 진짜 이거 언제까지 해야돼? 진짜 이거 언제까지 해야돼? 진짜 이거 언제까지 해야돼? 진짜 이거 언제까지 해야돼? 진짜 이거 언제까지 해야돼? 진짜 이거 언제까지 해야돼? 진짜 이거 언제까지 해야돼? 진짜 이거 언제까지 해야돼? 진짜 이거 언제까지 해야돼? 진짜 이거 언제까지 해야돼? 진짜 이거 언제까지 해야돼? 진짜 이거 언제까지 해야돼? 진짜 이거 언제까지 해야돼? 진짜 이거 언제까지 해야돼? 진짜 이거 언제까지 해야돼? 진짜 이거 언제까지 해야돼? 진짜 이거 언제까지 해야돼? 진짜 이거 언제까지 해야돼? 진짜 이거 언제까지 해야돼? 진짜 이거 언제까지 해야돼? 진짜 이거 언제까지 해야돼? 진짜 이거 언제까지 해야돼? 진짜 이거 언제까지 해야돼? 진짜 이거 언제까지 해야돼? 진짜 이거 언제까지 해야돼? 진짜 이거 언제까지 해야돼? 진짜 이거 언제까지 해야돼? 진짜 이거 언제까지 해야돼? 진짜 이거 언제까지 해야돼? 진짜 이거 언제까지 해야돼? 진짜 이거 언제까지 해야돼? 진짜 이거 언제까지 해야돼? 진짜 이거 언제까지 해야돼? 진짜 이거 언제까지 해야돼? 진짜 이거 언제까지 해야돼? 진짜 이거 언제까지 해야돼? 진짜 이거 언제까지 해야돼? 진짜 이거 언제까지 해야돼? 진짜 이거 언제까지 해야돼? 진짜 이거 언제까지 해야돼? 진짜 이거 언제까지 해야돼? 진짜 이거 언제까지 해야돼? 진짜 이거 언제까지 해야돼? 진짜 이거 언제까지 해야돼? 진짜 이거 언제까지 해야돼? 진짜 이거 언제까지 해야돼? 진짜 이거 언제까지 해야돼? 진짜 이거 언제까지 해야돼? 진짜 이거 언제까지 해야돼? 진짜 이거 언제까지 해야돼? 진짜 이거 언제까지 해야돼? 진짜 이거 언제까지 해야돼? 진짜 이거 언제까지 해야돼? 진짜 이거 언제까지 해야돼? 진짜 이거 언제까지 해야돼? 진짜 이거 언제까지 해야돼? 진짜 이거 언제까지 해야돼? 진짜 이거 언제까지 해야돼? 진짜 이거 언제까지 해야돼? 진짜 이거 언제까지 해야돼? 진짜 이거 언제까지 해야돼? 진짜 이거 언제까지 해야돼? 진짜 이거 언제까지 해야돼? 진짜 이거 언제까지 해야돼? 진짜 이거 언제까지 해야돼? 진짜 이거 언제까지 해야돼? 진짜 이거 언제까지 해야돼? 진짜 이거 언제까지 해야돼?진짜 이거 언제까지 해야돼? 진짜 이거 언제까지 해야돼? 진짜 이거 언제까지 해야돼? 진짜 이거 언제까지 해야돼?진짜 이거 언제까지 해야돼? 진짜 이거 언제까지 해야돼? 진짜 이거 언제까지 해야돼? 진짜 이거 언제까지 해야돼? 진짜 이거 언제까지 해야돼? 진짜 이거 언제까지 해야돼? 진짜 이거 언제까지 해야돼? 진짜 이거 언제까지 해야돼?',to_date('20200127','yyyymmdd'),'스포츠',2);
 insert into news_script values(seq_news_script_no.NEXTVAL,'kjh0425@naver.com','아 초밥먹고 싶다','사회','초밥이 너무 먹고싶어요 초밥 사주세요 초밥이 너무 먹고싶어요 초밥 사주세요초밥이 너무 먹고싶어요 초밥 사주세요초밥이 너무 먹고싶어요 초밥 사주세요초밥이 너무 먹고싶어요 초밥 사주세요초밥이 너무 먹고싶어요 초밥 사주세요초밥이 너무 먹고싶어요 초밥 사주세요초밥이 너무 먹고싶어요 초밥 사주세요초밥이 너무 먹고싶어요 초밥 사주세요초밥이 너무 먹고싶어요 초밥 사주세요초밥이 너무 먹고싶어요 초밥 사주세요초밥이 너무 먹고싶어요 초밥 사주세요초밥이 너무 먹고싶어요 초밥 사주세요초밥이 너무 먹고싶어요 초밥 사주세요초밥이 너무 먹고싶어요 초밥 사주세요초밥이 너무 먹고싶어요 초밥 사주세요초밥이 너무 먹고싶어요 초밥 사주세요초밥이 너무 먹고싶어요 초밥 사주세요초밥이 너무 먹고싶어요 초밥 사주세요초밥이 너무 먹고싶어요 초밥 사주세요초밥이 너무 먹고싶어요 초밥 사주세요초밥이 너무 먹고싶어요 초밥 사주세요초밥이 너무 먹고싶어요 초밥 사주세요초밥이 너무 먹고싶어요 초밥 사주세요초밥이 너무 먹고싶어요 초밥 사주세요초밥이 너무 먹고싶어요 초밥 사주세요초밥이 너무 먹고싶어요 초밥 사주세요초밥이 너무 먹고싶어요 초밥 사주세요초밥이 너무 먹고싶어요 초밥 사주세요초밥이 너무 먹고싶어요 초밥 사주세요초밥이 너무 먹고싶어요 초밥 사주세요초밥이 너무 먹고싶어요 초밥 사주세요초밥이 너무 먹고싶어요 초밥 사주세요초밥이 너무 먹고싶어요 초밥 사주세요초밥이 너무 먹고싶어요 초밥 사주세요초밥이 너무 먹고싶어요 초밥 사주세요초밥이 너무 먹고싶어요 초밥 사주세요초밥이 너무 먹고싶어요 초밥 사주세요초밥이 너무 먹고싶어요 초밥 사주세요초밥이 너무 먹고싶어요 초밥 사주세요초밥이 너무 먹고싶어요 초밥 사주세요초밥이 너무 먹고싶어요 초밥 사주세요초밥이 너무 먹고싶어요 초밥 사주세요초밥이 너무 먹고싶어요 초밥 사주세요초밥이 너무 먹고싶어요 초밥 사주세요초밥이 너무 먹고싶어요 초밥 사주세요초밥이 너무 먹고싶어요 초밥 사주세요초밥이 너무 먹고싶어요 초밥 사주세요초밥이 너무 먹고싶어요 초밥 사주세요초밥이 너무 먹고싶어요 초밥 사주세요초밥이 너무 먹고싶어요 초밥 사주세요초밥이 너무 먹고싶어요 초밥 사주세요초밥이 너무 먹고싶어요 초밥 사주세요초밥이 너무 먹고싶어요 초밥 사주세요초밥이 너무 먹고싶어요 초밥 사주세요초밥이 너무 먹고싶어요 초밥 사주세요초밥이 너무 먹고싶어요 초밥 사주세요초밥이 너무 먹고싶어요 초밥 사주세요초밥이 너무 먹고싶어요 초밥 사주세요초밥이 너무 먹고싶어요 초밥 사주세요초밥이 너무 먹',to_date('20210903','yyyymmdd'),'경제',2);
 insert into news_script values(seq_news_script_no.NEXTVAL,'kjh0425@naver.com','아 괜히 샘플 넣는다고 해서','정치','초밥이 너무 먹고싶어요 초밥 사주세요 초밥이 너무 먹고싶어요 초밥 사주세요초밥이 너무 먹고싶어요 초밥 사주세요초밥이 너무 먹고싶어요 초밥 사주세요초밥이 너무 먹고싶어요 초밥 사주세요초밥이 너무 먹고싶어요 초밥 사주세요초밥이 너무 먹고싶어요 초밥 사주세요초밥이 너무 먹고싶어요 초밥 사주세요초밥이 너무 먹고싶어요 초밥 사주세요초밥이 너무 먹고싶어요 초밥 사주세요초밥이 너무 먹고싶어요 초밥 사주세요초밥이 너무 먹고싶어요 초밥 사주세요초밥이 너무 먹고싶어요 초밥 사주세요초밥이 너무 먹고싶어요 초밥 사주세요초밥이 너무 먹고싶어요 초밥 사주세요초밥이 너무 먹고싶어요 초밥 사주세요초밥이 너무 먹고싶어요 초밥 사주세요초밥이 너무 먹고싶어요 초밥 사주세요초밥이 너무 먹고싶어요 초밥 사주세요초밥이 너무 먹고싶어요 초밥 사주세요초밥이 너무 먹고싶어요 초밥 사주세요초밥이 너무 먹고싶어요 초밥 사주세요초밥이 너무 먹고싶어요 초밥 사주세요초밥이 너무 먹고싶어요 초밥 사주세요초밥이 너무 먹고싶어요 초밥 사주세요초밥이 너무 먹고싶어요 초밥 사주세요초밥이 너무 먹고싶어요 초밥 사주세요초밥이 너무 먹고싶어요 초밥 사주세요초밥이 너무 먹고싶어요 초밥 사주세요초밥이 너무 먹고싶어요 초밥 사주세요초밥이 너무 먹고싶어요 초밥 사주세요초밥이 너무 먹고싶어요 초밥 사주세요초밥이 너무 먹고싶어요 초밥 사주세요초밥이 너무 먹고싶어요 초밥 사주세요초밥이 너무 먹고싶어요 초밥 사주세요초밥이 너무 먹고싶어요 초밥 사주세요초밥이 너무 먹고싶어요 초밥 사주세요초밥이 너무 먹고싶어요 초밥 사주세요초밥이 너무 먹고싶어요 초밥 사주세요초밥이 너무 먹고싶어요 초밥 사주세요초밥이 너무 먹고싶어요 초밥 사주세요초밥이 너무 먹고싶어요 초밥 사주세요초밥이 너무 먹고싶어요 초밥 사주세요초밥이 너무 먹고싶어요 초밥 사주세요초밥이 너무 먹고싶어요 초밥 사주세요초밥이 너무 먹고싶어요 초밥 사주세요초밥이 너무 먹고싶어요 초밥 사주세요초밥이 너무 먹고싶어요 초밥 사주세요초밥이 너무 먹고싶어요 초밥 사주세요초밥이 너무 먹고싶어요 초밥 사주세요초밥이 너무 먹고싶어요 초밥 사주세요초밥이 너무 먹고싶어요 초밥 사주세요초밥이 너무 먹고싶어요 초밥 사주세요초밥이 너무 먹고싶어요 초밥 사주세요초밥이 너무 먹고싶어요 초밥 사주세요초밥이 너무 먹고싶어요 초밥 사주세요초밥이 너무 먹고싶어요 초밥 사주세요초밥이 너무 먹고싶어요 초밥 사주세요초밥이 너무 먹고싶어요 초밥 사주세요초밥이 너무 먹고싶어요 초밥 사주세요초밥이 너무 먹고싶어요 초밥 사주세요초밥이 너무 먹고싶어요 초밥 사주세요초밥이 너무 먹고싶어요 초밥 사주세요초밥이 너무 먹고싶어요 초밥 사주세요초밥이 너무 먹고싶어요 초밥 사주세요초밥이 너무 먹고싶어요 초밥 사주세요초밥이 너무 먹고싶어요',to_date('20210202','yyyymmdd'),'정치',2);
@@ -317,38 +348,72 @@ insert into news_script values(seq_news_script_no.NEXTVAL,'kdc0526@naver.com','�
 insert into news_script values(seq_news_script_no.NEXTVAL,'kdc0526@naver.com','나는 김동찬 코딩의 신이지','세계',' 내 이름은 김동찬 코딩의 신이라고 불리지 ㅋ내 이름은 김동찬 코딩의 신이라고 불리지 ㅋ내 이름은 김동찬 코딩의 신이라고 불리지 ㅋ내 이름은 김동찬 코딩의 신이라고 불리지 ㅋ내 이름은 김동찬 코딩의 신이라고 불리지 ㅋ내 이름은 김동찬 코딩의 신이라고 불리지 ㅋ내 이름은 김동찬 코딩의 신이라고 불리지 ㅋ내 이름은 김동찬 코딩의 신이라고 불리지 ㅋ내 이름은 김동찬 코딩의 신이라고 불리지 ㅋ내 이름은 김동찬 코딩의 신이라고 불리지 ㅋ내 이름은 김동찬 코딩의 신이라고 불리지 ㅋ내 이름은 김동찬 코딩의 신이라고 불리지 ㅋ내 이름은 김동찬 코딩의 신이라고 불리지 ㅋ내 이름은 김동찬 코딩의 신이라고 불리지 ㅋ내 이름은 김동찬 코딩의 신이라고 불리지 ㅋ내 이름은 김동찬 코딩의 신이라고 불리지 ㅋ내 이름은 김동찬 코딩의 신이라고 불리지 ㅋ내 이름은 김동찬 코딩의 신이라고 불리지 ㅋ내 이름은 김동찬 코딩의 신이라고 불리지 ㅋ내 이름은 김동찬 코딩의 신이라고 불리지 ㅋ내 이름은 김동찬 코딩의 신이라고 불리지 ㅋ내 이름은 김동찬 코딩의 신이라고 불리지 ㅋ내 이름은 김동찬 코딩의 신이라고 불리지 ㅋ내 이름은 김동찬 코딩의 신이라고 불리지 ㅋ내 이름은 김동찬 코딩의 신이라고 불리지 ㅋ내 이름은 김동찬 코딩의 신이라고 불리지 ㅋ내 이름은 김동찬 코딩의 신이라고 불리지 ㅋ내 이름은 김동찬 코딩의 신이라고 불리지 ㅋ내 이름은 김동찬 코딩의 신이라고 불리지 ㅋ내 이름은 김동찬 코딩의 신이라고 불리지 ㅋ내 이름은 김동찬 코딩의 신이라고 불리지 ㅋ내 이름은 김동찬 코딩의 신이라고 불리지 ㅋ내 이름은 김동찬 코딩의 신이라고 불리지 ㅋ내 이름은 김동찬 코딩의 신이라고 불리지 ㅋ내 이름은 김동찬 코딩의 신이라고 불리지 ㅋ내 이름은 김동찬 코딩의 신이라고 불리지 ㅋ내 이름은 김동찬 코딩의 신이라고 불리지 ㅋ내 이름은 김동찬 코딩의 신이라고 불리지 ㅋ내 이름은 김동찬 코딩의 신이라고 불리지 ㅋ내 이름은 김동찬 코딩의 신이라고 불리지 ㅋ내 이름은 김동찬 코딩의 신이라고 불리지 ㅋ내 이름은 김동찬 코딩의 신이라고 불리지 ㅋ내 이름은 김동찬 코딩의 신이라고 불리지 ㅋ내 이름은 김동찬 코딩의 신이라고 불리지 ㅋ내 이름은 김동찬 코딩의 신이라고 불리지 ㅋ내 이름은 김동찬 코딩의 신이라고 불리지 ㅋ내 이름은 김동찬 코딩의 신이라고 불리지 ㅋ내 이름은 김동찬 코딩의 신이라고 불리지 ㅋ내 이름은 김동찬 코딩의 신이라고 불리지 ㅋ내 이름은 김동찬 코딩의 신이라고 불리지 ㅋ내 이름은 김동찬 코딩의 신이라고 불리지 ㅋ내 이름은 김동찬 코딩의 신이라고 불리지 ㅋ내 이름은 김동찬 코딩의 신이라고 불리지 ㅋ내 이름은 김동찬 코딩의 신이라고 불리지 ㅋ내 이름은 김동찬 코딩의 신이라고 불리지 ㅋ내 이름은 김동찬 코딩의 신이라고 불리지 ㅋ내 이름은 김동찬 코딩의 신이라고 불리지 ㅋ내 ',to_date('20230101','yyyymmdd'),'세계',2);
 insert into news_script values(seq_news_script_no.NEXTVAL,'kdc0526@naver.com','자자 2개 남았다 샘플추가','환경','구독스 프로젝트 화이팅~ 구독스 프로젝트 화이팅~구독스 프로젝트 화이팅~구독스 프로젝트 화이팅~구독스 프로젝트 화이팅~구독스 프로젝트 화이팅~구독스 프로젝트 화이팅~구독스 프로젝트 화이팅~구독스 프로젝트 화이팅~구독스 프로젝트 화이팅~구독스 프로젝트 화이팅~구독스 프로젝트 화이팅~구독스 프로젝트 화이팅~구독스 프로젝트 화이팅~구독스 프로젝트 화이팅~구독스 프로젝트 화이팅~구독스 프로젝트 화이팅~구독스 프로젝트 화이팅~구독스 프로젝트 화이팅~구독스 프로젝트 화이팅~구독스 프로젝트 화이팅~구독스 프로젝트 화이팅~구독스 프로젝트 화이팅~구독스 프로젝트 화이팅~구독스 프로젝트 화이팅~구독스 프로젝트 화이팅~구독스 프로젝트 화이팅~구독스 프로젝트 화이팅~구독스 프로젝트 화이팅~구독스 프로젝트 화이팅~구독스 프로젝트 화이팅~구독스 프로젝트 화이팅~구독스 프로젝트 화이팅~구독스 프로젝트 화이팅~구독스 프로젝트 화이팅~구독스 프로젝트 화이팅~구독스 프로젝트 화이팅~구독스 프로젝트 화이팅~구독스 프로젝트 화이팅~구독스 프로젝트 화이팅~구독스 프로젝트 화이팅~구독스 프로젝트 화이팅~구독스 프로젝트 화이팅~구독스 프로젝트 화이팅~구독스 프로젝트 화이팅~구독스 프로젝트 화이팅~구독스 프로젝트 화이팅~구독스 프로젝트 화이팅~구독스 프로젝트 화이팅~구독스 프로젝트 화이팅~구독스 프로젝트 화이팅~구독스 프로젝트 화이팅~구독스 프로젝트 화이팅~구독스 프로젝트 화이팅~구독스 프로젝트 화이팅~구독스 프로젝트 화이팅~구독스 프로젝트 화이팅~구독스 프로젝트 화이팅~구독스 프로젝트 화이팅~구독스 프로젝트 화이팅~구독스 프로젝트 화이팅~구독스 프로젝트 화이팅~구독스 프로젝트 화이팅~구독스 프로젝트 화이팅~구독스 프로젝트 화이팅~구독스 프로젝트 화이팅~구독스 프로젝트 화이팅~구독스 프로젝트 화이팅~구독스 프로젝트 화이팅~구독스 프로젝트 화이팅~구독스 프로젝트 화이팅~구독스 프로젝트 화이팅~구독스 프로젝트 화이팅~구독스 프로젝트 화이팅~구독스 프로젝트 화이팅~구독스 프로젝트 화이팅~',to_date('20180512','yyyymmdd'),'환경',2);
 insert into news_script values(seq_news_script_no.NEXTVAL,'kdc0526@naver.com','마지막이네 벌써 ㅋ','사회','지금은 7시 46분 배고픈 시간 다들 저녁 드셨나요? ㅎㅎ 저는 안먹었습니다 그래서 집에가서 진짜 맛있는거 먹을거에요 지금은 7시 46분 배고픈 시간 다들 저녁 드셨나요? ㅎㅎ 저는 안먹었습니다 그래서 집에가서 진짜 맛있는거 먹을거에요지금은 7시 46분 배고픈 시간 다들 저녁 드셨나요? ㅎㅎ 저는 안먹었습니다 그래서 집에가서 진짜 맛있는거 먹을거에요지금은 7시 46분 배고픈 시간 다들 저녁 드셨나요? ㅎㅎ 저는 안먹었습니다 그래서 집에가서 진짜 맛있는거 먹을거에요지금은 7시 46분 배고픈 시간 다들 저녁 드셨나요? ㅎㅎ 저는 안먹었습니다 그래서 집에가서 진짜 맛있는거 먹을거에요지금은 7시 46분 배고픈 시간 다들 저녁 드셨나요? ㅎㅎ 저는 안먹었습니다 그래서 집에가서 진짜 맛있는거 먹을거에요지금은 7시 46분 배고픈 시간 다들 저녁 드셨나요? ㅎㅎ 저는 안먹었습니다 그래서 집에가서 진짜 맛있는거 먹을거에요지금은 7시 46분 배고픈 시간 다들 저녁 드셨나요? ㅎㅎ 저는 안먹었습니다 그래서 집에가서 진짜 ',to_date('20170704','yyyymmdd'),'사회',2);
+insert into news_script values(seq_news_script_no.NEXTVAL,'kdc0526@naver.com','kh정보교육원','정치','내용이 비어보이는가? 착한사람들한테만 보인다네 ',to_date('20170704','yyyymmdd'),'정치',2);
+insert into news_script values(seq_news_script_no.NEXTVAL,'kdc0526@naver.com','이건 정치뉴스야','정치','대충 정치뉴스글내용 ',to_date('20170704','yyyymmdd'),'정치',2);
+insert into news_script values(seq_news_script_no.NEXTVAL,'kdc0526@naver.com','정치정치정정치','정치','정치뉴스샘플 ',to_date('20170704','yyyymmdd'),'정치',2);
+insert into news_script values(seq_news_script_no.NEXTVAL,'kdc0526@naver.com','삼전10만돌파!','경제','뻥임 ',to_date('20170704','yyyymmdd'),'경제',2);
+insert into news_script values(seq_news_script_no.NEXTVAL,'kdc0526@naver.com','경제경제경경제','경제','경제뉴스샘플 ',to_date('20170704','yyyymmdd'),'경제',2);
+insert into news_script values(seq_news_script_no.NEXTVAL,'kdc0526@naver.com','비트코인1억간다','경제','응 못가~ ',to_date('20170704','yyyymmdd'),'경제',2);
+insert into news_script values(seq_news_script_no.NEXTVAL,'kdc0526@naver.com','세계는지금','세계','심심해 ',to_date('20170704','yyyymmdd'),'세계',2);
+insert into news_script values(seq_news_script_no.NEXTVAL,'kdc0526@naver.com','삼천세계','세계','배고파 ',to_date('20170704','yyyymmdd'),'세계',2);
+insert into news_script values(seq_news_script_no.NEXTVAL,'kdc0526@naver.com','세계네계다섯계','세계','대충세계뉴스내용 ',to_date('20170704','yyyymmdd'),'세계',2);
+insert into news_script values(seq_news_script_no.NEXTVAL,'kdc0526@naver.com','테크뉴스','테크','대충테크뉴스내용 ',to_date('20170704','yyyymmdd'),'테크',2);
+insert into news_script values(seq_news_script_no.NEXTVAL,'kdc0526@naver.com','테크테크텤테크','테크','샘플추가중 ',to_date('20170704','yyyymmdd'),'테크',2);
+insert into news_script values(seq_news_script_no.NEXTVAL,'kdc0526@naver.com','갤럭시S65출시!','테크','뻥임 ',to_date('20170704','yyyymmdd'),'테크',2);
+insert into news_script values(seq_news_script_no.NEXTVAL,'kdc0526@naver.com','미세먼지농도높아...','환경','언젠진몰라... ',to_date('20170704','yyyymmdd'),'환경',2);
+insert into news_script values(seq_news_script_no.NEXTVAL,'kdc0526@naver.com','미세플라스틱문제심각해...','환경','대충환경뉴스글... ',to_date('20170704','yyyymmdd'),'환경',2);
+insert into news_script values(seq_news_script_no.NEXTVAL,'kdc0526@naver.com','한달내내 장마철...','환경','너무시러 ',to_date('20170704','yyyymmdd'),'환경',2);
+insert into news_script values(seq_news_script_no.NEXTVAL,'kdc0526@naver.com','손흥민 은퇴..','스포츠','하지마요.. ',to_date('20170704','yyyymmdd'),'스포츠',2);
+insert into news_script values(seq_news_script_no.NEXTVAL,'kdc0526@naver.com','페이커 은퇴...','스포츠','하지마요... ',to_date('20170704','yyyymmdd'),'스포츠',2);
+insert into news_script values(seq_news_script_no.NEXTVAL,'kdc0526@naver.com','대충스포츠뉴스','스포츠','대충스포츠뉴스내용 ',to_date('20170704','yyyymmdd'),'스포츠',2);
 
-
-
-
--- 기사
+----------------------------------------- 기사
 insert into news values(8,'kjh0425@naver.com','애국가1절','정치','동해물과 백두산이 마르고 닳도록 하느님이 보우하사 우리나라만세 무궁화 삼천리 화려강산 대한사람 대한으로 길이 보전하세',to_date('20230710','yyyymmdd'),'정치',4,10,sysdate);
 insert into news values(9,'kjh0425@naver.com','애국가2절','세계','남산위에 저 소나무 철갑을 두른듯 바람서리 불변함은 우리기상일세 무궁화 삼천리 화려강산 대한사람 대한으로 길이 보전하세',to_date('20220622','yyyymmdd'),'세계',4,10,'22-06-23');
 insert into news values(10,'kdc0526@naver.com','애국가3절','스포츠','가을 하늘 공활한데 높고 구름없이 밝은달은 우리가슴 일편 단심일세 무궁화 삼천리 화려강산 대한사람 대한으로 길이 보전하세',to_date('20230210','yyyymmdd'),'스포츠',8,40,'23-02-15');
 insert into news values(11,'kdc0526@naver.com','애국가4절','경제','이 기상과 이 맘으로 충성을 다하여 괴로우나 즐거우나 나라 사랑하세 무궁화 삼천리 화려강산 대한사람 대한으로 길이 보전하세',to_date('20210903','yyyymmdd'),'경제',3,25,'21-09-05');
+<<<<<<< HEAD
+=======
 
+
+>>>>>>> branch 'master' of https://github.com/ssusss/goodogs
 insert into news values(12,'kjh0425@naver.com','이거 진짜 언제 끝남?','스포츠','진짜 이거 언제까지 해야돼? 진짜 이거 언제까지 해야돼? 진짜 이거 언제까지 해야돼? 진짜 이거 언제까지 해야돼? 진짜 이거 언제까지 해야돼? 진짜 이거 언제까지 해야돼? 진짜 이거 언제까지 해야돼? 진짜 이거 언제까지 해야돼? 진짜 이거 언제까지 해야돼? 진짜 이거 언제까지 해야돼? 진짜 이거 언제까지 해야돼? 진짜 이거 언제까지 해야돼? 진짜 이거 언제까지 해야돼? 진짜 이거 언제까지 해야돼? 진짜 이거 언제까지 해야돼? 진짜 이거 언제까지 해야돼? 진짜 이거 언제까지 해야돼? 진짜 이거 언제까지 해야돼? 진짜 이거 언제까지 해야돼? 진짜 이거 언제까지 해야돼? 진짜 이거 언제까지 해야돼? 진짜 이거 언제까지 해야돼? 진짜 이거 언제까지 해야돼? 진짜 이거 언제까지 해야돼? 진짜 이거 언제까지 해야돼? 진짜 이거 언제까지 해야돼? 진짜 이거 언제까지 해야돼? 진짜 이거 언제까지 해야돼? 진짜 이거 언제까지 해야돼? 진짜 이거 언제까지 해야돼? 진짜 이거 언제까지 해야돼? 진짜 이거 언제까지 해야돼? 진짜 이거 언제까지 해야돼? 진짜 이거 언제까지 해야돼? 진짜 이거 언제까지 해야돼? 진짜 이거 언제까지 해야돼? 진짜 이거 언제까지 해야돼? 진짜 이거 언제까지 해야돼? 진짜 이거 언제까지 해야돼? 진짜 이거 언제까지 해야돼? 진짜 이거 언제까지 해야돼? 진짜 이거 언제까지 해야돼? 진짜 이거 언제까지 해야돼? 진짜 이거 언제까지 해야돼? 진짜 이거 언제까지 해야돼? 진짜 이거 언제까지 해야돼? 진짜 이거 언제까지 해야돼? 진짜 이거 언제까지 해야돼? 진짜 이거 언제까지 해야돼? 진짜 이거 언제까지 해야돼? 진짜 이거 언제까지 해야돼? 진짜 이거 언제까지 해야돼? 진짜 이거 언제까지 해야돼? 진짜 이거 언제까지 해야돼? 진짜 이거 언제까지 해야돼? 진짜 이거 언제까지 해야돼? 진짜 이거 언제까지 해야돼? 진짜 이거 언제까지 해야돼? 진짜 이거 언제까지 해야돼? 진짜 이거 언제까지 해야돼? 진짜 이거 언제까지 해야돼? 진짜 이거 언제까지 해야돼? 진짜 이거 언제까지 해야돼? 진짜 이거 언제까지 해야돼? 진짜 이거 언제까지 해야돼? 진짜 이거 언제까지 해야돼? 진짜 이거 언제까지 해야돼? 진짜 이거 언제까지 해야돼? 진짜 이거 언제까지 해야돼? 진짜 이거 언제까지 해야돼? 진짜 이거 언제까지 해야돼? 진짜 이거 언제까지 해야돼? 진짜 이거 언제까지 해야돼? 진짜 이거 언제까지 해야돼? 진짜 이거 언제까지 해야돼? 진짜 이거 언제까지 해야돼?진짜 이거 언제까지 해야돼? 진짜 이거 언제까지 해야돼? 진짜 이거 언제까지 해야돼? 진짜 이거 언제까지 해야돼?진짜 이거 언제까지 해야돼? 진짜 이거 언제까지 해야돼? 진짜 이거 언제까지 해야돼? 진짜 이거 언제까지 해야돼? 진짜 이거 언제까지 해야돼? 진짜 이거 언제까지 해야돼? 진짜 이거 언제까지 해야돼? 진짜 이거 언제까지 해야돼?',to_date('20210903','yyyymmdd'),'스포츠',19,31,'23-07-11');
 insert into news values(13,'kjh0425@naver.com','아 초밥먹고 싶다','사회','초밥이 너무 먹고싶어요 초밥 사주세요 초밥이 너무 먹고싶어요 초밥 사주세요초밥이 너무 먹고싶어요 초밥 사주세요초밥이 너무 먹고싶어요 초밥 사주세요초밥이 너무 먹고싶어요 초밥 사주세요초밥이 너무 먹고싶어요 초밥 사주세요초밥이 너무 먹고싶어요 초밥 사주세요초밥이 너무 먹고싶어요 초밥 사주세요초밥이 너무 먹고싶어요 초밥 사주세요초밥이 너무 먹고싶어요 초밥 사주세요초밥이 너무 먹고싶어요 초밥 사주세요초밥이 너무 먹고싶어요 초밥 사주세요초밥이 너무 먹고싶어요 초밥 사주세요초밥이 너무 먹고싶어요 초밥 사주세요초밥이 너무 먹고싶어요 초밥 사주세요초밥이 너무 먹고싶어요 초밥 사주세요초밥이 너무 먹고싶어요 초밥 사주세요초밥이 너무 먹고싶어요 초밥 사주세요초밥이 너무 먹고싶어요 초밥 사주세요초밥이 너무 먹고싶어요 초밥 사주세요초밥이 너무 먹고싶어요 초밥 사주세요초밥이 너무 먹고싶어요 초밥 사주세요초밥이 너무 먹고싶어요 초밥 사주세요초밥이 너무 먹고싶어요 초밥 사주세요초밥이 너무 먹고싶어요 초밥 사주세요초밥이 너무 먹고싶어요 초밥 사주세요초밥이 너무 먹고싶어요 초밥 사주세요초밥이 너무 먹고싶어요 초밥 사주세요초밥이 너무 먹고싶어요 초밥 사주세요초밥이 너무 먹고싶어요 초밥 사주세요초밥이 너무 먹고싶어요 초밥 사주세요초밥이 너무 먹고싶어요 초밥 사주세요초밥이 너무 먹고싶어요 초밥 사주세요초밥이 너무 먹고싶어요 초밥 사주세요초밥이 너무 먹고싶어요 초밥 사주세요초밥이 너무 먹고싶어요 초밥 사주세요초밥이 너무 먹고싶어요 초밥 사주세요초밥이 너무 먹고싶어요 초밥 사주세요초밥이 너무 먹고싶어요 초밥 사주세요초밥이 너무 먹고싶어요 초밥 사주세요초밥이 너무 먹고싶어요 초밥 사주세요초밥이 너무 먹고싶어요 초밥 사주세요초밥이 너무 먹고싶어요 초밥 사주세요초밥이 너무 먹고싶어요 초밥 사주세요초밥이 너무 먹고싶어요 초밥 사주세요초밥이 너무 먹고싶어요 초밥 사주세요초밥이 너무 먹고싶어요 초밥 사주세요초밥이 너무 먹고싶어요 초밥 사주세요초밥이 너무 먹고싶어요 초밥 사주세요초밥이 너무 먹고싶어요 초밥 사주세요초밥이 너무 먹고싶어요 초밥 사주세요초밥이 너무 먹고싶어요 초밥 사주세요초밥이 너무 먹고싶어요 초밥 사주세요초밥이 너무 먹고싶어요 초밥 사주세요초밥이 너무 먹고싶어요 초밥 사주세요초밥이 너무 먹고싶어요 초밥 사주세요초밥이 너무 먹고싶어요 초밥 사주세요초밥이 너무 먹고싶어요 초밥 사주세요초밥이 너무 먹고싶어요 초밥 사주세요초밥이 너무 먹고싶어요 초밥 사주세요초밥이 너무 먹',to_date('20210903','yyyymmdd'),'사회',5,12,'23-07-11');
 insert into news values(14,'kjh0425@naver.com','아 괜히 샘플 넣는다고 해서','정치','초밥이 너무 먹고싶어요 초밥 사주세요 초밥이 너무 먹고싶어요 초밥 사주세요초밥이 너무 먹고싶어요 초밥 사주세요초밥이 너무 먹고싶어요 초밥 사주세요초밥이 너무 먹고싶어요 초밥 사주세요초밥이 너무 먹고싶어요 초밥 사주세요초밥이 너무 먹고싶어요 초밥 사주세요초밥이 너무 먹고싶어요 초밥 사주세요초밥이 너무 먹고싶어요 초밥 사주세요초밥이 너무 먹고싶어요 초밥 사주세요초밥이 너무 먹고싶어요 초밥 사주세요초밥이 너무 먹고싶어요 초밥 사주세요초밥이 너무 먹고싶어요 초밥 사주세요초밥이 너무 먹고싶어요 초밥 사주세요초밥이 너무 먹고싶어요 초밥 사주세요초밥이 너무 먹고싶어요 초밥 사주세요초밥이 너무 먹고싶어요 초밥 사주세요초밥이 너무 먹고싶어요 초밥 사주세요초밥이 너무 먹고싶어요 초밥 사주세요초밥이 너무 먹고싶어요 초밥 사주세요초밥이 너무 먹고싶어요 초밥 사주세요초밥이 너무 먹고싶어요 초밥 사주세요초밥이 너무 먹고싶어요 초밥 사주세요초밥이 너무 먹고싶어요 초밥 사주세요초밥이 너무 먹고싶어요 초밥 사주세요초밥이 너무 먹고싶어요 초밥 사주세요초밥이 너무 먹고싶어요 초밥 사주세요초밥이 너무 먹고싶어요 초밥 사주세요초밥이 너무 먹고싶어요 초밥 사주세요초밥이 너무 먹고싶어요 초밥 사주세요초밥이 너무 먹고싶어요 초밥 사주세요초밥이 너무 먹고싶어요 초밥 사주세요초밥이 너무 먹고싶어요 초밥 사주세요초밥이 너무 먹고싶어요 초밥 사주세요초밥이 너무 먹고싶어요 초밥 사주세요초밥이 너무 먹고싶어요 초밥 사주세요초밥이 너무 먹고싶어요 초밥 사주세요초밥이 너무 먹고싶어요 초밥 사주세요초밥이 너무 먹고싶어요 초밥 사주세요초밥이 너무 먹고싶어요 초밥 사주세요초밥이 너무 먹고싶어요 초밥 사주세요초밥이 너무 먹고싶어요 초밥 사주세요초밥이 너무 먹고싶어요 초밥 사주세요초밥이 너무 먹고싶어요 초밥 사주세요초밥이 너무 먹고싶어요 초밥 사주세요초밥이 너무 먹고싶어요 초밥 사주세요초밥이 너무 먹고싶어요 초밥 사주세요초밥이 너무 먹고싶어요 초밥 사주세요초밥이 너무 먹고싶어요 초밥 사주세요초밥이 너무 먹고싶어요 초밥 사주세요초밥이 너무 먹고싶어요 초밥 사주세요초밥이 너무 먹고싶어요 초밥 사주세요초밥이 너무 먹고싶어요 초밥 사주세요초밥이 너무 먹고싶어요 초밥 사주세요초밥이 너무 먹고싶어요 초밥 사주세요초밥이 너무 먹고싶어요 초밥 사주세요초밥이 너무 먹고싶어요 초밥 사주세요초밥이 너무 먹고싶어요 초밥 사주세요초밥이 너무 먹고싶어요 초밥 사주세요초밥이 너무 먹고싶어요 초밥 사주세요초밥이 너무 먹',to_date('20210903','yyyymmdd'),'정치',5,12,'23-07-11');
 insert into news values(15,'kdc0526@naver.com','금강산도 식후경','환경','금강산 찾아가자 일만이천봉 볼수록 아름답고 신기하구나 금강산 찾아가자 일만이천봉 볼수록 아름답고 신기하구나금강산 찾아가자 일만이천봉 볼수록 아름답고 신기하구나금강산 찾아가자 일만이천봉 볼수록 아름답고 신기하구나금강산 찾아가자 일만이천봉 볼수록 아름답고 신기하구나금강산 찾아가자 일만이천봉 볼수록 아름답고 신기하구나금강산 찾아가자 일만이천봉 볼수록 아름답고 신기하구나금강산 찾아가자 일만이천봉 볼수록 아름답고 신기하구나금강산 찾아가자 일만이천봉 볼수록 아름답고 신기하구나금강산 찾아가자 일만이천봉 볼수록 아름답고 신기하구나금강산 찾아가자 일만이천봉 볼수록 아름답고 신기하구나금강산 찾아가자 일만이천봉 볼수록 아름답고 신기하구나금강산 찾아가자 일만이천봉 볼수록 아름답고 신기하구나금강산 찾아가자 일만이천봉 볼수록 아름답고 신기하구나금강산 찾아가자 일만이천봉 볼수록 아름답고 신기하구나금강산 찾아가자 일만이천봉 볼수록 아름답고 신기하구나금강산 찾아가자 일만이천봉 볼수록 아름답고 신기하구나금강산 찾아가자 일만이천봉 볼수록 아름답고 신기하구나금강산 찾아가자 일만이천봉 볼수록 아름답고 신기하구나금강산 찾아가자 일만이천봉 볼수록 아름답고 신기하구나금강산 찾아가자 일만이천봉 볼수록 아름답고 신기하구나금강산 찾아가자 일만이천봉 볼수록 아름답고 신기하구나금강산 찾아가자 일만이천봉 볼수록 아름답고 신기하구나금강산 찾아가자 일만이천봉 볼수록 아름답고 신기하구나금강산 찾아가자 일만이천봉 볼수록 아름답고 신기하구나금강산 찾아가자 일만이천봉 볼수록 아름답고 신기하구나금강산 찾아가자 일만이천봉 볼수록 아름답고 신기하구나금강산 찾아가자 일만이천봉 볼수록 아름답고 신기하구나금강산 찾아가자 일만이천봉 볼수록 아름답고 신기하구나금강산 찾아가자 일만이천봉 볼수록 아름답고 신기하구나금강산 찾아가자 일만이천봉 볼수록 아름답고 신기하구나금강산 찾아가자 일만이천봉 볼수록 아름답고 신기하구나금강산 찾아가자 일만이천봉 볼수록 아름답고 신기하구나금강산 찾아가자 일만이천봉 볼수록 아름답고 신기하구나금강산 찾아가자 일만이천봉 볼수록 아름답고 신기하구나금강산 찾아가자 일만이천봉 볼수록 아름답고 신기하구나금강산 찾아가자 일만이천봉 볼수록 아름답고 신기하구나금강산 찾아가자 일만이천봉 볼수록 아름답고 신기하구나금강산 찾아가자 일만이천봉 볼수록 아름답고 신기하구나금강산 찾아가자 일만이천봉 볼수록 아름답고 신기하구나금강산 찾아가자 일만이천봉 볼수록 아름답고 신기하구나금강산 찾아가자 일만이천봉 볼수록 아름답고 신기하구나금강산 찾아가자 일만이천봉 볼수록 아름답고 신기하구나금강산 찾아가자 일만이천봉 볼수록 아름답고 신기하구나금강산 찾아가자 일만이천봉 볼수록 아름답고 신기하구나금강산 찾아가자 일만이천봉 볼수록 아름답고 신기하구나금강산',to_date('20210903','yyyymmdd'),'환경',1,2,'23-07-11');
 insert into news values(16,'kdc0526@naver.com','나는 김동찬 코딩의 신이지','세계','내 이름은 김동찬 코딩의 신이라고 불리지 ㅋ내 이름은 김동찬 코딩의 신이라고 불리지 ㅋ내 이름은 김동찬 코딩의 신이라고 불리지 ㅋ내 이름은 김동찬 코딩의 신이라고 불리지 ㅋ내 이름은 김동찬 코딩의 신이라고 불리지 ㅋ내 이름은 김동찬 코딩의 신이라고 불리지 ㅋ내 이름은 김동찬 코딩의 신이라고 불리지 ㅋ내 이름은 김동찬 코딩의 신이라고 불리지 ㅋ내 이름은 김동찬 코딩의 신이라고 불리지 ㅋ내 이름은 김동찬 코딩의 신이라고 불리지 ㅋ내 이름은 김동찬 코딩의 신이라고 불리지 ㅋ내 이름은 김동찬 코딩의 신이라고 불리지 ㅋ내 이름은 김동찬 코딩의 신이라고 불리지 ㅋ내 이름은 김동찬 코딩의 신이라고 불리지 ㅋ내 이름은 김동찬 코딩의 신이라고 불리지 ㅋ내 이름은 김동찬 코딩의 신이라고 불리지 ㅋ내 이름은 김동찬 코딩의 신이라고 불리지 ㅋ내 이름은 김동찬 코딩의 신이라고 불리지 ㅋ내 이름은 김동찬 코딩의 신이라고 불리지 ㅋ내 이름은 김동찬 코딩의 신이라고 불리지 ㅋ내 이름은 김동찬 코딩의 신이라고 불리지 ㅋ내 이름은 김동찬 코딩의 신이라고 불리지 ㅋ내 이름은 김동찬 코딩의 신이라고 불리지 ㅋ내 이름은 김동찬 코딩의 신이라고 불리지 ㅋ내 이름은 김동찬 코딩의 신이라고 불리지 ㅋ내 이름은 김동찬 코딩의 신이라고 불리지 ㅋ내 이름은 김동찬 코딩의 신이라고 불리지 ㅋ내 이름은 김동찬 코딩의 신이라고 불리지 ㅋ내 이름은 김동찬 코딩의 신이라고 불리지 ㅋ내 이름은 김동찬 코딩의 신이라고 불리지 ㅋ내 이름은 김동찬 코딩의 신이라고 불리지 ㅋ내 이름은 김동찬 코딩의 신이라고 불리지 ㅋ내 이름은 김동찬 코딩의 신이라고 불리지 ㅋ내 이름은 김동찬 코딩의 신이라고 불리지 ㅋ내 이름은 김동찬 코딩의 신이라고 불리지 ㅋ내 이름은 김동찬 코딩의 신이라고 불리지 ㅋ내 이름은 김동찬 코딩의 신이라고 불리지 ㅋ내 이름은 김동찬 코딩의 신이라고 불리지 ㅋ내 이름은 김동찬 코딩의 신이라고 불리지 ㅋ내 이름은 김동찬 코딩의 신이라고 불리지 ㅋ내 이름은 김동찬 코딩의 신이라고 불리지 ㅋ내 이름은 김동찬 코딩의 신이라고 불리지 ㅋ내 이름은 김동찬 코딩의 신이라고 불리지 ㅋ내 이름은 김동찬 코딩의 신이라고 불리지 ㅋ내 이름은 김동찬 코딩의 신이라고 불리지 ㅋ내 이름은 김동찬 코딩의 신이라고 불리지 ㅋ내 이름은 김동찬 코딩의 신이라고 불리지 ㅋ내 이름은 김동찬 코딩의 신이라고 불리지 ㅋ내 이름은 김동찬 코딩의 신이라고 불리지 ㅋ내 이름은 김동찬 코딩의 신이라고 불리지 ㅋ내 이름은 김동찬 코딩의 신이라고 불리지 ㅋ내 이름은 김동찬 코딩의 신이라고 불리지 ㅋ내 이름은 김동찬 코딩의 신이라고 불리지 ㅋ내 이름은 김동찬 코딩의 신이라고 불리지 ㅋ내 이름은 김동찬 코딩의 신이라고 불리지 ㅋ내 이름은 김동찬 코딩의 신이라고 불리지 ㅋ내 이름은 김동찬 코딩의 신이라고 불리지 ㅋ내 ',to_date('20210903','yyyymmdd'),'세계',99,125,'23-07-11');
 insert into news values(17,'kdc0526@naver.com','자자 2개 남았다 샘플추가','환경','구독스 프로젝트 화이팅~ 구독스 프로젝트 화이팅~구독스 프로젝트 화이팅~구독스 프로젝트 화이팅~구독스 프로젝트 화이팅~구독스 프로젝트 화이팅~구독스 프로젝트 화이팅~구독스 프로젝트 화이팅~구독스 프로젝트 화이팅~구독스 프로젝트 화이팅~구독스 프로젝트 화이팅~구독스 프로젝트 화이팅~구독스 프로젝트 화이팅~구독스 프로젝트 화이팅~구독스 프로젝트 화이팅~구독스 프로젝트 화이팅~구독스 프로젝트 화이팅~구독스 프로젝트 화이팅~구독스 프로젝트 화이팅~구독스 프로젝트 화이팅~구독스 프로젝트 화이팅~구독스 프로젝트 화이팅~구독스 프로젝트 화이팅~구독스 프로젝트 화이팅~구독스 프로젝트 화이팅~구독스 프로젝트 화이팅~구독스 프로젝트 화이팅~구독스 프로젝트 화이팅~구독스 프로젝트 화이팅~구독스 프로젝트 화이팅~구독스 프로젝트 화이팅~구독스 프로젝트 화이팅~구독스 프로젝트 화이팅~구독스 프로젝트 화이팅~구독스 프로젝트 화이팅~구독스 프로젝트 화이팅~구독스 프로젝트 화이팅~구독스 프로젝트 화이팅~구독스 프로젝트 화이팅~구독스 프로젝트 화이팅~구독스 프로젝트 화이팅~구독스 프로젝트 화이팅~구독스 프로젝트 화이팅~구독스 프로젝트 화이팅~구독스 프로젝트 화이팅~구독스 프로젝트 화이팅~구독스 프로젝트 화이팅~구독스 프로젝트 화이팅~구독스 프로젝트 화이팅~구독스 프로젝트 화이팅~구독스 프로젝트 화이팅~구독스 프로젝트 화이팅~구독스 프로젝트 화이팅~구독스 프로젝트 화이팅~구독스 프로젝트 화이팅~구독스 프로젝트 화이팅~구독스 프로젝트 화이팅~구독스 프로젝트 화이팅~구독스 프로젝트 화이팅~구독스 프로젝트 화이팅~구독스 프로젝트 화이팅~구독스 프로젝트 화이팅~구독스 프로젝트 화이팅~구독스 프로젝트 화이팅~구독스 프로젝트 화이팅~구독스 프로젝트 화이팅~구독스 프로젝트 화이팅~구독스 프로젝트 화이팅~구독스 프로젝트 화이팅~구독스 프로젝트 화이팅~구독스 프로젝트 화이팅~구독스 프로젝트 화이팅~구독스 프로젝트 화이팅~구독스 프로젝트 화이팅~구독스 프로젝트 화이팅~구독스 프로젝트 화이팅~',to_date('20210903','yyyymmdd'),'환경',2,2,'23-07-11');
-insert into news values(18,'kdc0526@naver.com','마지막이네 벌써 ㅋ','사회','지금은 7시 46분 배고픈 시간 다들 저녁 드셨나요? ㅎㅎ 저는 안먹었습니다 그래서 집에가서 진짜 맛있는거 먹을거에요 지금은 7시 46분 배고픈 시간 다들 저녁 드셨나요? ㅎㅎ 저는 안먹었습니다 그래서 집에가서 진짜 맛있는거 먹을거에요지금은 7시 46분 배고픈 시간 다들 저녁 드셨나요? ㅎㅎ 저는 안먹었습니다 그래서 집에가서 진짜 맛있는거 먹을거에요지금은 7시 46분 배고픈 시간 다들 저녁 드셨나요? ㅎㅎ 저는 안먹었습니다 그래서 집에가서 진짜 맛있는거 먹을거에요지금은 7시 46분 배고픈 시간 다들 저녁 드셨나요? ㅎㅎ 저는 안먹었습니다 그래서 집에가서 진짜 맛있는거 먹을거에요지금은 7시 46분 배고픈 시간 다들 저녁 드셨나요? ㅎㅎ 저는 안먹었습니다 그래서 집에가서 진짜 맛있는거 먹을거에요지금은 7시 46분 배고픈 시간 다들 저녁 드셨나요? ㅎㅎ 저는 안먹었습니다 그래서 집에가서 진짜 맛있는거 먹을거에요지금은 7시 46분 배고픈 시간 다들 저녁 드셨나요? ㅎㅎ 저는 안먹었습니다 그래서 집에가서 진짜 ',to_date('20210903','yyyymmdd'),'사회',3,4,'23-07-11');
+insert into news values(18,'kdc0526@naver.com','마지막이네 벌써 ㅋ','사회','지금은 7시 46분 배고픈 시간 다들 저녁 드셨나요? ㅎㅎ 저는 안먹었습니다 그래서 집에가서 진짜 맛있는거 먹을거에요 지금은 7시 46분 배고픈 시간 다들 저녁 드셨나요? ㅎㅎ 저는 안먹었습니다 그래서 집에가서 진짜 맛있는거 먹을거에요지금은 7시 46분 배고픈 시간 다들 저녁 드셨나요? ㅎㅎ 저는 안먹었습니다 그래서 집에가서 진짜 맛있는거 먹을거에요지금은 7시 46분 배고픈 시간 다들 저녁 드셨나요? ㅎㅎ 저는 안먹었습니다 그래서 집에가서 진짜 맛있는거 먹을거에요지금은 7시 46분 배고픈 시간 다들 저녁 드셨나요? ㅎㅎ 저는 안먹었습니다 그래서 집에가서 진짜 맛있는거 먹을거에요지금은 7시 46분 배고픈 시간 다들 저녁 드셨나요? ㅎㅎ 저는 안먹었습니다 그래서 집에가서 진짜 맛있는거 먹을거에요지금은 7시 46분 배고픈 시간 다들 저녁 드셨나요? ㅎㅎ 저는 안먹었습니다 그래서 집에가서 진짜 맛있는거 먹을거에요지금은 7시 46분 배고픈 시간 다들 저녁 드셨나요? ㅎㅎ 저는 안먹었습니다 그래서 집에가서 진짜 ',to_date('20210903','yyyymmdd'),'사회,추억은,만남보다,이별에,남아',3,4,'23-07-11');
+
+insert into news values(19,'kdc0526@naver.com','kh정보교육원','정치','내용이 비어보이는가? 착한사람들한테만 보인다네 ',to_date('20210903','yyyymmdd'),'정치,김동찬,김준한',12,14,'23-07-11');
+insert into news values(20,'kdc0526@naver.com','이건 정치뉴스야','정치','대충 정치뉴스글내용 ',to_date('20210903','yyyymmdd'),'정치,어렵지',2,4,'23-07-11');
+insert into news values(21,'kdc0526@naver.com','정치정치정정치','정치','정치뉴스샘플',to_date('20210903','yyyymmdd'),'정치',8,15,'23-07-11');
+insert into news values(22,'kdc0526@naver.com','삼전10만돌파!','경제','뻥임',to_date('20210903','yyyymmdd'),'경제',22,26,'23-07-11');
+insert into news values(23,'kdc0526@naver.com','경제경제경경제','경제','경제뉴스샘플 ',to_date('20210903','yyyymmdd'),'경제',44,50,'23-07-11');
+insert into news values(24,'kdc0526@naver.com','비트코인1억간다','경제','응 못가~',to_date('20210903','yyyymmdd'),'경제',1,14,'23-07-11');
+insert into news values(25,'kdc0526@naver.com','세계는지금','세계','심심해',to_date('20210903','yyyymmdd'),'세계',3,44,'23-07-11');
+insert into news values(26,'kdc0526@naver.com','삼천세계','세계','배고파',to_date('20210903','yyyymmdd'),'세계',12,24,'23-07-11');
+insert into news values(27,'kdc0526@naver.com','세계네계다섯계','세계','대충세계뉴스내용',to_date('20210903','yyyymmdd'),'세계',11,14,'23-07-11');
+insert into news values(28,'kdc0526@naver.com','테크뉴스','테크','대충테크뉴스내용 ',to_date('20210903','yyyymmdd'),'테크',9,24,'23-07-11');
+insert into news values(29,'kdc0526@naver.com','테크테크텤테크!','테크','샘플추가중',to_date('20210903','yyyymmdd'),'테크',1,4,'23-07-11');
+insert into news values(30,'kdc0526@naver.com','갤럭시S65출시!','테크','뻥임',to_date('20210903','yyyymmdd'),'테크',123,224,'23-07-11');
+insert into news values(31,'kdc0526@naver.com','미세먼지농도높아...','환경','언젠진몰라',to_date('20210903','yyyymmdd'),'환경',13,14,'23-07-11');
+insert into news values(32,'kdc0526@naver.com','미세플라스틱문제심각해...','환경','대충환경뉴스글',to_date('20210903','yyyymmdd'),'환경',0,0,'23-07-11');
+insert into news values(33,'kdc0526@naver.com','한달내내 장마철...','환경','너무시러',to_date('20210903','yyyymmdd'),'환경',1,2,'23-07-11');
+insert into news values(34,'kdc0526@naver.com','손흥민 은퇴..','스포츠','하지마요..',to_date('20210903','yyyymmdd'),'스포츠',3,4,'23-07-11');
+insert into news values(35,'kdc0526@naver.com','페이커 은퇴...','스포츠','하지마요...',to_date('20210903','yyyymmdd'),'스포츠',5,6,'23-07-11');
+insert into news values(36,'kdc0526@naver.com','대충스포츠뉴스','스포츠','대충스포츠뉴스내용',to_date('20210903','yyyymmdd'),'스포츠',7,8,'23-07-11');
 
 
 
 
-
--- 기사 댓글 
 
 
 -- 뉴스이미지
-
 insert into news_image values(8,'제목없음.png','20230717_091648367_729.png',default);
 insert into news_image values(9,'제목없음.png','20230717_092040407_043.png',default);
 insert into news_image values(10,'제목없음.png','20230717_092040407_043.png',default);
 insert into news_image values(11,'제목없음.png','20230717_092040407_043.png',default);
-
 insert into news_image values(12,'제목없음.png','20230718_1.png',default);
 insert into news_image values(13,'제목없음.png','20230718_2.png',default);
 insert into news_image values(14,'제목없음.png','20230718_3.png',default);
@@ -357,6 +422,25 @@ insert into news_image values(16,'제목없음.png','20230718_5.png',default);
 insert into news_image values(17,'제목없음.png','20230718_6.png',default);
 insert into news_image values(18,'제목없음.png','20230718_7.png',default);
 
+insert into news_image values(19,'제목없음.png','20230720_1.png',default);
+insert into news_image values(20,'제목없음.png','20230720_2.png',default);
+insert into news_image values(21,'제목없음.png','20230720_3.png',default);
+insert into news_image values(22,'제목없음.png','20230720_4.png',default);
+insert into news_image values(23,'제목없음.png','20230720_5.png',default);
+insert into news_image values(24,'제목없음.png','20230720_6.png',default);
+insert into news_image values(25,'제목없음.png','20230720_7.png',default);
+insert into news_image values(26,'제목없음.png','20230720_8.png',default);
+insert into news_image values(27,'제목없음.png','20230720_9.png',default);
+insert into news_image values(28,'제목없음.png','20230720_10.png',default);
+insert into news_image values(29,'제목없음.png','20230720_11.png',default);
+insert into news_image values(30,'제목없음.png','20230720_12.png',default);
+insert into news_image values(31,'제목없음.png','20230720_13.png',default);
+insert into news_image values(32,'제목없음.png','20230720_14.png',default);
+insert into news_image values(33,'제목없음.png','20230720_15.png',default);
+insert into news_image values(34,'제목없음.png','20230720_16.png',default);
+insert into news_image values(35,'제목없음.png','20230720_17.png',default);
+insert into news_image values(36,'제목없음.png','20230720_18.png',default);
+
 
 -- like_list 샘플 데이터
 insert into like_list values('honggd@naver.com', 8, default);
@@ -364,83 +448,13 @@ insert into like_list values('honggd@naver.com', 9, default);
 insert into like_list values('honggd@naver.com', 10, default);
 insert into like_list values('admin@naver.com', 8, default);
 insert into like_list values('admin@naver.com', 9, default);
+
 --북마크 샘플 데이터
-insert into bookmark values('honggd@naver.com',8,'백두산이',DEFAULT );
-insert into bookmark values('honggd@naver.com',9,'소나무',DEFAULT );
-insert into bookmark values('kjh0425@naver.com',9,'소나무',DEFAULT );
-insert into bookmark values('kdc0526@naver.com',9,'소나무',DEFAULT );
-commit;
+insert into bookmark values('kdc0526@naver.com',18,'마지막이네 벌써ㅋ','7시 46분',DEFAULT );
 
+--알람 테이블 추가
+insert into member values('1@1', 'M', '123', '상윤기자', '01012312344', to_date('20160617','yyyymmdd'), 'R', default, default);
+insert into member values('2@2', 'M', '123', '상윤관리자', '01012312355', to_date('20160617','yyyymmdd'), 'A', default, default);
 
----- 테스트
---select * from member;
---select * from news_comment;
---update member set is_banned = 0 where member_id = 'honggd@naver.com';
---commit;
-
---
---select * from news where news_writer = 'kjh0425@naver.com';
---
-select * from news_image;
-
---select n.*, i.renamed_filename from (select row_number() over(order by news_no desc) rnum, n.* from news n) n join news_image i on n.news_no = i.script_no where rnum between ? and ?
-
-
-select * from news_image;
-select * from news;
-
-
-
-
-select * from bookmark;
---select * from news_script where script_writer = ?;
---
---delete from news_script where script_no = ?;
---
----- 트리거 테스트
---select * from news_script;
---update news_script set script_state = 2 where script_no = 8;
---select * from news;
---
---select * from news;
---delete from news where news_no = 1003;
---select * from deleted_news;
---
-select * from member;
---delete from member where member_id = 'naga@naver.com';
---select * from withdraw_member;
---
---select * from news_script;
---update news_script set script_state = 3 where script_no = 4;
---select * from news_script_rejected;
-
-
-
-select * from news_script;
 
 commit;
-
-
------------------알람 테이블 추가
-insert into member values('3@3', 'M', '123', '상윤유저계정', '01023585522', to_date('20160617','yyyymmdd'), 'R', default, default);
-
-
-CREATE TABLE alarm (
-    alarm_no number,
-    alarm_message_type varchar2(50),
-    alarm_script_no number,
-    alarm_comment varchar2(100),
-    alarm_receiver varchar2(50),
-    alarm_hasRead number,
-    alarm_createdAt Timestamp	DEFAULT sysdate,
-     constraints pk_alarm_no primary key(alarm_no),
-     CONSTRAINT fk_alarm_script_no FOREIGN KEY (alarm_script_no) REFERENCES news_script (script_no)
-);
-create sequence seq_alarm_no;
-----------------------------------------------
---알람확인
-select * from alarm
---알람 추가
-insert into alarm values( seq_alarm_no.NEXTVAL,'message',1,'멘트','1@1',0,default );
-insert into alarm values( seq_alarm_no.NEXTVAL,'message',1,'멘트','1@1',0,default );
-------------------

@@ -44,16 +44,17 @@ public class NewsCommentCreateServlet extends HttpServlet {
 		 String newsCommentWriter  = request.getParameter("newsCommentWriter");
 		 String newsCommentNickname  = request.getParameter("newsCommentNickname");
 		 String newsCommentContent  = request.getParameter("newsCommentContent");
+		 int  commentNoRef  = Integer.parseInt(request.getParameter("commentNoRef"));
 	
 		NewsComment newsComment = new NewsComment( 0 , newsCommentLevel, newsNo, 
-				newsCommentWriter, 0, 
+				newsCommentWriter, commentNoRef, 
 				newsCommentNickname, newsCommentContent, null, 0, 0);
 		
 		System.out.println("newsComment = " +  newsComment);
 		
 		int result = newsService.newCommentInsert(newsComment);
 		
-		System.out.println("newNewsScript = " +  newsComment);
+//		System.out.println("newNewsScript = " +  newsComment);
 		
 		// 댓글 등록 실시간 알림
 		response.sendRedirect(request.getContextPath() + "/news/newsDetail?no=" + newsNo);

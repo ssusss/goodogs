@@ -28,7 +28,6 @@ import com.sk.goodogs.news.model.service.NewsService;
 public class BookmarkPageServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	private final BookmarkService bookmarkService = new BookmarkService();
-	private final NewsService newsService = new NewsService();
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
@@ -40,12 +39,7 @@ public class BookmarkPageServlet extends HttpServlet {
 		// 북마크 리스트
 		// 1) memberId로 회원의 북마크 조회
 		List<Bookmark> bookmarks = (List<Bookmark>) bookmarkService.findBookmarksByMemberId(memberId);
-		// 2) newsNo로 뉴스 조회 및 세팅
-		for(Bookmark bookmark : bookmarks) {
-			int newsNo = bookmark.getNewsNo();
-			bookmark.setNews(newsService.findNewsByNewsNo(newsNo));
-		}
-		System.out.println(bookmarks);
+		
 		
 		request.setAttribute("bookmarks", bookmarks);
 		request.getRequestDispatcher("/WEB-INF/views/member/bookMark.jsp").forward(request, response);
