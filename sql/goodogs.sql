@@ -22,10 +22,13 @@
 --drop table news_script_rejected;
 --drop table deleted_news;
 --drop table news_script;
+<<<<<<< HEAD
+=======
 --drop table report_list;
 --drop table news_comment;
 --drop table member;
 --drop table withdraw_member;
+>>>>>>> branch 'master' of https://github.com/ssusss/goodogs.git
 --drop table news_comment;
 --drop table withdraw_member;
 --drop table member;

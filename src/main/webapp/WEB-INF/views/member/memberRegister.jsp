@@ -18,6 +18,8 @@
 	padding : 5px;
 }
 #tbl-register {
+	margin : 0;
+	padding :0;
 	border-spacing : 0;
 }
 
