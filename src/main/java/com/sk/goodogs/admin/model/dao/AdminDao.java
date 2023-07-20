@@ -346,6 +346,11 @@ public int insertAlarm(Map<String, Object> payload, Connection conn) {
 	int result=0;
 	String sql=prop.getProperty("insertAlarm");
 	
+	System.out.println((String)payload.get("messageType"));
+	System.out.println(Integer.parseInt((String) payload.get("no")));
+	System.out.println((String)payload.get("comemt"));
+	System.out.println((String)payload.get("receiver"));
+	
 	try(PreparedStatement pstmt=conn.prepareStatement(sql)){
 		pstmt.setString(1,(String)payload.get("messageType"));
 		pstmt.setInt(2,Integer.parseInt((String) payload.get("no")));
@@ -354,7 +359,7 @@ public int insertAlarm(Map<String, Object> payload, Connection conn) {
 		
 		result = pstmt.executeUpdate(); 
 	}catch (Exception e) {
-		throw new AdminException();
+		throw new AdminException(e);
 	}
 	
 	return result;

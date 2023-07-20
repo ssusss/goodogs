@@ -613,4 +613,20 @@ public class NewsDao {
 				return newsAndImages;
 			}
 
+			public int findScriptNo(Connection conn) {
+				int findScriptNo=0;
+				String sql = prop.getProperty("findScriptNo");
+				try(PreparedStatement pstmt = conn.prepareStatement(sql)){
+					try(ResultSet rset = pstmt.executeQuery()){
+						if(rset.next()) {
+							findScriptNo = rset.getInt(1);
+						}
+					}
+				} catch (SQLException e) {
+					throw new NewsException(e);
+				}
+				return findScriptNo;
+
+			}
+
 }

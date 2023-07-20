@@ -5,6 +5,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@page import="com.sk.goodogs.member.model.vo.Member"%>
+
 <script src="https://kit.fontawesome.com/d7ccac7be9.js" crossorigin="anonymous"></script>
 <!DOCTYPE html>
 <%
@@ -30,6 +31,9 @@
 	}
 	
 %>
+<% 	if(loginMember != null) { %>
+	<script src="<%= request.getContextPath() %>/js/ws.js"></script>		
+<% 	} %>
 <html>
 <head>
 <meta charset="UTF-8">
@@ -213,6 +217,8 @@ submitBtn.onclick = () => {
 			console.log(responseData);
 			const {message} = responseData;
 			alert(message);
+			const {newNewsScriptNo} = responseData;
+			alarm(newNewsScriptNo);
 		},
 		complete() {
 			parent.window.location.href = '<%= request.getContextPath() %>/reporter/myScript';
@@ -448,6 +454,22 @@ previewBtn.onclick = () => {
 	
 };
 
+
+
+function alarm(newNewsScriptNo){
+	console.log("알람호출됨");
+		
+		const payload={
+			messageType : "ALARM_MESSAGE",
+			no:newNewsScriptNo,
+			comemt:"원고가 업데이트되었습니다 확인하세요-기자",
+			receiver:"admin@naver.com",
+			hasRead:"0",
+			createdAt :Date.now()
+		}
+		
+	ws.send(JSON.stringify(payload));
+};
 
 </script>
 

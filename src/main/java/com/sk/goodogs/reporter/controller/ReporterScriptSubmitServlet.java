@@ -80,8 +80,11 @@ public class ReporterScriptSubmitServlet extends HttpServlet {
 		// 3. 응답처리 - 비동기식 POST요청은 redirect없이 결과값을 json으로 전송
 		response.setContentType("application/json; charset=utf-8");
 		
+		String newNewsScriptNo= String.valueOf(newNewsScript.getScriptNo());
+		System.out.println(newNewsScriptNo+"@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@");
 		Map<String, Object> map = new HashMap<>();
 		map.put("message", "성공적으로 원고를 제출했습니다.");
+		map.put("newNewsScriptNo", newNewsScriptNo);
 		new Gson().toJson(map, response.getWriter());
 	}
 

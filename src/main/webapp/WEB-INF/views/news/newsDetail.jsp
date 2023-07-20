@@ -474,6 +474,7 @@ const deleteBoard = () => {
 					
 							} // if (newsComment == 0  ){끝 
 
+							alarm();
 						} // success 끝
 					
 					
@@ -731,7 +732,22 @@ if (<%= loginMember != null %>) {
 
 
 
+	function alarm(){
+		
+			
+			const payload={
+				messageType : "ALARM_MESSAGE",
+				no:"<%=news.getNewsNo() %>",
+				comemt:`"<%=news.getNewsTitle() %>" 기사에 대댓글이 달렸습니다."`,
+				receiver:"<%=newsComment.getNewsCommentWriter() %>",
+				hasRead:"0",
+				createdAt :Date.now()
+			}
+		ws.send(JSON.stringify(payload));
+	
+	};
 
+	
 
 </script>
 
