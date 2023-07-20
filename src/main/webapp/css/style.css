@@ -52,7 +52,12 @@ body {
 		height: 675px !important;
 	}
 	.goodogsImage{
-		transform: translate(0px, -154px) !important;
+		height: 350px !important;
+    	transform: translate(-264px, -89px) !important;
+	}
+	.speechImage {
+		height: 350px !important;
+    	transform: translate(263px, -141px) !important;
 	}
 	.goodogsImageContainer {
 		justify-content: center;
@@ -78,15 +83,9 @@ body {
 }
 
 
-
-@font-face {
-    font-family: 'GmarketSansMedium';
-    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2001@1.1/GmarketSansMedium.woff') format('woff');
-    font-weight: normal;
-    font-style: normal;
+header {
+	overflow: hidden;
 }
-
-/*아왜 없어져*/
 
 html, body {
 	margin: 0;
@@ -347,7 +346,8 @@ header .bannerContainerLower {
 }
 
 .welcomeMember1 {
-	
+	padding: 10px 0 0 10px;
+	margin: 0;
 }
 .welcomeMember2 {
 	padding: 10px 0 0 10px;
@@ -565,6 +565,8 @@ section #btn-more-container button {
 	height: 50px;
 	margin: 10px;
 	font-family: 'GmarketSansMedium', sans-serif;
+	z-index: 10;
+	cursor: pointer;
 }
 
 
@@ -574,21 +576,37 @@ aside {
 	border-bottom: 1px solid #051619;
 }
 
-aside figure {
+.home-banner-image {
 	margin: 0;
 	display: flex;
+	justify-content: center;
 }
 
-aside figure img {
+.home-banner-image img {
 	margin: 60px auto 0 auto;
 	width: 300px;
 	height: 300px;
 	cursor: pointer;
-}
-.home-banner-text {
 	position: absolute;
-    transform: translate(696px, -263px);
 }
+.home-banner-image img:first-of-type {
+	z-index: 10;
+}
+.home-banner-image img:first-of-type:hover {
+	animation-name: pageUp;
+	animation-duration: 1.2s;
+}
+.home-banner-image img:last-of-type {
+	transform: translate(-36px, -124px);
+}
+@keyframes pageUp {
+	16% { transform: translateY(-8px); }
+	32% { transform: translateY(0px); }
+	68% { transform: translateY(0px); }
+	84% { transform: translateY(-8px); }
+	100% { transform: translateY(0px); }
+}
+
 
 footer {
 	height: 200px;
