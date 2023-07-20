@@ -20,12 +20,13 @@ public class KeywordServlet extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
 		
-      String searchKeyword = request.getParameter("searchKeyword");
-      HttpSession session = request.getSession();
-      session.setAttribute("searchKeyword", searchKeyword);
-      System.out.println(searchKeyword);
+		
+		
+	      String searchKeyword = request.getParameter("searchKeyword");
+	      HttpSession session = request.getSession();
+	      session.setAttribute("searchKeyword", searchKeyword);
+	      System.out.println("ㅇㅇ"+searchKeyword);
 		
 		int keywordContent = 0;
 		
