@@ -15,7 +15,7 @@ bannerContainerUpper.style.display = "none";
 </script>
 
 <section class="birthWebtoon">
-	<img class="webtoon" alt="" src="<%= request.getContextPath() %>/images/character/goodogs_webtoon.png">
+		<img class="webtoon" alt="" src="<%= request.getContextPath() %>/images/character/goodogs_webtoon.png">
 </section>
 
 

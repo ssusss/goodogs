@@ -53,6 +53,9 @@
 #news-content {
 	padding: 0 20%;
 }
+#news-content a {
+	color: inherit;
+}
 #news-tag-container {
 	padding: 0 20%;
 	display: flex;
@@ -66,6 +69,12 @@
 	text-decoration: none;
 	color: inherit;
 }
+
+.rejectedReasonContainer {
+	border-top: 1px solid #051619;
+	padding: 0 20%;
+}
+
 
 #likeButton {
 	padding: 0 20%;

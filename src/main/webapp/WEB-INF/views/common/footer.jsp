@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-	    <aside>
+	    <aside id="aside">
 	      <div class="home-banner">
 	        <figure class="home-banner-image">
 	        	<img src="<%= request.getContextPath() %>/images/character/goodogs_laptop.png" onclick="scrollToTop()">
@@ -29,6 +29,7 @@
     }
     
     function scrollToTop() {
+    	
    	  document.documentElement.scrollTop = 0; // Chrome, Firefox, IE, Opera
    	}
     </script>

@@ -9,7 +9,7 @@
 
 
 html {
-	background-color: white;
+	background-color: #EDEDE1;
 	margin: 0px;
 	font-family: 'GmarketSansMedium', sans-serif;
 }
@@ -581,7 +581,6 @@ section #btn-more-container button {
 
 aside {
 	height: 360px;
-	border-bottom: 1px solid #051619;
 }
 
 .home-banner-image {
@@ -620,6 +619,7 @@ footer {
 	height: 200px;
 	padding: 0 5%;
 	display: flex;
+	border-top: 1px solid #051619;
 }
 .footerAddress {
 	width: 50%;
