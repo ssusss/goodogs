@@ -5,6 +5,7 @@
 	        <figure class="home-banner-image">
 	        	<img src="<%= request.getContextPath() %>/images/character/goodogs_laptop.png">
 	        </figure>
+	        <span class="home-banner-text">맨 위로 올라가개!</span>
 	      </div>
 	    </aside>
 	
