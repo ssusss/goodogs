@@ -27,7 +27,10 @@ public class AdminScriptDetailServlet extends HttpServlet {
 		System.out.println(no);
 		
 		NewsScript script=adminService.findOneScript(no);
-		System.out.println(script);
+//		System.out.println(script);
+		
+		// 원고 이미지 불러오기 (나영)
+		
 		
 		request.setAttribute("script",script );
 		request.getRequestDispatcher("/WEB-INF/views/admin/scriptDetail.jsp")

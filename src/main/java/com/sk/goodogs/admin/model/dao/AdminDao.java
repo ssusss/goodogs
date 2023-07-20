@@ -22,6 +22,7 @@ import javax.naming.spi.DirStateFactory.Result;
 import static com.sk.goodogs.common.JdbcTemplate.*;
 import com.sk.goodogs.admin.model.exception.AdminException;
 import com.sk.goodogs.admin.model.exception.AdminScriptException;
+import com.sk.goodogs.admin.model.vo.Alarm;
 import com.sk.goodogs.member.model.exception.MemberException;
 import com.sk.goodogs.member.model.vo.Gender;
 import com.sk.goodogs.member.model.vo.Member;
@@ -334,7 +335,7 @@ private NewsScriptRejected handleRejectedScriptResultSet(ResultSet rset) throws 
 	scriptRejected.setScriptContent(rset.getString("script_content"));
 	scriptRejected.setScriptWriteDate(rset.getTimestamp("script_write_date"));
 	scriptRejected.setScriptTag(rset.getString("script_tag"));
-	scriptRejected.setRejectedReson(rset.getString("script_rejected_reason"));
+	scriptRejected.setRejectedReson(rset.getString("script_rejected_reason").trim());
 
 	return scriptRejected;
 }
@@ -344,20 +345,69 @@ private NewsScriptRejected handleRejectedScriptResultSet(ResultSet rset) throws 
 public int insertAlarm(Map<String, Object> payload, Connection conn) {
 	int result=0;
 	String sql=prop.getProperty("insertAlarm");
-	//insert into alarm values( seq_alarm_no.NEXTVAL,'message',1,'\uBA58\uD2B8','1@1',0,default )
 	
 	try(PreparedStatement pstmt=conn.prepareStatement(sql)){
 		pstmt.setString(1,(String)payload.get("messageType"));
-		pstmt.setInt(2,(int)payload.get("no"));
+		pstmt.setInt(2,Integer.parseInt((String) payload.get("no")));
 		pstmt.setString(3,(String)payload.get("comemt"));
 		pstmt.setString(4,(String)payload.get("receiver"));
 		
-		
+		result = pstmt.executeUpdate(); 
 	}catch (Exception e) {
-		// TODO: handle exception
+		throw new AdminException();
 	}
 	
+	return result;
+}
+
+
+
+public List<Alarm> checkById(Connection conn, String memberId) {
+	List<Alarm> alarms= new ArrayList<>();
+	String sql=prop.getProperty("checkById");
+	try(PreparedStatement pstmt = conn.prepareStatement(sql)) {
+		pstmt.setString(1, memberId);
+		try(ResultSet rset=pstmt.executeQuery()){
+			while(rset.next()) {
+				Alarm alarm= handleAlarm(rset);
+				alarms.add(alarm);
+			}
+		}
+	} catch (SQLException e) {
+		throw new AdminException(e);
+	}
+
+	return alarms;
+}
+
+
+
+private Alarm handleAlarm(ResultSet rset) throws SQLException {
+	int no= rset.getInt("alarm_no");
+	String messageType= rset.getString("alarm_message_type");
+	int scriptNo= rset.getInt("alarm_script_no");
+	String comment= rset.getString("alarm_comment");
+	String receiver= rset.getString("alarm_receiver");
+	int hasRead= rset.getInt("alarm_hasread");
 	
+	Alarm alarm= new Alarm(no, messageType, scriptNo, comment, receiver, hasRead, null);
+	
+	return alarm;
+}
+
+
+
+public int alarmUpdate(String memberId, Connection conn) {
+	int result =0;
+	String sql= prop.getProperty("alarmUpdate");
+	
+	try(PreparedStatement pstmt= conn.prepareStatement(sql)){
+		pstmt.setString(1, memberId);
+		
+		result = pstmt.executeUpdate(); 
+	} catch (SQLException e) {
+		throw new AdminException();
+	}
 	return result;
 }
 

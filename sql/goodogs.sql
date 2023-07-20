@@ -14,6 +14,7 @@
 --==============================
 -- 초기화 블럭
 --==============================
+--drop table alarm;
 --drop table bookmark;
 --drop table like_list;
 --drop table news;
@@ -24,35 +25,15 @@
 --drop table news_comment;
 --drop table withdraw_member;
 --drop table member;
---drop table like_list;
---drop table report_list;
 --drop sequence seq_withdraw_member_no;
 --drop sequence seq_news_script_rejected_no;
 --drop sequence seq_news_comment_no;
 --drop sequence seq_news_script_no;
+--drop sequence seq_alarm_no;
 --drop trigger trg_news_script_to_news;
 --drop trigger trg_news_to_deleted_news;
 --drop trigger trg_member_to_withdraw_member;
 --drop trigger trg_news_script_to_rejected;
-
-drop table bookmark;
-drop table like_list;
-drop table news;
-drop table news_image;
-drop table news_script_rejected;
-drop table deleted_news;
-drop table news_script;
-drop table news_comment;
-drop table withdraw_member;
-drop table member;
-drop sequence seq_withdraw_member_no;
-drop sequence seq_news_script_rejected_no;
-drop sequence seq_news_comment_no;
-drop sequence seq_news_script_no;
-drop trigger trg_news_script_to_news;
-drop trigger trg_news_to_deleted_news;
-drop trigger trg_member_to_withdraw_member;
-drop trigger trg_news_script_to_rejected;
 
 --==============================
 -- 테이블 생성
@@ -195,9 +176,6 @@ CREATE TABLE report_list (
     CONSTRAINT fk_report_list_comment_no_new FOREIGN KEY(report_comment_no) REFERENCES news_comment(comment_no) ON DELETE CASCADE
 );
 
------------------알람 테이블 추가
-insert into member values('3@3', 'M', '123', '상윤유저계정', '01023585522', to_date('20160617','yyyymmdd'), 'R', default, default);
-
 
 CREATE TABLE alarm (
     alarm_no number,
@@ -211,6 +189,7 @@ CREATE TABLE alarm (
      CONSTRAINT fk_alarm_script_no FOREIGN KEY (alarm_script_no) REFERENCES news_script (script_no)
 );
 create sequence seq_alarm_no;
+
 
 --=================================================
 -- trigger 생성
@@ -345,6 +324,7 @@ insert into member values('kny0910@naver.com', 'F', 'qwe123!', 'na0', '010333322
 insert into member values('kjh0425@naver.com', 'M', 'qwe123!', '준한', '01055552222', to_date('20180425','yyyymmdd'), 'R', default, default);
 insert into member values('kdc0526@naver.com', 'M', 'qwe123!', '동찬', '01044442222', to_date('20190526','yyyymmdd'), 'R', default, default);
 
+
 -- 원고
 insert into news_script values(seq_news_script_no.NEXTVAL,'kjh0425@naver.com','만 나이 통일법 시행','사회','오늘(28일)부터 1~2살 어려지는걸 알고계신가요? 나이세는 방식이 만 나이로 바뀌기 때문입니다. 아 집가고싶다',default,'사회',1);
 insert into news_script values(seq_news_script_no.NEXTVAL,'kjh0425@naver.com','라면 회사 부도','테크','아납주ㅏ우ㅏ무나 ㅏㅈ부ㅏㅜㅇㅈ바ㅜㄴ매ㅓ애ㅡㅂ재ㅡㅇ ㅡ ㅁ냐 ㅐ으ㅐㅡㅂ재읜믜으',default,'사회',1);
@@ -371,7 +351,7 @@ insert into news values(8,'kjh0425@naver.com','애국가1절','정치','동해�
 insert into news values(9,'kjh0425@naver.com','애국가2절','세계','남산위에 저 소나무 철갑을 두른듯 바람서리 불변함은 우리기상일세 무궁화 삼천리 화려강산 대한사람 대한으로 길이 보전하세',to_date('20220622','yyyymmdd'),'세계',4,10,'22-06-23');
 insert into news values(10,'kdc0526@naver.com','애국가3절','스포츠','가을 하늘 공활한데 높고 구름없이 밝은달은 우리가슴 일편 단심일세 무궁화 삼천리 화려강산 대한사람 대한으로 길이 보전하세',to_date('20230210','yyyymmdd'),'스포츠',8,40,'23-02-15');
 insert into news values(11,'kdc0526@naver.com','애국가4절','경제','이 기상과 이 맘으로 충성을 다하여 괴로우나 즐거우나 나라 사랑하세 무궁화 삼천리 화려강산 대한사람 대한으로 길이 보전하세',to_date('20210903','yyyymmdd'),'경제',3,25,'21-09-05');
-insert into news values(19,'kdc0526@naver.com','하이라이트확인해보자','경제','<div>이 기상과 이 맘으로 충성을 다하여 괴로우나 즐거우나</div> <div>나라 사랑하세</div> <div>무궁화 삼천리 화려강산 대한사람 대한으로</div> 길이 보전하세',to_date('20210903','yyyymmdd'),'경제',3,25,'21-09-05');
+
 
 insert into news values(12,'kjh0425@naver.com','이거 진짜 언제 끝남?','스포츠','진짜 이거 언제까지 해야돼? 진짜 이거 언제까지 해야돼? 진짜 이거 언제까지 해야돼? 진짜 이거 언제까지 해야돼? 진짜 이거 언제까지 해야돼? 진짜 이거 언제까지 해야돼? 진짜 이거 언제까지 해야돼? 진짜 이거 언제까지 해야돼? 진짜 이거 언제까지 해야돼? 진짜 이거 언제까지 해야돼? 진짜 이거 언제까지 해야돼? 진짜 이거 언제까지 해야돼? 진짜 이거 언제까지 해야돼? 진짜 이거 언제까지 해야돼? 진짜 이거 언제까지 해야돼? 진짜 이거 언제까지 해야돼? 진짜 이거 언제까지 해야돼? 진짜 이거 언제까지 해야돼? 진짜 이거 언제까지 해야돼? 진짜 이거 언제까지 해야돼? 진짜 이거 언제까지 해야돼? 진짜 이거 언제까지 해야돼? 진짜 이거 언제까지 해야돼? 진짜 이거 언제까지 해야돼? 진짜 이거 언제까지 해야돼? 진짜 이거 언제까지 해야돼? 진짜 이거 언제까지 해야돼? 진짜 이거 언제까지 해야돼? 진짜 이거 언제까지 해야돼? 진짜 이거 언제까지 해야돼? 진짜 이거 언제까지 해야돼? 진짜 이거 언제까지 해야돼? 진짜 이거 언제까지 해야돼? 진짜 이거 언제까지 해야돼? 진짜 이거 언제까지 해야돼? 진짜 이거 언제까지 해야돼? 진짜 이거 언제까지 해야돼? 진짜 이거 언제까지 해야돼? 진짜 이거 언제까지 해야돼? 진짜 이거 언제까지 해야돼? 진짜 이거 언제까지 해야돼? 진짜 이거 언제까지 해야돼? 진짜 이거 언제까지 해야돼? 진짜 이거 언제까지 해야돼? 진짜 이거 언제까지 해야돼? 진짜 이거 언제까지 해야돼? 진짜 이거 언제까지 해야돼? 진짜 이거 언제까지 해야돼? 진짜 이거 언제까지 해야돼? 진짜 이거 언제까지 해야돼? 진짜 이거 언제까지 해야돼? 진짜 이거 언제까지 해야돼? 진짜 이거 언제까지 해야돼? 진짜 이거 언제까지 해야돼? 진짜 이거 언제까지 해야돼? 진짜 이거 언제까지 해야돼? 진짜 이거 언제까지 해야돼? 진짜 이거 언제까지 해야돼? 진짜 이거 언제까지 해야돼? 진짜 이거 언제까지 해야돼? 진짜 이거 언제까지 해야돼? 진짜 이거 언제까지 해야돼? 진짜 이거 언제까지 해야돼? 진짜 이거 언제까지 해야돼? 진짜 이거 언제까지 해야돼? 진짜 이거 언제까지 해야돼? 진짜 이거 언제까지 해야돼? 진짜 이거 언제까지 해야돼? 진짜 이거 언제까지 해야돼? 진짜 이거 언제까지 해야돼? 진짜 이거 언제까지 해야돼? 진짜 이거 언제까지 해야돼? 진짜 이거 언제까지 해야돼? 진짜 이거 언제까지 해야돼? 진짜 이거 언제까지 해야돼? 진짜 이거 언제까지 해야돼?진짜 이거 언제까지 해야돼? 진짜 이거 언제까지 해야돼? 진짜 이거 언제까지 해야돼? 진짜 이거 언제까지 해야돼?진짜 이거 언제까지 해야돼? 진짜 이거 언제까지 해야돼? 진짜 이거 언제까지 해야돼? 진짜 이거 언제까지 해야돼? 진짜 이거 언제까지 해야돼? 진짜 이거 언제까지 해야돼? 진짜 이거 언제까지 해야돼? 진짜 이거 언제까지 해야돼?',to_date('20210903','yyyymmdd'),'스포츠',19,31,'23-07-11');
 insert into news values(13,'kjh0425@naver.com','아 초밥먹고 싶다','사회','초밥이 너무 먹고싶어요 초밥 사주세요 초밥이 너무 먹고싶어요 초밥 사주세요초밥이 너무 먹고싶어요 초밥 사주세요초밥이 너무 먹고싶어요 초밥 사주세요초밥이 너무 먹고싶어요 초밥 사주세요초밥이 너무 먹고싶어요 초밥 사주세요초밥이 너무 먹고싶어요 초밥 사주세요초밥이 너무 먹고싶어요 초밥 사주세요초밥이 너무 먹고싶어요 초밥 사주세요초밥이 너무 먹고싶어요 초밥 사주세요초밥이 너무 먹고싶어요 초밥 사주세요초밥이 너무 먹고싶어요 초밥 사주세요초밥이 너무 먹고싶어요 초밥 사주세요초밥이 너무 먹고싶어요 초밥 사주세요초밥이 너무 먹고싶어요 초밥 사주세요초밥이 너무 먹고싶어요 초밥 사주세요초밥이 너무 먹고싶어요 초밥 사주세요초밥이 너무 먹고싶어요 초밥 사주세요초밥이 너무 먹고싶어요 초밥 사주세요초밥이 너무 먹고싶어요 초밥 사주세요초밥이 너무 먹고싶어요 초밥 사주세요초밥이 너무 먹고싶어요 초밥 사주세요초밥이 너무 먹고싶어요 초밥 사주세요초밥이 너무 먹고싶어요 초밥 사주세요초밥이 너무 먹고싶어요 초밥 사주세요초밥이 너무 먹고싶어요 초밥 사주세요초밥이 너무 먹고싶어요 초밥 사주세요초밥이 너무 먹고싶어요 초밥 사주세요초밥이 너무 먹고싶어요 초밥 사주세요초밥이 너무 먹고싶어요 초밥 사주세요초밥이 너무 먹고싶어요 초밥 사주세요초밥이 너무 먹고싶어요 초밥 사주세요초밥이 너무 먹고싶어요 초밥 사주세요초밥이 너무 먹고싶어요 초밥 사주세요초밥이 너무 먹고싶어요 초밥 사주세요초밥이 너무 먹고싶어요 초밥 사주세요초밥이 너무 먹고싶어요 초밥 사주세요초밥이 너무 먹고싶어요 초밥 사주세요초밥이 너무 먹고싶어요 초밥 사주세요초밥이 너무 먹고싶어요 초밥 사주세요초밥이 너무 먹고싶어요 초밥 사주세요초밥이 너무 먹고싶어요 초밥 사주세요초밥이 너무 먹고싶어요 초밥 사주세요초밥이 너무 먹고싶어요 초밥 사주세요초밥이 너무 먹고싶어요 초밥 사주세요초밥이 너무 먹고싶어요 초밥 사주세요초밥이 너무 먹고싶어요 초밥 사주세요초밥이 너무 먹고싶어요 초밥 사주세요초밥이 너무 먹고싶어요 초밥 사주세요초밥이 너무 먹고싶어요 초밥 사주세요초밥이 너무 먹고싶어요 초밥 사주세요초밥이 너무 먹고싶어요 초밥 사주세요초밥이 너무 먹고싶어요 초밥 사주세요초밥이 너무 먹고싶어요 초밥 사주세요초밥이 너무 먹고싶어요 초밥 사주세요초밥이 너무 먹고싶어요 초밥 사주세요초밥이 너무 먹고싶어요 초밥 사주세요초밥이 너무 먹고싶어요 초밥 사주세요초밥이 너무 먹고싶어요 초밥 사주세요초밥이 너무 먹고싶어요 초밥 사주세요초밥이 너무 먹',to_date('20210903','yyyymmdd'),'사회',5,12,'23-07-11');
@@ -407,44 +387,8 @@ insert into like_list values('admin@naver.com', 9, default);
 --북마크 샘플 데이터
 insert into bookmark values('kdc0526@naver.com',18,'마지막이네 벌써ㅋ','7시 46분',DEFAULT );
 
+--알람 테이블 추가
+insert into member values('1@1', 'M', '123', '상윤기자', '01012312344', to_date('20160617','yyyymmdd'), 'R', default, default);
+insert into member values('2@2', 'M', '123', '상윤관리자', '01012312355', to_date('20160617','yyyymmdd'), 'A', default, default);
+
 commit;
-
----- 테스트
---select * from member;
---select * from news_comment;
---update member set is_banned = 0 where member_id = 'honggd@naver.com';
---commit;
---select * from news where news_writer = 'kjh0425@naver.com';
---select n.*, i.renamed_filename from (select row_number() over(order by news_no desc) rnum, n.* from news n) n join news_image i on n.news_no = i.script_no where rnum between ? and ?
-
---select * from news_script where script_writer = ?;
---
---delete from news_script where script_no = ?;
---
----- 트리거 테스트
---update news_script set script_state = 2 where script_no = 8;
---select * from news;
---
---select * from news;
---delete from news where news_no = 1003;
---select * from deleted_news;
---
---select * from member;
---delete from member where member_id = 'naga@naver.com';
---select * from withdraw_member;
---
---select * from news_script;
---update news_script set script_state = 3 where script_no = 4;
---select * from news_script_rejected;
-
---select * from news_comment;
-select * from report_list;
-----------------------------------------------
---알람확인
-select * from alarm
---알람 추가
-insert into alarm values( seq_alarm_no.NEXTVAL,'message',1,'멘트','1@1',0,default );
-insert into alarm values( seq_alarm_no.NEXTVAL,'message',1,'멘트','1@1',0,default );
-------------------
-
-

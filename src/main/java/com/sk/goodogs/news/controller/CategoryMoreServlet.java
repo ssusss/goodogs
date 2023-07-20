@@ -65,7 +65,7 @@ public class CategoryMoreServlet extends HttpServlet {
 		
 		// 2. 업무로직 (
 		List<NewsAndImage> newsAndImages = newsService.findNewsByCategory(start, end, category);
-		System.out.println("newsAndImages : " + newsAndImages);
+//		System.out.println("newsAndImages : " + newsAndImages);
 		
 		// 3. 응답처리 (json)
 		response.setContentType("application/json; charset=utf-8");

@@ -17,6 +17,7 @@ import com.sk.goodogs.news.model.service.NewsService;
 public class MainNewsServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	private final NewsService newsService = new NewsService();
+	private final int LIMIT = 12;
 	
 	/**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
@@ -25,11 +26,11 @@ public class MainNewsServlet extends HttpServlet {
 		
 		int totalContent = newsService.getTotalContent();
 		
-		int limit = 5;
-		int totalPage = (int) Math.ceil((double) totalContent / limit);
+		// int limit = 5;
+		int totalPage = (int) Math.ceil((double) totalContent / LIMIT);
 		request.setAttribute("totalPage", totalPage);
 		
-		System.out.println("toalPage : " + totalPage);
+		System.out.println("toalPage 갯수 : " + totalPage);
 		
 		request.getRequestDispatcher("/index.jsp")
 			.forward(request, response);

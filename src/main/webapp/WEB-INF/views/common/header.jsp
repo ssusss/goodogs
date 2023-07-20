@@ -3,6 +3,10 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%
+	String msg = (String) session.getAttribute("msg");
+	if(msg != null) session.removeAttribute("msg"); // 1회용
+	System.out.println("msg = " + msg);
+
 	// 세션으로 로그인멤버 가져오기
 	Member loginMember = (Member) session.getAttribute("loginMember");
 	System.out.println("loginMember = " + loginMember);
@@ -26,22 +30,62 @@
 <title>goodogs</title>
 
 <link rel="stylesheet" href="<%=request.getContextPath()%>/css/style.css" />
+<style>
+.alarmMenu{
+	display : none;
+}
+</style>
 <!-- 웹소켓 객체생성 (상윤) -->
 <% 	if(loginMember != null) { %>
 	<script src="<%= request.getContextPath() %>/js/ws.js"></script>		
 <% 	} %>
 <!-- 아이콘 링크 -->
 <script src="https://kit.fontawesome.com/d7ccac7be9.js" crossorigin="anonymous"></script>
+<script>
+window.addEventListener('load', function() {
+	  <% if(msg != null) { %>
+	    alert('<%= msg %>');
+	  <% } %>
+
+	  <% if(loginMember == null) { %>
+	    document.loginFrm.onsubmit = function(e) {
+	      // 아이디
+	      const memberId = e.target.memberId.value;
+	      console.log(memberId);
+	      if(!/^\w{4,}$/.test(memberId.value)) {
+	        alert("아이디는 4글자 이상 입력하세요.");
+	        e.preventDefault();
+	        return;
+	      }
+	      
+	      // 비밀번호
+	      const password = e.target.password;
+	      if(!/^.{4,}$/.test(password.value)) {
+	        alert("비밀번호는 8글자 이상 입력하세요.");
+	        e.preventDefault();
+	        return;
+	      }
+	    };
+	  <% } else { %>
+			alarmCheck("<%=loginMember.getMemberId() %>");
+	  <% } %>
+	});
+</script>
 </head>
 
 
 <body>
-<span id="notification"></span>	
 	<div id="container">
 		<nav class="navBar">
 			<div class="navInner">
 				<h1 id="toMain1">goodogs</h1>
+				<div id="notification-container">
+					<span id="notification"></span>
+					
+				</div>	
 				<div class="navBox">
+					
+					
 					<div class="searchBox"><i class="fa-solid fa-magnifying-glass fa-2xl searchIcon" style="color: ##051619;"></i></div>
 					<div class="infoBox">
 						<% if (loginMember == null || loginMember.getMemberProfile() == null) { %>
@@ -59,6 +103,8 @@
 		
 
 	<script>
+	
+	
     toMain1.onclick = () => {
       location.href = '<%=request.getContextPath()%>/';
     }
@@ -231,5 +277,79 @@
 			- navBox에서 검색/정보 바로가기
 			- 로그인 안하고 정보누를 시 경고창 + focus
 		 -->	
-	
 	</header>
+	
+	
+<script>
+function alarmCheck(memberId) {
+	console.log(memberId);
+
+	$.ajax({
+	url : "<%= request.getContextPath() %>/alarm/check",
+	data : {memberId},	
+	method : "GET",
+	dataType : "json",
+	success(alarms) {
+		console.log(alarms);
+		if(alarms.length > 0){
+				const alarmSpace =document.querySelector("#notification");
+					if(!alarmSpace.hasChildNodes()) {
+						alarmSpace.innerHTML=`<img alt="" 
+							 src="<%= request.getContextPath() %>/images/character/goodogs_ureka2.png"
+							 style="width: 150px" class="bell">`;
+						
+					}
+				const notificationContainer = document.querySelector("#notification-container");
+				notificationContainer.insertAdjacentHTML('beforeend', `
+					<div class="alarmMenu">
+						
+		 			</div>	
+				`);
+				const alarmMenuBox = document.querySelector(".alarmMenu");
+				alarmMenuBox.innerHTML=alarms.reduce((html,alarm) => {
+					const{alarmNo,alarmReceiver,alarmScriptNo,alarmComment}=alarm;
+						
+					return html +`
+						<p>\${alarmComment}</P>
+					`;
+				},"");
+				
+			}
+		
+
+		}
+	
+	});
+};
+
+
+document.addEventListener("click",(e)=>{
+
+	if(e.target.matches(".bell")){
+		const bell = document.querySelector(".bell");
+		const alarmMenu = document.querySelector(".alarmMenu");
+		if (bell.classList.length == 1) {
+			alarmMenu.style.display="block";
+			bell.style.animation = "none";
+			bell.classList.add("bellClicked");			
+		} else {
+			bell.classList.remove("bellClicked");
+			alarmMenu.style.display="none";
+		}
+	
+		const memberId= "<%=loginMember != null ? loginMember.getMemberId():"비로그인" %>" ;
+
+	    $.ajax({
+	        url : "<%= request.getContextPath() %>/alarm/alarmChecked",
+	        data :{memberId} ,
+	        method : "POST",
+	        dataType : "json",
+	        success(response) {
+	            console.log(response.result);
+	        }
+	    });
+		
+	}
+
+});
+</script>
