@@ -345,12 +345,6 @@ private NewsScriptRejected handleRejectedScriptResultSet(ResultSet rset) throws 
 public int insertAlarm(Map<String, Object> payload, Connection conn) {
 	int result=0;
 	String sql=prop.getProperty("insertAlarm");
-	System.out.println("payload @ adminDao"+payload);
-	
-	System.out.println((String)payload.get("messageType"));
-	System.out.println(Integer.parseInt((String) payload.get("no")));
-	System.out.println((String)payload.get("comemt"));
-	System.out.println((String)payload.get("receiver"));
 	
 	try(PreparedStatement pstmt=conn.prepareStatement(sql)){
 		pstmt.setString(1,(String)payload.get("messageType"));
@@ -399,6 +393,22 @@ private Alarm handleAlarm(ResultSet rset) throws SQLException {
 	Alarm alarm= new Alarm(no, messageType, scriptNo, comment, receiver, hasRead, null);
 	
 	return alarm;
+}
+
+
+
+public int alarmUpdate(String memberId, Connection conn) {
+	int result =0;
+	String sql= prop.getProperty("alarmUpdate");
+	
+	try(PreparedStatement pstmt= conn.prepareStatement(sql)){
+		pstmt.setString(1, memberId);
+		
+		result = pstmt.executeUpdate(); 
+	} catch (SQLException e) {
+		throw new AdminException();
+	}
+	return result;
 }
 
 

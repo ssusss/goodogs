@@ -316,7 +316,7 @@ function alarmCheck(memberId){
 					const{alarmNo,alarmReceiver,alarmScriptNo,alarmComment}=alarm;
 						
 					return html +`
-						<p id="\${alarmNo}">\${alarmComment}</P>
+						<p>\${alarmComment}</P>
 					`;
 				},"");
 				
@@ -330,35 +330,32 @@ function alarmCheck(memberId){
 
 
 
-document.addEventListener("click",(e)=>{
-
-	if(e.target.matches(".bell")){
-		const bell = document.querySelector(".bell");
-		const alarmMenu= document.querySelector(".alarmMenu");
-		if (bell.classList.length == 3) {
-			alarmMenu.style.display="block";
-			bell.classList.add("bellClicked");			
-		} else {
-			bell.classList.remove("bellClicked");
-			alarmMenu.style.display="none";
-		}
-		
-		
-	}
 
 
-	if(e.target.matches(".bell")){
 
-		$.ajax({
-				url : "<%= request.getContextPath() %>/admin/alarmChecked",
-				data : "데이터연결해야함",	
-				method : "POST",
-				dataType : "json",
-				success(updateRole) {
-					console.log(updateRole)
-					alert(updateRole.message);
-				}
-			});
-	}
-});
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 </script>
