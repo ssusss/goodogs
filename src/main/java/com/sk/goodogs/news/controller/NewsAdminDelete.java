@@ -28,7 +28,7 @@ public class NewsAdminDelete extends HttpServlet {
 		
 		//3. 리다이렉트
 		
-		response.sendRedirect(request.getContextPath() + "/reporter/myScript" );
+		response.sendRedirect(request.getContextPath() + "/admin/adminScriptList" );
 
 	
 	

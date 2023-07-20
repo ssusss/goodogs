@@ -22,14 +22,13 @@ import com.sk.goodogs.news.model.vo.NewsAndImage;
 public class MainNewsMoreServlet extends HttpServlet {
    private static final long serialVersionUID = 1L;
    private final NewsService newsService = new NewsService();
-
+   private final int LIMIT = 12;
    /**
     * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
     */
    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
       
       // 1. 사용자 입력값 처리
-      int limit = 8;
       int cpage = 1;
       
       try {
@@ -37,12 +36,12 @@ public class MainNewsMoreServlet extends HttpServlet {
       } catch(NumberFormatException e) {
       }
       
-      int start = (cpage - 1) * limit + 1;
-      int end = cpage * limit;
+      int start = (cpage - 1) * LIMIT + 1;
+      int end = cpage * LIMIT;
       
       // 2. 업무로직 (
       List<NewsAndImage> newsAndImages = newsService.findNews(start, end);
-      System.out.println("newsAndImage : " + newsAndImages);
+//      System.out.println("newsAndImage : " + newsAndImages);
       
       // 3. 응답처리 (json)
       response.setContentType("application/json; charset=utf-8");

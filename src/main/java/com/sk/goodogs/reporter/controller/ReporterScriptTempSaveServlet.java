@@ -48,7 +48,7 @@ public class ReporterScriptTempSaveServlet extends HttpServlet {
 		
 		NewsScript tempNewsScript = new NewsScript(0, scriptWriter, scriptTitle, scriptCategory, scriptContent, null, scriptTag, 0);
 		
-		System.out.println("newNewsScript = " +  tempNewsScript);
+		// System.out.println("newNewsScript = " +  tempNewsScript);
 		
 		int result = newsService.newsScriptTempSave(tempNewsScript);
 		// 5개만 임시저장 되게 수정해야함
