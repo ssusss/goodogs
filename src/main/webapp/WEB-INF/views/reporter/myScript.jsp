@@ -114,7 +114,25 @@ document.addEventListener('click',(e)=>{
 	}
 });
 
-			//=========== 아이디로 원고 전부 찾기 ============
+//=========== 반려사유 불러오기 ============
+document.addEventListener('click', (e) => {
+	  if (e.target.matches('.rejectReason')) {
+	    const scriptNo = e.target.closest('tr').querySelector('td:first-child').textContent;
+	    
+	    $.ajax({
+	    	url : "<%=request.getContextPath()%>/reporter/scriptRejectedReason",
+	    	data : {scriptNo},
+	    	method : "GET",
+	    	dataType : "json",
+	    	success(rejectedReason){
+	    		console.log(rejectedReason);
+	    		alert("반려사유 : " + rejectedReason);
+	    	}
+	    });
+	  }
+	});
+
+//=========== 아이디로 원고 전부 찾기 ============
 			
 const findAllScriptById = () => {
   $.ajax({
@@ -139,7 +157,7 @@ const findAllScriptById = () => {
               <td>\${scriptTitle}</td>
               <td>\${scriptCategory}</td>
               <td>\${formattedDate}</td>
-              <td>반려됨 <button class="scriptUpdate">다시쓰기</button></td>
+              <td>반려됨 <button class="scriptUpdate msBtn">다시쓰기</button> <button class="rejectReason msBtn">반려사유</button></td>
             </tr>
           `;
         } else if (scriptState === 0) {
@@ -149,7 +167,7 @@ const findAllScriptById = () => {
               <td>\${scriptTitle}</td>
               <td>\${scriptCategory}</td>
               <td>\${formattedDate}</td>
-              <td>작성중 <button class="scriptUpdate">이어쓰기</button> <button class="delete">삭제</button></td>
+              <td>작성중 <button class="scriptUpdate msBtn">이어쓰기</button> <button class="delete msBtn">삭제</button></td>
             </tr>
           `;
         } else if (scriptState === 1) {

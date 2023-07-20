@@ -45,6 +45,49 @@ public class AdminDao {
 	}
 
 
+public List<NewsComment> Commentfind(Connection conn, String searchType, String searchKeyword) {
+	 List<NewsComment> newsComments = new ArrayList<>();
+	String sql = prop.getProperty("Commentfind"); 
+	sql = sql.replace("#", searchType);
+
+	try (PreparedStatement pstmt = conn.prepareStatement(sql)) {	
+		pstmt.setString(1, "%" + searchKeyword + "%");
+
+		try (ResultSet rset = pstmt.executeQuery()) {
+			while(rset.next()) {
+				NewsComment newsCommen = handleCommentrResultSet(rset);		
+				newsComments.add(newsCommen);
+			}
+		}
+	} catch (SQLException e) {
+		throw new AdminException(e);
+	
+	}
+	return newsComments;
+}
+
+
+
+public List<NewsComment> CommentfindReport(Connection conn, String searchType, String searchKeyword) {
+	 List<NewsComment> newsComments = new ArrayList<>();
+		String sql = prop.getProperty("CommentfindReport"); 
+		sql = sql.replace("#", searchType);
+
+		try (PreparedStatement pstmt = conn.prepareStatement(sql)) {	
+			pstmt.setString(1, searchKeyword );
+
+			try (ResultSet rset = pstmt.executeQuery()) {
+				while(rset.next()) {
+					NewsComment newsCommen = handleCommentrResultSet(rset);		
+					newsComments.add(newsCommen);
+				}
+			}
+		} catch (SQLException e) {
+			throw new AdminException(e);
+		
+		}
+		return newsComments;
+}
 	
 // 벤용 ----------------------------------------
 	

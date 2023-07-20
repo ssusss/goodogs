@@ -53,9 +53,8 @@ bannerContainerUpper.style.display = "none";
         <div class="card-body">
           <!-- 기사 제목/날짜/카테고리 박스 -->
           <h3 class="card-title"><%= like.getNewsTitle() %></h3> <!-- 기사 제목 -->
-          <time class="card-date"><%= like.getLikeDate() %></time> <!-- 기사 날짜 -->
-          <time class="card-date"><%= like.getLikeDate() %></time> <!-- 좋아요 날짜 -->
           <span class="card-category">학원</span> <!-- 기사 카테고리 -->
+          <time class="card-date liked-date" display = "block"><%= like.getLikeDate() %></time> <!-- 좋아요한 날짜 -->
         </div>
       </a>
     </div>
@@ -65,7 +64,27 @@ bannerContainerUpper.style.display = "none";
     %>
   </div>
 </section>
-
+<script>
+//날짜 형식 변환
+//날짜 형식 변환
+function rearrangeDate(formattedDate) {
+   const parts = formattedDate.split('/');
+   return `\${parts[2]}/\${parts[0]}/\${parts[1]}`;
+}
+function formatDate(date) {
+   const options = {
+      year: 'numeric',
+      month: '2-digit',
+      day: '2-digit',
+      hour12: false
+   };
+   
+   const formatter = new Intl.DateTimeFormat('en-US', options);
+   const formattedDate = formatter.format(new Date(date));
+        
+   return rearrangeDate(formattedDate);
+}
+</script>
 
 
 <%@ include file="/WEB-INF/views/common/footer.jsp" %>

@@ -14,33 +14,30 @@
 --==============================
 -- 초기화 블럭
 --==============================
---drop table alarm;
---drop table bookmark;
---drop table like_list;
---drop table news;
---drop table news_image;
---drop table news_script_rejected;
---drop table deleted_news;
---drop table news_script;
-<<<<<<< HEAD
-=======
---drop table report_list;
---drop table news_comment;
---drop table member;
---drop table withdraw_member;
->>>>>>> branch 'master' of https://github.com/ssusss/goodogs.git
---drop table news_comment;
---drop table withdraw_member;
---drop table member;
---drop sequence seq_withdraw_member_no;
---drop sequence seq_news_script_rejected_no;
---drop sequence seq_news_comment_no;
---drop sequence seq_news_script_no;
---drop sequence seq_alarm_no;
---drop trigger trg_news_script_to_news;
---drop trigger trg_news_to_deleted_news;
---drop trigger trg_member_to_withdraw_member;
---drop trigger trg_news_script_to_rejected;
+drop table alarm;
+drop table bookmark;
+drop table like_list;
+drop table news;
+drop table news_image;
+drop table news_script_rejected;
+drop table deleted_news;
+drop table news_script;
+drop table report_list;
+drop table news_comment;
+drop table member;
+drop table withdraw_member;
+drop table news_comment;
+drop table withdraw_member;
+drop table member;
+drop sequence seq_withdraw_member_no;
+drop sequence seq_news_script_rejected_no;
+drop sequence seq_news_comment_no;
+drop sequence seq_news_script_no;
+drop sequence seq_alarm_no;
+drop trigger trg_news_script_to_news;
+drop trigger trg_news_to_deleted_news;
+drop trigger trg_member_to_withdraw_member;
+drop trigger trg_news_script_to_rejected;
 
 --==============================
 -- 테이블 생성

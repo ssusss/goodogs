@@ -172,7 +172,7 @@
 		<div class="ScriptWriteBtnContainer">
 			<button id="submitBtn" type="submit" class="scriptBtn">제출</button>
 			<button id="tempSaveBtn" class="scriptBtn">임시저장</button>
-			<button id="previewBtn"class="scriptBtn">미리보기</button>
+			<button id="previewBtn" class="scriptBtn" style="display: none;">미리보기</button>
 		</div>
 	</div>
 </form>
