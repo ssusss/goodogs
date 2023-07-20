@@ -1,11 +1,12 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 	    <aside>
-	      <a class="home-banner" href=" " target=" " rel=" ">
+	      <div class="home-banner">
 	        <figure class="home-banner-image">
-	        	<img src="<%= request.getContextPath() %>/images/character/goodogs_laptop.png">
+	        	<img src="<%= request.getContextPath() %>/images/character/goodogs_laptop.png" onclick="scrollToTop()">
+	        	<img src="<%= request.getContextPath() %>/images/character/speech_bubble_scroll.png">
 	        </figure>
-	      </a>
+	      </div>
 	    </aside>
 	
 	    <footer class="footer" role="contentinfo">
@@ -15,7 +16,7 @@
 	      </div>
 	      <nav class="footer-sitemap">
 	        <div class="footer-sitemap-item">
-	          <a class="footer-sitemap-item-link"> 뉴닉 탄생기</a>
+	          <a class="footer-sitemap-item-link" href="<%= request.getContextPath() %>/webtoon"> 구독스 탄생기</a>
 	          <a class="footer-sitemap-item-link"> 고객센터 </a>
 	        </div>
 	      </nav>
@@ -26,6 +27,15 @@
     toMain2.onclick = () => {
       location.href = '<%=request.getContextPath()%>/';
     }
+    
+ 	// Chrome, Firefox, IE, Opera
+    function scrollToTop() {
+   	  document.documentElement.scrollTop = 0;
+   	  document.body.scrollTop =0; 
+   	}
+   
+    
+
     </script>
 </body>
 </html>

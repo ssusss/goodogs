@@ -7,6 +7,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.sk.goodogs.member.model.service.MemberService;
 import com.sk.goodogs.news.model.service.NewsService;
 
 /***
@@ -17,6 +18,8 @@ import com.sk.goodogs.news.model.service.NewsService;
 public class MainNewsServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	private final NewsService newsService = new NewsService();
+	private final MemberService memberService = new MemberService();
+	private final int LIMIT = 12;
 	
 	/**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
@@ -24,12 +27,18 @@ public class MainNewsServlet extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
 		int totalContent = newsService.getTotalContent();
+		int totalMember = memberService.getTotalMember();
 		
-		int limit = 5;
-		int totalPage = (int) Math.ceil((double) totalContent / limit);
+		// int limit = 5;
+		int totalPage = (int) Math.ceil((double) totalContent / LIMIT);
 		request.setAttribute("totalPage", totalPage);
+		request.setAttribute("totalMember", totalMember);
 		
-		System.out.println("toalPage : " + totalPage);
+		
+		System.out.println("toalPage 갯수 : " + totalPage);
+		System.out.println("totalMember 개수 : " + totalMember);
+		
+		
 		
 		request.getRequestDispatcher("/index.jsp")
 			.forward(request, response);

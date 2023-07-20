@@ -1,10 +1,12 @@
 package com.sk.goodogs.news.model.dao;
 
+import java.io.BufferedWriter;
 import java.io.CharArrayReader;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.Reader;
 import java.io.Writer;
+import java.sql.Clob;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -115,59 +117,37 @@ public class NewsDao {
 			return newsScript;
 		}
 
-//		public int newsScriptSubmit(Connection conn, NewsScript newNewsScript) throws SQLException, IOException {
-//			int result = 0;
-//			String sql1 = prop.getProperty("newsScriptSubmit");
-//			String sql2 = prop.getProperty("scriptClob");
-//			PreparedStatement pstmt = conn.prepareStatement(sql1);
-//			pstmt.setString(1, newNewsScript.getScriptWriter());
-//			pstmt.setString(2, newNewsScript.getScriptTitle());
-//			pstmt.setString(3, newNewsScript.getScriptCategory());
-//			pstmt.setString(4, newNewsScript.getScriptTag());
-//			result = pstmt.executeUpdate();
-//			pstmt.close();
-//			if (result == 1) {
-//				pstmt = conn.prepareStatement(sql2);
-//				
-//				pstmt.setInt(1, getLastScriptNo(conn));	
-//				ResultSet rset = pstmt.executeQuery();
-//				
-//				String strCLOB = newNewsScript.getScriptContent();
-//				if (rset.next()) {
-//					CLOB clob = ((OracleResultSet)rset).getCLOB("script_content");
-//					Writer writer = clob.getCharacterOutputStream();
-//					Reader reader = new CharArrayReader(strCLOB.toCharArray());
-//					char[] buffer = new char[1024];
-//					int read = 0;
-//					
-//					while ((read = reader.read(buffer, 0, 1024)) != -1) {
-//						writer.write(buffer, 0, read);
-//					}
-//					reader.close();
-//					writer.close();
-//				}
-//			}
-//
-//			return result;
-//		}
-		
-		
-		public int newsScriptSubmit(Connection conn, NewsScript newNewsScript) {
-            int result = 0;
-            String sql = prop.getProperty("newsScriptSubmit");
-            try (PreparedStatement pstmt = conn.prepareStatement(sql)) {
-                pstmt.setString(1, newNewsScript.getScriptWriter());
-                pstmt.setString(2, newNewsScript.getScriptTitle());
-                pstmt.setString(3, newNewsScript.getScriptCategory());
-                pstmt.setString(4, newNewsScript.getScriptContent());
-                pstmt.setString(5, newNewsScript.getScriptTag());
-                result = pstmt.executeUpdate();
-            } catch (SQLException e) {
-                throw new NewsException(e);
-            }
+		public int newsScriptSubmit(Connection conn, NewsScript newNewsScript) throws SQLException, IOException {
+			int result = 0;
+			String sql1 = prop.getProperty("newsScriptSubmit");
+			String sql2 = prop.getProperty("scriptClob");
+			PreparedStatement pstmt = conn.prepareStatement(sql1);
+			pstmt.setString(1, newNewsScript.getScriptWriter());
+			pstmt.setString(2, newNewsScript.getScriptTitle());
+			pstmt.setString(3, newNewsScript.getScriptCategory());
+			pstmt.setString(4, newNewsScript.getScriptTag());
+			result = pstmt.executeUpdate();
+			pstmt.close();
+			if (result == 1) {
+				pstmt = conn.prepareStatement(sql2);
+				
+				pstmt.setInt(1, getLastScriptNo(conn));	
+				ResultSet rset = pstmt.executeQuery();
+				
+				String strCLOB = newNewsScript.getScriptContent();
+				if (rset.next()) {
+					Clob clob =	rset.getClob("script_content"); 
+					try (BufferedWriter bw = new BufferedWriter(clob.setCharacterStream(0))) {
+						bw.write(strCLOB); // content 값 쓰기							
+					}
+				}
+			}
 
-            return result;
-        }
+			return result;
+		}
+		
+		
+
 
 		public int newsScriptTempSave(Connection conn, NewsScript tempNewsScript) {
 			int result = 0;
@@ -596,21 +576,27 @@ public class NewsDao {
 			
 			// 신고 체크
 			public int updateReport(Connection conn, String memberId, int commentNo) {
-				int result =0;
-				String sql =  prop.getProperty("checkUpdate");
-				
-				try(PreparedStatement pstmt = conn.prepareStatement(sql)){
-					pstmt.setString(1, memberId);
-					pstmt.setInt(2, commentNo);
-					
-					result = pstmt.executeUpdate();
-					
-				} catch (SQLException e) {
-					throw new LikeException(e);
-				}
-				return result;
-			}
+			    int result = 0; 
+			    int result2 = 0;
+			    String sql = prop.getProperty("checkUpdate");
+			    String sql2 = prop.getProperty("reportComment");
 
+			    try (
+			        PreparedStatement pstmt = conn.prepareStatement(sql);
+			        PreparedStatement pstmt2 = conn.prepareStatement(sql2);
+			    ) {
+			        pstmt.setString(1, memberId);
+			        pstmt.setInt(2, commentNo); // 뉴스 신고 수 업데이트
+			        result = pstmt.executeUpdate();
+			        
+			        pstmt2.setInt(1, commentNo);  // 뉴스 신고 수 업데이트
+			        result2 += pstmt2.executeUpdate();
+
+			    } catch (SQLException e) {
+			        throw new LikeException(e);
+			    }
+			    return result;
+			}
 		
 
 			public List<NewsAndImage> findNewsByKeyword(Connection conn, int start, int end, String keyword) {
@@ -631,6 +617,22 @@ public class NewsDao {
 					throw new NewsException(e);
 				}
 				return newsAndImages;
+			}
+
+			public int findScriptNo(Connection conn) {
+				int findScriptNo=0;
+				String sql = prop.getProperty("findScriptNo");
+				try(PreparedStatement pstmt = conn.prepareStatement(sql)){
+					try(ResultSet rset = pstmt.executeQuery()){
+						if(rset.next()) {
+							findScriptNo = rset.getInt(1);
+						}
+					}
+				} catch (SQLException e) {
+					throw new NewsException(e);
+				}
+				return findScriptNo;
+
 			}
 
 }

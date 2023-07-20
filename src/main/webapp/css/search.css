@@ -1,0 +1,84 @@
+@charset "UTF-8";
+
+section {
+  height: 800px;
+}
+
+.searchWrapper {
+  width: 90%;
+  margin: 0 auto;
+  height: 800px;
+  display: flex;
+}
+
+.searchContainer {
+  width: 50%;
+  height: 800px;
+}
+
+.searchBoxContainer {
+	margin: 20px 0;
+}
+
+.searchBoxContainer input {
+	background-color: transparent;
+	width: 80%;
+	height: 50px;
+	border: 3px solid gray;
+	border-radius: 5px;
+	font-size: 20px;
+	padding-left: 20px;
+}
+.searchBoxContainer button {
+	background-color: #B5C99A;
+	border: none;
+    border-radius: 3px;
+    width: 60px;
+    height: 42px;
+    font-size: 20px;
+    font-family: 'GmarketSansMedium';
+}
+
+.searchNullAlert {
+	font-size: 20px;
+	position: absolute;
+}
+
+.keywordContainer {
+  width: 50%;
+  height: 800px;
+}
+
+.keywordContainer h1 {
+	text-align: center;
+}
+
+table {
+  width: 100%;
+}
+
+table th,
+table tr,
+table td {
+  padding: 8px;
+  text-align: center;
+}
+
+table thead tr {
+  background-color: #B5C99A;
+}
+
+table tbody tr:nth-child(even) {
+  background-color: #f9f9f9;
+}
+
+table tbody tr:hover {
+  background-color: #ddd;
+}
+ 
+.imageFile {
+display: block; /* Remove any inline spacing */
+width: 100%;
+max-width: 100%; /* Set the maximum width to 100% of its container */
+height: -webkit-fill-available; /* Maintain aspect ratio */
+}
