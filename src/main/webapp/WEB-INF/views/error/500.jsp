@@ -45,7 +45,7 @@ a {
 </head>
 <body>
 	<div class="faceWrapper">
-		<img alt="" src="<%= request.getContextPath() %>/images/character/goodogs_face.jpg">
+		<img alt="" src="<%= request.getContextPath() %>/images/character/goodogs_face2.jpg">
 		<a href="<%= request.getContextPath() %>/">
 			<h1>집으로</h1>
 		</a>
