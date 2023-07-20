@@ -695,45 +695,54 @@ if (<%= loginMember != null %>) {
 	//말풍선 클릭 시 하이라이트 저장
 	function handleTooltipClick(e) {
 		
-	 $.ajax({
-	   url: "<%= request.getContextPath() %>/bookmark/bookmarkInsert",
-	   data: {
-	     memberId: "<%= loginMember != null ? loginMember.getMemberId() : "" %>",
-	     newsNo: <%= newsAndImage.getNewsNo() %>,
-	     newsTitle: "<%= newsAndImage.getNewsTitle() %>",
-	     bookmarkedContent: selection2
-	   },
-	   method: "POST",
-	   dataType: "json",
-	   success(responseData) {
-	     console.log(responseData);
-	     //console.log(newsTitle);
-	   }
-	 });
-	 e.preventDefault();
-	}
-	
+		// 북마크 회원 유효성 검사
+		const loginMemberId = "<%= loginMember != null ? loginMember.getMemberId() : "" %>";
+		if (loginMemberId === '') {
+			alert("북마크 기능은 회원만 사용 가능합니다🙅");
+			return;
+		}
+ 
+		$.ajax({
+			url: "<%= request.getContextPath() %>/bookmark/bookmarkInsert",
+			data: {
+					memberId: "<%= loginMember != null ? loginMember.getMemberId() : "" %>",
+					newsNo: <%= newsAndImage.getNewsNo() %>,
+					newsTitle: "<%= newsAndImage.getNewsTitle() %>",
+			        bookmarkedContent: selection2
+				  },
+			method: "POST",
+			dataType: "json",
+			success(responseData) {
+				console.log(responseData);
+				//console.log(newsTitle);
+				}
+			});
+				e.preventDefault();
+		}
+
 	// mouseup 이벤트 발생 시 말풍선 표시
 	document.addEventListener('mouseup', function(event) {
-	 const selection = window.getSelection(); // 드래그 한 텍스트를 나타내는 selection 객체 반환
-	
-	 if (selection.toString().trim() !== '') {
-	   const range = selection.getRangeAt(0); // selection 객체에서 첫번째 선택 영역 
-	   const rect = range.getBoundingClientRect(); // range 객체가 텍스트 선택 영역의 크기와 위치 정보를 담음
-	   const x = rect.left + rect.width / 2; // 선택 영역 왼쪽좌표 + 선택 영역의 너비/2 = 선택 영역의 가운데 x좌표 
-	   const y = rect.top + window.pageYOffset; // 선택 영역 상단좌표 + 현재 문서의 수직 스크롤 위치
-	   selection2 = selection.toString();
-	
-	   // 말풍선 클릭 이벤트 핸들러 등록
-	   tooltip.addEventListener('click', handleTooltipClick);
-	   
-	   // 말풍선 위치 나타내기
-	   showTooltip(x, y);
-	 } else {
-	   hideTooltip(); // 말풍선 숨김
-	 }
-	});
 
+	const selection = window.getSelection(); // 드래그 한 텍스트를 나타내는 selection 객체 반환
+		
+		if (selection.toString().trim() !== '') {
+			const range = selection.getRangeAt(0); // selection 객체에서 첫번째 선택 영역 
+			const rect = range.getBoundingClientRect(); // range 객체가 텍스트 선택 영역의 크기와 위치 정보를 담음
+			const x = rect.left + rect.width / 2; // 선택 영역 왼쪽좌표 + 선택 영역의 너비/2 = 선택 영역의 가운데 x좌표 
+			const y = rect.top + window.pageYOffset; // 선택 영역 상단좌표 + 현재 문서의 수직 스크롤 위치
+   
+			selection2 = selection.toString(); 
+
+			// 말풍선 클릭 이벤트 핸들러 등록
+			tooltip.addEventListener('click', handleTooltipClick);
+
+			// 말풍선 위치 나타내기
+			showTooltip(x, y);
+   
+		} else {
+			hideTooltip(); // 말풍선 숨김
+		}
+	});
 
 
 
