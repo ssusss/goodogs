@@ -270,7 +270,7 @@ header .bannerContainerUpper ul{
 
 .speechImage {
 	height: 426px;
-	transform: translate(-20px, -419px);
+	transform: translate(630px, -480px);
 }
 
 .menuContainer {
@@ -585,6 +585,10 @@ aside figure img {
 	height: 300px;
 	cursor: pointer;
 }
+.home-banner-text {
+	position: absolute;
+    transform: translate(696px, -263px);
+}
 
 footer {
 	height: 200px;
@@ -638,9 +642,9 @@ footer {
   }
   
   
-  /* 알람 종*/
- .bell {
-  animation: bell 3s infinite linear;
+/* 알람 종*/
+.bell {
+	animation: bell 3s infinite linear;
 	z-index: 3;
 }
   
@@ -674,4 +678,10 @@ footer {
 	margin: 0;
 	padding: 3px;
 }
+
+
+/* search */
+
+
+
 
