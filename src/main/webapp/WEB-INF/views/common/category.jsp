@@ -11,7 +11,7 @@
 <nav class="category" role="navigation" aria-label="카테고리">
 	<div class="categoryInner">
 		<div class="category-all">
-		  <a class="draggable" draggable="false" href="https://example.com/page1">전체 &nbsp;&nbsp;&nbsp;</a>
+		  <a class="draggable" draggable="false" href="/goodogs/">전체 &nbsp;&nbsp;&nbsp;</a>
 		</div>
 		
 		<div class="container">
