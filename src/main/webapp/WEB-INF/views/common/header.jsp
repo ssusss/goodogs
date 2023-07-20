@@ -66,6 +66,8 @@ window.addEventListener('load', function() {
 	        return;
 	      }
 	    };
+	  <% } else { %>
+			alarmCheck("<%=loginMember.getMemberId() %>");
 	  <% } %>
 	});
 </script>
@@ -278,18 +280,8 @@ window.addEventListener('load', function() {
 	
 	</header>
 	
-<% 	if(loginMember != null) { %>
-	<script>
-	
-	window.onload=()=>{
-		alarmCheck("<%=loginMember.getMemberId() %>");
-	}
-	
-
-	</script>
-<% 	} %>
 <script>
-function alarmCheck(memberId){
+function alarmCheck(memberId) {
 	console.log(memberId);
 	console.log("check");
 	$.ajax({
@@ -299,8 +291,8 @@ function alarmCheck(memberId){
 	dataType : "json",
 	success(alarms) {
 		console.log(alarms);
-		if(alarms.length>0){
-			
+		if(alarms.length > 0){
+				console.log("화난ㄴ다");
 				const alarmSpace =document.querySelector("#notification");
 					if(!alarmSpace.hasChildNodes()) {
 						alarmSpace.innerHTML=`<i class="fa-solid fa-bell bell"></i>`;
@@ -311,8 +303,8 @@ function alarmCheck(memberId){
 						
 		 			</div>	
 				`);
-				const alarmMenuBox=document.querySelector(".alarmMenu");
-				alarmMenuBox.innerHTML=alarms.reduce((html,alarm)=>{
+				const alarmMenuBox = document.querySelector(".alarmMenu");
+				alarmMenuBox.innerHTML=alarms.reduce((html,alarm) => {
 					const{alarmNo,alarmReceiver,alarmScriptNo,alarmComment}=alarm;
 						
 					return html +`
@@ -347,18 +339,6 @@ document.addEventListener("click",(e)=>{
 	}
 
 
-	if(e.target.matches(".bell")){
 
-		$.ajax({
-				url : "<%= request.getContextPath() %>/admin/alarmChecked",
-				data : {,},	
-				method : "POST",
-				dataType : "json",
-				success(updateRole) {
-					console.log(updateRole)
-					alert(updateRole.message);
-				}
-			});
-	}
 });
 </script>
