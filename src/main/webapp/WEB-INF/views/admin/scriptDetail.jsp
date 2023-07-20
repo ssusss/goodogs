@@ -52,7 +52,7 @@
 </div>  
 
 <section id="news-container">
-<<<<<<< HEAD
+
 
 
 <div id="img-container">
@@ -61,12 +61,7 @@
     <% } %>
 </div>
 				 
-=======
-	<div id="img-container">
-		<img id="news-img" name="news-img" style="width: 600px;" src="<%= request.getContextPath() %>/upload/newsImage/<%=image.getRenamedFilename()%>"><!--  이미지  -->
-	</div>
-							 
->>>>>>> branch 'master' of https://github.com/ssusss/goodogs
+
 	<div id="news-content" name="news-content"><%=script.getScriptContent()%></div><!--  내용  -->
 	 
 	<br/><br/><br/>
