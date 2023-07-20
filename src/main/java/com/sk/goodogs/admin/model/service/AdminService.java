@@ -38,7 +38,19 @@ public class AdminService {
 		return members;
 	}
 
+	public List<NewsComment> Commentfind(String searchType, String searchKeyword) {
+		Connection conn = getConnection();
+		 List<NewsComment> newsComments  = adminDao.Commentfind( conn, searchType,  searchKeyword);
+		close(conn);
+		return newsComments;
+	}
 
+	public List<NewsComment> CommentfindReport(String searchType, String searchKeyword) {
+		Connection conn = getConnection();
+		 List<NewsComment> newsComments  = adminDao.CommentfindReport( conn, searchType,  searchKeyword);
+		close(conn);
+		return newsComments;
+	}
 	
 	public List<NewsComment> findBanComment(int start, int end) {
 		Connection conn = getConnection();
@@ -178,6 +190,23 @@ public class AdminService {
 		return result;
 	}
 
+	public int addRejextReason(int no, String rejectReason) {
+		int result=0;
+		Connection conn =getConnection();
+		
+		try{
+			result=adminDao.addRejextReason(no,rejectReason,conn);
+			commit(conn);
+		}catch (Exception e) {
+			rollback(conn);
+			throw e;
+		}finally {
+			close(conn);
+		}
+		
+		return result;
+	}
+	
 	public NewsImage findImageByNo(int no) {
 		NewsImage image = null;
 		Connection conn= getConnection();

@@ -8,33 +8,7 @@
 	bannerContainerUpper = document.querySelector(".bannerContainerUpper");
 	bannerContainerUpper.style.display = "none";
 </script>
-<style>
-#register-container {
-	margin : 70px auto;
-}
-#register-container #tbl-register{
-	border : 1px solid black;
-	margin : 0 auto;
-	padding : 5px;
-}
-#tbl-register {
-	border-spacing : 0;
-}
 
-#tbl-register tr {
-	magin : 0;
-	padding : 0;
-}
-#tbl-register th {
-	magin : 0;
-	padding : 5px;
-	background-color : #B5C99A;
-	border-right: 2px solid black;
-}
-#tbl-register td {
-	padding : 5px;
-} 
-</style>
 <section id=register-container>
 
 	<form name="memberRegisterFrm" id="memberRegisterFrm" action="" method="POST">
@@ -81,8 +55,10 @@
 				</td>
 			</tr>
 		</table>
-		<input type="submit" value="회원가입" >
-		<input type="reset" value="취소">
+		<div class="registerBtnContainer">
+			<input type="submit" value="회원가입" >
+			<input type="reset" value="취소">
+		</div>
 	</form>
 </section>
 <script>
@@ -135,3 +111,6 @@ document.memberRegisterFrm.onsubmit = (e) => {
 
 </script>
 <%@ include file="/WEB-INF/views/common/footer.jsp" %>
+<script>
+aside.style.display = "none";
+</script>

@@ -75,6 +75,10 @@ window.addEventListener('load', function() {
 
 
 <body>
+	<!-- 
+		@author : 김동찬, 이혜령 
+		- 
+	-->
 	<div id="container">
 		<nav class="navBar">
 			<div class="navInner">
@@ -84,7 +88,6 @@ window.addEventListener('load', function() {
 					
 				</div>	
 				<div class="navBox">
-					
 					
 					<div class="searchBox"><i class="fa-solid fa-magnifying-glass fa-2xl searchIcon" style="color: ##051619;"></i></div>
 					<div class="infoBox">
@@ -102,10 +105,14 @@ window.addEventListener('load', function() {
 		</nav>
 		
 
+	<!-- 
+		@author : 김동찬, 이혜령
+		- navBox에서 검색/정보 바로가기
+		- 로그인 안하고 정보누를 시 경고창 + focus
+	 -->	
 	<script>
-	
-	
-    toMain1.onclick = () => {
+
+	toMain1.onclick = () => {
       location.href = '<%=request.getContextPath()%>/';
     }
 
@@ -181,7 +188,6 @@ window.addEventListener('load', function() {
 		<%
 		}
 		%>
-
 
 		<div class="bannerContainerLower">
 			<div class="infoWrapper">
@@ -287,18 +293,12 @@ window.addEventListener('load', function() {
 				<div class="goodogsImageContainer">
 					<img class="goodogsImage" alt="" src="<%= request.getContextPath() %>/images/character/goodogs_news.png" onclick="location.href='<%= request.getContextPath() %>/webtoon';">
 					<img class="speechImage" alt="" src="<%= request.getContextPath() %>/images/character/speech_bubble.png">
-					<!-- 말풍선 이미지 수정할 것 -->
 				</div>
 				<div class="menuContainer"></div>
 			</div>
 		</div>
 
 		
-		<!-- 
-			@author : 김동찬, 이혜령
-			- navBox에서 검색/정보 바로가기
-			- 로그인 안하고 정보누를 시 경고창 + focus
-		 -->	
 	</header>
 	
 	
@@ -348,6 +348,8 @@ function alarmCheck(memberId) {
 document.addEventListener("click",(e)=>{
 
 	if(e.target.matches(".bell")){
+		
+		
 		const bell = document.querySelector(".bell");
 		const alarmMenu = document.querySelector(".alarmMenu");
 		if (bell.classList.length == 1) {

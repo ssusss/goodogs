@@ -11,6 +11,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import com.sk.goodogs.common.EncryptPasswordUtils;
 import com.sk.goodogs.member.model.service.MemberService;
 import com.sk.goodogs.member.model.vo.Gender;
 import com.sk.goodogs.member.model.vo.Member;
@@ -46,8 +47,9 @@ public class MemberRegisterServlet extends HttpServlet {
 		request.setCharacterEncoding("utf-8");
 		// 1. 사용자 입력값 처리
 		String memberId = request.getParameter("_memberId");
+		// 비밀번호 암호화
+		// String _password = EncryptPasswordUtils.getEncryptedPassword(request.getParameter("_password"), memberId);
 		String _password = request.getParameter("_password");
-		// String password = HelloMvcUtils.getEncryptedPassword(request.getParameter("password"), memberId);
 		String nickname = request.getParameter("nickname");
 		String _gender = request.getParameter("gender");
 		Gender gender = _gender != null ? Gender.valueOf(_gender) : null;

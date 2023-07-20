@@ -33,11 +33,12 @@ public class NewsDetailServlet extends HttpServlet {
         Member loginMember = (Member) session.getAttribute("loginMember");
         String memberId = loginMember != null ? loginMember.getMemberId() : "";
 
+        System.out.println(No);
         System.out.println("기사  리스트");
 
         NewsAndImage newsAndImage = newsService.newsDetail(No);
         request.setAttribute("newsAndImage", newsAndImage );
-        
+        System.out.println(newsAndImage);
         // 뉴스 좋아요수 세팅 (전수경)
         newsAndImage.setNewsLikeCnt(likeService.getNewsLikeCnt(No));
 
