@@ -263,6 +263,7 @@ window.addEventListener('load', function() {
 			<div class="goodogsImageWrapper">
 				<div class="goodogsImageContainer">
 					<img class="goodogsImage" alt="" src="<%= request.getContextPath() %>/images/character/goodogs_news.png">
+					<img class="speechImage" alt="" src="<%= request.getContextPath() %>/images/character/speech_bubble.png">
 					<!-- 말풍선 이미지 수정할 것 -->
 				</div>
 				<div class="menuContainer"></div>

@@ -89,3 +89,23 @@
 	top: -23px;
 }
 
+
+/* 북마크 말풍선 */
+.highlight-tooltip {
+	background: #b5c99a;
+	border-radius: .4em;
+}
+
+.highlight-tooltip:after {
+	content: '';
+	position: absolute;
+	bottom: 0;
+	left: 50%;
+	width: 0;
+	height: 0;
+	border: 3px solid transparent;
+	border-top-color: #b5c99a;
+	border-bottom: 0;
+	margin-left: -3px;
+	margin-bottom: -3px;
+}
