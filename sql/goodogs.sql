@@ -404,6 +404,13 @@ insert into news values(36,'kdc0526@naver.com','대충스포츠뉴스','스포�
 
 
 -- 뉴스이미지
+insert into news_image values(1,'제목없음.png','20230718_1.png',default);
+insert into news_image values(2,'제목없음.png','20230718_1.png',default);
+insert into news_image values(3,'제목없음.png','20230718_1.png',default);
+insert into news_image values(4,'제목없음.png','20230718_1.png',default);
+insert into news_image values(5,'제목없음.png','20230718_1.png',default);
+insert into news_image values(6,'제목없음.png','20230718_1.png',default);
+insert into news_image values(7,'제목없음.png','20230718_1.png',default);
 insert into news_image values(8,'제목없음.png','20230717_091648367_729.png',default);
 insert into news_image values(9,'제목없음.png','20230717_092040407_043.png',default);
 insert into news_image values(10,'제목없음.png','20230717_092040407_043.png',default);
@@ -446,11 +453,4 @@ insert into like_list values('admin@naver.com', 9, default);
 --북마크 샘플 데이터
 insert into bookmark values('kdc0526@naver.com',18,'마지막이네 벌써ㅋ','7시 46분',DEFAULT );
 
---알람 테이블 추가
-insert into member values('1@1', 'M', '123', '상윤기자', '01012312344', to_date('20160617','yyyymmdd'), 'R', default, default);
-insert into member values('2@2', 'M', '123', '상윤관리자', '01012312355', to_date('20160617','yyyymmdd'), 'A', default, default);
-select * from news order by news_like_cnt desc;
-
-
-SELECT * FROM (SELECT news.*,ROWNUM as rnum FROM news ORDER BY news_like_cnt DESC ) ranked WHERE ranked.rnum <= 5
 commit;
