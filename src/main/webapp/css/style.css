@@ -347,14 +347,24 @@ header .bannerContainerLower {
 	padding: 2px 0 10px 10px;
 }
 
-.welcomeMember1 {
-	
-}
-.welcomeMember2 {
+/* 회원 - 반갑개, 관리자 - 함께 */
+.welcomMember1 {
 	padding: 10px 0 0 10px;
+	font-size : 30px;
+}
+
+/* 구독스 총 멤버 */
+.welcomeMember2 {
+	padding: 0;
 	margin: 0;
 	font-size: 40px;
 	font-weight: bold;
+}
+
+/* 기자 - 반갑개 */
+.welcomMember3 {
+	padding: 10px 0 0 10px;
+	font-size : 20px;
 }
 
 .welcomeBtnWrapper {
@@ -362,14 +372,23 @@ header .bannerContainerLower {
 	height: 100px;
 }
 
+/* welcombox '구독스'를 읽고있어요 */
+.main-goodogs-font {
+	font-weight: bold;
+}
+
+
 .infoContainer input:first-of-type {
 	background-color: #EDEDE1;
 	position: absolute;
-	margin: 0 0 0 10px;
+	width: 190px;
+	height: 40px;
+	margin: 0;
 	font-family: 'GmarketSansMedium', sans-serif;
-	font-size: 16px;
+	font-size: 24px;
 	border: 2px solid darkgray;
 	border-radius: 5px;
+	transform: translate(10px, 20px);
 }
 .infoContainer input:nth-of-type(2) {
 	background-color: #EDEDE1;
@@ -381,19 +400,7 @@ header .bannerContainerLower {
 	font-size: 24px;
 	border: 2px solid darkgray;
 	border-radius: 5px;
-	transform: translate(10px, 36px);
-}
-.infoContainer input:last-of-type {
-	background-color: #EDEDE1;
-	position: absolute;
-	width: 190px;
-	height: 40px;
-	margin: 0;
-	font-family: 'GmarketSansMedium', sans-serif;
-	font-size: 24px;
-	border: 2px solid darkgray;
-	border-radius: 5px;
-	transform: translate(206px, 36px);
+	transform: translate(206px, 20px);
 }
 
 .registerContainer {
@@ -437,7 +444,7 @@ header .bannerContainerLower {
 	font-size: 16px;
 	border-radius: 5px;
 	position: absolute;
-	transform: translate(200px, 20px);
+	transform: translate(200px, 14px);
 	border: 2px solid darkgray;
 }
 .idSaveWrapper {
