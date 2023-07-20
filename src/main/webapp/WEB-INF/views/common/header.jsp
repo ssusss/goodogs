@@ -192,7 +192,7 @@ window.addEventListener('load', function() {
 				<div class="loginContainer">
 					<!-- 환영메세지 -->
 					<div class="welcomeBox">
-						<p class="p1">✨지금 555,346명이 구독스를 읽고 있어요.</p>
+						<p class="p1">✨지금 <%= request.getAttribute("totalMember") %>명이 구독스를 읽고 있어요. </p>
 						<p class="p2">세상 돌아가는 소식, 빠르고 편하게 접해보세요!</p>
 						<p class="p3">아침마다 세상 돌아가는 소식을 메일로 받아보세요.</p>
 					</div>
