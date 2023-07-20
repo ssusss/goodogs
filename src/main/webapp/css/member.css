@@ -110,5 +110,54 @@ small {
 /* 좋아요 */
 
 
+/* 북마크 */
+.tbl-bookmark {
+    border-collapse: collapse;
+    margin: auto;
+    table-layout: fixed;
+}
 
+.tbl-bookmark th,
+.tbl-bookmark td {
+    border: 1px solid black;
+    padding: 5px;
+    text-align: center;
+}
+
+.tbl-bookmark th {
+    background-color: #B5C99A;
+}
+
+.tbl-bookmark tbody {
+    background-color: transparent; /* 투명한 배경 설정 */
+}
+
+.tbl-bookmark tr th:first-of-type,
+.tbl-bookmark tr td:first-of-type {
+    min-width: 70px;
+}
+
+.tbl-bookmark tr th:nth-of-type(2),
+.tbl-bookmark tr td:nth-of-type(2) {
+    max-width: 500px;
+    min-width: 500px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.tbl-bookmark tr th:nth-of-type(3),
+.tbl-bookmark tr td:nth-of-type(3) {
+    min-width: 70px;
+}
+
+.tbl-bookmark tr th:nth-of-type(4),
+.tbl-bookmark tr td:nth-of-type(4) {
+    min-width: 190px;
+}
+
+.tbl-bookmark tr th:last-of-type,
+.tbl-bookmark tr td:last-of-type {
+    min-width: 50px;
+}
 
