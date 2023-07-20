@@ -11,7 +11,7 @@
 <script src="<%= request.getContextPath() %>/js/jquery-3.7.0.js"></script>
 <script src="https://code.jquery.com/ui/1.13.2/jquery-ui.js"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-<link rel="stylesheet" href="<%=request.getContextPath()%>/css/news.css" />
+<link rel="stylesheet" href="<%=request.getContextPath()%>/css/news.css"/>
 <!--  기사 페이지  -->
 <%
 	NewsAndImage newsAndImage = (NewsAndImage) request.getAttribute("newsAndImage");
@@ -68,11 +68,10 @@
 		</div>
 		<% for (int i = 1; i < tagArr.length; i++) { %>
 		<div class="news-tag">
-			<a href="">#<%= tagArr[i] %></a>
+			<a href="<%=request.getContextPath()%>/search/news/?keyword=<%= tagArr[i] %>">#<%= tagArr[i] %></a>
 		</div>
 		<% } %>
 	</div>
-	<!-- 태그 수정 필요 -->
 
 
 <!-- 좋아요 --> <!--  진행도 ( 완성 )  -->
