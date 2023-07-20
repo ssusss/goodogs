@@ -52,6 +52,8 @@ public class NewsService {
 		int result = 0;
 		try {
 			result = newsDao.newsScriptSubmit(conn, newNewsScript);
+			int ScriptNo=newsDao.findScriptNo(conn);
+			newNewsScript.setScriptNo(ScriptNo);
 			commit(conn);
 		} catch(Exception e) {
 			rollback(conn);
@@ -314,6 +316,7 @@ public class NewsService {
 			close(conn);
 			return newsAndImages;
 		}
+	
 
 	
 }

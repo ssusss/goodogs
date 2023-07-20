@@ -473,6 +473,7 @@ const deleteBoard = () => {
 					
 							} // if (newsComment == 0  ){끝 
 
+							
 						} // success 끝
 					
 					
@@ -540,7 +541,7 @@ document.addEventListener("click", (e) => {
 						    			// afterend 종료태그후 - 다음형제요소로 추가
 						    			parentTr.insertAdjacentHTML('afterend', tr);
 						    			button.onclick = null; // 이벤트핸들러 제거 (1회용)
-						    			
+						    		
 						    }else if(e.target.matches("  button[class='report'] ")) {
 						    	// 신고하기...!!!!!!!!
 						    	
@@ -733,8 +734,6 @@ if (<%= loginMember != null %>) {
 	   hideTooltip(); // 말풍선 숨김
 	 }
 	});
-
-
 
 
 

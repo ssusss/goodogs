@@ -348,6 +348,8 @@ function alarmCheck(memberId) {
 document.addEventListener("click",(e)=>{
 
 	if(e.target.matches(".bell")){
+		
+		
 		const bell = document.querySelector(".bell");
 		const alarmMenu = document.querySelector(".alarmMenu");
 		if (bell.classList.length == 1) {

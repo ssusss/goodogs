@@ -184,7 +184,6 @@
 					hasRead:"0",
 					createdAt :Date.now()
 				}
-				console.log("샌드 확인"+JSON.stringify(payload));
 			ws.send(JSON.stringify(payload));
 			window.location.href = "<%=request.getContextPath() %>/admin/adminScriptList";
 		};
