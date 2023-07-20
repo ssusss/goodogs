@@ -261,7 +261,10 @@ h1, h3{text-align:center;}
 .script-tbl tr th:last-of-type, .script-tbl tr td:last-of-type {
 	min-width: 130px;
 }
-
+.msBtn {
+	font-family: 'GmarketSansMedium';
+	border: 1px solid black;
+}
 /* 기사 목록 */
 .myPostList {
 	overflow: hidden;

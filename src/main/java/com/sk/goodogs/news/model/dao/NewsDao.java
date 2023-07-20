@@ -576,21 +576,27 @@ public class NewsDao {
 			
 			// 신고 체크
 			public int updateReport(Connection conn, String memberId, int commentNo) {
-				int result =0;
-				String sql =  prop.getProperty("checkUpdate");
-				
-				try(PreparedStatement pstmt = conn.prepareStatement(sql)){
-					pstmt.setString(1, memberId);
-					pstmt.setInt(2, commentNo);
-					
-					result = pstmt.executeUpdate();
-					
-				} catch (SQLException e) {
-					throw new LikeException(e);
-				}
-				return result;
-			}
+			    int result = 0; 
+			    int result2 = 0;
+			    String sql = prop.getProperty("checkUpdate");
+			    String sql2 = prop.getProperty("reportComment");
 
+			    try (
+			        PreparedStatement pstmt = conn.prepareStatement(sql);
+			        PreparedStatement pstmt2 = conn.prepareStatement(sql2);
+			    ) {
+			        pstmt.setString(1, memberId);
+			        pstmt.setInt(2, commentNo); // 뉴스 신고 수 업데이트
+			        result = pstmt.executeUpdate();
+			        
+			        pstmt2.setInt(1, commentNo);  // 뉴스 신고 수 업데이트
+			        result2 += pstmt2.executeUpdate();
+
+			    } catch (SQLException e) {
+			        throw new LikeException(e);
+			    }
+			    return result;
+			}
 		
 
 			public List<NewsAndImage> findNewsByKeyword(Connection conn, int start, int end, String keyword) {
