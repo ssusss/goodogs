@@ -646,6 +646,28 @@ footer {
 	cursor: pointer;
 }
 
+/* 방문하지 않은 링크 색상 */
+a.footer-sitemap-item-link {
+  color: #000000; /* 기본 색상 */
+}
+
+/* 방문한 링크 색상 */
+a.footer-sitemap-item-link:visited {
+  color: #000000; /* 방문한 경우 색상 */
+}
+
+/* 링크에 마우스를 올렸을 때 색상 */
+a.footer-sitemap-item-link:hover {
+  color: #008000; /* 마우스 호버시 색상 */
+}
+
+/* 링크에 밑줄 제거 */
+a.footer-sitemap-item-link {
+  text-decoration: none;
+}
+
+
+
 
 /* 카테고리 밑줄 안보이게 하기*/
 .draggable {
