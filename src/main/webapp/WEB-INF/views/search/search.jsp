@@ -13,133 +13,17 @@ bannerContainerUpper.style.display = "none";
 bannerContainerLower.style.display = "none";
 navBox.style.display = "none";
 </script>
-
-  <style>
-    section {
-      border: 1px solid black;
-      height: 800px;
-    }
-
-    .searchWrapper {
-      border: 1px solid black;
-      width: 90%;
-      margin: 0 auto;
-      height: 800px;
-      display: flex;
-    }
-
-    .searchContainer {
-      width: 50%;
-      height: 800px;
-    }
-
-    .searchBoxContainer {
-      border: 1px solid black;
-    }
-
-    .tble-newsContainer {
-      margin-top: 20px;
-      border: 1px solid black;
-    }
-
-    #tbl-news {
-      border-collapse: collapse;
-      width: 100%;
-    }
-
-    #tbl-news th,
-    #tbl-news td {
-      border: 1px solid black;
-      padding: 8px;
-      text-align: center;
-    }
-
-    #tbl-news thead tr {
-      background-color: #f2f2f2;
-    }
-
-    #tbl-news tbody tr:nth-child(even) {
-      background-color: #f9f9f9;
-    }
-
-    #tbl-news tbody tr:hover {
-      background-color: #ddd;
-    }
-
-    .searchImageContainer {
-      position: absolute;
-      border: 1px solid black;
-      width: 300px;
-      height: 300px;
-      margin: 384px 150px;
-    }
-
-    .keywordContainer {
-      border: 1px solid black;
-      width: 50%;
-      height: 800px;
-    }
-
-    table {
-      border: 1px solid black;
-      width: 100%;
-    }
-
-    table th,
-    table tr,
-    table td {
-      border: 1px solid black;
-      padding: 8px;
-      text-align: center;
-    }
-
-    table thead tr {
-      background-color: #f2f2f2;
-    }
-
-    table tbody tr:nth-child(even) {
-      background-color: #f9f9f9;
-    }
-
-    table tbody tr:hover {
-      background-color: #ddd;
-    }
-    
-   .imageFile {
-	  display: block; /* Remove any inline spacing */
-	  width: 100%;
-	  max-width: 100%; /* Set the maximum width to 100% of its container */
-	  height: -webkit-fill-available; /* Maintain aspect ratio */
-	}
-  </style>
-
+<link rel="stylesheet" href="<%=request.getContextPath()%>/css/search.css" />
 <section>
 	<div class="searchWrapper">
 		<div class="searchContainer">
-			<form action="">
-				<div class="searchBoxContainer">
-					<input type="text" name="searchKeyword" placeholder="무엇이 알고싶개?" id="newsName">
-					<button type="button" onclick="searchNews()">검색!</button>
-				</div>
-			</form>
-			
-			<div class= "tble-newsContainer">
-				<table id="tbl-news">
-					<thead>
-						<tr>
-							<th>뉴스 제목</th>
-							<th>뉴스 작성자</th>
-							<th>뉴스 좋아요 수</th>
-							<th>뉴스 조회 수</th>
-						</tr>
-					</thead>
-					<tbody></tbody>
-				</table>
-			
+			<div class="searchBoxContainer">
+				<input type="text" name="searchKeyword" placeholder="무엇이 알고싶개?" id="newsName">
+				<button type="button" onclick="searchNews()">검색!</button>
+				<span class="searchNullAlert" style="display: none;">검색어를 입력해주개!!!</span>
 			</div>
-			
 			<div class="searchImageContainer">
-				<img src="<%= request.getContextPath() %>/upload/profile/withDraw.jpg" alt="sadImage" class="imageFile"/>
+				<img src="<%= request.getContextPath() %>/images/character/goodogs_think.png" alt="sadImage" class="imageFile"/>
 			</div>			
 		</div>
 		<div class="keywordContainer">
@@ -210,11 +94,12 @@ navBox.style.display = "none";
 
 		    if (news.length > 0) {
 		      news.forEach((news) => {
-		        const { newsTitle, newsLikeCnt } = news;
+		        const { newsTitle, newsLikeCnt, newsNo } = news;
 		        const row = document.createElement("tr");
 		        row.innerHTML = `
 		          <td>\${i}</td>
-		          <td>\${newsTitle}</td>
+		          <td><a href="/goodogs/news/newsDetail?no=\${newsNo}" 
+		        		  style="text-decoration: none; color: inherit;">\${newsTitle}</a></td>
 		          <td>\${newsLikeCnt}개</td>
 		        `;
 		        tbody.appendChild(row);
@@ -231,12 +116,22 @@ navBox.style.display = "none";
 
 	
 	function searchNews() {
-		  const searchKeywordVal = document.getElementById("newsName").value;
-		  
-		  location.href = '<%=request.getContextPath()%>/search/news/?keyword=' + searchKeywordVal;
-		  
+		const searchNullAlert = document.querySelector(".searchNullAlert");
+		
+		if (newsName.value.trim() == '') {
+			searchNullAlert.style.display = "block";
+			return false;
 		}
-	
+		
+				
+	  const searchKeywordVal = document.getElementById("newsName").value;
+	  
+	  console.log(searchKeywordVal);
+	  searchNullAlert.style.display = "none";
+	  location.href = '<%=request.getContextPath()%>/search/news/?keyword=' + searchKeywordVal;
+	  
+	}
+
 	
 </script>
 

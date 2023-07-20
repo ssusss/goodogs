@@ -6,7 +6,9 @@ import java.util.List;
 import java.util.Map;
 
 import com.sk.goodogs.admin.model.dao.AdminDao;
+import com.sk.goodogs.admin.model.vo.Alarm;
 import com.sk.goodogs.news.model.vo.NewsComment;
+import com.sk.goodogs.news.model.vo.NewsImage;
 import com.sk.goodogs.news.model.vo.NewsScript;
 import com.sk.goodogs.news.model.vo.NewsScriptRejected;
 import com.sk.goodogs.member.model.dao.MemberDao;
@@ -15,6 +17,8 @@ import com.sk.goodogs.member.model.vo.Member;
 
 public class AdminService {
 	private final  AdminDao adminDao = new AdminDao();
+	private final  MemberDao memberDao = new MemberDao();
+
 
 	
 	public List<Member> memberFindAll() {
@@ -145,6 +149,59 @@ public class AdminService {
 			close(conn);
 		}
 		return result;
+	}
+
+	public List<Alarm> checkById(String memberId) {
+		List<Alarm> alarms= null;
+		Connection conn= getConnection();
+		
+		alarms=adminDao.checkById(conn,memberId);
+		close(conn);
+		
+		return alarms;
+	}
+
+	public int alarmUpdate(String memberId) {
+		int result=0;
+		Connection conn = getConnection();
+		
+		try {
+		 result=adminDao.alarmUpdate(memberId,conn);
+		 commit(conn);
+		} catch (Exception e) {
+			rollback(conn);
+			throw e;
+		}finally {
+			close(conn);
+		}
+		
+		return result;
+	}
+
+	public int addRejextReason(int no, String rejectReason) {
+		int result=0;
+		Connection conn =getConnection();
+		
+		try{
+			result=adminDao.addRejextReason(no,rejectReason,conn);
+			commit(conn);
+		}catch (Exception e) {
+			rollback(conn);
+			throw e;
+		}finally {
+			close(conn);
+		}
+		
+		return result;
+	}
+	
+	public NewsImage findImageByNo(int no) {
+		NewsImage image = null;
+		Connection conn= getConnection();
+		image = adminDao.findImageByNo(no,conn);
+		close(conn);
+
+		return image;
 	}
 		
 

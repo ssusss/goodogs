@@ -25,7 +25,7 @@ public class AdminScriptRejectedDetail extends HttpServlet {
 		System.out.println(no);
 
 		NewsScriptRejected rejectedScript =adminService.findOneRejectedScript(no);
-		System.out.println(rejectedScript);
+//		System.out.println(rejectedScript);
 		
 		request.setAttribute("rejectedScript", rejectedScript);
 		request.getRequestDispatcher("/WEB-INF/views/admin/scriptRejectDetail.jsp")

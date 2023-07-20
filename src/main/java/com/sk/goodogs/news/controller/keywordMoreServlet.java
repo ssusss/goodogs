@@ -26,9 +26,9 @@ public class keywordMoreServlet extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// 현재 URL 가져오기
-        String currentURL = request.getRequestURL().toString();
-        String[] URLarr = currentURL.split("goodogs/search/news/?keyword=");
-        String keyword = URLarr[URLarr.length - 1];
+		String keyword = request.getParameter("keyword");
+		System.out.println(keyword);
+		
         System.out.println("keyword = " + keyword);
         
         
@@ -46,7 +46,7 @@ public class keywordMoreServlet extends HttpServlet {
 		
 		// 2. 업무로직 (
 		List<NewsAndImage> newsAndImages = newsService.findNewsByKeyword(start, end, keyword);
-		System.out.println("newsAndImages : " + newsAndImages);
+//		System.out.println("newsAndImages : " + newsAndImages);
 		
 		// 3. 응답처리 (json)
 		response.setContentType("application/json; charset=utf-8");

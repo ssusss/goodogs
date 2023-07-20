@@ -1,7 +1,11 @@
 package com.sk.goodogs.member.model.vo;
 
 import java.sql.Timestamp;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
+
+import com.sk.goodogs.admin.model.vo.Alarm;
 
 /**
  * @author 전수경, 이혜령
@@ -21,6 +25,7 @@ public class Member {
 	private Timestamp enrollDate;
 	private String memberProfile;
 	private int isBanned;
+	private List<Alarm> alarms = new ArrayList<>();
 
 	public Member() {
 		super();
@@ -49,6 +54,20 @@ public class Member {
 		this.memberProfile = memberProfile;
 		this.gender = gender;
 	}
+	
+	
+	
+
+	
+
+	public List<Alarm> getAlarms() {
+		return alarms;
+	}
+
+	public void setAlarms(List<Alarm> alarms) {
+		this.alarms = alarms;
+	}
+	
 
 	public String getMemberId() {
 		return memberId;

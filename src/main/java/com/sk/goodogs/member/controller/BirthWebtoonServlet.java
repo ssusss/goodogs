@@ -1,4 +1,4 @@
-package com.sk.goodogs.news.controller;
+package com.sk.goodogs.member.controller;
 
 import java.io.IOException;
 import javax.servlet.ServletException;
@@ -7,20 +7,20 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-// 뉴스 페이지 조회
 /**
- * Servlet implementation class NewsInfoServlet
+ * @author 이혜령
+ * - 탄생기 웹툰
  */
-@WebServlet("/news/newsPage")
-public class NewsPageServlet extends HttpServlet {
+@WebServlet("/webtoon")
+public class BirthWebtoonServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
 	/**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
-		response.getWriter().append("Served at: ").append(request.getContextPath());
+		
+		request.getRequestDispatcher("/WEB-INF/views/member/birthWebtoon.jsp").forward(request, response);
 	}
 
 }
