@@ -85,4 +85,12 @@ public class MemberService {
 		return result;
 	}
 
+
+	public int getTotalMember() {
+		Connection conn = getConnection();
+		int totalMember = memberDao.getTotalMember(conn);
+		close(conn);
+		return totalMember;
+	}
+
 }
