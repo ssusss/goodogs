@@ -8,6 +8,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.sk.goodogs.admin.model.service.AdminService;
+import com.sk.goodogs.news.model.vo.NewsImage;
 import com.sk.goodogs.news.model.vo.NewsScriptRejected;
 
 /**
@@ -27,7 +28,11 @@ public class AdminScriptRejectedDetail extends HttpServlet {
 		NewsScriptRejected rejectedScript =adminService.findOneRejectedScript(no);
 //		System.out.println(rejectedScript);
 		
+		NewsImage image = adminService.findImageByNo(no);
+		System.out.println("image = " + image);
+		
 		request.setAttribute("rejectedScript", rejectedScript);
+		request.setAttribute("image", image);
 		request.getRequestDispatcher("/WEB-INF/views/admin/scriptRejectDetail.jsp")
 		.forward(request, response);
 		

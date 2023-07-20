@@ -317,6 +317,5 @@ public class NewsService {
 			return newsAndImages;
 		}
 	
-
 	
 }

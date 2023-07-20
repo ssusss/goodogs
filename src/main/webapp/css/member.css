@@ -168,4 +168,57 @@ small {
   align-items: center; /* 세로 중앙 정렬 */
 }
 
+/* 회원 가입 */
+#memberRegisterFrm {
+	display: flex;
+	flex-direction: column;
+    align-items: center;
+}
+#register-container {
+	margin : 70px auto;
+}
+#register-container #tbl-register{
+	margin : 0 auto;
+}
+#tbl-register {
+	border: 1px solid #777;
+	border-spacing : 0;
+}
+
+#tbl-register tr {
+	margin : 0;
+	padding : 0;
+}
+#tbl-register th {
+	margin : 0;
+	padding : 10px;
+	font-size: 20px;
+	background-color : #B5C99A;
+	border-right: 1px solid gray;
+}
+#tbl-register td {
+	background-color: #eee;
+	padding : 10px;
+} 
+#tbl-register td label {
+	font-size: 18px;
+} 
+#tbl-register td input {
+	background-color: transparent;
+	padding : 0 10px;
+	font-size: 18px;
+	border-width: 0 0 1px 0;
+} 
+.registerBtnContainer {
+	margin: 10px 0;
+}
+.registerBtnContainer input {
+	font-family: 'GmarketSansMedium';
+	font-size: 17px;
+	width: 100px;
+	height: 30px;	
+	margin: 0 4px;
+}
+
+
 
