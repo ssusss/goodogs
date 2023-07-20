@@ -41,6 +41,7 @@ public class AdminScriptReject extends HttpServlet {
 		script.setScriptState(3);
 
 		int result=adminService.scriptUpdate(script);
+		int result1=adminService.addRejextReason(no,rejectReason);
 		
 		response.setContentType("application/json; charset=utf-8");
 		Map<String, Object> map = new HashMap<>();

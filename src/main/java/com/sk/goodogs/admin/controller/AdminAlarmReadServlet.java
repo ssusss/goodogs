@@ -16,7 +16,7 @@ import com.sk.goodogs.admin.model.service.AdminService;
 /**
  * Servlet implementation class AdminAlarmReadServlet
  */
-@WebServlet("/alarm/alarmChecked")
+@WebServlet({"/alarm/alarmChecked","/alarm/liveAlarmChecked"})
 public class AdminAlarmReadServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	private static final AdminService adminService = new AdminService();

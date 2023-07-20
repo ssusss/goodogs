@@ -1,11 +1,11 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 	    <aside>
-	      <div class="home-banner" onclick="scrollToTop()">
+	      <div class="home-banner">
 	        <figure class="home-banner-image">
-	        	<img src="<%= request.getContextPath() %>/images/character/goodogs_laptop.png">
+	        	<img src="<%= request.getContextPath() %>/images/character/goodogs_laptop.png" onclick="scrollToTop()">
+	        	<img src="<%= request.getContextPath() %>/images/character/speech_bubble_scroll.png">
 	        </figure>
-	        <span class="home-banner-text">맨 위로 올라가개!</span>
 	      </div>
 	    </aside>
 	

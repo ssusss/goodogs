@@ -39,6 +39,11 @@ section {
     font-family: 'GmarketSansMedium';
 }
 
+.searchNullAlert {
+	font-size: 20px;
+	position: absolute;
+}
+
 .keywordContainer {
   width: 50%;
   height: 800px;

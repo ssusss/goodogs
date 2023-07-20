@@ -182,6 +182,20 @@ public class MemberDao {
 		}
 		return result;
 	}
+
+	public int getTotalMember(Connection conn) {
+		int totalMember = 0;
+		String sql = prop.getProperty("getTotalMember");
+		try (PreparedStatement pstmt = conn.prepareStatement(sql)) {
+			try (ResultSet rset = pstmt.executeQuery()) {
+				if(rset.next())
+					totalMember = rset.getInt(1);
+			}
+		} catch (SQLException e) {
+			throw new MemberException(e);
+		}
+		return totalMember;
+	}
 	
 
 
