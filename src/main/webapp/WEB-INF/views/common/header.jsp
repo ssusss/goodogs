@@ -310,7 +310,7 @@ function alarmCheck(memberId) {
 					const{alarmNo,alarmReceiver,alarmScriptNo,alarmComment}=alarm;
 						
 					return html +`
-						<p id="\${alarmNo}">\${alarmComment}</P>
+						<p>\${alarmComment}</P>
 					`;
 				},"");
 				
@@ -321,7 +321,6 @@ function alarmCheck(memberId) {
 	
 	});
 };
-
 
 
 document.addEventListener("click",(e)=>{
