@@ -1,3 +1,5 @@
+<%@page import="com.sk.goodogs.news.model.vo.NewsImage"%>
+<%@page import="com.sk.goodogs.news.model.vo.NewsAndImage"%>
 <%@page import="java.util.Date"%>
 <%@page import="com.google.gson.Gson"%>
 <%@page import="com.sk.goodogs.news.model.vo.NewsScript"%>
@@ -5,8 +7,24 @@
 	pageEncoding="UTF-8"%>
 <%@ include file="/WEB-INF/views/common/header.jsp" %>
 <%
-	NewsScript script=(NewsScript)request.getAttribute("script");
+	NewsScript script = (NewsScript)request.getAttribute("script");
+	NewsImage image = (NewsImage)request.getAttribute("image");
+	
+	String _category = "";
+    
+	switch (script.getScriptCategory()) {
+		case "정치" : _category = "politics"; break;
+		case "경제" : _category = "economy"; break;
+		case "세계" : _category = "global"; break;
+		case "테크" : _category = "tech"; break;
+		case "환경" : _category = "environment"; break;
+		case "스포츠" : _category = "sports"; break;
+		case "사회" : _category = "society"; break;
+	}
+	
+	String tagArr[] = script.getScriptTitle().split(",");
 %>
+<link rel="stylesheet" href="<%=request.getContextPath()%>/css/news.css" />
 <script>
 	const bannerContainerLower = document.querySelector(".bannerContainerLower");
 	bannerContainerLower.style.display = "none";
@@ -19,25 +37,37 @@
 </style>
 <script src="<%= request.getContextPath() %>/js/jquery-3.7.0.js"></script>
 	
-<section id="adminScriptDetail-container">
+<div id="newHeader">
+	<h4 id="news-category" name="news-category" style="color: #008000">
+		<a href="">
+			<%=script.getScriptCategory()%>
+		</a>
+	</h4> <!--  카테고리  -->
 
-	
-		
-		<h5 ><%=script.getScriptCategory() %></h5>
-		<h2 ><%=script.getScriptTitle() %></h2>
+	<h1 id="news-title" name="news-title" ><%=script.getScriptTitle() %></h1><!--  제목  -->
+ 	
+ 	<h4 id="news-confirmed-date" name="news-confirmed-date" ><%= script.getScriptWriteDate().toString().split(" ")[0] %></h4>
+</div>  
 
-		<h2>사진 준비중</h2>
-	
-		
-		<p>
-		<%=script.getScriptContent() %>
-		</p>
-		
-		<p>
-			<%=script.getScriptTag() %>
-		</p>
-		<p><%=script.getScriptTag() %> </p>
-		<p><%=script.getScriptNo() %> </p>
+<section id="news-container">
+	<div id="img-container">
+		<img id="news-img" name="news-img" style="width: 600px;" src="<%= request.getContextPath() %>/upload/newsImage/<%=image.getRenamedFilename()%>"><!--  이미지  -->
+	</div>
+							 
+	<div id="news-content" name="news-content"><%=script.getScriptContent()%></div><!--  내용  -->
+	 
+	<br/><br/><br/>
+	<div id="news-tag-container">
+		<div class="news-tag">
+			<a href="<%= request.getContextPath() %>/tag/<%= _category %>">#<%= tagArr[0] %></a>
+		</div>
+		<% for (int i = 1; i < tagArr.length; i++) { %>
+		<div class="news-tag">
+			<a href="<%=request.getContextPath()%>/search/news/?keyword=<%= tagArr[i] %>">#<%= tagArr[i] %></a>
+		</div>
+		<% } %>
+	</div>
+
 
 	<%if(script.getScriptState()==1){ %>
 		
@@ -154,7 +184,6 @@
 					hasRead:"0",
 					createdAt :Date.now()
 				}
-				console.log("샌드 확인"+JSON.stringify(payload));
 			ws.send(JSON.stringify(payload));
 			window.location.href = "<%=request.getContextPath() %>/admin/adminScriptList";
 		};

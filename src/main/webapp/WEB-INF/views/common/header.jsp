@@ -66,6 +66,8 @@ window.addEventListener('load', function() {
 	        return;
 	      }
 	    };
+	  <% } else { %>
+			alarmCheck("<%=loginMember.getMemberId() %>");
 	  <% } %>
 	});
 </script>
@@ -77,11 +79,11 @@ window.addEventListener('load', function() {
 		<nav class="navBar">
 			<div class="navInner">
 				<h1 id="toMain1">goodogs</h1>
+				<div id="notification-container">
+					<span id="notification"></span>
+					
+				</div>	
 				<div class="navBox">
-					<div id="notification-container">
-						<span id="notification"></span>
-						
-					</div>	
 					
 					
 					<div class="searchBox"><i class="fa-solid fa-magnifying-glass fa-2xl searchIcon" style="color: ##051619;"></i></div>
@@ -190,9 +192,9 @@ window.addEventListener('load', function() {
 				<div class="loginContainer">
 					<!-- 환영메세지 -->
 					<div class="welcomeBox">
-						<p class="p1">✨지금 555,346명이 구독스를 읽고 있어요.</p>
-						<p class="p2">세상 돌아가는 소식, 빠르고 편하게 접해보세요!</p>
-						<p class="p3">아침마다 세상 돌아가는 소식을 메일로 받아보세요.</p>
+						<p class="p1">✨지금 <%= request.getAttribute("totalMember") %>명이 구독스를 읽고 있어요. </p>
+						<p class="p2">세상 돌아가는 소식이 궁금하다면,</p>
+						<p class="p3">빠르고 편하게 아침마다 구독스 뉴스레터로 확인하세요!</p>
 					</div>
 					<!-- 로그인폼 -->
 					<form id="loginFrm" name="loginFrm" action="<%= request.getContextPath() %>/member/memberLogin" method="GET">
@@ -229,30 +231,51 @@ window.addEventListener('load', function() {
 				
 				<% } else if (loginMember != null) { %>
 				<div class="loginContainer infoContainer">
-					<div class="welcomeBox">
-						<p class="p1">✨지금 555,346명이 구독스를 읽고 있어요.</p>
-						<p class="p2">세상 돌아가는 소식, 빠르고 편하게 접해보세요!</p>
-						<p class="p3">아침마다 세상 돌아가는 소식을 메일로 받아보세요.</p>
-					</div>
 					<% if (loginMember.getMemberRole() == MemberRole.M) { %>
-					<p class="welcomeMember1">반가워 죽겠개,</p>
-					<p class="welcomeMember2"><%= loginMember.getNickname() %> 구독스!</p>
+					<div class="welcomeBox">
+						<p class="p1">✨지금 <%= request.getAttribute("totalMember") %>명이 <span class="main-goodogs-font">구독스</span>를 읽고 있어요. </p>
+						<p class="p2">수많은 구독스 멤버와 함께,</p>
+						<p class="p3">구독스에서 현명하고 빠르게 세상을 만나보세요!</p>
+					</div>
+					<br>
+					<div class="welcomMember1">
+						반갑개🐾						
+						<p class="welcomeMember2"><%= loginMember.getNickname() %> 구독스!</p>
+					</div>
+					
 					<div class="welcomeBtnWrapper">
-						<input type="button" value="프로필 편집" onclick="location.href='<%= request.getContextPath() %>/member/memberInfo';">
 						<input type="button" value="좋아요" onclick="location.href='<%= request.getContextPath() %>/like/likePage';">
 						<input type="button" value="북마크" onclick="location.href='<%= request.getContextPath() %>/bookmark/bookmarkPage';">
 					</div>
+					
 					<% } else if (loginMember.getMemberRole() == MemberRole.R) { %>
-					<p class="welcomeMember2">기자 <%= loginMember.getNickname() %>님, 어서오개!</p>
+					<div class="welcomeBox">
+						<p class="p1">✨지금 <%= request.getAttribute("totalMember") %>명이 <span class="main-goodogs-font">구독스</span>를 읽고 있어요. </p>
+						<p class="p2">수많은 구독스 멤버들에게,</p>
+						<p class="p3">새로운 소식과 정보를 전달해주세요!</p>
+					</div>
+					<br>
+					<div class="welcomMember3">
+						오늘은 세상에 무슨일이 일어났을까 ✍️		
+						<p class="welcomeMember2">기자 <%= loginMember.getNickname() %>님, 어서오개!</p>
+					</div>
 					<div class="welcomeBtnWrapper">
-						<input type="button" value="프로필 편집" onclick="location.href='<%= request.getContextPath() %>/member/memberInfo';">
 						<input type="button" value="좋아요" onclick="location.href='<%= request.getContextPath() %>/like/likePage';">
 						<input type="button" value="북마크" onclick="location.href='<%= request.getContextPath() %>/bookmark/bookmarkPage';">
 					</div>	
+					
 					<% } else if (loginMember.getMemberRole() == MemberRole.A) { %>
-					<p class="welcomeMember2">관리자 <%= loginMember.getNickname() %>님, 환영하개!</p>
+					<div class="welcomeBox">
+						<p class="p1">✨지금 <%= request.getAttribute("totalMember") %>명이 <span class="main-goodogs-font">구독스</span>를 읽고 있어요. </p>
+						<p class="p2">수많은 구독스 멤버들과,</p>
+						<p class="p3">오늘도 구독스와 함께하세요!</p>
+					</div>
+					<br>
+					<div class="welcomMember1">
+						함께 만들어가요 📰		
+						<p class="welcomeMember2">관리자 <%= loginMember.getNickname() %>님, 환영하개!</p>
+					</div>
 					<div class="welcomeBtnWrapper">
-						<input type="button" value="프로필 편집" onclick="location.href='<%= request.getContextPath() %>/member/memberInfo';">
 						<input type="button" value="좋아요" onclick="location.href='<%= request.getContextPath() %>/like/likePage';">
 						<input type="button" value="북마크" onclick="location.href='<%= request.getContextPath() %>/bookmark/bookmarkPage';">
 					</div>		
@@ -262,7 +285,8 @@ window.addEventListener('load', function() {
 			</div>
 			<div class="goodogsImageWrapper">
 				<div class="goodogsImageContainer">
-					<img class="goodogsImage" alt="" src="<%= request.getContextPath() %>/images/character/goodogs_news.png">
+					<img class="goodogsImage" alt="" src="<%= request.getContextPath() %>/images/character/goodogs_news.png" onclick="location.href='<%= request.getContextPath() %>/webtoon';">
+					<img class="speechImage" alt="" src="<%= request.getContextPath() %>/images/character/speech_bubble.png">
 					<!-- 말풍선 이미지 수정할 것 -->
 				</div>
 				<div class="menuContainer"></div>
@@ -275,21 +299,11 @@ window.addEventListener('load', function() {
 			- navBox에서 검색/정보 바로가기
 			- 로그인 안하고 정보누를 시 경고창 + focus
 		 -->	
-	
 	</header>
 	
-<% 	if(loginMember != null) { %>
-	<script>
 	
-	window.onload=()=>{
-		alarmCheck("<%=loginMember.getMemberId() %>");
-	}
-	
-
-	</script>
-<% 	} %>
 <script>
-function alarmCheck(memberId){
+function alarmCheck(memberId) {
 	console.log(memberId);
 
 	$.ajax({
@@ -299,11 +313,13 @@ function alarmCheck(memberId){
 	dataType : "json",
 	success(alarms) {
 		console.log(alarms);
-		if(alarms.length>0){
-			
+		if(alarms.length > 0){
 				const alarmSpace =document.querySelector("#notification");
 					if(!alarmSpace.hasChildNodes()) {
-						alarmSpace.innerHTML=`<i class="fa-solid fa-bell bell"></i>`;
+						alarmSpace.innerHTML=`<img alt="" 
+							 src="<%= request.getContextPath() %>/images/character/goodogs_ureka2.png"
+							 style="width: 150px" class="bell">`;
+						
 					}
 				const notificationContainer = document.querySelector("#notification-container");
 				notificationContainer.insertAdjacentHTML('beforeend', `
@@ -311,12 +327,12 @@ function alarmCheck(memberId){
 						
 		 			</div>	
 				`);
-				const alarmMenuBox=document.querySelector(".alarmMenu");
-				alarmMenuBox.innerHTML=alarms.reduce((html,alarm)=>{
+				const alarmMenuBox = document.querySelector(".alarmMenu");
+				alarmMenuBox.innerHTML=alarms.reduce((html,alarm) => {
 					const{alarmNo,alarmReceiver,alarmScriptNo,alarmComment}=alarm;
 						
 					return html +`
-						<p id="\${alarmNo}">\${alarmComment}</P>
+						<p>\${alarmComment}</P>
 					`;
 				},"");
 				
@@ -329,36 +345,35 @@ function alarmCheck(memberId){
 };
 
 
-
 document.addEventListener("click",(e)=>{
 
 	if(e.target.matches(".bell")){
+		
+		
 		const bell = document.querySelector(".bell");
-		const alarmMenu= document.querySelector(".alarmMenu");
-		if (bell.classList.length == 3) {
+		const alarmMenu = document.querySelector(".alarmMenu");
+		if (bell.classList.length == 1) {
 			alarmMenu.style.display="block";
+			bell.style.animation = "none";
 			bell.classList.add("bellClicked");			
 		} else {
 			bell.classList.remove("bellClicked");
 			alarmMenu.style.display="none";
 		}
-		
+	
+		const memberId= "<%=loginMember != null ? loginMember.getMemberId():"비로그인" %>" ;
+
+	    $.ajax({
+	        url : "<%= request.getContextPath() %>/alarm/alarmChecked",
+	        data :{memberId} ,
+	        method : "POST",
+	        dataType : "json",
+	        success(response) {
+	            console.log(response.result);
+	        }
+	    });
 		
 	}
 
-
-	if(e.target.matches(".bell")){
-
-		$.ajax({
-				url : "<%= request.getContextPath() %>/admin/alarmChecked",
-				data : "데이터연결해야함",	
-				method : "POST",
-				dataType : "json",
-				success(updateRole) {
-					console.log(updateRole)
-					alert(updateRole.message);
-				}
-			});
-	}
 });
 </script>

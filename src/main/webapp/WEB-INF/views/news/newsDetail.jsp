@@ -11,7 +11,7 @@
 <script src="<%= request.getContextPath() %>/js/jquery-3.7.0.js"></script>
 <script src="https://code.jquery.com/ui/1.13.2/jquery-ui.js"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-<link rel="stylesheet" href="<%=request.getContextPath()%>/css/news.css" />
+<link rel="stylesheet" href="<%=request.getContextPath()%>/css/news.css"/>
 <!--  기사 페이지  -->
 <%
 	NewsAndImage newsAndImage = (NewsAndImage) request.getAttribute("newsAndImage");
@@ -68,11 +68,10 @@
 		</div>
 		<% for (int i = 1; i < tagArr.length; i++) { %>
 		<div class="news-tag">
-			<a href="">#<%= tagArr[i] %></a>
+			<a href="<%=request.getContextPath()%>/search/news/?keyword=<%= tagArr[i] %>">#<%= tagArr[i] %></a>
 		</div>
 		<% } %>
 	</div>
-	<!-- 태그 수정 필요 -->
 
 
 <!-- 좋아요 --> <!--  진행도 ( 완성 )  -->
@@ -173,7 +172,7 @@
 </section>
 
 <!-- 북마크 말풍선 -->
-<div class="highlight-tooltip" style="display: block;">북마크</div>
+<div class="highlight-tooltip" style="display: none;">북마크</div>
 
 <script>
 <!--start-----------start----------------start--------------------start---------start------------------------------------------------------ ----------------------------------------------------- ------------------------------------------------------>
@@ -474,6 +473,7 @@ const deleteBoard = () => {
 					
 							} // if (newsComment == 0  ){끝 
 
+							
 						} // success 끝
 					
 					
@@ -541,7 +541,7 @@ document.addEventListener("click", (e) => {
 						    			// afterend 종료태그후 - 다음형제요소로 추가
 						    			parentTr.insertAdjacentHTML('afterend', tr);
 						    			button.onclick = null; // 이벤트핸들러 제거 (1회용)
-						    			
+						    		
 						    }else if(e.target.matches("  button[class='report'] ")) {
 						    	// 신고하기...!!!!!!!!
 						    	
@@ -669,68 +669,81 @@ if (<%= loginMember != null %>) {
 	};
 }
 	
-	
 //----------------------끝    
+/**
+ *  @author 이혜령
+ *  - 북마크 기능
+ **/
 
-  let selection2 = null;
+  	let selection2 = null;
+
+	//북마크 말풍선 찾아냄
+	const tooltip = document.querySelector('.highlight-tooltip');
 
 	//말풍선을 표시할 위치와 내용 설정
+	// tooltip.offsetHeight : tooltip 요소의 높이
 	function showTooltip(x, y) {
 	 tooltip.style.display = 'block';
 	 tooltip.style.left = x + 'px';
 	 tooltip.style.top = y - tooltip.offsetHeight - 10 + 'px';
 	}
 	
-	//말풍선을 숨김
+	//말풍선 숨김
 	function hideTooltip() {
 	 tooltip.style.display = 'none';
 	}
 	
-	//북마크 말풍선 찾아냄
-	const tooltip = document.querySelector('.highlight-tooltip');
-	
 	//말풍선 클릭 시 하이라이트 저장
 	function handleTooltipClick(e) {
-	 $.ajax({
-	   url: "<%= request.getContextPath() %>/bookmark/bookmarkInsert",
-	   data: {
-	     memberId: "<%= loginMember != null ? loginMember.getMemberId() : "" %>",
-	     newsNo: <%= newsAndImage.getNewsNo() %>,
-	     newsTitle: "<%= newsAndImage.getNewsTitle() %>",
-	     bookmarkedContent: selection2
-	   },
-	   method: "POST",
-	   dataType: "json",
-	   success(responseData) {
-	     console.log(responseData);
-	     //console.log(newsTitle);
-	   }
-	 });
-	 e.preventDefault();
-	}
-	
-	//mouseup 이벤트 발생 시 말풍선 표시
+		
+		// 북마크 회원 유효성 검사
+		const loginMemberId = "<%= loginMember != null ? loginMember.getMemberId() : "" %>";
+		if (loginMemberId === '') {
+			alert("북마크 기능은 회원만 사용 가능합니다🙅");
+			return;
+		}
+ 
+		$.ajax({
+			url: "<%= request.getContextPath() %>/bookmark/bookmarkInsert",
+			data: {
+					memberId: "<%= loginMember != null ? loginMember.getMemberId() : "" %>",
+					newsNo: <%= newsAndImage.getNewsNo() %>,
+					newsTitle: "<%= newsAndImage.getNewsTitle() %>",
+			        bookmarkedContent: selection2
+				  },
+			method: "POST",
+			dataType: "json",
+			success(responseData) {
+				console.log(responseData);
+				//console.log(newsTitle);
+				}
+			});
+				e.preventDefault();
+		}
+
+	// mouseup 이벤트 발생 시 말풍선 표시
 	document.addEventListener('mouseup', function(event) {
-	 const selection = window.getSelection();
-	
-	 if (selection.toString().trim() !== '') {
-	   const range = selection.getRangeAt(0);
-	   const rect = range.getBoundingClientRect();
-	   const x = rect.left + rect.width / 2;
-	   const y = rect.top + window.pageYOffset;
-	   selection2 = selection.toString();
-	
-	   // 말풍선 클릭 이벤트 핸들러 등록
-	   tooltip.addEventListener('click', handleTooltipClick);
-	
-	   showTooltip(x, y);
-	 } else {
-	   hideTooltip();
-	 }
+
+	const selection = window.getSelection(); // 드래그 한 텍스트를 나타내는 selection 객체 반환
+		
+		if (selection.toString().trim() !== '') {
+			const range = selection.getRangeAt(0); // selection 객체에서 첫번째 선택 영역 
+			const rect = range.getBoundingClientRect(); // range 객체가 텍스트 선택 영역의 크기와 위치 정보를 담음
+			const x = rect.left + rect.width / 2; // 선택 영역 왼쪽좌표 + 선택 영역의 너비/2 = 선택 영역의 가운데 x좌표 
+			const y = rect.top + window.pageYOffset; // 선택 영역 상단좌표 + 현재 문서의 수직 스크롤 위치
+   
+			selection2 = selection.toString(); 
+
+			// 말풍선 클릭 이벤트 핸들러 등록
+			tooltip.addEventListener('click', handleTooltipClick);
+
+			// 말풍선 위치 나타내기
+			showTooltip(x, y);
+   
+		} else {
+			hideTooltip(); // 말풍선 숨김
+		}
 	});
-
-
-
 
 
 </script>

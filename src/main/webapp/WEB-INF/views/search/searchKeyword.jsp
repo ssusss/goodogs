@@ -15,7 +15,7 @@ section .posts .card {
 </style>
 
 <section>
-	<h1 style="font-size: 36px">뭔데</h1>
+	<h1 style="font-size: 36px" class="keywordBox"></h1>
 	<div class="posts">
 		
 	</div>
@@ -67,9 +67,18 @@ const getPage = (cpage,keyword) => {
 		data : {cpage,keyword},
 		success(news) {
 			console.log(news);
-			
+			const keywordBox = document.querySelector(".keywordBox");
 			const container = document.querySelector(".posts");
-		
+			keywordBox.innerHTML += `'\${keyword}' 의 검색결과입니멍`;
+		    if(news == ''){
+		    	console.log('test');
+				const btnMoreContainer = document.querySelector("#btn-more-container");
+		    	btnMoreContainer.remove();
+		    	keywordBox.innerHTML += `
+		    		<h1>검색결과가 없습니멍!!!!!</h1>
+		    	`;
+		    }
+			
 			news.forEach((newsAndImage) => {
 				const {newsNo, newsTitle, newsConfirmedDate, newsCategory, renamedFilename} = newsAndImage;
 				
@@ -91,9 +100,10 @@ const getPage = (cpage,keyword) => {
 			})
 		},
 		complete() {
-			document.querySelector("#cpage").innerHTML = cpage;
+			
 			
 			if(cpage === <%= totalPage %>) {
+			document.querySelector("#cpage").innerHTML = cpage;
 				const btn = document.querySelector("#btn-more");
 				
 				btn.disabled = true;

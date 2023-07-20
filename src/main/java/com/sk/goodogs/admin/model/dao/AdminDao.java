@@ -15,6 +15,7 @@ import java.util.Properties;
 
 
 import com.sk.goodogs.news.model.vo.NewsComment;
+import com.sk.goodogs.news.model.vo.NewsImage;
 import com.sk.goodogs.news.model.vo.NewsScript;
 import com.sk.goodogs.news.model.vo.NewsScriptRejected;
 
@@ -345,7 +346,6 @@ private NewsScriptRejected handleRejectedScriptResultSet(ResultSet rset) throws 
 public int insertAlarm(Map<String, Object> payload, Connection conn) {
 	int result=0;
 	String sql=prop.getProperty("insertAlarm");
-	System.out.println("payload @ adminDao"+payload);
 	
 	System.out.println((String)payload.get("messageType"));
 	System.out.println(Integer.parseInt((String) payload.get("no")));
@@ -360,7 +360,7 @@ public int insertAlarm(Map<String, Object> payload, Connection conn) {
 		
 		result = pstmt.executeUpdate(); 
 	}catch (Exception e) {
-		throw new AdminException();
+		throw new AdminException(e);
 	}
 	
 	return result;
@@ -396,9 +396,62 @@ private Alarm handleAlarm(ResultSet rset) throws SQLException {
 	String receiver= rset.getString("alarm_receiver");
 	int hasRead= rset.getInt("alarm_hasread");
 	
-	Alarm alarm= new Alarm(no, messageType, scriptNo, comment, receiver, hasRead, null);
+	Alarm alarm = new Alarm(no, messageType, scriptNo, comment, receiver, hasRead, null);
 	
 	return alarm;
+}
+
+
+
+public int alarmUpdate(String memberId, Connection conn) {
+	int result =0;
+	String sql= prop.getProperty("alarmUpdate");
+	
+	try(PreparedStatement pstmt= conn.prepareStatement(sql)){
+		pstmt.setString(1, memberId);
+		
+		result = pstmt.executeUpdate(); 
+	} catch (SQLException e) {
+		throw new AdminException();
+	}
+	return result;
+}
+
+
+
+public int addRejextReason(int no, String rejectReason, Connection conn) {
+	int result=0;
+	String sql=prop.getProperty("addRejextReason");
+	try(PreparedStatement pstmt = conn.prepareStatement(sql)){
+		pstmt.setString(1, rejectReason);
+		pstmt.setInt(2, no);
+		
+		result=pstmt.executeUpdate();
+	} catch (SQLException e) {
+		throw new AdminException(e);
+	}
+
+	return result;
+}
+public NewsImage findImageByNo(int no, Connection conn) {
+	NewsImage image = new NewsImage();
+	String sql=prop.getProperty("findImageByNo");
+	
+	try(PreparedStatement pstmt= conn.prepareStatement(sql)) {
+		pstmt.setInt(1, no);
+		try(ResultSet rset = pstmt.executeQuery()){
+			while(rset.next()) {
+				image.setScriptNo(rset.getInt("script_no"));
+				image.setOriginalFilename(rset.getString("original_imagename"));
+				image.setRenamedFilename(rset.getString("renamed_filename"));
+			}
+		}
+	} catch (SQLException e) {
+		throw new AdminException(e);
+	}
+	
+	
+	return image;
 }
 
 
