@@ -20,13 +20,14 @@ ws.addEventListener('message', (e) => {
 			const wrapper = document.querySelector("#notification");
 			if(!wrapper.hasChildNodes()){
 
-				const i = document.createElement("i");
-				i.classList.add("fa-solid", "fa-bell", "bell");
-				i.onclick = () => {
+				const img = document.createElement("img");
+				img.src = "<%= request.getContextPath() %>/images/character/goodogs_ureka2.png";
+				img.classList.add("bell");
+				img.onclick = () => {
 					alert(comemt);
-					i.remove();
+					img.remove();
 				};
-				wrapper.append(i);
+				wrapper.append(img);
 				
 			}
 			break;

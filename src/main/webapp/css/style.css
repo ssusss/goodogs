@@ -658,7 +658,8 @@ footer {
 
 #notification-container {
 	position: absolute;
-	transform: translate(280px, -117px);
+	right: 57%;
+    top: 13px;
 }
 .alarmMenu {
 	background-color: #eee;
