@@ -264,7 +264,7 @@ window.addEventListener('load', function() {
 			</div>
 			<div class="goodogsImageWrapper">
 				<div class="goodogsImageContainer">
-					<img class="goodogsImage" alt="" src="<%= request.getContextPath() %>/images/character/goodogs_news.png">
+					<img class="goodogsImage" alt="" src="<%= request.getContextPath() %>/images/character/goodogs_news.png" onclick="location.href='<%= request.getContextPath() %>/webtoon';">
 					<img class="speechImage" alt="" src="<%= request.getContextPath() %>/images/character/speech_bubble.png">
 					<!-- 말풍선 이미지 수정할 것 -->
 				</div>
