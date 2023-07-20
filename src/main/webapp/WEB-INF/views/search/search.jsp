@@ -20,6 +20,7 @@ navBox.style.display = "none";
 			<div class="searchBoxContainer">
 				<input type="text" name="searchKeyword" placeholder="무엇이 알고싶개?" id="newsName">
 				<button type="button" onclick="searchNews()">검색!</button>
+				<span class="searchNullAlert" style="display: none;">검색어를 입력해주개!!!</span>
 			</div>
 			<div class="searchImageContainer">
 				<img src="<%= request.getContextPath() %>/images/character/goodogs_think.png" alt="sadImage" class="imageFile"/>
@@ -115,14 +116,22 @@ navBox.style.display = "none";
 
 	
 	function searchNews() {
-		  const searchKeywordVal = document.getElementById("newsName").value;
-		  
-		  console.log(searchKeywordVal);
-		  
-		  location.href = '<%=request.getContextPath()%>/search/news/?keyword=' + searchKeywordVal;
-		  
+		const searchNullAlert = document.querySelector(".searchNullAlert");
+		
+		if (newsName.value.trim() == '') {
+			searchNullAlert.style.display = "block";
+			return false;
 		}
-	
+		
+				
+	  const searchKeywordVal = document.getElementById("newsName").value;
+	  
+	  console.log(searchKeywordVal);
+	  searchNullAlert.style.display = "none";
+	  location.href = '<%=request.getContextPath()%>/search/news/?keyword=' + searchKeywordVal;
+	  
+	}
+
 	
 </script>
 

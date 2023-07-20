@@ -8,6 +8,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.sk.goodogs.admin.model.service.AdminService;
+import com.sk.goodogs.news.model.vo.NewsImage;
 import com.sk.goodogs.news.model.vo.NewsScript;
 
 /**
@@ -24,15 +25,17 @@ public class AdminScriptDetailServlet extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
 		int no=Integer.valueOf(request.getParameter("no"));
-		System.out.println(no);
+		System.out.println("no = " + no);
 		
-		NewsScript script=adminService.findOneScript(no);
+		NewsScript script = adminService.findOneScript(no);
 //		System.out.println(script);
 		
-		// 원고 이미지 불러오기 (나영)
 		
+		NewsImage image = adminService.findImageByNo(no);
+		System.out.println("image = " + image);
 		
-		request.setAttribute("script",script );
+		request.setAttribute("script", script);
+		request.setAttribute("image", image);
 		request.getRequestDispatcher("/WEB-INF/views/admin/scriptDetail.jsp")
 		.forward(request, response);
 		
