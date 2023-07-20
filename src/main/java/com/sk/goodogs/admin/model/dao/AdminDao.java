@@ -15,6 +15,7 @@ import java.util.Properties;
 
 
 import com.sk.goodogs.news.model.vo.NewsComment;
+import com.sk.goodogs.news.model.vo.NewsImage;
 import com.sk.goodogs.news.model.vo.NewsScript;
 import com.sk.goodogs.news.model.vo.NewsScriptRejected;
 
@@ -390,7 +391,7 @@ private Alarm handleAlarm(ResultSet rset) throws SQLException {
 	String receiver= rset.getString("alarm_receiver");
 	int hasRead= rset.getInt("alarm_hasread");
 	
-	Alarm alarm= new Alarm(no, messageType, scriptNo, comment, receiver, hasRead, null);
+	Alarm alarm = new Alarm(no, messageType, scriptNo, comment, receiver, hasRead, null);
 	
 	return alarm;
 }
@@ -409,6 +410,29 @@ public int alarmUpdate(String memberId, Connection conn) {
 		throw new AdminException();
 	}
 	return result;
+}
+
+
+
+public NewsImage findImageByNo(int no, Connection conn) {
+	NewsImage image = new NewsImage();
+	String sql=prop.getProperty("findImageByNo");
+	
+	try(PreparedStatement pstmt= conn.prepareStatement(sql)) {
+		pstmt.setInt(1, no);
+		try(ResultSet rset = pstmt.executeQuery()){
+			while(rset.next()) {
+				image.setScriptNo(rset.getInt("script_no"));
+				image.setOriginalFilename(rset.getString("original_imagename"));
+				image.setRenamedFilename(rset.getString("renamed_filename"));
+			}
+		}
+	} catch (SQLException e) {
+		throw new AdminException(e);
+	}
+	
+	
+	return image;
 }
 
 
