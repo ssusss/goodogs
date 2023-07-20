@@ -100,7 +100,7 @@ div#container {
 
 nav.navBar {
 	background-color: #EDEDE1;
-	height: 80px;
+	height: 180px;
 	margin: 0 auto;
 	text-align: center;
 	border-bottom: 1px solid #051619;
@@ -113,6 +113,7 @@ nav.navBar div.navInner {
 	max-width: 1000px;
 	height: 80px;
 	margin: 0 auto;
+	padding: 40px;
 }
 
 nav.navBar h1 {
@@ -120,6 +121,7 @@ nav.navBar h1 {
 	padding: 20px;
 	margin: auto;
 	cursor: pointer;
+	font-size: 36px;
 }
 
 .navBox {
@@ -128,7 +130,7 @@ nav.navBar h1 {
 	margin-left: auto;
 	margin-right: 20px;
 	display: flex;
-	transform: translateY(-60px);
+	transform: translateY(-64px);
 }
 
 /* 프로필 아이콘 부모속성 */
@@ -479,6 +481,9 @@ nav.category {
 	white-space: nowrap;
 	overflow: overlay;
 }
+.draggable {
+	color: inherit;
+}
 
 section {
 	max-width: 1360px;
@@ -578,6 +583,7 @@ aside figure img {
 	margin: 60px auto 0 auto;
 	width: 300px;
 	height: 300px;
+	cursor: pointer;
 }
 
 footer {
@@ -634,10 +640,8 @@ footer {
   
   /* 알람 종*/
  .bell {
-  transform-origin: top;
   animation: bell 3s infinite linear;
-   font-size : 30px;
-   color: yellow;
+	z-index: 3;
 }
   
 @keyframes bell{
@@ -645,9 +649,29 @@ footer {
 	transform: rotate(0deg);
 	}
   5%, 15%, 25%, 35%, 45% {
-	transform: rotate(13deg);
+	transform: rotate(8deg);
   }
   10%, 20%, 30%, 40% {
-	transform: rotate(-13deg);
+	transform: rotate(-8deg);
   }
 }
+
+#notification-container {
+	position: absolute;
+	right: 57%;
+    top: 13px;
+}
+.alarmMenu {
+	background-color: #eee;
+	position: absolute;
+	width: 320px;
+	border: 1px solid #051619;
+	border-radius: 3px;
+	transform: translate(-300px, -111px);
+}
+.alarmMenu p {
+	font-size: 13px;
+	margin: 0;
+	padding: 3px;
+}
+

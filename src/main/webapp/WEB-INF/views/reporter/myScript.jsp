@@ -139,7 +139,7 @@ const findAllScriptById = () => {
               <td>\${scriptTitle}</td>
               <td>\${scriptCategory}</td>
               <td>\${formattedDate}</td>
-              <td>반려됨</td>
+              <td>반려됨 <button class="scriptUpdate">다시쓰기</button></td>
             </tr>
           `;
         } else if (scriptState === 0) {
