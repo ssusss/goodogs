@@ -196,8 +196,6 @@ const deleteBoard = () => {
 <!-- 더보기 -->
 
 
-
-
 <!----------------->
 	
 	// 댓글  리스트 ( 시좍 ~~~ )
@@ -299,21 +297,47 @@ const deleteBoard = () => {
 					          
 					          //---버튼처리 -------------
 						      
-							   <% if (loginMember != null && loginMember.getMemberRole() == MemberRole.A) {%> // 관리자일경우 보임  (어드민 아이디 == 로그인 회원 아이디)
+							   <% if (loginMember != null ) {%> // 관리자일경우 보임  (어드민 아이디 == 로그인 회원 아이디)
 							       
 							   console.log(" 관리자일경우2  "); 
 							   tbody.innerHTML += `
+							   
 											  <td>
 									        	  <button class="btn-reply" value="\${commentNo}" >답글</butto>
-									        	  <button class="btn-member-delete" value="\${commentNo}">삭제</button>
 									        	  <button class="report" value="\${commentNo}" >신고</button>
-											        
-										          <button>관리자</button>
-									          </td>
-								            </tr>
+									        
 								     `;
+								     
+								      <%	if(loginMember.getMemberRole() == MemberRole.A){%> 
+								     		 tbody.innerHTML += `
+										        	  <button class="btn-reply" value="\${commentNo}" >답글</butto>
+										        	  <button class="report" value="\${commentNo}" >신고</button>
+										        	  <button class="btn-admin-delete" value="\${commentNo}">삭제</button> // 관리자일떄
+													     
+										          </td>
+									            </tr>
+									     `;
+								     	
+								     		
+								     		 <% 	}else if( loginMember.getMemberId() == newsComment.getNewsCommentWriter() ) { %> 
+								     		 tbody.innerHTML += `
+								     				  <button class="btn-member-delete" value="\${commentNo}">삭제</button> // 본인일떄
+										          </td>
+									            </tr>
+									     `;
+								     	
+								     		
+									     <%    	}else{ // %> 
+								     		
+									     		tbody.innerHTML += `
+								     				
+										          </td>
+									            </tr>
+									    			 `;
+									     
+								     <%	}%> 
 
-							  	  <%  }else if (loginMember == null){%> 
+							  	  <%  }else {%> 
 							  	  
 							  	 console.log(" 비회원2  "); 
 							     tbody.innerHTML += `
@@ -321,39 +345,11 @@ const deleteBoard = () => {
 							     `;
 							  	  // 로그인 안한 회원은 아무것도 안보인다. ( 버튼이 ) 
 								  
-								  <% }else if(loginMember != null && loginMember.getMemberRole() == MemberRole.M ){ %>// 일반 회원일때 보이는 버튼   (로그인 회원)
-								  
-								  console.log(" 회원일때2  "); 
-								  
-								  tbody.innerHTML += `
-												<td>
-										         <button class="report" value="\${commentNo}" >신고</button>
-										         <button class="btn-reply" value="\${commentNo}" >답글</button>
-										         <button class="btn-member-delete" value="\${commentNo}">삭제</button>
-										         <button>회원</button>
-										         </td>    	
-									         </tr>
-									  `;
-
-								  
-								  <%  }else if (loginMember != null){ %> // 작성자 본인일때 보이는 버튼 (작성자 아이디 == 로그인 회원 아이디 )
-								  
-								  console.log(" 작성자2  "); 
-								  
-								  tbody.innerHTML += `
-									 		 <td>
-									         <button class="btn-reply" value="\${commentNo}" >답글</button>
-									         <button class="btn-member-delete" value="\${commentNo}">삭제</button>
-									         <button class="report" value="\${commentNo}" >신고</button>
-										        
-									         <button>작성자</button>
-									         </td>    	  	
-									      </tr>
-									     `;
+								  <% } %>
 								  
 								 
 								  
-								  <%  } %> // 버튼 끝 -------------
+								  
 								
 								  
 				        	
@@ -413,7 +409,7 @@ const deleteBoard = () => {
 							   <% if (loginMember != null && loginMember.getMemberRole() == MemberRole.A) {%> // 관리자일경우 보임  (어드민 아이디 == 로그인 회원 아이디)
 							       
 							   console.log(" 관리자일경우2  "); 
-							   tbody.innerHTML += `
+							 	  tbody.innerHTML += `
 											  <td>
 									        	  <button class="btn-member-delete" value="\${commentNo}">삭제</button>
 										          <button>관리자</button>
@@ -427,6 +423,7 @@ const deleteBoard = () => {
 							     tbody.innerHTML += `
 							            </tr>
 							     `;
+							     
 							  	  // 로그인 안한 회원은 아무것도 안보인다. ( 버튼이 ) 
 								  
 								  <% }else if(loginMember != null && loginMember.getMemberRole() == MemberRole.M ){ %>// 일반 회원일때 보이는 버튼   (로그인 회원)
