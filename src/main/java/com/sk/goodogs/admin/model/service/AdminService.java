@@ -176,6 +176,23 @@ public class AdminService {
 		
 		return result;
 	}
+
+	public int addRejextReason(int no, String rejectReason) {
+		int result=0;
+		Connection conn =getConnection();
+		
+		try{
+			result=adminDao.addRejextReason(no,rejectReason,conn);
+			commit(conn);
+		}catch (Exception e) {
+			rollback(conn);
+			throw e;
+		}finally {
+			close(conn);
+		}
+		
+		return result;
+	}
 		
 
 

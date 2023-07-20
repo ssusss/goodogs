@@ -417,5 +417,21 @@ public int alarmUpdate(String memberId, Connection conn) {
 }
 
 
+
+public int addRejextReason(int no, String rejectReason, Connection conn) {
+	int result=0;
+	String sql=prop.getProperty("addRejextReason");
+	try(PreparedStatement pstmt = conn.prepareStatement(sql)){
+		pstmt.setString(1, rejectReason);
+		pstmt.setInt(2, no);
+		
+		result=pstmt.executeUpdate();
+	} catch (SQLException e) {
+		throw new AdminException(e);
+	}
+	return result;
+}
+
+
 	
 }

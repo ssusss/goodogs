@@ -473,7 +473,7 @@ const deleteBoard = () => {
 					
 							} // if (newsComment == 0  ){끝 
 
-							alarm();
+							
 						} // success 끝
 					
 					
@@ -541,7 +541,7 @@ document.addEventListener("click", (e) => {
 						    			// afterend 종료태그후 - 다음형제요소로 추가
 						    			parentTr.insertAdjacentHTML('afterend', tr);
 						    			button.onclick = null; // 이벤트핸들러 제거 (1회용)
-						    			
+						    		
 						    }else if(e.target.matches("  button[class='report'] ")) {
 						    	// 신고하기...!!!!!!!!
 						    	
@@ -736,23 +736,6 @@ if (<%= loginMember != null %>) {
 	});
 
 
-
-	function alarm(){
-		
-			
-			const payload={
-				messageType : "ALARM_MESSAGE",
-				no:"<%=news.getNewsNo() %>",
-				comemt:`"<%=news.getNewsTitle() %>" 기사에 대댓글이 달렸습니다."`,
-				receiver:"<%=newsComment.getNewsCommentWriter() %>",
-				hasRead:"0",
-				createdAt :Date.now()
-			}
-		ws.send(JSON.stringify(payload));
-	
-	};
-
-	
 
 </script>
 
