@@ -1,3 +1,4 @@
+
 <%@page import="java.io.Console"%>
 <%@page import="com.sk.goodogs.news.model.vo.NewsAndImage"%>
 <%@page import="com.sk.goodogs.like.model.vo.LikeList"%>
@@ -11,7 +12,7 @@
 <script src="<%= request.getContextPath() %>/js/jquery-3.7.0.js"></script>
 <script src="https://code.jquery.com/ui/1.13.2/jquery-ui.js"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-<link rel="stylesheet" href="<%=request.getContextPath()%>/css/news.css"/>
+<link rel="stylesheet" href="<%=request.getContextPath()%>/css/news.css" />
 <!--  기사 페이지  -->
 <%
 	NewsAndImage newsAndImage = (NewsAndImage) request.getAttribute("newsAndImage");
@@ -68,10 +69,11 @@
 		</div>
 		<% for (int i = 1; i < tagArr.length; i++) { %>
 		<div class="news-tag">
-			<a href="<%=request.getContextPath()%>/search/news/?keyword=<%= tagArr[i] %>">#<%= tagArr[i] %></a>
+			<a href="">#<%= tagArr[i] %></a>
 		</div>
 		<% } %>
 	</div>
+	<!-- 태그 수정 필요 -->
 
 
 <!-- 좋아요 --> <!--  진행도 ( 완성 )  -->
@@ -98,6 +100,7 @@
 <% } %>
   <!-- 기사 삭제 --> 
 	<form 
+		id = "newsDelFrm"	
 		action="<%= request.getContextPath() %>/News/NewsDelete" 
 		name="newsDelFrm"
 		method="POST">
@@ -124,9 +127,13 @@
                 <button type="submit" id="btn-comment-enroll1">등록</button>
             </form>
  </div><!-- end -->
-<% 	}else {%>
-	<div> 로그인 후 댓글작성이 가능합니다. </div>
-<% } %>
+<% 	}else if( loginMember != null && loginMember.getIsBanned() == 1)  {%>
+	<div id = "loginComment" > 댓글 작성이 불가능한 회원 가능합니다. </div>
+<% }else {%>
+	
+	<div id = "loginComment"> 로그인 후 댓글작성이 가능합니다. </div>
+	
+	<%} %>
 
 <!--------------------------------------------------------->	      
 <table id="comment">
@@ -195,6 +202,8 @@ const deleteBoard = () => {
 <!-- 더보기 -->
 
 
+
+
 <!----------------->
 	
 	// 댓글  리스트 ( 시좍 ~~~ )
@@ -252,108 +261,74 @@ const deleteBoard = () => {
 			        if (newsCommentLevel === 1) {// 댓글인 경우 ---------------------------------------------------------------------------------------
 			        	
 						 
-			        	 if  ( commentState === 1 ){// 작성자 삭제 글씨 처리-----------------------------
-			        			
-			        		 console.log(" 삭제  "); 
-								
-				        	 tbody.innerHTML += `
-				        	<tr class="level1Del">
-				              <td>
-				                <sub class="comment-writer"> \${newsCommentNickname} </sub>
-				              	  작성자가 삭제한 메세지입니다
-				              </td>
-				            </tr>
-				            `;
-						  
-			        
-				            //----------------
-				            
-				        	
-				        }else if ( commentState === 2 ) {// 관리자 삭제 글씨 처리-----------------------------
+							        	 if  ( commentState === 1 ){// 작성자 삭제 글씨 처리-----------------------------
+							        			
+							        		 console.log(" 삭제  "); 
+												
+								        	 tbody.innerHTML += `
+											        	<tr class="level1">
+											              <td>
+											                <sub class="comment-writer"> \${newsCommentNickname} </sub>
+											                <sub class="comment-content">  작성자가 삭제한 메세지입니다</sub>
+											              </td>
+											            </tr>
+								          	  `;
+										  
+							        
+								            //----------------
+								            
+								        	
+								        }else if ( commentState === 2 ) {// 관리자 삭제 글씨 처리-----------------------------
+				
+								       	 console.log(" 삭제2  "); 
+								        
+								        	 tbody.innerHTML += `
+											        	<tr class="level1">
+											              <td>
+											                <sub class="comment-writer"> \${newsCommentNickname} </sub>
+											                <sub class="comment-content"> 관리자가 삭제한 메세지입니다 </sub>
+											              </td>
+											            </tr>
+								            `;
+								        	
+								            
+								        }else {// 삭제가 안된 댓글 ( 정상 댓글 )  처리-----------------------------
+							
+										          tbody.innerHTML += `
+										          
+												            <tr class="level1">
+																  <td>
+																  <div id = "A">
+													                <sub class="comment-writer"> \${newsCommentNickname} </sub>
+													                <sub class="comment-content">\${newsCommentContent} </sub>
+													               </div>
+										          
 
-				       	 console.log(" 삭제2  "); 
-				        
-				        	 tbody.innerHTML += `
-				        	<tr class="level1Del">
-				              <td>
-				                <sub class="comment-writer"> \${newsCommentNickname} </sub>
-				           	     관리자가 삭제한 메세지입니다
-				              </td>
-				            </tr>
-				            `;
-				        	
-				            
-				        }else {// 삭제가 안된 댓글 ( 정상 댓글 )  처리-----------------------------
-			
-					          tbody.innerHTML += `
-					          
-					            <tr class="level1">
-					              <td>
-					                <sub class="comment-writer"> \${newsCommentNickname} </sub>
-					                \${newsCommentContent}
-					                </td>
-					           `;
-					          
-					          //---버튼처리 -------------
-						      
-							   <% if (loginMember != null ) {%> // 관리자일경우 보임  (어드민 아이디 == 로그인 회원 아이디)
-							       
-							   console.log(" 관리자일경우2  "); 
-							   tbody.innerHTML += `
-							   
-											  <td>
-									        	  <button class="btn-reply" value="\${commentNo}" >답글</butto>
-									        	  <button class="report" value="\${commentNo}" >신고</button>
-									        
-								     `;
-								     
-								      <%	if(loginMember.getMemberRole() == MemberRole.A){%> 
-								     		 tbody.innerHTML += `
-										        	  <button class="btn-reply" value="\${commentNo}" >답글</butto>
-										        	  <button class="report" value="\${commentNo}" >신고</button>
-										        	  <button class="btn-admin-delete" value="\${commentNo}">삭제</button> // 관리자일떄
-													     
-										          </td>
-									            </tr>
-									     `;
-								     	
-								     		
-								     		 <% 	}else if( loginMember.getMemberId() == newsComment.getNewsCommentWriter() ) { %> 
-								     		 tbody.innerHTML += `
-								     				  <button class="btn-member-delete" value="\${commentNo}">삭제</button> // 본인일떄
-										          </td>
-									            </tr>
-									     `;
-								     	
-								     		
-									     <%    	}else{ // %> 
-								     		
-									     		tbody.innerHTML += `
-								     				
-										          </td>
-									            </tr>
-									    			 `;
-									     
-								     <%	}%> 
-
-							  	  <%  }else {%> 
-							  	  
-							  	 console.log(" 비회원2  "); 
-							     tbody.innerHTML += `
-							            </tr>
-							     `;
-							  	  // 로그인 안한 회원은 아무것도 안보인다. ( 버튼이 ) 
-								  
-								  <% } %>
-								  
-								 
-								  
-								  
-								
-								  
-				        	
-				        }
-			        
+																	<% if (loginMember != null && loginMember.getIsBanned() == 0) { %>
+																						  <div id = "B">
+																	    	 
+																					            <button class="btn-reply" value="\${commentNo}">답글</button>
+																					            <button class="report" value="\${commentNo}">신고</button>
+																					    <% if (loginMember.getMemberRole() == MemberRole.A) { %>
+																					       
+																							            <button class="btn-admin-delete" value="\${commentNo}">삭제</button> 
+																							            </div>
+																					        
+																					    <% } else if (loginMember.getMemberId() == newsComment.getNewsCommentWriter()) { %>
+																					       
+																								            <button class="btn-member-delete" value="\${commentNo}">삭제</button> 
+																								            </div>
+																					    <% } %>
+																	<% } else { %>
+																	    </div>
+																		
+																	<% } %>
+																    </td>
+														     </tr>
+												       
+														    `;
+								        }
+							        
 			         
 			          //--------------------------------------------------------------
 			          
@@ -366,10 +341,10 @@ const deleteBoard = () => {
 			        		 console.log(" 삭제  "); 
 								
 				        	 tbody.innerHTML += `
-				        	<tr class="level1Del">
+				        	<tr class="level2">
 				              <td>
 				                <sub class="comment-writer"> \${newsCommentNickname} </sub>
-				              	  작성자가 삭제한 메세지입니다
+				              	 <sub class="comment-content">작성자가 삭제한 메세지입니다</sub>
 				              </td>
 				            </tr>
 				            `;
@@ -383,77 +358,48 @@ const deleteBoard = () => {
 				       	 console.log(" 삭제2  "); 
 				        
 				        	 tbody.innerHTML += `
-				        	<tr class="level1Del">
+				        	<tr class="level2">
 				              <td>
 				                <sub class="comment-writer"> \${newsCommentNickname} </sub>
-				           	     관리자가 삭제한 메세지입니다
+				           		  <sub class="comment-content">관리자가 삭제한 메세지입니다</sub>
 				              </td>
 				            </tr>
 				            `;
 				        	
 				            
 				        }else {// 삭제가 안된 댓글 ( 정상 댓글 )  처리-----------------------------
-			
+
 					          tbody.innerHTML += `
 					          
-					            <tr class="level2">
-					              <td>
-					                <sub class="comment-writer"> \${newsCommentNickname} </sub>
-					                \${newsCommentContent}
-					                </td>
-					           `;
-					          
-					          //---버튼처리 -------------
-						      
-							   <% if (loginMember != null && loginMember.getMemberRole() == MemberRole.A) {%> // 관리자일경우 보임  (어드민 아이디 == 로그인 회원 아이디)
-							       
-							   console.log(" 관리자일경우2  "); 
-							 	  tbody.innerHTML += `
+							            <tr class="level2">
 											  <td>
-									        	  <button class="btn-member-delete" value="\${commentNo}">삭제</button>
-										          <button>관리자</button>
-									          </td>
-								            </tr>
-								     `;
-
-							  	  <%  }else if (loginMember == null){%> 
-							  	  
-							  	 console.log(" 비회원2  "); 
-							     tbody.innerHTML += `
-							            </tr>
-							     `;
-							     
-							  	  // 로그인 안한 회원은 아무것도 안보인다. ( 버튼이 ) 
-								  
-								  <% }else if(loginMember != null && loginMember.getMemberRole() == MemberRole.M ){ %>// 일반 회원일때 보이는 버튼   (로그인 회원)
-								  
-								  console.log(" 회원일때2  "); 
-								  
-								  tbody.innerHTML += `
-												<td>
-										         <button class="report" value="\${commentNo}" >신고</button>
-										         <button class="btn-member-delete" value="\${commentNo}">삭제</button>
-										         <button>회원</button>
-										         </td>    	
-									         </tr>
-									  `;
-
-								  
-								  <%  }else if (loginMember != null){ %> // 작성자 본인일때 보이는 버튼 (작성자 아이디 == 로그인 회원 아이디 )
-								  
-								  console.log(" 작성자2  "); 
-								  
-								  tbody.innerHTML += `
-									 		 <td>
-									         <button class="btn-member-delete" value="\${commentNo}">삭제</button>
-									         <button>작성자</button>
-									         </td>    	  	
-									      </tr>
-									     `;
-								  
-								 
-								  
-								  <%  } %> // 버튼 끝 -------------
+											  <div id = "A">
+								                <sub class="comment-writer"> \${newsCommentNickname} </sub>
+								                <sub class="comment-content">\${newsCommentContent} </sub>
+								               </div>
+												<% if (loginMember != null && loginMember.getIsBanned() == 0) { %>
+																	  <div id = "B">
+																            <button class="report" value="\${commentNo}">신고</button>
+												    
+																    <% if (loginMember.getMemberRole() == MemberRole.A) { %>
+																		            <button class="btn-admin-delete" value="\${commentNo}">삭제</button> 
+																		            </div>
+																        
+																    <% } else if (loginMember.getMemberId() == newsComment.getNewsCommentWriter()) { %>
+																			            <button class="btn-member-delete" value="\${commentNo}">삭제</button>
+																			            </div>
+																    <% } %>
+												<% } else { %>
+												    
+												    </div>
+													
+												<% } %>
+											    </td>
+									     </tr>
+							       
+									    `;
+					//---버튼처리 끝--------------
+											  
 								  
 				     	   } // 정상댓글인경우 끝 
 				        	
@@ -504,40 +450,43 @@ document.addEventListener("click", (e) => {
 							    }
 						    
 						    }else if (e.target.matches("  button[class='btn-reply'] ")) {
+						    			
+						    	
 						    			const {value} = e.target;
 						    			
-						    			const parentTr = e.target.parentElement.parentElement; //  클릭된 버튼의 부모 요소의 부모 요소를 parentTr 변수에 할당
+						    			const parentTr = e.target.parentElement; //  클릭된 버튼의 부모 요소의 부모 요소를 parentTr 변수에 할당
 						    			console.log(parentTr);
-						    			const tr = `
-						    				<div id="comment-container">
-							    				 <div class="comment-editor">
-						    				<tr>
-						    					<td colspan="2">
-						    				            <form
-						    								action="<%=request.getContextPath()%>/news/newsCommentCreate" 
-						    								method="post" 
-						    								name="NewsCommentFrm">
-						    				                <input type="hidden" name="newsNo" value="<%= newsAndImage.getNewsNo()%>" />
-						    				                <input type="hidden" name="newsCommentWriter" value="<%= loginMember != null ? loginMember.getMemberId() : "" %>" />
-						    				                <input type="hidden" name="newsCommentLevel" value="2" />  
-						    				                <input type="hidden" name="newsCommentNickname" value="<%= loginMember != null ? loginMember.getNickname() : ""%>" />
-						    				                <input type="hidden" name="commentNoRef" value="\${value}" />
-						    								<textarea name="newsCommentContent" cols="50" rows="3"></textarea>
-						    				                <button type="submit" id="btn-comment-enroll1">등록</button>
-						    				            </form>
-						    				       </td>
-						    					</tr>
-						    				
-						    				 </div>
-						    			</div>
-						    			`;
-						    			// beforebegin 시작태그전 - 이전형제요소로 추가
-						    			// afterbegin 시작태그후 - 첫자식요소로 추가
-						    			// beforeend 종료태그전 - 마지막요소로 추가
-						    			// afterend 종료태그후 - 다음형제요소로 추가
-						    			parentTr.insertAdjacentHTML('afterend', tr);
-						    			button.onclick = null; // 이벤트핸들러 제거 (1회용)
 						    			
+						    				const tr = `
+								    			
+								    			 <div class="comment-editor2">
+							    				
+							    					<tr >
+							    				            <form
+							    								action="<%=request.getContextPath()%>/news/newsCommentCreate" 
+							    								method="post" 
+							    								name="NewsCommentFrm">
+							    				                <input type="hidden" name="newsNo" value="<%= newsAndImage.getNewsNo()%>" />
+							    				                <input type="hidden" name="newsCommentWriter" value="<%= loginMember != null ? loginMember.getMemberId() : "" %>" />
+							    				                <input type="hidden" name="newsCommentLevel" value="2" />  
+							    				                <input type="hidden" name="newsCommentNickname" value="<%= loginMember != null ? loginMember.getNickname() : ""%>" />
+							    				                <input type="hidden" name="commentNoRef" value="\${value}" />
+							    								<textarea name="newsCommentContent" cols="50" rows="3"></textarea>
+							    				                <button type="submit" id="btn-comment-enroll2">등록</button>
+							    				            </form>
+							    				       </tr>
+							    				 </div>
+							    			
+							    			`;
+							    			
+						    				// beforebegin 시작태그전 - 이전형제요소로 추가
+							    			// afterbegin 시작태그후 - 첫자식요소로 추가
+							    			// beforeend 종료태그전 - 마지막요소로 추가
+							    			// afterend 종료태그후 - 다음형제요소로 추가
+							    			parentTr.insertAdjacentHTML('afterend', tr);
+							    			button.onclick = null; // 이벤트핸들러 제거 (1회용)
+						    			
+						    				
 						    }else if(e.target.matches("  button[class='report'] ")) {
 						    	// 신고하기...!!!!!!!!
 						    	
@@ -590,6 +539,24 @@ document.addEventListener("click", (e) => {
 		    
 	      
 	});// event 끝
+	
+	  document.addEventListener("submit", (e) => {
+		
+		// 특정선택자와 매칭여부 matches
+		if (e.target.matches("form[name=NewsCommentFrm]")) {			
+			
+			const frm = e.target;
+			const newsCommentContent = frm.newsCommentContent;
+			
+			if(!/^(.|\n)+$/.test(newsCommentContent.value)) {
+				alert("내용을 작성해주세요.");
+				e.preventDefault();
+				return;
+			}
+		}
+		
+	});
+	
 			
 			
 <!------------------------------------------- -->		

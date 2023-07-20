@@ -37,7 +37,19 @@ public class AdminService {
 		return members;
 	}
 
+	public List<NewsComment> Commentfind(String searchType, String searchKeyword) {
+		Connection conn = getConnection();
+		 List<NewsComment> newsComments  = adminDao.Commentfind( conn, searchType,  searchKeyword);
+		close(conn);
+		return newsComments;
+	}
 
+	public List<NewsComment> CommentfindReport(String searchType, String searchKeyword) {
+		Connection conn = getConnection();
+		 List<NewsComment> newsComments  = adminDao.CommentfindReport( conn, searchType,  searchKeyword);
+		close(conn);
+		return newsComments;
+	}
 	
 	public List<NewsComment> findBanComment(int start, int end) {
 		Connection conn = getConnection();

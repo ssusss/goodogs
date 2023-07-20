@@ -1,3 +1,4 @@
+<%@page import="com.sk.goodogs.news.model.vo.NewsImage"%>
 <%@page import="com.sk.goodogs.news.model.vo.NewsAndImage"%>
 <%@page import="java.util.Date"%>
 <%@page import="com.google.gson.Gson"%>
@@ -7,7 +8,8 @@
 <%@ include file="/WEB-INF/views/common/header.jsp" %>
 <%
 	NewsScript script = (NewsScript)request.getAttribute("script");
-	
+	NewsImage newsImage = (NewsImage)request.getAttribute("newsImage");
+
 	String _category = "";
     
 	switch (script.getScriptCategory()) {
@@ -48,10 +50,14 @@
 </div>  
 
 <section id="news-container">
-	<div id="img-container">
-		<img id="news-img" name="news-img" style="width: 600px;" src="<%= request.getContextPath() %>/upload/newsImage/"><!--  이미지  -->
-	</div>
-							 
+
+
+<div id="img-container">
+    <% if (newsImage != null) { %>
+        <img id="news-img" name="news-img" style="width: 600px;" src="<%= request.getContextPath() %>/upload/newsImage/<%= newsImage.getOriginalFilename() %>"><!--  이미지  -->
+    <% } %>
+</div>
+				 
 	<div id="news-content" name="news-content"><%=script.getScriptContent()%></div><!--  내용  -->
 	 
 	<br/><br/><br/>
