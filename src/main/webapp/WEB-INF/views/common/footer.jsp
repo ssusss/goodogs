@@ -16,7 +16,7 @@
 	      </div>
 	      <nav class="footer-sitemap">
 	        <div class="footer-sitemap-item">
-	          <a class="footer-sitemap-item-link"> 뉴닉 탄생기</a>
+	          <a class="footer-sitemap-item-link" href="<%= request.getContextPath() %>/webtoon"> 구독스 탄생기</a>
 	          <a class="footer-sitemap-item-link"> 고객센터 </a>
 	        </div>
 	      </nav>
