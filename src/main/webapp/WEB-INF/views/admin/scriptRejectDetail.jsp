@@ -27,7 +27,8 @@
 		<h5 ><%=script.getScriptCategory() %></h5>
 		<h2 ><%=script.getScriptTitle() %></h2>
 
-		<h2>사진 준비중</h2>
+		<div id="imgBox">
+		</div>
 	
 		
 		<p>
@@ -50,7 +51,9 @@
 </section>
 
 
+<script >
 
+</script>
 
 
 

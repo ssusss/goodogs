@@ -1,4 +1,4 @@
-package com.sk.goodogs.reporter.controller;
+package com.sk.goodogs.member.controller;
 
 import java.io.IOException;
 import javax.servlet.ServletException;
@@ -8,18 +8,19 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 /**
- * Servlet implementation class ReporterScriptAutoSave
+ * @author 이혜령
+ * - 탄생기 웹툰
  */
-@WebServlet("/reporter/scriptAutoSave")
-public class ReporterScriptAutoSave extends HttpServlet {
+@WebServlet("/webtoon")
+public class BirthWebtoonServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
 	/**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
-		response.getWriter().append("Served at: ").append(request.getContextPath());
+		
+		request.getRequestDispatcher("/WEB-INF/views/member/birthWebtoon.jsp").forward(request, response);
 	}
 
 }

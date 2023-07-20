@@ -8,7 +8,9 @@
 <%@ include file="/WEB-INF/views/common/header.jsp" %>
 <%
 	NewsScript script = (NewsScript)request.getAttribute("script");
+
 	NewsImage newsImage = (NewsImage)request.getAttribute("newsImage");
+
 
 	String _category = "";
     
@@ -50,6 +52,7 @@
 </div>  
 
 <section id="news-container">
+<<<<<<< HEAD
 
 
 <div id="img-container">
@@ -58,6 +61,12 @@
     <% } %>
 </div>
 				 
+=======
+	<div id="img-container">
+		<img id="news-img" name="news-img" style="width: 600px;" src="<%= request.getContextPath() %>/upload/newsImage/<%=image.getRenamedFilename()%>"><!--  이미지  -->
+	</div>
+							 
+>>>>>>> branch 'master' of https://github.com/ssusss/goodogs
 	<div id="news-content" name="news-content"><%=script.getScriptContent()%></div><!--  내용  -->
 	 
 	<br/><br/><br/>
@@ -188,7 +197,6 @@
 					hasRead:"0",
 					createdAt :Date.now()
 				}
-				console.log("샌드 확인"+JSON.stringify(payload));
 			ws.send(JSON.stringify(payload));
 			window.location.href = "<%=request.getContextPath() %>/admin/adminScriptList";
 		};
