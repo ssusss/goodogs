@@ -1,3 +1,5 @@
+<%@page import="com.sk.goodogs.news.model.vo.NewsAndImage"%>
+<%@page import="com.sk.goodogs.news.model.vo.News"%>
 <%@page import="com.sk.goodogs.news.model.vo.NewsComment"%>
 <%@page import="com.sk.goodogs.member.model.vo.Member"%>
 <%@page import="java.util.List"%>
@@ -24,20 +26,23 @@ String searchKeyword = request.getParameter("searchKeyword");
 List<NewsComment> newsComments = (List<NewsComment>)request.getAttribute("newsComments");
 String memberId = (String) request.getAttribute("memberId");
 
+
 %> 
 
 <!-- 테이블 스타일 / 검색 스타일  -->
 <style>
 section#adminMemberBan-container {text-align:center;}
 section#adminMemberBan-container table#tbl-adminMemberBan {width:100%; border:1px solid black; border-collapse:collapse; }
-table#tbl-adminMemberBan th {border:1px solid black; padding:10px; background-color : rgb(192, 192, 192); }
-table#tbl-adminMemberBan td {border:1px solid black; padding:10px; background-color : white;  }
+table#tbl-adminMemberBan th {border:1px solid black; padding:10px; background-color: #B5C99A; }
+table#tbl-adminMemberBan td {border:1px solid black; padding:10px; background-color : none;  }
+#tbl-script th, #tbl-script td { border: 1px solid black; padding: 5px; text-align: center; }
+table#tbl-adminMemberBan { padding:10px 10px 10px 10px; }
 
-
-div#search-container 	{width: 100%; margin:0 0 10px 0; padding:3px; background-color: rgba(0, 188, 212, 0.3);}
-div#search-memberId 	{display: <%= searchType == null || "news_comment_writer".equals(searchType) ? "inline-block" : "none" %>;}
-div#search-state	{display: <%= "comment_state".equals(searchType) ? "inline-block" : "none" %>;}
-div#report_cnt	{display: <%= "news_comment_report_cnt".equals(searchType) ? "inline-block" : "none" %>;}
+nav#pagebar{padding:20px; }
+div#search-container 	{width: 100%; margin:0 0 10px 0; padding:3px; background-color: rgba(0, 188, 212, 0.3);  border-radius: 3px;}
+div#search-memberId 	{display:<%=    "news_comment_writer".equals(searchType) ? "inline-block" : "none" %>;}
+div#search-state	{display:	<%= "comment_state".equals(searchType) ? "inline-block" : "none" %>;}
+div#search-report    {display: <%=   "news_comment_report_cnt".equals(searchType) ? "inline-block" : "none" %>;}
 </style>
 
 <!-- 김나영  -->
@@ -50,9 +55,9 @@ div#report_cnt	{display: <%= "news_comment_report_cnt".equals(searchType) ? "inl
 	<div id="search-container">
         <label for="searchType">검색타입 :</label> 
         <select id="searchType">
-            <option value="memberId" selected>아이디</option>		
+            <option value="memberId" >아이디</option>		
             <option value= "state">게시 상태</option>
-            <option value="news_comment_report_cnt">신고 목록</option>
+            <option value="report" selected >신고 목록</option>
         </select>
 
         
@@ -70,33 +75,44 @@ div#report_cnt	{display: <%= "news_comment_report_cnt".equals(searchType) ? "inl
          <div id="search-state" class="search-type">
             <form action="<%=request.getContextPath()%>/admin/Commentfind">
                 <input type="hidden" name="searchType" value="comment_state"/>
-	                <input type="radio" name="searchKeyword" value="0" > 게시됨
+	                <input type="radio" name="searchKeyword" value="0" checked  > 게시됨
 	                <input type="radio" name="searchKeyword" value="1"> 회원 삭제
 	                <input type="radio" name="searchKeyword" value="2"> 관리자 삭제
                 <button type="submit">검색</button>
             </form>
         </div>
         
-         <div id="report_cnt" class="search-type">
+         <div id="search-report" class="search-type">
             <form action="<%=request.getContextPath()%>/admin/CommentfindReport">
                 <input type="hidden" name="searchType" value="news_comment_report_cnt"/>
-	                <input type="radio" name="searchKeyword"  > 일반 댓글
+	                 <input type="radio" name="searchKeyword"  value="0" checked > 일반 댓글
 	                 <input type="radio" name="searchKeyword" value="3" >  신고 댓글
                 <button type="submit">검색</button>
             </form>
         </div>
+        
+        
     </div>
    
    <script>
    document.querySelector("select#searchType").onchange = (e) => {
 		console.log(e.target.value);
+		
 		document.querySelectorAll(".search-type").forEach((elem) => {
 			elem.style.display = "none";
 		});
+		
 		document.querySelector(`#search-\${e.target.value}`).style.display = "inline-block";
 	};
+
+
+   
    </script>
+
  <!--  신고 내용 검색 팡 끝  -->
+ 
+ 
+
   <!--  신고 내용 목록  -->
 	<table id="tbl-adminMemberBan">
 		<thead>		
@@ -106,9 +122,9 @@ div#report_cnt	{display: <%= "news_comment_report_cnt".equals(searchType) ? "inl
 				<th>닉네임</th>
 				<th>신고 내용</th>
 				<th>신고 횟수</th>
-				<th>게시 상태</th>
 				<th>신고 기사</th>
 				<th>벤</th>
+				<th>삭제</th>
 			</tr>			
 		</thead>
 		<tbody>
@@ -125,16 +141,19 @@ div#report_cnt	{display: <%= "news_comment_report_cnt".equals(searchType) ? "inl
 				<td><%= newsComment.getCommentNo()%></td> <!-- 넘버 -->				
 				<td><%= newsComment.getNewsCommentWriter()%></td><!-- 아이디 -->			
 				<td><%= newsComment.getNewsCommentNickname() %></td><!-- 닉네임 -->
-				<td><%= newsComment.getNewsCommentContent() %></td><!-- 신고 내용 -->	
+				<td>
+				<a href="<%= request.getContextPath() %>/news/newsDetail?no=<%= newsComment.getNewsNo() %>"> <%= newsComment.getNewsCommentContent() %> </a>
+				</td><!-- 신고 내용 -->	
 				<td><%= newsComment.getNewsCommentReportCnt()%>번</td><!-- 신고 횟수-->
 				<td>	
 					<%= newsComment.getCommentState() == 0 ? "게시됨" : (newsComment.getCommentState() == 1 ? "회원 삭제" : "관리자 삭제") %>		
 				</td>
-				<td>
-						<a href="<%= request.getContextPath() %>/news/newsDetail?no=<%= newsComment.getNewsNo() %>">기사 가져올것임</a>
-				</td>				
+  						
 				<td>
 					<button class="IsBanned" data-news-comment-writer="<%= newsComment.getNewsCommentWriter() %>">벤</button><!-- 벤여부 -->
+				</td>
+				<td> 
+					<button class="btn-admin-delete" value="<%= newsComment.getCommentNo() %>"  >삭제</button> 
 				</td>
 			</tr>			
 		<% }
@@ -146,11 +165,12 @@ div#report_cnt	{display: <%= "news_comment_report_cnt".equals(searchType) ? "inl
 		
 	</table>
 
-
 <!-- 페이징바 가져오기  --> 
-	<nav id='pagebar'>
+<nav id='pagebar'>
+<% if(	 request.getAttribute("pagebar") != null ){ %>
 			<%= request.getAttribute("pagebar") %>
- 	</nav>
+<% } %>
+</nav>
 <!--  페이징바 끝 -->	
 </section>
 
@@ -161,6 +181,17 @@ div#report_cnt	{display: <%= "news_comment_report_cnt".equals(searchType) ? "inl
 	method="post">
 	<input type="hidden" name="memberId"/>
 </form>
+
+<!-- 삭제 관리자 -->
+<form 
+  action="<%= request.getContextPath() %>/News/NewsCommentDelete" 
+  id="newsCommentDelFrmAdmin"
+  method="POST">
+  <input type="hidden" name="commentState" value="2" />
+  <input type="hidden" name="commentNo"  />
+  <input type="hidden" name="newsNo"  value="0" />
+</form>
+<!--  끝  -->
 
 
 <script>
@@ -187,9 +218,26 @@ div#report_cnt	{display: <%= "news_comment_report_cnt".equals(searchType) ? "inl
 		
 	});
 	 
- });
+ }); 
  
  
+ document.querySelectorAll(".btn-admin-delete").forEach((elem) => {
+	  elem.addEventListener("click", (e) => {
+	    if (confirm("댓글을 삭제 처리 하시겠습니까?")) {
+
+	      const frm = document.getElementById("newsCommentDelFrmAdmin");
+	      
+	      const {value} = e.target;
+	      frm.commentNo.value = value;
+	      frm.submit();
+	      
+	    } else {
+	      // 사용자가 취소를 누른 경우
+	    }
+	  });
+	});
+		
+
 // 벤 처리 끝 
 
 </script>

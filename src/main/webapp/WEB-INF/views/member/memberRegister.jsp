@@ -8,6 +8,7 @@
 	bannerContainerUpper = document.querySelector(".bannerContainerUpper");
 	bannerContainerUpper.style.display = "none";
 </script>
+
 <section id=register-container>
 
 	<form name="memberRegisterFrm" id="memberRegisterFrm" action="" method="POST">

@@ -19,8 +19,9 @@
 #like-heart.like {
 	color: #e90c4e;
 }
+#likeButton{	padding: 24px 10px;border-bottom: 1px solid #051619;}
 #likeButtonBtn {
-	font-size: 20px;
+	font-size: 25px;
 	font-family: 'GmarketSansMedium';
 	border: none; 
 	background: none; 
@@ -80,23 +81,61 @@
 	padding: 0 20%;
 }
 
-#comment-container {
-	padding: 0 0 0 20%;
-}
 
-.newsCommentContent {
-	font-size: 16px;
-	resize: none;
-	width: 80%;
-	border-radius: 5px;
-}
 
-#btn-comment-enroll1 {
-	width: 50px;
-	height: 36px;
-	position: relative;
-	top: -23px;
-}
+#comment-container {padding: 0 0 0 20%;  }
+
+.newsCommentContent {font-size: 16px;resize: none;width: 80%;border-radius: 5px; }
+
+#btn-comment-enroll1 {width: 50px;height: 36px; position: relative; top: -25px; }
+#deletNewsButtonMre{  width:80px;  height: 40px; background: #B5C99A;  border-radius: 20px; }
+
+div#loginComment { color : gray; font-size: 20px;margin: 5px;    }
+div.comment-editor button#btn-comment-enroll1 { width:70px; background: #B5C99A; border-radius: 20px;  }
+table#comment{ width:600px; margin:0 auto; border-collapse:collapse; } 
+table#comment tr{border-bottom:1px solid; border-top:1px solid; padding:5px; text-align:left; line-height:120%;}
+table#comment tr:hover {background: #B5C99A; }
+
+
+/*댓글테이블*/
+table#comment tr td:first-of-type{padding: 5px 5px 5px 50px;}
+
+/*버튼 보이고 안보이고*/
+table#comment button.btn-reply{display:none;}
+table#comment button.report{display:none;}
+table#comment button.btn-admin-delete{display:none;}
+table#comment button.btn-member-delete{display:none;}
+table#comment tr:hover button.btn-reply{display:inline;}
+table#comment tr:hover button.report{display:inline;}
+table#comment tr:hover button.btn-admin-delete{display:inline;}
+table#comment tr:hover button.btn-member-delete{display:inline;}
+
+table#comment  div.comment-editor2{display:none;}
+table#comment tr:hover  div.comment-editor2{display:inline;}
+
+table#comment tr.level1 td div#A{ text-align:left; }
+table#comment tr.level1 td div#B{ text-align: right; }
+
+table#comment tr.level2 td div#A{  text-align:left; }
+table#comment tr.level2 td div#B{ text-align: right; }
+
+
+table#comment sub.comment-writer {color: rgb(0, 85, 18); font-size:14px}
+
+table#comment tr.level2 {color:gray; font-size: 14px;}
+table#comment tr.level2 td:first-of-type{padding-left:100px;}
+table#comment tr.level2 sub.comment-writer {color: rgb(96, 153, 108); font-size:14px}
+
+
+/*답글관련*/
+table#comment textarea{margin: 4px 0 0 0;}
+div.comment-editor2 button#btn-comment-enroll2{ width:60px; height: 32px; background: #B5C99A; border-radius: 20px;   } 
+
+
+
+
+
+
 
 
 /* 북마크 말풍선 */
