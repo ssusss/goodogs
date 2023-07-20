@@ -159,6 +159,23 @@ public class AdminService {
 		
 		return alarms;
 	}
+
+	public int alarmUpdate(String memberId) {
+		int result=0;
+		Connection conn = getConnection();
+		
+		try {
+		 result=adminDao.alarmUpdate(memberId,conn);
+		 commit(conn);
+		} catch (Exception e) {
+			rollback(conn);
+			throw e;
+		}finally {
+			close(conn);
+		}
+		
+		return result;
+	}
 		
 
 
