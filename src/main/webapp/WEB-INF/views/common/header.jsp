@@ -79,11 +79,11 @@ window.addEventListener('load', function() {
 		<nav class="navBar">
 			<div class="navInner">
 				<h1 id="toMain1">goodogs</h1>
+				<div id="notification-container">
+					<span id="notification"></span>
+					
+				</div>	
 				<div class="navBox">
-					<div id="notification-container">
-						<span id="notification"></span>
-						
-					</div>	
 					
 					
 					<div class="searchBox"><i class="fa-solid fa-magnifying-glass fa-2xl searchIcon" style="color: ##051619;"></i></div>
@@ -277,25 +277,27 @@ window.addEventListener('load', function() {
 			- navBox에서 검색/정보 바로가기
 			- 로그인 안하고 정보누를 시 경고창 + focus
 		 -->	
-	
 	</header>
+	
 	
 <script>
 function alarmCheck(memberId) {
 	console.log(memberId);
-	console.log("check");
+
 	$.ajax({
-	url : "<%= request.getContextPath() %>/admin/alarm/check",
+	url : "<%= request.getContextPath() %>/alarm/check",
 	data : {memberId},	
 	method : "GET",
 	dataType : "json",
 	success(alarms) {
 		console.log(alarms);
 		if(alarms.length > 0){
-				console.log("화난ㄴ다");
 				const alarmSpace =document.querySelector("#notification");
 					if(!alarmSpace.hasChildNodes()) {
-						alarmSpace.innerHTML=`<i class="fa-solid fa-bell bell"></i>`;
+						alarmSpace.innerHTML=`<img alt="" 
+							 src="<%= request.getContextPath() %>/images/character/goodogs_ureka2.png"
+							 style="width: 150px" class="bell">`;
+						
 					}
 				const notificationContainer = document.querySelector("#notification-container");
 				notificationContainer.insertAdjacentHTML('beforeend', `
@@ -326,19 +328,29 @@ document.addEventListener("click",(e)=>{
 
 	if(e.target.matches(".bell")){
 		const bell = document.querySelector(".bell");
-		const alarmMenu= document.querySelector(".alarmMenu");
-		if (bell.classList.length == 3) {
+		const alarmMenu = document.querySelector(".alarmMenu");
+		if (bell.classList.length == 1) {
 			alarmMenu.style.display="block";
+			bell.style.animation = "none";
 			bell.classList.add("bellClicked");			
 		} else {
 			bell.classList.remove("bellClicked");
 			alarmMenu.style.display="none";
 		}
-		
+	
+		const memberId= "<%=loginMember != null ? loginMember.getMemberId():"비로그인" %>" ;
+
+	    $.ajax({
+	        url : "<%= request.getContextPath() %>/alarm/alarmChecked",
+	        data :{memberId} ,
+	        method : "POST",
+	        dataType : "json",
+	        success(response) {
+	            console.log(response.result);
+	        }
+	    });
 		
 	}
-
-
 
 });
 </script>
