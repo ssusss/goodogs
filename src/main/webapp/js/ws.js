@@ -19,6 +19,7 @@ ws.addEventListener('message', (e) => {
       case 'ALARM_MESSAGE' : 
          const wrapper = document.querySelector("#notification");
          if(!wrapper.hasChildNodes()){
+
 			
 			wrapper.innerHTML =`<img src="/goodogs/images/character/goodogs_ureka2.png" class="bell" style="width: 150px">`;
             const img = document.createElement("img");
