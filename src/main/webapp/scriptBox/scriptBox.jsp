@@ -262,20 +262,20 @@ tempSaveBtn.onclick = () => {
 	};
 };
 const cancleCategoryAlert = () => {
-	alert('태그는 한개이상 추가해야합니다.');
+	alert('카테고리는 태그에서 삭제할 수 없습니다.');
 }
 
 const tagList = ['-선택-'];
 
 window.addEventListener("load", function() {
-  const newsTagList1 = newsTagList.value.split(","); // 콤마(,)를 기준으로 분할하여 배열에 저장
-  console.log(newsTagList1[0]);
-  if (newsTagList1[0] !== '/') {
-	  console.log(newsTagList1);
-	  tagList.shift(); // 빈 문자열인 경우 첫 번째 요소인 '-선택-' 제외
- 	  tagList.push(...newsTagList1); // tagList 배열에 newsTagList 배열 요소를 추가
-  }
-  console.log(tagList);
+	const newsTagList1 = newsTagList.value.split(",");
+	console.log(newsTagList1[0]);
+	if (newsTagList1[0] !== '/') {
+		console.log(newsTagList1);
+		tagList.shift(); // 태그가 비었을 경우 '-선택-' 삭제
+		tagList.push(...newsTagList1); // 배열에 newsTagList 배열 요소를 추가
+	}
+	console.log(tagList);
 });
 
 // =================== 카테고리 설정시 태그 추가, 삭제 =========================

@@ -9,7 +9,7 @@
 <%
 	NewsScript script = (NewsScript)request.getAttribute("script");
 
-	NewsImage newsImage = (NewsImage)request.getAttribute("newsImage");
+	NewsImage newsImage = (NewsImage)request.getAttribute("image");
 
 
 	String _category = "";
@@ -24,7 +24,8 @@
 		case "사회" : _category = "society"; break;
 	}
 	
-	String tagArr[] = script.getScriptTitle().split(",");
+	String tagArr[] = script.getScriptTag().split(",");
+	
 %>
 <link rel="stylesheet" href="<%=request.getContextPath()%>/css/news.css" />
 <script>
@@ -57,7 +58,7 @@
 
 <div id="img-container">
     <% if (newsImage != null) { %>
-        <img id="news-img" name="news-img" style="width: 600px;" src="<%= request.getContextPath() %>/upload/newsImage/<%= newsImage.getOriginalFilename() %>"><!--  이미지  -->
+        <img id="news-img" name="news-img" style="width: 600px;" src="<%= request.getContextPath() %>/upload/newsImage/<%= newsImage.getRenamedFilename() %>"><!--  이미지  -->
     <% } %>
 </div>
 				 

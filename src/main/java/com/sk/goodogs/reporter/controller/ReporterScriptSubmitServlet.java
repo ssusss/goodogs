@@ -60,9 +60,6 @@ public class ReporterScriptSubmitServlet extends HttpServlet {
 		System.out.println(image);
 		
 		
-//		File newsImage = multiReq.getFile("newsImage");
-//		System.out.println(newsImage);
-		
 		// 1. 뉴스이미지 (스크립스 넘버 가져와서) 객체 생성 
 		int lastScriptNo = newsService.getLastScriptNo();
 		
@@ -71,7 +68,6 @@ public class ReporterScriptSubmitServlet extends HttpServlet {
 		NewsImage newsImage_ = new NewsImage(lastScriptNo, null, null, null);
 		newsImage_.setOriginalFilename(multiReq.getOriginalFileName("newsImage"));
 		newsImage_.setRenamedFilename(multiReq.getFilesystemName("newsImage"));
-		System.out.println("이거 되는거냐?"+newsImage_);
 		
 		// 2. 업무로직 - db저장
 		int result = newsService.insertnewsImage(newsImage_);
@@ -81,7 +77,6 @@ public class ReporterScriptSubmitServlet extends HttpServlet {
 		response.setContentType("application/json; charset=utf-8");
 		
 		String newNewsScriptNo= String.valueOf(newNewsScript.getScriptNo());
-		System.out.println(newNewsScriptNo+"@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@");
 		Map<String, Object> map = new HashMap<>();
 		map.put("message", "성공적으로 원고를 제출했습니다.");
 		map.put("newNewsScriptNo", newNewsScriptNo);
