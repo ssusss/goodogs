@@ -10,7 +10,7 @@
 	- 폰트 링크  
 -->
 <link rel="stylesheet" href="<%= request.getContextPath()%>/css/member.css"/>
-
+<script src="<%= request.getContextPath() %>/js/jquery-3.7.0.js"></script>
 
 <script>
 bannerContainerLower = document.querySelector(".bannerContainerLower");
