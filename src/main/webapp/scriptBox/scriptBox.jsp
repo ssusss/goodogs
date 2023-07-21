@@ -262,7 +262,7 @@ tempSaveBtn.onclick = () => {
 	};
 };
 const cancleCategoryAlert = () => {
-	alert('태그는 한개이상 추가해야합니다.');
+	alert('카테고리는 태그에서 삭제할 수 없습니다.');
 }
 
 const tagList = ['-선택-'];
