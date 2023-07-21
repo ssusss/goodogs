@@ -41,6 +41,7 @@
 <% 	} %>
 <!-- 아이콘 링크 -->
 <script src="https://kit.fontawesome.com/d7ccac7be9.js" crossorigin="anonymous"></script>
+<script src="<%= request.getContextPath() %>/js/jquery-3.7.0.js"></script>
 <script>
 window.addEventListener('load', function() {
 	  <% if(msg != null) { %>
