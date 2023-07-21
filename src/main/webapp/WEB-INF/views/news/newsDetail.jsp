@@ -257,25 +257,29 @@ const deleteBoard = () => {
                       
                     } = newsComment;
                     
-                    
-                    
+                   
+                  <%   if( loginMember != null) {%>
                   
-                  <% if( loginMember != null ){%>
-                    const memberId="<%=loginMember.getMemberId() %>";
-                     let equlsId="";
-                     
-                    if(memberId === (newsCommentWriter)){
-                           equlsId = `
-                        <button class="btn-member-delete" value="\${commentNo}">삭제</button> 
-                                                                              </div>
-                                                                                 </td>
-                                                                              </tr>
-                       }else{
-                        equlsId=`</tr>`
-                     }
-                  <%}%>
-                  
-                  
+                  const memberId="<%=loginMember.getMemberId() %>";
+                  let equlsId="";
+              
+                  if(memberId === (newsCommentWriter)){
+                      equlsId = `
+                      
+                   <button class="btn-member-delete" value="\${commentNo}">삭제</button> 
+                                                                         </div>
+                                                                               </td>
+                                                                             </tr>
+                                                       `                                                 
+                                                            }else{
+                                                                   equlsId=` `
+                                                       }
+ 
+                     <%  }%>
+               
+                 
+                                
+            
                
                  if (newsCommentLevel === 1) {// 댓글인 경우 ---------------------------------------------------------------------------------------
                     
@@ -323,18 +327,24 @@ const deleteBoard = () => {
                                                 </div>
                                              <% if (loginMember != null && loginMember.getIsBanned() == 0) { %>
                                                               <div id = "B">
-                                                                      <button class="btn-reply" value="\${commentNo}">답글</button>
                                                                      <button class="report" value="\${commentNo}">신고</button>
-                                                                       
+                                                                     <button class="btn-reply" value="\${commentNo}">답글</button>
+                                                                     
+                                                                   
                                                              
                                                              <% if (loginMember.getMemberRole() == MemberRole.A) { %>
                                                                 
-                                                                               <button class="btn-admin-delete" value="\${commentNo}">삭제</button> 
+                                                                                    <button class="btn-admin-delete" value="\${commentNo}">삭제</button> 
                                                                                  </div>
                                                                               </td>
                                                                          </tr>
                                                            <% } else { %>
+                                                                       
+                                                                       
                                                                     \${equlsId}
+                                                                    
+                                                                    
+                                                                        
                                                              <%  } %>
                                              <% } else { %>
                                              
@@ -388,34 +398,28 @@ const deleteBoard = () => {
                         
                     }else {// 삭제가 안된 댓글 ( 정상 댓글 )  처리-----------------------------
 
-                        tbody.innerHTML += `
-                            
+                         tbody.innerHTML += `
+                              
                               <tr class="level2">
                                 <td>
                                 <div id = "A">
                                      <sub class="comment-writer"> \${newsCommentNickname} </sub>
                                      <sub class="comment-content">\${newsCommentContent} </sub>
                                     </div>
-                      
-
                                  <% if (loginMember != null && loginMember.getIsBanned() == 0) { %>
                                                   <div id = "B">
                                                          <button class="report" value="\${commentNo}">신고</button>
-                                                         
+                                                           
+                                                 
                                                  <% if (loginMember.getMemberRole() == MemberRole.A) { %>
                                                     
                                                                         <button class="btn-admin-delete" value="\${commentNo}">삭제</button> 
                                                                      </div>
                                                                   </td>
                                                              </tr>
-                                                     
-                                                 <% }else {  %>
-                                                             <button class="btn-member-delete" value="\${commentNo}">삭제</button> 
-                                                            </div>
-                                                            </td>
-                                                       </tr>
+                                               <% } else { %>
+                                                        \${equlsId}
                                                  <%  } %>
-                                                 
                                  <% } else { %>
                                  
                                      </td>
@@ -458,14 +462,16 @@ const deleteBoard = () => {
          
 document.addEventListener("click", (e) => {
    
-                     if (e.target.matches("button[class='btn-member-delete']")) { 
+            
+                        
+               if (e.target.matches("button[class='btn-member-delete']")) { 
                           
-                              if (confirm("해당 댓글을 삭제하시겠습니까?")) {
-                               const frm = document.getElementById("newsCommentDelFrmMember");
-                               const {value} = e.target;
-                                frm.commentNo.value = value;
-                                frm.submit();
-                              }
+                        if (confirm("해당 댓글을 삭제하시겠습니까?")) {
+                         const frm = document.getElementById("newsCommentDelFrmMember");
+                         const {value} = e.target;
+                          frm.commentNo.value = value;
+                          frm.submit();
+                         }
                               
                             }else if (e.target.matches("button[class='btn-admin-delete']")) {
                                 
@@ -477,12 +483,18 @@ document.addEventListener("click", (e) => {
                                   }
                                
                                }else if (e.target.matches("  button[class='btn-reply'] ")) {
+                                        
+                                  
                                         const {value} = e.target;
+                                        
                                         const parentTr = e.target.parentElement; //  클릭된 버튼의 부모 요소의 부모 요소를 parentTr 변수에 할당
                                         console.log(parentTr);
+
+                                        
                                            const tr = `
                                               
                                                <div class="comment-editor2">
+                                              
                                                  <tr >
                                                           <form
                                                           action="<%=request.getContextPath()%>/news/newsCommentCreate" 
@@ -507,9 +519,12 @@ document.addEventListener("click", (e) => {
                                            // afterend 종료태그후 - 다음형제요소로 추가
                                            parentTr.insertAdjacentHTML('afterend', tr);
                                            button.onclick = null; // 이벤트핸들러 제거 (1회용)
+                                        
+                                           
 
                                }else if(e.target.matches("  button[class='report'] ")) {
                                   // 신고하기...!!!!!!!!
+                                  
                                                    const {value} = e.target;
                                                 console.log(value);
                                       
@@ -525,9 +540,14 @@ document.addEventListener("click", (e) => {
                                                
                                                success(reportCnt){
                                                     console.log(reportCnt);
+                                                      
+                                               
                                                   if(reportCnt  === 1 ){
                                                      //    신고처리가 이미 있다면 이미 신고된 댓글입니다 라고 경고창 띄어짐 
+                               
                                                      alert("이미 신고된 댓글이개..");
+                                                     
+                                               
                                                   }else if (reportCnt === 0) {
                                                      // 신고한 이력이 없어야만 신고가 가능 / 신고를 이미 했다면 작동안됨 
                                                      $.ajax({
@@ -546,12 +566,20 @@ document.addEventListener("click", (e) => {
                                                }
                                                
                                             });
+                                         
+                                           
+                        
+                             
                                } //  if 문 끝 esle
-                               
-                               
-         });// event 끝
+                     
+                     
+                     
    
-   
+                  
+                  
+          
+         
+   });// event 끝
    
      document.addEventListener("submit", (e) => {
       
