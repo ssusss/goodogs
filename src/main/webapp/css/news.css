@@ -92,7 +92,7 @@
 
 div#loginComment { color : gray; font-size: 20px;margin: 5px;    }
 div.comment-editor button#btn-comment-enroll1 { width:70px; background: #B5C99A; border-radius: 20px;  }
-table#comment{ width:600px; margin:0 auto; border-collapse:collapse; } 
+table#comment{ width: 80%; margin:0; border-collapse:collapse; } 
 table#comment tr{border-bottom:1px solid; border-top:1px solid; padding:5px; text-align:left; line-height:120%;}
 table#comment tr:hover {background: #B5C99A; }
 

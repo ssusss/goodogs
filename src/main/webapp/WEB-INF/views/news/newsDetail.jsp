@@ -292,7 +292,7 @@ const deleteBoard = () => {
                                             <tr class="level1">
                                                <td>
                                                  <sub class="comment-writer"> \${newsCommentNickname} </sub>
-                                                 <sub class="comment-content">  작성자가 삭제한 메세지입니다</sub>
+                                                 <sub class="comment-content" style="color: #aaa">  작성자가 삭제한 메세지입니다</sub>
                                                </td>
                                              </tr>
                                        `;
@@ -309,7 +309,7 @@ const deleteBoard = () => {
                                             <tr class="level1">
                                                <td>
                                                  <sub class="comment-writer"> \${newsCommentNickname} </sub>
-                                                 <sub class="comment-content"> 관리자가 삭제한 메세지입니다 </sub>
+                                                 <sub class="comment-content" style="color: #aaa"> 관리자가 삭제한 메세지입니다 </sub>
                                                </td>
                                              </tr>
                                     `;
